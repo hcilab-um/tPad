@@ -15,19 +15,16 @@
       <Button x:Name="bOpen" Width="75">Load Page</Button>
     </StackPanel>
     <Grid>
-      <Image Width="400" Source="cover.png"/>
-      <Rectangle x:Name="rDevice" Stroke="Blue" StrokeThickness="5" Width="200" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top">
-        <Rectangle.RenderTransform>
-          <TransformGroup>
-            <TranslateTransform X="0" Y="0"/>
-            <RotateTransform Angle="0"
-                             CenterX="{Binding ElementName=rDevice, Path=ActualWidth, Converter={StaticResource ResourceKey=mConverter}, ConverterParameter=0.5}" 
-                             CenterY="{Binding ElementName=rDevice, Path=ActualHeight, Converter={StaticResource ResourceKey=mConverter}, ConverterParameter=0.5}"/>
-            <TranslateTransform X="{Binding ElementName=rDevice, Path=ActualWidth, Converter={StaticResource ResourceKey=mConverter}, ConverterParameter=-0.5}" 
-                                Y="{Binding ElementName=rDevice, Path=ActualHeight, Converter={StaticResource ResourceKey=mConverter}, ConverterParameter=-0.5}"/>
-          </TransformGroup>
-        </Rectangle.RenderTransform>
-      </Rectangle>
-    </Grid>
-  </StackPanel>
+      <Image Width="400" Source="paper_page.png"/>
+        </Grid>
+        <Rectangle x:Name="rDevice" Stroke="Blue" StrokeThickness="5" Width="200" Height="200">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform X="0" Y="0" />
+                    <RotateTransform Angle="0" CenterX="{Binding ElementName=rDevice, Path=ActualWidth, Converter={StaticResource ResourceKey=mConverter}, ConverterParameter=0.5}" CenterY="{Binding ElementName=rDevice, Path=ActualHeight, Converter={StaticResource ResourceKey=mConverter}, ConverterParameter=0.5}" />
+                    <TranslateTransform X="{Binding ElementName=rDevice, Path=ActualWidth, Converter={StaticResource ResourceKey=mConverter}, ConverterParameter=-0.5}" Y="{Binding ElementName=rDevice, Path=ActualHeight, Converter={StaticResource ResourceKey=mConverter}, ConverterParameter=-0.5}" />
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+    </StackPanel>
 </Window>
