@@ -19,6 +19,7 @@ using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
 using Emgu.CV.UI;
 using Emgu.CV.Util;
+using System.Diagnostics;
 
 namespace FeatureTrackingSpike
 {
@@ -30,12 +31,12 @@ namespace FeatureTrackingSpike
 
     private VectorOfKeyPoint imageKeyPoints;
     private Matrix<float> pageImageDescriptors;
-    private SURFDetector surf = new SURFDetector(500, false);
+    private SURFDetector surf = new SURFDetector(700, false);
     //private SIFTDetector sift = new SIFTDetector();
     private Emgu.CV.Flann.Index flannIdx;
     private int minSize = 20;
     private int maxSize = 150;
-    private float radius_red = 20;
+    private float radius_red = 0;
 
     public MainWindow()
     {
@@ -43,6 +44,7 @@ namespace FeatureTrackingSpike
 
       //load page image(s)
       Image<Gray, Byte> pageImage = new Image<Gray, Byte>("paper_page.png");
+      //ImageViewer.Show(pageImage, "matching");
       //pageImage = pageImage.Resize(0.7, INTER.CV_INTER_LINEAR);
 
       //extract features from the page image and build tree
@@ -54,20 +56,21 @@ namespace FeatureTrackingSpike
       //end test
 
       pageImageDescriptors = surf.ComputeDescriptorsRaw(pageImage, null, imageKeyPoints);
-      flannIdx = new Emgu.CV.Flann.Index(pageImageDescriptors, 6);      
+      flannIdx = new Emgu.CV.Flann.Index(pageImageDescriptors, 6);
 
       long initTimeWithImageLoad = DateTime.Now.Ticks;
 
       //load device image
-      Image<Gray, Byte> img = new Image<Gray, Byte>("photo.JPG");
-      img = img.Resize(0.28, INTER.CV_INTER_LINEAR);
-            
+      Image<Gray, Byte> img = new Image<Gray, Byte>("photo 1.JPG");
+      //img = img.Resize(0.28, INTER.CV_INTER_LINEAR);
+                 
       long initTimeSimple = DateTime.Now.Ticks;
       long initTimeWarp = DateTime.Now.Ticks;
       //rectify device image
       Image<Gray, Byte> deviceImage = new Image<Gray, Byte>(img.Width, img.Height);
       HomographyMatrix homography_warp = imageWarp(ref img, ref deviceImage);
-      long endTimeWarp = DateTime.Now.Ticks;
+      //ImageViewer.Show(img, "matching");
+      long endTimeWarp = DateTime.Now.Ticks;      
       TimeSpan lenghtWarp = new TimeSpan(endTimeWarp - initTimeWarp);
  
       //find SURF features
@@ -75,7 +78,9 @@ namespace FeatureTrackingSpike
 
       long endTime = DateTime.Now.Ticks;
       TimeSpan lenghtSimple = new TimeSpan(endTime - initTimeSimple);
-      TimeSpan lenghtWithImageLoad = new TimeSpan(endTime - initTimeWithImageLoad);   
+      TimeSpan lenghtWithImageLoad = new TimeSpan(endTime - initTimeWithImageLoad);
+
+    //  Console.WriteLine(lenghtSimple);
     }
 
     private VectorOfKeyPoint reduceKeyPoints(ref VectorOfKeyPoint imagePoints, ref float radius)
@@ -135,43 +140,20 @@ namespace FeatureTrackingSpike
       VectorOfKeyPoint deviceImageKeyPoints = reduceKeyPoints(ref deviceKeyPoints, ref radius_red);
 
       long init = DateTime.Now.Ticks;      
-      Matrix<float> modelDescriptors = surf.ComputeDescriptorsRaw(deviceImage, null, deviceImageKeyPoints);      //compute descriptors for keypoints //0.03 sec
+      Matrix<float> deviceImageDescriptors = surf.ComputeDescriptorsRaw(deviceImage, null, deviceImageKeyPoints);      //compute descriptors for keypoints //0.03 sec
       long end = DateTime.Now.Ticks;
       TimeSpan lenghtMatching = new TimeSpan(end - init);
       
-      //match features
-      //For each descriptor in the first set, this matcher finds the closest descriptor in the second set by trying each one      
-      //Matrix<int> indices;
-      //Matrix<float> dist;
-      //BruteForceMatcher matcher = new BruteForceMatcher(BruteForceMatcher.DistanceType.L2F32);
-      //matcher.Add(modelDescriptors);
-      //int k = 2;
-      //indices = new Matrix<int>(pageImageDescriptors.Rows, k);
-      //dist = new Matrix<float>(pageImageDescriptors.Rows, k);
-      //matcher.KnnMatch(pageImageDescriptors, indices, dist, k, null);
-
       //DEFAULT FLANN/ Linear FLANN: When passing an object of this type, the index will perform a linear, brute-force search (openCV)
       //KMean, multiple KDTree, Composite (cmobi of KDTree and KMean), Autotuned:
       //Emgu.CV.Flann.Index flannIdx = new Emgu.CV.Flann.Index(modelDescriptors, 10, 10, Emgu.CV.Flann.CenterInitType.RANDOM, 0.2f); //test flann matcher      
       int flannCheck = 15;
       int flannK = 2;
-      Matrix<int> flannIndices = new Matrix<int>(modelDescriptors.Rows, flannK);
-      Matrix<float> flannDist = new Matrix<float>(modelDescriptors.Rows, flannK);
-      flannIdx.KnnSearch(modelDescriptors, flannIndices, flannDist, flannK, flannCheck);                
+      Matrix<int> flannIndices = new Matrix<int>(deviceImageDescriptors.Rows, flannK);
+      Matrix<float> flannDist = new Matrix<float>(deviceImageDescriptors.Rows, flannK);
+      flannIdx.KnnSearch(deviceImageDescriptors, flannIndices, flannDist, flannK, flannCheck);                
       
-
-      //mask = new Matrix<byte>(dist.Rows, 1);
-      //mask.SetValue(255);
-      ////filter matched features (rejects matches which are not unique)
-      //Features2DTracker.VoteForUniqueness(dist, 0.8, mask);
-      //int nonZeroCount = CvInvoke.cvCountNonZero(mask);
-      //if (nonZeroCount >= 4)
-      //{
-      //  nonZeroCount = Features2DTracker.VoteForSizeAndOrientation(deviceImageKeyPoints, pageImageKeyPoints, indices, mask, 1.5, 20);
-      //  if (nonZeroCount >= 4)
-      //    homography = Features2DTracker.GetHomographyMatrixFromMatchedFeatures(deviceImageKeyPoints, pageImageKeyPoints, indices, mask, 3);
-      //}
-
+    
       long timeVote = DateTime.Now.Ticks;   
       mask = new Matrix<byte>(flannDist.Rows, 1);
       mask.SetValue(255);
@@ -213,24 +195,24 @@ namespace FeatureTrackingSpike
       HomographyMatrix homography = new HomographyMatrix();
 
       IntPtr point = CvInvoke.cvCreateMat(2, 4, MAT_DEPTH.CV_32F);
-      CvInvoke.cvSet2D(point, 0, 0, new MCvScalar(9));
-      CvInvoke.cvSet2D(point, 1, 0, new MCvScalar(72));
-      CvInvoke.cvSet2D(point, 0, 1, new MCvScalar(491));
-      CvInvoke.cvSet2D(point, 1, 1, new MCvScalar(240));
-      CvInvoke.cvSet2D(point, 0, 2, new MCvScalar(304));
-      CvInvoke.cvSet2D(point, 1, 2, new MCvScalar(590));
-      CvInvoke.cvSet2D(point, 0, 3, new MCvScalar(34));
-      CvInvoke.cvSet2D(point, 1, 3, new MCvScalar(543));
+      CvInvoke.cvSet2D(point, 0, 0, new MCvScalar(311));
+      CvInvoke.cvSet2D(point, 1, 0, new MCvScalar(347));
+      CvInvoke.cvSet2D(point, 0, 1, new MCvScalar(725));
+      CvInvoke.cvSet2D(point, 1, 1, new MCvScalar(342));
+      CvInvoke.cvSet2D(point, 0, 2, new MCvScalar(289));
+      CvInvoke.cvSet2D(point, 1, 2, new MCvScalar(591));
+      CvInvoke.cvSet2D(point, 0, 3, new MCvScalar(753));
+      CvInvoke.cvSet2D(point, 1, 3, new MCvScalar(536));
 
       IntPtr point_org = CvInvoke.cvCreateMat(2, 4, MAT_DEPTH.CV_32F);
-      CvInvoke.cvSet2D(point_org, 0, 0, new MCvScalar(96));
-      CvInvoke.cvSet2D(point_org, 1, 0, new MCvScalar(307));
-      CvInvoke.cvSet2D(point_org, 0, 1, new MCvScalar(386));
-      CvInvoke.cvSet2D(point_org, 1, 1, new MCvScalar(306));
-      CvInvoke.cvSet2D(point_org, 0, 2, new MCvScalar(386));
-      CvInvoke.cvSet2D(point_org, 1, 2, new MCvScalar(664));
-      CvInvoke.cvSet2D(point_org, 0, 3, new MCvScalar(163));
-      CvInvoke.cvSet2D(point_org, 1, 3, new MCvScalar(681));
+      CvInvoke.cvSet2D(point_org, 0, 0, new MCvScalar(422));
+      CvInvoke.cvSet2D(point_org, 1, 0, new MCvScalar(669));
+      CvInvoke.cvSet2D(point_org, 0, 1, new MCvScalar(698));
+      CvInvoke.cvSet2D(point_org, 1, 1, new MCvScalar(656));
+      CvInvoke.cvSet2D(point_org, 0, 2, new MCvScalar(422));
+      CvInvoke.cvSet2D(point_org, 1, 2, new MCvScalar(878));
+      CvInvoke.cvSet2D(point_org, 0, 3, new MCvScalar(672));
+      CvInvoke.cvSet2D(point_org, 1, 3, new MCvScalar(833));
 
       IntPtr mask = CvInvoke.cvCreateMat(3, 1, MAT_DEPTH.CV_32F);
 
