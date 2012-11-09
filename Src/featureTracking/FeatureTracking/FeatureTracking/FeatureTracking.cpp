@@ -12,6 +12,8 @@
 #include <opencv2/flann/flann.hpp>
 #include <opencv2/legacy/legacy.hpp>
 
+#include <FlyCapture2.h>
+
 cv::Point2f device[4] = {cv::Point2f(311, 347),cv::Point2f(725, 342), cv::Point2f(289, 591), cv::Point2f(753,536)};
 cv::Point2f page[4] = {cv::Point2f(422,669), cv::Point2f(698,656), cv::Point2f(422, 878), cv::Point2f(672, 833)};	  
 
@@ -143,6 +145,99 @@ int _tmain(int argc, _TCHAR* argv[])
 	//flann
 	cv::flann::IndexParams idx = *new cv::flann::LshIndexParams(10, 30, 1);	
 	flannIdx = *new cv::flann::Index(pageImageDescriptors, idx, cvflann::FLANN_DIST_HAMMING);
+	
+	////read camera picture
+	//cv::Mat *frame = NULL;
+ //   
+ //   FlyCapture2::Error error;
+ //   FlyCapture2::PGRGuid guid;
+ //   FlyCapture2::BusManager busMgr;
+ //   
+ //  // Getting the GUID of the cam
+ //   error = busMgr.GetCameraFromIndex(0, &guid);
+ //   if (error != FlyCapture2::PGRERROR_OK)
+ //   {
+ //       error.PrintErrorTrace();
+ //       return -1;
+ //   }
+ //   
+ //   FlyCapture2::Camera cam;
+ //  //  Connect to a camera
+ //   error = cam.Connect(&guid);
+ //   if (error != FlyCapture2::PGRERROR_OK)
+ //   {
+ //       error.PrintErrorTrace();
+ //       return -1;
+ //   }
+ //   
+ //  // Starting the capture
+ //   error = cam.StartCapture();
+ //   if (error != FlyCapture2::PGRERROR_OK)
+ //   {
+ //       error.PrintErrorTrace();
+ //       return -1;
+ //   }
+ //   
+ //  // Get one raw image to be able to calculate the OpenCV window size
+ //   FlyCapture2::Image rawImage;
+ //   cam.RetrieveBuffer(&rawImage);
+ //       
+ //  // Setting the window size in OpenCV
+	//frame = new cv::Mat(cv::Size(rawImage.GetCols(), rawImage.GetRows()), CV_8UC3);
+
+	//int key;
+ //   while(key != 'q') 
+ //   {    
+ //       // Start capturing images
+ //       cam.RetrieveBuffer(&rawImage);
+
+ //       // Get the raw image dimensions
+ //       FlyCapture2::PixelFormat pixFormat;
+ //       unsigned int rows, cols, stride;
+ //       rawImage.GetDimensions( &rows, &cols, &stride, &pixFormat );
+
+ //       // Create a converted image
+ //       FlyCapture2::Image convertedImage;
+
+ //        //Convert the raw image
+	//	error = rawImage.Convert( FlyCapture2::PIXEL_FORMAT_BGR, &convertedImage );
+ //       if (error != FlyCapture2::PGRERROR_OK)
+ //       {
+ //           error.PrintErrorTrace();
+ //           return -1;
+ //       }
+
+ //      // Copy the image into the IplImage of OpenCV
+	//	memcpy(frame->data, convertedImage.GetData(), convertedImage.GetDataSize());
+
+ //       /* always check */
+ //       if( !frame ) break;
+
+ //       //Display the original image
+	//	cv::imshow( "Original", *frame );
+
+ //       //exit if user press 'q' 
+ //       key = cvWaitKey( 1 );
+ //   }
+ //
+ //   /* free memory */
+ //   cvDestroyWindow( "Original" );
+    
+	// Stop capturing images
+    error = cam.StopCapture();
+    if (error != FlyCapture2::PGRERROR_OK)
+    {
+        error.PrintErrorTrace();
+        return -1;
+    }      
+    
+     //Disconnect the camera
+    error = cam.Disconnect();
+    if (error != FlyCapture2::PGRERROR_OK)
+    {
+        error.PrintErrorTrace();
+        return -1;
+    }
 
 	int begin = clock();
 	//load device image

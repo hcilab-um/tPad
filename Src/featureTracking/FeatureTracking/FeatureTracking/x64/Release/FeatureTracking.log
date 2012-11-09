@@ -1,4 +1,4 @@
-﻿Build started 08/11/2012 10:57:23 AM.
+﻿Build started 09/11/2012 11:25:33 AM.
      1>Project "C:\Users\sophie\Documents\GitHub\tPad\Src\featureTracking\FeatureTracking\FeatureTracking\FeatureTracking.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "x64\Release\FeatureTracking.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -8,11 +8,12 @@
          FeatureTracking.cpp
      1>c:\opencv2.4.3\opencv\build\include\opencv2\flann\logger.h(66): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
-     1>FeatureTracking.cpp(92): warning C4018: '<' : signed/unsigned mismatch
+     1>FeatureTracking.cpp(94): warning C4018: '<' : signed/unsigned mismatch
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\sophie\Documents\GitHub\tPad\Src\DeviceApp\x64\Release\FeatureTracking.exe" /INCREMENTAL:NO /NOLOGO C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_core243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_calib3d243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_flann243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_highgui243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_imgproc243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_legacy243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_ml243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_objdetect243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_video243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_nonfree243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_contrib243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_features2d243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_photo243.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"x64\Release\FeatureTracking.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\sophie\Documents\GitHub\tPad\Src\DeviceApp\x64\Release\FeatureTracking.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\sophie\Documents\GitHub\tPad\Src\DeviceApp\x64\Release\FeatureTracking.lib" /MACHINE:X64 x64\Release\FeatureTracking.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\sophie\Documents\GitHub\tPad\Src\DeviceApp\x64\Release\FeatureTracking.exe" /INCREMENTAL:NO /NOLOGO C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_core243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_calib3d243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_flann243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_highgui243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_imgproc243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_legacy243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_ml243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_objdetect243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_video243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_nonfree243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_contrib243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_features2d243.lib C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_photo243.lib "C:\Program Files\Point Grey Research\FlyCapture2\lib64\FlyCapture2_v100.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"x64\Release\FeatureTracking.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\sophie\Documents\GitHub\tPad\Src\DeviceApp\x64\Release\FeatureTracking.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\sophie\Documents\GitHub\tPad\Src\DeviceApp\x64\Release\FeatureTracking.lib" /MACHINE:X64 x64\Release\FeatureTracking.obj
          x64\Release\stdafx.obj
          Generating code
+     1>c:\users\sophie\documents\github\tpad\src\featuretracking\featuretracking\featuretracking\featuretracking.cpp(189): warning C4700: uninitialized local variable 'key' used
          Finished generating code
          FeatureTracking.vcxproj -> C:\Users\sophie\Documents\GitHub\tPad\Src\DeviceApp\x64\Release\FeatureTracking.exe
        Manifest:
@@ -24,4 +25,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.29
+Time Elapsed 00:00:01.63

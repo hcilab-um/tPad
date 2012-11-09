@@ -123,10 +123,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="communications201210-dl.pdf" />
     <None Include="images\communications201210-dl.pdf" />
     <None Include="images\Liao et al. - 2010 - Pacer fine-grained interactive paper via camera-t.pdf" />
-    <None Include="Liao et al. - 2010 - Pacer fine-grained interactive paper via camera-t.pdf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
