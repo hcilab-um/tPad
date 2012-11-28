@@ -1,0 +1,27 @@
+﻿Build started 01/11/2012 6:11:41 PM.
+     1>Project "C:\Users\sophie\project\featureTracking\FeatureTracking\FeatureTracking\FeatureTracking.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\FeatureTracking.unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\FeatureTracking.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt FeatureTracking.cpp
+         FeatureTracking.cpp
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\sophie\project\featureTracking\FeatureTracking\Debug\FeatureTracking.exe" /INCREMENTAL /NOLOGO C:\OpenCV2.4.2\opencv\build\x64\vc10\lib\opencv_core242d.lib C:\OpenCV2.4.2\opencv\build\x64\vc10\lib\opencv_calib3d242d.lib C:\OpenCV2.4.2\opencv\build\x64\vc10\lib\opencv_flann242d.lib C:\OpenCV2.4.2\opencv\build\x64\vc10\lib\opencv_highgui242d.lib C:\OpenCV2.4.2\opencv\build\x64\vc10\lib\opencv_imgproc242d.lib C:\OpenCV2.4.2\opencv\build\x64\vc10\lib\opencv_legacy242d.lib C:\OpenCV2.4.2\opencv\build\x64\vc10\lib\opencv_ml242d.lib C:\OpenCV2.4.2\opencv\build\x64\vc10\lib\opencv_objdetect242d.lib C:\OpenCV2.4.2\opencv\build\x64\vc10\lib\opencv_video242d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\FeatureTracking.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\sophie\project\featureTracking\FeatureTracking\Debug\FeatureTracking.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\sophie\project\featureTracking\FeatureTracking\Debug\FeatureTracking.lib" /MACHINE:X86 Debug\FeatureTracking.exe.embed.manifest.res
+         Debug\FeatureTracking.obj
+         Debug\stdafx.obj
+     1>FeatureTracking.obj : error LNK2019: unresolved external symbol "void __cdecl cv::imshow(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class cv::_InputArray const &)" (?imshow@cv@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV_InputArray@1@@Z) referenced in function _wmain
+     1>FeatureTracking.obj : error LNK2019: unresolved external symbol "public: __thiscall cv::_InputArray::_InputArray(class cv::Mat const &)" (??0_InputArray@cv@@QAE@ABVMat@1@@Z) referenced in function _wmain
+     1>FeatureTracking.obj : error LNK2019: unresolved external symbol "void __cdecl cv::namedWindow(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,int)" (?namedWindow@cv@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z) referenced in function _wmain
+     1>FeatureTracking.obj : error LNK2019: unresolved external symbol "class cv::Mat __cdecl cv::imread(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,int)" (?imread@cv@@YA?AVMat@1@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z) referenced in function _wmain
+     1>FeatureTracking.obj : error LNK2019: unresolved external symbol "void __cdecl cv::fastFree(void *)" (?fastFree@cv@@YAXPAX@Z) referenced in function "public: __thiscall cv::Mat::~Mat(void)" (??1Mat@cv@@QAE@XZ)
+     1>FeatureTracking.obj : error LNK2019: unresolved external symbol "public: void __thiscall cv::Mat::copySize(class cv::Mat const &)" (?copySize@Mat@cv@@QAEXABV12@@Z) referenced in function "public: class cv::Mat & __thiscall cv::Mat::operator=(class cv::Mat const &)" (??4Mat@cv@@QAEAAV01@ABV01@@Z)
+     1>FeatureTracking.obj : error LNK2019: unresolved external symbol "public: void __thiscall cv::Mat::deallocate(void)" (?deallocate@Mat@cv@@QAEXXZ) referenced in function "public: void __thiscall cv::Mat::release(void)" (?release@Mat@cv@@QAEXXZ)
+     1>C:\Users\sophie\project\featureTracking\FeatureTracking\Debug\FeatureTracking.exe : fatal error LNK1120: 7 unresolved externals
+     1>Done Building Project "C:\Users\sophie\project\featureTracking\FeatureTracking\FeatureTracking\FeatureTracking.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.97
