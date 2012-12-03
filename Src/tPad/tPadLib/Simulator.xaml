@@ -1,0 +1,11 @@
+﻿<Window x:Class="UofM.HCI.tPab.Simulator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="tPad Simulator Window" Height="700" Width="1366" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+  <Grid>
+    <Grid x:Name="gDocument" VerticalAlignment="Stretch" HorizontalAlignment="Center">
+      <Image x:Name="iDocument" Source="sampledoc.png"/>
+    </Grid>
+  </Grid>
+</Window>
