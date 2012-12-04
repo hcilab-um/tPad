@@ -1,11 +1,32 @@
-﻿<Window x:Class="UofM.HCI.tPab.Simulator"
+﻿<Window x:Class="UofM.HCI.tPab.Simulator" x:Name="wSimulator"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:tpad="clr-namespace:UofM.HCI.tPab"
+        xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters"
         Title="tPad Simulator Window" Height="700" Width="1366" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded" MouseMove="rFrame_MouseMove" MouseUp="rFrame_MouseUp">
+  
+  <Window.Resources>
+    
+    <converters:MultiplierConverter x:Key="mConverter" />
+    
+  </Window.Resources>
+  
   <Grid>
     <Grid x:Name="gDocument" VerticalAlignment="Stretch" HorizontalAlignment="Center">
       <Image x:Name="iDocument" Source="sampledoc.png"/>
+      <!-- This is the place holder for the TPadApp -->
+      <Grid x:Name="gTPadApp" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <Rectangle x:Name="rFrame" RadiusX="10" RadiusY="10" Fill="Transparent" Stroke="Black" StrokeThickness="45" 
+                   MouseDown="rFrame_MouseDown"/>
+        <Image x:Name="iCameraIcon" Source="camera.png" VerticalAlignment="Top" HorizontalAlignment="Center" Width="30" Margin="0,10,0,0"/>
+        <Grid.RenderTransform>
+          <RotateTransform Angle="{Binding ElementName=wSimulator, Path=RotationAngle}" 
+                           CenterX="{Binding ElementName=gTPadApp, Path=ActualWidth, Converter={StaticResource ResourceKey=mConverter}, ConverterParameter=0.5}"
+                           CenterY="{Binding ElementName=gTPadApp, Path=ActualHeight, Converter={StaticResource ResourceKey=mConverter}, ConverterParameter=0.5}"/>
+        </Grid.RenderTransform>
+      </Grid>
     </Grid>
   </Grid>
 </Window>

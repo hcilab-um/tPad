@@ -12,18 +12,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPab.App.ActiveReader
 {
   /// <summary>
-  /// Interaction logic for TPadApp.xaml
+  /// Interaction logic for ActiveReaderApp.xaml
   /// </summary>
-  public partial class TPadApp : UserControl
+  public partial class ActiveReaderApp : UserControl, ITPadApp
   {
-    public TPadApp(TPadProfile profile)
+    public ActiveReaderApp()
     {
       InitializeComponent();
-
-
     }
   }
 }

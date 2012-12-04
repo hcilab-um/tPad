@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ContextAwarenessFramework">
+      <HintPath>..\Lib\ContextAwarenessFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -49,9 +55,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TPadApp.xaml.cs">
-      <DependentUpon>TPadApp.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Converters\MultiplierConverter.cs" />
+    <Compile Include="EventHandlers.cs" />
+    <Compile Include="ITPadApp.cs" />
+    <Compile Include="Monitors\CameraMonitor.cs" />
+    <Compile Include="Monitors\FlippingMonitor.cs" />
+    <Compile Include="Monitors\StackingMonitor.cs" />
+    <Compile Include="Monitors\SimCameraMonitor.cs" />
+    <Compile Include="Monitors\SimFlippingMonitor.cs" />
+    <Compile Include="Monitors\SimStackingMonitor.cs" />
+    <Compile Include="TPadCore.cs" />
+    <Compile Include="TPadDevice.cs" />
     <Compile Include="TPadProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -84,16 +98,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TPadApp.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="camera.png" />
     <Content Include="sampledoc.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

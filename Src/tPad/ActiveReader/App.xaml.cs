@@ -26,7 +26,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       };
 
       base.OnStartup(e);
-      hostWindow = new Simulator(this, profile, "paper_page.png");
+      hostWindow = new Simulator(this, profile, "paper_page.png", new ActiveReaderApp());
       hostWindow.Show();
     }
 
