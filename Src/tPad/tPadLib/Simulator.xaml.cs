@@ -23,7 +23,6 @@ namespace UofM.HCI.tPab
 
     private float widthFactor, heightFactor;
     private float rotationAngle;
-    private TPadProfile Profile { get; set; }
     private BitmapFrame DocumentBM { get; set; }
     private UserControl TPadApp { get; set; }
    
@@ -57,12 +56,11 @@ namespace UofM.HCI.tPab
       }
     }
 
-    public Simulator(Application launcher, TPadProfile profile, String document, UserControl app = null)
+    public Simulator(Application launcher, String document, UserControl app = null)
     {
       if (!File.Exists(document))
         throw new ArgumentException(String.Format("Document \"{1}\" not found!", document));
 
-      Profile = profile;
       InitializeComponent();
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
       DocumentBM = BitmapFrame.Create(new Uri(document, UriKind.Relative));
@@ -89,20 +87,20 @@ namespace UofM.HCI.tPab
     private void CalculateFactors()
     {
       // This is the number of pixels per centimeter on the height.
-      HeightFactor = (float)(iDocument.ActualHeight / Profile.DocumentSize.Height);
+      HeightFactor = (float)(iDocument.ActualHeight / TPadCore.Instance.Profile.DocumentSize.Height);
       // This is the number of pixels per centimeter on the width
-      WidthFactor = (float)(iDocument.ActualWidth / Profile.DocumentSize.Width);
+      WidthFactor = (float)(iDocument.ActualWidth / TPadCore.Instance.Profile.DocumentSize.Width);
 
       // These two values should be nearly the same
       if (Math.Abs(HeightFactor - WidthFactor) >= 0.5)
         throw new ArgumentException("The document image does not match the specified document profile");
 
       //Resize the device
-      gTPadApp.Width = WidthFactor * Profile.DeviceSize.Width;
-      gTPadApp.Height = HeightFactor * Profile.DeviceSize.Height;
+      gTPadApp.Width = WidthFactor * TPadCore.Instance.Profile.DeviceSize.Width;
+      gTPadApp.Height = HeightFactor * TPadCore.Instance.Profile.DeviceSize.Height;
       //Adjusts the screen size to the device size
-      TPadApp.Width = WidthFactor * Profile.ScreenSize.Width;
-      TPadApp.Height = HeightFactor * Profile.ScreenSize.Height;
+      TPadApp.Width = WidthFactor * TPadCore.Instance.Profile.ScreenSize.Width;
+      TPadApp.Height = HeightFactor * TPadCore.Instance.Profile.ScreenSize.Height;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

@@ -11,36 +11,55 @@ namespace UofM.HCI.tPab
   public class TPadCore : ContextService
   {
 
-    private static log4net.ILog logger;
+    private static log4net.ILog logger ;
 
     public TPadDevice Device { get; set; }
+    public TPadProfile Profile { get; set; }
 
-    private ContextMonitor CameraMonitor { get; set; }
-    private ContextMonitor FlippingMonitor { get; set; }
-    private ContextMonitor StackingMonitor { get; set; }
-
-    public void Startup(bool simulation = false)
+    private static TPadCore instance = null;
+    public static TPadCore Instance
     {
+      get 
+      {
+        if (instance == null)
+          instance = new TPadCore();
+        return instance;
+      }
+    }
 
+    private TPadCore()
+    { 
+    }
+
+    public void Startup(TPadProfile profile, bool simulation = false)
+    {
+      log4net.Config.XmlConfigurator.Configure();
+      logger = log4net.LogManager.GetLogger(typeof(TPadCore));
+
+      Profile = profile;
+      Device = new TPadDevice() { Profile = Profile };
+      Device.LoadId();
+
+      ContextMonitor cameraMonitor = null, flippingMonitor = null, stackingMonitor = null;
       if (simulation)
       {
         // These are the fictitious monitors used in simulation mode
-        CameraMonitor = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 200 };
-        FlippingMonitor = new SimFlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-        StackingMonitor = new SimStackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+        cameraMonitor = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 200 };
+        flippingMonitor = new SimFlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+        stackingMonitor = new SimStackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
       }
       else
       {
         // Create here the actual monitors
       }
 
-      CameraMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
-      FlippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
-      StackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      cameraMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
 
-      ContextMonitorContainer.AddMonitor(CameraMonitor);
-      ContextMonitorContainer.AddMonitor(FlippingMonitor);
-      ContextMonitorContainer.AddMonitor(StackingMonitor);
+      ContextMonitorContainer.AddMonitor(cameraMonitor);
+      ContextMonitorContainer.AddMonitor(flippingMonitor);
+      ContextMonitorContainer.AddMonitor(stackingMonitor);
 
       ContextServiceContainer.AddContextService(this);
 

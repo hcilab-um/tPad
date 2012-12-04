@@ -17,6 +17,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     protected override void OnStartup(StartupEventArgs e)
     {
+      base.OnStartup(e);
+
       TPadProfile profile = new TPadProfile()
       {
         Resolution = new Size(800, 480),
@@ -24,9 +26,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
         DeviceSize = new Size(12.6, 18.7),
         DocumentSize = new Size(21, 29.7)
       };
+      TPadCore.Instance.Startup(profile, true);
 
-      base.OnStartup(e);
-      hostWindow = new Simulator(this, profile, "paper_page.png", new ActiveReaderApp());
+      hostWindow = new Simulator(this, "paper_page.png", new ActiveReaderApp());
       hostWindow.Show();
     }
 
