@@ -13,7 +13,7 @@
     
   </Window.Resources>
   
-  <Grid>
+  <Grid x:Name="gTop">
     <Grid x:Name="gDocument" VerticalAlignment="Stretch" HorizontalAlignment="Center">
       <Image x:Name="iDocument" Source="sampledoc.png"/>
       <!-- This is the place holder for the TPadApp -->

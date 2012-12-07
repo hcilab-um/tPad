@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
 using System.ComponentModel;
+using UofM.HCI.tPab.Util;
 
 namespace UofM.HCI.tPab
 {
@@ -25,7 +26,7 @@ namespace UofM.HCI.tPab
     private float rotationAngle;
     private BitmapFrame DocumentBM { get; set; }
     private UserControl TPadApp { get; set; }
-   
+
     private float WidthFactor
     {
       get { return widthFactor; }
@@ -49,7 +50,7 @@ namespace UofM.HCI.tPab
     public float RotationAngle
     {
       get { return rotationAngle; }
-      set 
+      set
       {
         rotationAngle = value;
         OnPropertyChanged("RotationAngle");
@@ -169,6 +170,122 @@ namespace UofM.HCI.tPab
       isTraslating = false;
       isRotating = false;
     }
+
+    public System.Drawing.Bitmap GetDeviceView(out float angle)
+    {
+      angle = RotationAngle;
+      GetDeviceViewDelegate gdvDelegate = new GetDeviceViewDelegate(SafeGetDeviceView);
+      Object[] args = new Object[0];
+      MemoryStream result = (MemoryStream)Dispatcher.Invoke(gdvDelegate, args);
+      if (result == null)
+        return null;
+
+      System.Drawing.Bitmap frame = new System.Drawing.Bitmap(result);
+      return frame;
+    }
+
+    private Rect tPadBounds = Rect.Empty;
+    private MemoryStream SafeGetDeviceView()
+    {
+      if (!IsActive)
+        return null;
+
+      int bordersize = (int)(RestoreBounds.Width - gTop.ActualWidth) / 2;
+      int bordertop = (int)(RestoreBounds.Height - gTop.ActualHeight - bordersize);
+      int zeroX = (int)(Left + bordersize);
+      int zeroY = (int)(Top + bordertop);
+
+      if (tPadBounds == Rect.Empty)
+        tPadBounds = VisualTreeHelper.GetDescendantBounds(gTPadApp);
+      Rect ttPadBounds = gTPadApp.TransformToAncestor(this).TransformBounds(tPadBounds);
+
+      System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds.Width, ttPadBounds.Height);
+
+      //Point relativePoint = gTop.TransformToAncestor(this).Transform(new Point(0, 0));
+      //BitmapSource deviceView = ImageHelper.Crop(fullBitmap, relativePoint, tPadBounds, RotationAngle);
+      MemoryStream result = new MemoryStream();
+      try
+      {
+        capture.Save(result, System.Drawing.Imaging.ImageFormat.Png);
+      }
+      catch (Exception ex)
+      { }
+
+      return result;
+    }
+
+    private delegate MemoryStream GetDeviceViewDelegate();
+
+    #region Image Cropping
+
+    /// <summary>
+    /// http://dog-net.org/content/development/wpf/bitmapsource-to-from-bitmapimage/
+    /// tested.
+    /// </summary>
+    /// <param name="bitmapSource"></param>
+    /// <returns></returns>
+    public static BitmapImage bitmapOfBitmapSource(BitmapSource bitmapSource)
+    {
+      JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+      MemoryStream memoryStream = new MemoryStream();
+      BitmapImage bImg = new System.Windows.Media.Imaging.BitmapImage();
+
+      encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+      encoder.Save(memoryStream);
+
+      bImg.BeginInit();
+      bImg.StreamSource = new MemoryStream(memoryStream.ToArray());
+      bImg.EndInit();
+
+      memoryStream.Close();
+      return bImg;
+    }
+
+    public static byte[] ByteArrayOfBitmapImage(BitmapImage imageC)
+    {
+      MemoryStream memStream = new MemoryStream();
+      JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+      encoder.Frames.Add(BitmapFrame.Create(imageC));
+      encoder.Save(memStream);
+      return memStream.GetBuffer();
+    }
+
+    private static BitmapImage BitmapImageOfByteArray(byte[] rawImageBytes)
+    {
+      BitmapImage imageSource = null;
+      var stream = new MemoryStream(rawImageBytes);
+      {
+        stream.Seek(0, SeekOrigin.Begin);
+        BitmapImage b = new BitmapImage();
+        b.BeginInit();
+        b.StreamSource = stream;
+        b.EndInit();
+        b.Freeze();
+        imageSource = b;
+      }
+      return imageSource;
+    }
+
+    //[OperationContract]
+    //public void CropImageOnServer(string imageDir, string imageFileName, TipoImmagine tipo, int x0, int y0, int x1, int y1)
+    //{
+    //  var imagePath = Path.Combine(imageDir, imageFileName);
+    //  var by = Download(imagePath);
+
+    //  var bi = BitmapImageOfByteArray(by);
+
+    //  var wt = x1 - x0;
+    //  var ht = y1 - y0;
+    //  var crb = new CroppedBitmap(bi, new System.Windows.Int32Rect(x0, y0, wt, ht));
+
+    //  var by2 = ByteArrayOfBitmapImage(bitmapOfBitmapSource(crb));
+    //  var fname = Path.GetFileNameWithoutExtension(imagePath);
+    //  var ext = Path.GetExtension(imagePath);
+    //  var newFilePath = Path.Combine(imageDir, fname + "_cropped" + ext);
+    //  var res = Upload(newFilePath, by2);
+    //}
+
+    #endregion
 
   }
 

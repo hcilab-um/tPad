@@ -5,6 +5,7 @@ using System.Text;
 using CAF.ContextAdapter;
 using UofM.HCI.tPab.Monitors;
 using CAF.ContextService;
+using System.Windows;
 
 namespace UofM.HCI.tPab
 {
@@ -31,7 +32,7 @@ namespace UofM.HCI.tPab
     { 
     }
 
-    public void Startup(TPadProfile profile, bool simulation = false)
+    public void Startup(TPadProfile profile, bool simulation = false, UIElement cameraSource = null)
     {
       log4net.Config.XmlConfigurator.Configure();
       logger = log4net.LogManager.GetLogger(typeof(TPadCore));
@@ -44,7 +45,7 @@ namespace UofM.HCI.tPab
       if (simulation)
       {
         // These are the fictitious monitors used in simulation mode
-        cameraMonitor = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 200 };
+        cameraMonitor = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 200, CameraSource = cameraSource };
         flippingMonitor = new SimFlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
         stackingMonitor = new SimStackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
       }
