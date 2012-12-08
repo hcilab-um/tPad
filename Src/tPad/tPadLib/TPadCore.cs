@@ -6,16 +6,20 @@ using CAF.ContextAdapter;
 using UofM.HCI.tPab.Monitors;
 using CAF.ContextService;
 using System.Windows;
+using UofM.HCI.tPab.Services;
 
 namespace UofM.HCI.tPab
 {
-  public class TPadCore : ContextService
+  public class TPadCore : ContextService, IContextServiceListener
   {
 
     private static log4net.ILog logger ;
 
+    public bool IsSimulation { get; set; }
     public TPadDevice Device { get; set; }
     public TPadProfile Profile { get; set; }
+
+    public RegistrationService Registration { get; set; }
 
     private static TPadCore instance = null;
     public static TPadCore Instance
@@ -32,17 +36,19 @@ namespace UofM.HCI.tPab
     { 
     }
 
-    public void Startup(TPadProfile profile, bool simulation = false, UIElement cameraSource = null)
+    public void Startup(TPadProfile profile, bool isSimulation = false, UIElement cameraSource = null)
     {
       log4net.Config.XmlConfigurator.Configure();
       logger = log4net.LogManager.GetLogger(typeof(TPadCore));
 
+      IsSimulation = isSimulation;
       Profile = profile;
       Device = new TPadDevice() { Profile = Profile };
       Device.LoadId();
 
+      Registration = new RegistrationService();
       ContextMonitor cameraMonitor = null, flippingMonitor = null, stackingMonitor = null;
-      if (simulation)
+      if (IsSimulation)
       {
         // These are the fictitious monitors used in simulation mode
         cameraMonitor = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 200, CameraSource = cameraSource };
@@ -54,17 +60,22 @@ namespace UofM.HCI.tPab
         // Create here the actual monitors
       }
 
-      cameraMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      //Wiring up the components
+      cameraMonitor.OnNotifyContextServices += Registration.UpdateMonitorReading;
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      Registration.OnNotifyContextServiceListeners += this.ContextChanged;
 
+      //Register the monitors to the container
       ContextMonitorContainer.AddMonitor(cameraMonitor);
       ContextMonitorContainer.AddMonitor(flippingMonitor);
       ContextMonitorContainer.AddMonitor(stackingMonitor);
 
+      //Register the services to the container
       ContextServiceContainer.AddContextService(this);
+      ContextServiceContainer.AddContextService(Registration);
 
-      logger.Info("Starting Up Monitors");
+      logger.Info("Starting Up Services and Monitors");
       ContextServiceContainer.StartServices();
       ContextMonitorContainer.StartMonitors();
       logger.Info("Monitors Started");
@@ -72,7 +83,14 @@ namespace UofM.HCI.tPab
 
     protected override void CustomUpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)
     {
+    }
 
+    public void ContextChanged(object sender, NotifyContextServiceListenersEventArgs e)
+    {
+      if (sender == Registration)
+      {
+        Device.Location = (TPadLocation)e.NewObject;
+      }
     }
 
   }

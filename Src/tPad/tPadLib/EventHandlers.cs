@@ -20,6 +20,8 @@ namespace UofM.HCI.tPab
 
   public class RegistrationEventArgs : EventArgs
   {
+    public TPadLocation LastLocation { get; set; }
+    public TPadLocation NewLocation { get; set; }
   }
 
   public delegate void RegistrationChangedEventHandler(object sender, RegistrationEventArgs e);
