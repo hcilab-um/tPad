@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing;
+using UofM.HCI.tPab.Util;
 
 namespace UofM.HCI.tPab.Monitors
 {
@@ -23,8 +24,11 @@ namespace UofM.HCI.tPab.Monitors
       if (deviceView == null)
         return;
 
-      using (FileStream storage = CreateFileStream(angle))
-        deviceView.Save(storage, System.Drawing.Imaging.ImageFormat.Png);
+      //EUREKA!!!
+      Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as Simulator).TPadAppBounds);
+
+      //using (FileStream storage = CreateFileStream(angle))
+      //  rotatedView.Save(storage, System.Drawing.Imaging.ImageFormat.Png);
     }
 
     private FileStream CreateFileStream(float angle)
