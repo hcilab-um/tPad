@@ -23,8 +23,8 @@ namespace UofM.HCI.tPab.Monitors
       if (deviceView == null)
         return;
 
-
-
+      using (FileStream storage = CreateFileStream(angle))
+        deviceView.Save(storage, System.Drawing.Imaging.ImageFormat.Png);
     }
 
     private FileStream CreateFileStream(float angle)

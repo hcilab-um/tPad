@@ -72,6 +72,7 @@ namespace UofM.HCI.tPab
 
     protected override void CustomUpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)
     {
+
     }
 
   }
