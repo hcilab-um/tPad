@@ -7,7 +7,7 @@ using System.Windows;
 namespace UofM.HCI.tPab
 {
 
-  public enum LocationStatus { Locating, Located, NotLocated }
+  public enum LocationStatus { NotLocated, Locating, Located }
 
   public struct TPadLocation
   {
@@ -32,6 +32,7 @@ namespace UofM.HCI.tPab
     /// This angle is calculated relative to the vertical axis of the document.
     /// </summary>
     public float RotationAngle { get; set; }
+
   }
 
 }

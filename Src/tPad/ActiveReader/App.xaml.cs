@@ -19,7 +19,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       base.OnStartup(e);
 
-      hostWindow = new Simulator(this, "paper_page.png", new ActiveReaderApp());
+      String[] pagesFolder = new String[1] {"Pages/"};
+      TPadCore.Instance.Registration.LoadDocuments(pagesFolder);
+
       TPadProfile profile = new TPadProfile()
       {
         Resolution = new Size(800, 480),
@@ -27,7 +29,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         DeviceSize = new Size(12.6, 18.7),
         DocumentSize = new Size(21, 29.7)
       };
-
+      hostWindow = new Simulator(this, TPadCore.Instance.Registration.ActualDocument, new ActiveReaderApp());
       TPadCore.Instance.Startup(profile, true, hostWindow);
       hostWindow.Show();
     }

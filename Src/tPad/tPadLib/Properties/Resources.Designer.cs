@@ -59,5 +59,12 @@ namespace UofM.HCI.tPab.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap SampleDoc {
+            get {
+                object obj = ResourceManager.GetObject("SampleDoc", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

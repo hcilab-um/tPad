@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.ComponentModel;
 using UofM.HCI.tPab.Util;
+using UofM.HCI.tPab.Services;
 
 namespace UofM.HCI.tPab
 {
@@ -24,10 +25,35 @@ namespace UofM.HCI.tPab
 
     private float widthFactor, heightFactor;
     private float rotationAngle;
-    private BitmapFrame DocumentBM { get; set; }
 
     private UserControl TPadApp { get; set; }
     public Rect TPadAppBounds { get; set; }
+
+    private Document actualDocument = null;
+    public Document ActualDocument 
+    {
+      get { return actualDocument; }
+      set
+      {
+        actualDocument = value;
+        ActualPage = 0;
+        OnPropertyChanged("ActualDocument");
+        OnPropertyChanged("TotalPages");
+        OnPropertyChanged("ActualPage");
+      }
+    }
+
+    public int TotalPages
+    {
+      get
+      {
+        if (ActualDocument == null || ActualDocument.PageFileNames == null)
+          return 0;
+        return ActualDocument.PageFileNames.Length;
+      }
+    }
+
+    public int ActualPage { get; set; }
 
     private float WidthFactor
     {
@@ -59,14 +85,15 @@ namespace UofM.HCI.tPab
       }
     }
 
-    public Simulator(Application launcher, String document, UserControl app = null)
+    public Simulator(Application launcher, Document document, UserControl app = null)
     {
-      if (!File.Exists(document))
-        throw new ArgumentException(String.Format("Document \"{1}\" not found!", document));
+      if (!File.Exists(document.PageFileNames[0]))
+        throw new ArgumentException(String.Format("Document \"{1}\" not found!", document.PageFileNames[0]));
 
       InitializeComponent();
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
-      DocumentBM = BitmapFrame.Create(new Uri(document, UriKind.Relative));
+
+      ActualDocument = document;
 
       if (app != null && app is ITPadApp)
       {
@@ -80,7 +107,6 @@ namespace UofM.HCI.tPab
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      iDocument.Source = DocumentBM;
     }
 
     void iDocument_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -187,7 +213,7 @@ namespace UofM.HCI.tPab
       return frame;
     }
 
-    
+
     private MemoryStream SafeGetDeviceView()
     {
       if (!IsActive)
@@ -216,6 +242,21 @@ namespace UofM.HCI.tPab
     }
 
     private delegate MemoryStream GetDeviceViewDelegate();
+
+    private void bNext_Click(object sender, RoutedEventArgs e)
+    {
+      ActualPage = (ActualPage + 1) % TotalPages;
+      OnPropertyChanged("ActualPage");
+    }
+
+    private void bPrevious_Click(object sender, RoutedEventArgs e)
+    {
+      if (ActualPage == 0)
+        ActualPage = TotalPages - 1;
+      else
+        ActualPage = ActualPage - 1;
+      OnPropertyChanged("ActualPage");
+    }
 
   }
 

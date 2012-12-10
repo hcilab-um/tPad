@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\MultiplierConverter.cs" />
+    <Compile Include="Converters\PageLoaderConverter.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="ITPadApp.cs" />
     <Compile Include="Monitors\CameraMonitor.cs" />

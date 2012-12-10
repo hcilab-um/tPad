@@ -33,7 +33,8 @@ namespace UofM.HCI.tPab
     }
 
     private TPadCore()
-    { 
+    {
+      Registration = new RegistrationService();
     }
 
     public void Startup(TPadProfile profile, bool isSimulation = false, UIElement cameraSource = null)
@@ -46,7 +47,6 @@ namespace UofM.HCI.tPab
       Device = new TPadDevice() { Profile = Profile };
       Device.LoadId();
 
-      Registration = new RegistrationService();
       ContextMonitor cameraMonitor = null, flippingMonitor = null, stackingMonitor = null;
       if (IsSimulation)
       {
