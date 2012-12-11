@@ -61,6 +61,7 @@
     <Compile Include="Converters\PageLoaderConverter.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="ITPadApp.cs" />
+    <Compile Include="Monitors\ArduinoMonitor.cs" />
     <Compile Include="Monitors\CameraMonitor.cs" />
     <Compile Include="Monitors\FlippingMonitor.cs" />
     <Compile Include="Monitors\StackingMonitor.cs" />

@@ -5,7 +5,7 @@
         xmlns:tpad="clr-namespace:UofM.HCI.tPab"
         xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters"
         Title="tPad Simulator Window" Height="700" Width="1366" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded" MouseMove="rFrame_MouseMove" MouseUp="rFrame_MouseUp">
+        MouseMove="rFrame_MouseMove" MouseUp="rFrame_MouseUp">
   
   <Window.Resources>
 

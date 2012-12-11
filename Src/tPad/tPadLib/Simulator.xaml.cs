@@ -30,7 +30,7 @@ namespace UofM.HCI.tPab
     public Rect TPadAppBounds { get; set; }
 
     private Document actualDocument = null;
-    public Document ActualDocument 
+    public Document ActualDocument
     {
       get { return actualDocument; }
       set
@@ -85,8 +85,9 @@ namespace UofM.HCI.tPab
       }
     }
 
-    public Simulator(Application launcher, Document document, UserControl app = null)
+    public Simulator(Application launcher)
     {
+      Document document = TPadCore.Instance.Registration.ActualDocument;
       if (!File.Exists(document.PageFileNames[0]))
         throw new ArgumentException(String.Format("Document \"{1}\" not found!", document.PageFileNames[0]));
 
@@ -94,19 +95,18 @@ namespace UofM.HCI.tPab
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
 
       ActualDocument = document;
-
-      if (app != null && app is ITPadApp)
-      {
-        TPadApp = app;
-        TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-        TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-        gTPadApp.Children.Add(TPadApp);
-        TPadAppBounds = Rect.Empty;
-      }
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    public void LoadTPadApp(ITPadApp tPadApp)
     {
+      if (tPadApp == null)
+        return;
+
+      TPadApp = tPadApp as UserControl;
+      TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+      TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+      gTPadApp.Children.Add(TPadApp);
+      TPadAppBounds = Rect.Empty;
     }
 
     void iDocument_SizeChanged(object sender, SizeChangedEventArgs e)
