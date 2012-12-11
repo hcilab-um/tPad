@@ -14,6 +14,8 @@ namespace UofM.HCI.tPab.Services
 
     public Document ActualDocument { get; set; }
 
+    public ITPadAppContainer Container { get; set; }
+
     /// <summary>
     /// This method receives the image from the camera and finds the location of the device.
     /// Location defined as the page, the X and Y coordinates wihtin the page in cms, and the rotation angle
@@ -30,7 +32,13 @@ namespace UofM.HCI.tPab.Services
 
       //----------------------------- MOCK CODE ------------------------------
       TPadLocation location = new TPadLocation();
-      location.Status = LocationStatus.Locating;
+      if (TPadCore.Instance.IsSimulation)
+      {
+        location.Status = LocationStatus.Located;
+        location.RotationAngle = Container.RotationAngle;
+        location.LocationPx = Container.Location;
+        location.LocationCm = new PointF((float)(Container.Location.X / Container.WidthFactor), (float)(Container.Location.Y / Container.HeightFactor));
+      }
       //----------------------------- MOCK CODE ------------------------------
 
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));

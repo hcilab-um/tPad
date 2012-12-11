@@ -23,13 +23,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     public TPadProfile Profile { get; set; }
     public TPadDevice Device { get; set; }
+    public ITPadAppContainer Container { get; set; }
 
     public String DocumentPath { get; set; }
 
-    public ActiveReaderApp(String documentPDF, Simulator simulator = null)
+    public ActiveReaderApp(String documentPDF, ITPadAppContainer container = null)
     {
+      Container = container;
       DocumentPath = documentPDF;
-
       InitializeComponent();
     }
 
