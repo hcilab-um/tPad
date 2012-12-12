@@ -169,84 +169,89 @@ int _tmain(int argc, _TCHAR* argv[])
 	//flann
 	cv::flann::IndexParams idx = *new cv::flann::LshIndexParams(10, 30, 1);	
 	flannIdx = *new cv::flann::Index(pageImageDescriptors, idx, cvflann::FLANN_DIST_HAMMING);
-	
+
 	//int begin = clock();
 	////load device image	
 	deviceImage = cv::imread("images/LCD.JPG", CV_LOAD_IMAGE_GRAYSCALE);  
-	cv::Mat* frame_new = new cv::Mat(cv::Size(deviceImage.cols, deviceImage.rows), CV_8UC1);
-	*frame_new = deviceImage;
+	
+	int begin_feature = clock();
+	//cv::Mat* frame_new = new cv::Mat(cv::Size(deviceImage.cols, deviceImage.rows), CV_8UC1);
+	//*frame_new = deviceImage;
 	////imshow("warp image", deviceImage);
-	cv::Mat warpHM = imageWarp(&deviceImage, &deviceImage);
+	//cv::Mat warpHM = imageWarp(&deviceImage, &deviceImage);
 		
 	//read camera picture
-	cv::Mat *frame_last = NULL;
-	//cv::Mat *frame_new = NULL;
-    
-	if (!enableCamera())
-		return -1;
-    
-   // Get one raw image to be able to calculate the OpenCV window size
-    FlyCapture2::Image rawImage;
-    cam.RetrieveBuffer(&rawImage);
-        
-   // Setting the window size in OpenCV
-	frame_last = new cv::Mat(cv::Size(rawImage.GetCols(), rawImage.GetRows()), CV_8UC1);
-	frame_new = new cv::Mat(cv::Size(rawImage.GetCols(), rawImage.GetRows()), CV_8UC1);
+	//cv::Mat *frame_last = NULL;
+	////cv::Mat *frame_new = NULL;
+ //   
+	//if (!enableCamera())
+	//	return -1;
+ //   
+ //  // Get one raw image to be able to calculate the OpenCV window size
+ //   FlyCapture2::Image rawImage;
+ //   cam.RetrieveBuffer(&rawImage);
+ //       
+ //  // Setting the window size in OpenCV
+	//frame_last = new cv::Mat(cv::Size(rawImage.GetCols(), rawImage.GetRows()), CV_8UC1);
+	//frame_new = new cv::Mat(cv::Size(rawImage.GetCols(), rawImage.GetRows()), CV_8UC1);
 
-	int key = 0;
-	int last_diff = 0;
-	
+	//int key = 0;
+	//int last_diff = 0;
+	//
 	cv::Mat imageMatch = pageImage;
-	float meanValue = 0;
-    while(key != 'q') 
-    {    
-		
-        // Start capturing images
-        cam.RetrieveBuffer(&rawImage);
-		
-        // Get the raw image dimensions
-        FlyCapture2::PixelFormat pixFormat;
-        unsigned int rows, cols, stride;
-        rawImage.GetDimensions( &rows, &cols, &stride, &pixFormat );
+	//float meanValue = 0;
+ //   while(key != 'q') 
+ //   {    
+	//	
+ //       // Start capturing images
+ //       cam.RetrieveBuffer(&rawImage);
+	//	
+ //       // Get the raw image dimensions
+ //       FlyCapture2::PixelFormat pixFormat;
+ //       unsigned int rows, cols, stride;
+ //       rawImage.GetDimensions( &rows, &cols, &stride, &pixFormat );
 
-        // Create a converted image
-        FlyCapture2::Image convertedImage;
+ //       // Create a converted image
+ //       FlyCapture2::Image convertedImage;
 
-         //Convert the raw image
-		error = rawImage.Convert( FlyCapture2::PIXEL_FORMAT_MONO8, &convertedImage );
-        if (error != FlyCapture2::PGRERROR_OK)
-        {
-            error.PrintErrorTrace();
-			printf("here");
-            return -1;
-        }
-		
-       // Copy the image into the Mat of OpenCV
-		*frame_last = frame_new->clone();
-		memcpy(frame_new->data, convertedImage.GetData(), convertedImage.GetDataSize());
-		
-        /* always check */
-        if( !frame_new ) return -1;
-		
-		//warp image	
-		cv::warpPerspective(*frame_new, *frame_new, warpHM, frame_new->size());
+ //        //Convert the raw image
+	//	error = rawImage.Convert( FlyCapture2::PIXEL_FORMAT_MONO8, &convertedImage );
+ //       if (error != FlyCapture2::PGRERROR_OK)
+ //       {
+ //           error.PrintErrorTrace();
+	//		printf("here");
+ //           return -1;
+ //       }
+	//	
+ //      // Copy the image into the Mat of OpenCV
+	//	*frame_last = frame_new->clone();
+	//	memcpy(frame_new->data, convertedImage.GetData(), convertedImage.GetDataSize());
+	//	
+ //       /* always check */
+ //       if( !frame_new ) return -1;
+	//	
+	//	//warp image	
+	//	cv::warpPerspective(*frame_new, *frame_new, warpHM, frame_new->size());
 
-		cv::Mat diff;
-		cv::absdiff(*frame_new, *frame_last, diff);
-		// Equal if no elements disagree
-		meanValue = (cv::mean(diff)[0]);
-		
-		if (meanValue > 0.09)
-		{
+	//	cv::Mat diff;
+	//	cv::absdiff(*frame_new, *frame_last, diff);
+	//	// Equal if no elements disagree
+	//	meanValue = (cv::mean(diff)[0]);
+	//	
+	//	if (meanValue > 0.09)
+	//	{
 			//SURF computation
-			cv::Mat locationHM = featureMatching(frame_new, frame_new);
-		
+	cv::Mat locationHM = featureMatching(&deviceImage, &pageImage);
+	
+	int end = clock();
+	printf ("feature(%f seconds).\n",((float)(end - begin_feature))/CLOCKS_PER_SEC);
+
 			//draw detected region
 			std::vector<cv::Point2f> device_corners(4);
 			device_corners[0] = cvPoint(0,0);
-			device_corners[1] = cvPoint(frame_new->cols, 0 );
-			device_corners[2] = cvPoint(frame_new->cols, frame_new->rows ); 
-			device_corners[3] = cvPoint(0, frame_new->rows );
+			device_corners[1] = cvPoint(deviceImage.cols, 0 );
+			device_corners[2] = cvPoint(deviceImage.cols, deviceImage.rows ); 
+			device_corners[3] = cvPoint(0, deviceImage.rows );
 				
 			if (!locationHM.empty())
 			{
@@ -259,32 +264,32 @@ int _tmain(int argc, _TCHAR* argv[])
 				cv::line( imageMatch, device_corners[2], device_corners[3] , cv::Scalar( 0, 255, 0), 4 );
 				cv::line( imageMatch, device_corners[3] , device_corners[0] , cv::Scalar( 0, 255, 0), 4 );
 			}
-		}
+		//}
 		////else cv::perspectiveTransform(device_corners, device_corners, warpHM);
 		////Display the original image
 		cv::imshow( "Original", imageMatch );
-		cv::imshow( "frame", *frame_new );
+		cv::imshow( "frame", deviceImage );
 		//imageMatch.release();
 		
         //exit if user press 'q' 				
-        key = cvWaitKey( 1 );
-    }
+       // key = cvWaitKey( 1 );
+  //  }
      
-	 //Stop capturing images
-    error = cam.StopCapture();
-    if (error != FlyCapture2::PGRERROR_OK)
-    {
-        error.PrintErrorTrace();
-        return -1;
-    }      
-    
-     //Disconnect the camera
-    error = cam.Disconnect();
-    if (error != FlyCapture2::PGRERROR_OK)
-    {
-        error.PrintErrorTrace();
-        return -1;
-    }
+	 ////Stop capturing images
+  //  error = cam.StopCapture();
+  //  if (error != FlyCapture2::PGRERROR_OK)
+  //  {
+  //      error.PrintErrorTrace();
+  //      return -1;
+  //  }      
+  //  
+  //   //Disconnect the camera
+  //  error = cam.Disconnect();
+  //  if (error != FlyCapture2::PGRERROR_OK)
+  //  {
+  //      error.PrintErrorTrace();
+  //      return -1;
+  //  }
 	
 
 	//-- Show detected matches
