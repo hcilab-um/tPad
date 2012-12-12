@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:src="clr-namespace:UofM.HCI.tPab;assembly=tPadLib"
-             xmlns:converters="clr-namespace:UofM.HCI.tPab.App.ActiveReader.Converters"
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters;assembly=tPadLib"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded">
   
   <UserControl.Resources>
-    <converters:LayerScalingConverter x:Key="cLayerScaling" />
+    <convertersLib:LayerScalingConverter x:Key="cLayerScaling" />
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />
+    <convertersLib:LayerRotationCenterConverter x:Key="cLayerRotationCenter" />
   </UserControl.Resources>
 
   <Grid x:Name="gOuterWrapper">
@@ -27,20 +27,52 @@
       </MultiBinding>
     </Grid.Height>
 
-    <Grid x:Name="gCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Red" Opacity="0.3">
-      <!--<Grid.Background>
-        <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" >
-          <RadialGradientBrush.GradientStops>
-            <GradientStop Color="Blue" Offset="0" />
-            <GradientStop Color="Red" Offset="1" />
-          </RadialGradientBrush.GradientStops>
-        </RadialGradientBrush>
-      </Grid.Background>-->
+    <Grid x:Name="gCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Red" Opacity="0.8">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      
+      <Rectangle Grid.Row="0" Grid.Column="0" Fill="PaleGreen"/>
+      <Rectangle Grid.Row="0" Grid.Column="1" Fill="AntiqueWhite"/>
+      <Rectangle Grid.Row="0" Grid.Column="2" Fill="Aqua"/>
+      <Rectangle Grid.Row="0" Grid.Column="3" Fill="Aquamarine"/>
+      <Rectangle Grid.Row="1" Grid.Column="0" Fill="Purple"/>
+      <Rectangle Grid.Row="1" Grid.Column="1" Fill="Beige"/>
+      <Rectangle Grid.Row="1" Grid.Column="2" Fill="Bisque"/>
+      <Rectangle Grid.Row="1" Grid.Column="3" Fill="Black"/>
+      <Rectangle Grid.Row="2" Grid.Column="0" Fill="BlanchedAlmond"/>
+      <Rectangle Grid.Row="2" Grid.Column="1" Fill="Blue"/>
+      <Rectangle Grid.Row="2" Grid.Column="2" Fill="BlueViolet"/>
+      <Rectangle Grid.Row="2" Grid.Column="3" Fill="Brown"/>
+      <Rectangle Grid.Row="3" Grid.Column="0" Fill="BurlyWood"/>
+      <Rectangle Grid.Row="3" Grid.Column="1" Fill="CadetBlue"/>
+      <Rectangle Grid.Row="3" Grid.Column="2" Fill="Chartreuse"/>
+      <Rectangle Grid.Row="3" Grid.Column="3" Fill="Chocolate"/>
       <Grid.RenderTransform>
         <TransformGroup>
-          <RotateTransform Angle="{Binding ElementName=arApp, Path=Device.Location.RotationAngle, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}"
-                           CenterX="{Binding ElementName=gOuterWrapper, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
-                           CenterY="{Binding ElementName=gOuterWrapper, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
+          <RotateTransform  Angle="{Binding ElementName=arApp, Path=Device.Location.RotationAngle, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}">
+            <RotateTransform.CenterX>
+              <MultiBinding Converter="{StaticResource ResourceKey=cLayerRotationCenter}" ConverterParameter="CenterX">
+                <Binding ElementName="arApp" Path="Device.Location.LocationPx.X"/>
+                <Binding ElementName="arApp" Path="ActualWidth" Converter="{StaticResource ResourceKey=cMultiplier}" ConverterParameter="0.5"/>
+              </MultiBinding>
+            </RotateTransform.CenterX>
+            <RotateTransform.CenterY>
+              <MultiBinding Converter="{StaticResource ResourceKey=cLayerRotationCenter}" ConverterParameter="CenterY">
+                <Binding ElementName="arApp" Path="Device.Location.LocationPx.Y"/>
+                <Binding ElementName="arApp" Path="ActualHeight" Converter="{StaticResource ResourceKey=cMultiplier}" ConverterParameter="0.5"/>
+              </MultiBinding>
+            </RotateTransform.CenterY>
+          </RotateTransform>
           <TranslateTransform X="{Binding ElementName=arApp, Path=Device.Location.LocationPx.X, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}" 
                               Y="{Binding ElementName=arApp, Path=Device.Location.LocationPx.Y, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}"/>
         </TransformGroup>
