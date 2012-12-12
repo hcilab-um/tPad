@@ -7,6 +7,5 @@ namespace UofM.HCI.tPab
 {
   public interface ITPadApp
   {
-    //void UpdateAnchoredLayers();
   }
 }

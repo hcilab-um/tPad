@@ -59,7 +59,7 @@
       <Rectangle Grid.Row="3" Grid.Column="3" Fill="Chocolate"/>
       <Grid.RenderTransform>
         <TransformGroup>
-          <RotateTransform  Angle="{Binding ElementName=arApp, Path=Device.Location.RotationAngle, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}">
+          <!--<RotateTransform  Angle="{Binding ElementName=arApp, Path=Device.Location.RotationAngle, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}">
             <RotateTransform.CenterX>
               <MultiBinding Converter="{StaticResource ResourceKey=cLayerRotationCenter}" ConverterParameter="CenterX">
                 <Binding ElementName="arApp" Path="Device.Location.LocationPx.X"/>
@@ -74,7 +74,10 @@
             </RotateTransform.CenterY>
           </RotateTransform>
           <TranslateTransform X="{Binding ElementName=arApp, Path=Device.Location.LocationPx.X, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}" 
-                              Y="{Binding ElementName=arApp, Path=Device.Location.LocationPx.Y, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}"/>
+                              Y="{Binding ElementName=arApp, Path=Device.Location.LocationPx.Y, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}"/>-->
+
+          <RotateTransform x:Name="trCanvas" />
+          <TranslateTransform x:Name="ttCanvas" />
         </TransformGroup>
       </Grid.RenderTransform>
     </Grid>

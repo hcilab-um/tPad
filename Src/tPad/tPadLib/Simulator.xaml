@@ -16,7 +16,7 @@
 
   <Grid x:Name="gTop">
     <Grid x:Name="gDocument" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-      <Rectangle Fill="Transparent" Stroke="Black" StrokeThickness="1"/>
+      <Rectangle Fill="Gray" StrokeThickness="1"/>
       <Image x:Name="iDocument">
         <Image.Source>
           <MultiBinding Converter="{StaticResource ResourceKey=cPageLoader}">
