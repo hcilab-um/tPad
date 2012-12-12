@@ -57,6 +57,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\LayerRotationCenterConverter.cs" />
+    <Compile Include="Converters\LayerScalingConverter.cs" />
     <Compile Include="Converters\MultiplierConverter.cs" />
     <Compile Include="Converters\PageLoaderConverter.cs" />
     <Compile Include="EventHandlers.cs" />

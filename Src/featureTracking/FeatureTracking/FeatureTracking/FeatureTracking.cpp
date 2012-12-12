@@ -12,6 +12,7 @@
 #include <opencv2/nonfree/nonfree.hpp>
 #include <opencv2/flann/flann.hpp>
 #include <opencv2/legacy/legacy.hpp>
+#include <opencv2\ml\ml.hpp>
 
 #include <FlyCapture2.h>
 
@@ -21,9 +22,11 @@ cv::Point2f device[4] = {cv::Point2f(240, 242),cv::Point2f(132, 730), cv::Point2
 cv::Point2f page[4] = {cv::Point2f(476,577), cv::Point2f(465,720), cv::Point2f(594,577), cv::Point2f(600,701)};	 
 
 cv::FREAK extractor;
+//cv::FlannBasedMatcher matcher(new cv::flann::LshIndexParams(10, 30, 1),  new cv::flann::SearchParams(32));
+cv::FlannBasedMatcher matcher(new cv::flann::LshIndexParams(10, 30, 1));
 
-cv::vector<cv::KeyPoint> pageKeyPoints;
-cv::Mat pageImageDescriptors;
+cv::vector<cv::vector<cv::KeyPoint>> dbKeyPoints;
+cv::vector<cv::Mat> dbDescriptors;
 
 cv::flann::Index flannIdx;
 cv::Mat pageImage, deviceImage;
@@ -84,19 +87,27 @@ cv::Mat featureMatching(cv::Mat* deviceImage, cv::Mat* pageImage)
 	{
 		//compute matching keypoints
 		cv::Mat indices, dist;
-		flannIdx.knnSearch(deviceImageDescriptors, indices, dist, 2, cv::flann::SearchParams(32));
-			
-		// Find correspondences by NNDR (Nearest Neighbor Distance Ratio)
-		//std::vector<cv::DMatch > good_matches;
+		//flannIdx.knnSearch(deviceImageDescriptors, indices, dist, 2, cv::flann::SearchParams(32));
+		//std::vector<cv::DMatch> dMatch;
+		//matcher.match(deviceImageDescriptors, dMatch);
+		std::vector<std::vector<cv::DMatch>> dmatches;
+		matcher.knnMatch(deviceImageDescriptors, dmatches, 2);
+		
 		std::vector<cv::Point2f> mpts_1, mpts_2; // Used for homography	
-		CvMat mat1;
-		for(unsigned int i=0; i<(unsigned int)deviceImageDescriptors.rows; ++i)
+		std::cout << dmatches[4011].size();
+		//CvMat mat1;
+		for(unsigned int i=0; i<(unsigned int)dmatches.size(); ++i)
 		{
-			if(dist.at<float>(i,0) < 0.7*(dist.at<float>(i,1)))
-			{
-				mpts_1.push_back(deviceKeypoints.at(i).pt);		
-				mpts_2.push_back(pageKeyPoints.at(indices.at<int>(i,0)).pt);
-			}			
+			//if(dMatch[i].distance < 0.7*(dist.at<float>(i,1)))
+			if(!dmatches[i].empty()) {
+				if (dmatches[i][0].distance < 0.7*dmatches[i][1].distance)
+				{
+					//mpts_1.push_back(deviceKeypoints.at(i).pt);		
+					//mpts_2.push_back(pageKeyPoints.at(indices.at<int>(i,0)).pt);
+					mpts_1.push_back(deviceKeypoints[dmatches[i][0].queryIdx].pt);		
+					mpts_2.push_back(dbKeyPoints[dmatches[i][0].imgIdx][dmatches[i][0].trainIdx].pt);
+				}		
+			}
 		}
 
 	
@@ -158,21 +169,38 @@ bool enableCamera()
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//load page image
-	pageImage = cv::imread("images/Usability Engineering for Augmented Reality.png", CV_LOAD_IMAGE_GRAYSCALE);
+	pageImage = cv::imread("images/paper_page.png", CV_LOAD_IMAGE_GRAYSCALE);
 	//compute surf features for pageImage	
+	cv::vector<cv::KeyPoint> pageKeyPoints;
 	cv::FAST(pageImage, pageKeyPoints, 100, true);
+	cv::Mat pageImageDescriptors;
 	extractor.compute(pageImage, pageKeyPoints, pageImageDescriptors);
 	//imagePageKeyPoints.FilterByKeypointSize(minSize, maxSize);
     //pageKeyPoints = reduceKeyPoints(pageKeyPoints, 49);
-	extractor.compute(pageImage, pageKeyPoints, pageImageDescriptors);
+	dbDescriptors.push_back(pageImageDescriptors);
+	dbKeyPoints.push_back(pageKeyPoints);
+	
+	pageImage = cv::imread("images/Usability Engineering for Augmented Reality.png", CV_LOAD_IMAGE_GRAYSCALE);
+	//compute surf features for pageImage	
+	cv::vector<cv::KeyPoint> pageKeyPoints1;
+	cv::FAST(pageImage, pageKeyPoints1, 100, true);
+	cv::Mat pageImageDescriptors1;
+	extractor.compute(pageImage, pageKeyPoints1, pageImageDescriptors1);
+	//imagePageKeyPoints.FilterByKeypointSize(minSize, maxSize);
+    //pageKeyPoints = reduceKeyPoints(pageKeyPoints, 49);
+	dbKeyPoints.push_back(pageKeyPoints1);
+	dbDescriptors.push_back(pageImageDescriptors1);
 
 	//flann
-	cv::flann::IndexParams idx = *new cv::flann::LshIndexParams(10, 30, 1);	
-	flannIdx = *new cv::flann::Index(pageImageDescriptors, idx, cvflann::FLANN_DIST_HAMMING);
+	//cv::flann::IndexParams idx = *new cv::flann::LshIndexParams(10, 30, 1);	
+	//flannIdx = *new cv::flann::Index(pageImageDescriptors, idx, cvflann::FLANN_DIST_HAMMING);
+
+	matcher.add(dbDescriptors);
+	matcher.train();
 
 	//int begin = clock();
 	////load device image	
-	deviceImage = cv::imread("images/LCD.JPG", CV_LOAD_IMAGE_GRAYSCALE);  
+	deviceImage = cv::imread("images/test.JPG", CV_LOAD_IMAGE_GRAYSCALE);  
 	
 	int begin_feature = clock();
 	//cv::Mat* frame_new = new cv::Mat(cv::Size(deviceImage.cols, deviceImage.rows), CV_8UC1);

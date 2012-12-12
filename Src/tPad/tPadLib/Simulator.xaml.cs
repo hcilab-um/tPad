@@ -205,7 +205,7 @@ namespace UofM.HCI.tPab
         // Updates the device location
         Point point = new Point(newLocation.X + BorderDiff.Width, newLocation.Y + BorderDiff.Height);
         Point rotatedPoint = tRotate.Transform(point);
-        Location = new System.Drawing.Point((int)rotatedPoint.X, (int)rotatedPoint.Y);
+        Location = new System.Drawing.Point((int)point.X, (int)point.Y);
       }
       else if (isRotating)
       {
@@ -260,7 +260,6 @@ namespace UofM.HCI.tPab
       Rect ttPadBounds = TPadApp.TransformToAncestor(this).TransformBounds(TPadAppBounds);
 
       System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds.Width, ttPadBounds.Height);
-
       MemoryStream result = new MemoryStream();
       try
       {
