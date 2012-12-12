@@ -14,8 +14,8 @@ namespace UofM.HCI.tPab.Converters
       if (value == DependencyProperty.UnsetValue)
         return 0.0;
 
-      double valueToMultiply = (double)value;
-      double multiplier = Double.Parse((String)parameter);
+      var valueToMultiply = Double.Parse(value.ToString());
+      var multiplier = Double.Parse((String)parameter);
  
       return valueToMultiply * multiplier;
     }

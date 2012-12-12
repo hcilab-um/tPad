@@ -5,17 +5,18 @@
         xmlns:tpad="clr-namespace:UofM.HCI.tPab"
         xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters"
         Title="tPad Simulator Window" Height="700" Width="1366" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded" MouseMove="rFrame_MouseMove" MouseUp="rFrame_MouseUp">
-  
+        MouseMove="rFrame_MouseMove" MouseUp="rFrame_MouseUp" Loaded="wSimulator_Loaded">
+
   <Window.Resources>
 
     <converters:MultiplierConverter x:Key="cMultiplier" />
     <converters:PageLoaderConverter x:Key="cPageLoader" />
-    
+
   </Window.Resources>
-  
+
   <Grid x:Name="gTop">
-    <Grid x:Name="gDocument" VerticalAlignment="Stretch" HorizontalAlignment="Center">
+    <Grid x:Name="gDocument" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+      <Rectangle Fill="Transparent" Stroke="Black" StrokeThickness="1"/>
       <Image x:Name="iDocument">
         <Image.Source>
           <MultiBinding Converter="{StaticResource ResourceKey=cPageLoader}">
@@ -24,25 +25,27 @@
           </MultiBinding>
         </Image.Source>
       </Image>
-      
+
       <!-- This is the place holder for the TPadApp -->
       <Grid x:Name="gTPadApp" VerticalAlignment="Top" HorizontalAlignment="Left">
-        <Rectangle x:Name="rFrame" RadiusX="10" RadiusY="10" Fill="Transparent" Stroke="Black" StrokeThickness="45" 
-                   MouseDown="rFrame_MouseDown"/>
+        <Rectangle x:Name="rFrame" RadiusX="10" RadiusY="10" Fill="Transparent" Stroke="Black" StrokeThickness="45" MouseDown="rFrame_MouseDown"/>
         <Image x:Name="iCameraIcon" Source="camera.png" VerticalAlignment="Top" HorizontalAlignment="Center" Width="30" Margin="0,10,0,0"/>
         <Grid.RenderTransform>
-          <RotateTransform Angle="{Binding ElementName=wSimulator, Path=RotationAngle}" 
+          <TransformGroup>
+            <RotateTransform x:Name="tRotate" Angle="{Binding ElementName=wSimulator, Path=RotationAngle}" 
                            CenterX="{Binding ElementName=gTPadApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
                            CenterY="{Binding ElementName=gTPadApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
+            <TranslateTransform x:Name="tAlign" X="100"/>
+          </TransformGroup>
         </Grid.RenderTransform>
       </Grid>
     </Grid>
-    
+
     <StackPanel x:Name="gNavControls" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Orientation="Horizontal">
       <Button x:Name="bPrevious" Content="&lt; Prev" Click="bPrevious_Click" />
       <Label Content="{Binding ElementName=wSimulator, Path=ActualPage, FallbackValue=5}"/>
       <Button x:Name="bNext" Content="Next >" Click="bNext_Click" />
     </StackPanel>
-    
+
   </Grid>
 </Window>

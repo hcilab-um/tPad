@@ -12,8 +12,8 @@ namespace UofM.HCI.tPab
     //events
     public event PropertyChangedEventHandler PropertyChanged;
     public event RegistrationChangedEventHandler RegistrationChanged;
-    public event FlippingChangedEventHandler Flipping;
-    public event StackingChangedEventHandler Stacking;
+    public event FlippingChangedEventHandler FlippingChanged;
+    public event StackingChangedEventHandler StackingChanged;
 
     //This id is written in the device's firmware (arduino)
     public int DeviceId { get; set; }

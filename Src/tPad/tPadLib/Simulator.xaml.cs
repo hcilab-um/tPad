@@ -20,17 +20,19 @@ namespace UofM.HCI.tPab
   /// <summary>
   /// Interaction logic for Simulatorç.xaml
   /// </summary>
-  public partial class Simulator : Window, INotifyPropertyChanged
+  public partial class Simulator : Window, INotifyPropertyChanged, ITPadAppContainer
   {
 
     private float widthFactor, heightFactor;
     private float rotationAngle;
+    private System.Drawing.Point location;
 
     private UserControl TPadApp { get; set; }
     public Rect TPadAppBounds { get; set; }
+    private Size BorderDiff { get; set; }
 
     private Document actualDocument = null;
-    public Document ActualDocument 
+    public Document ActualDocument
     {
       get { return actualDocument; }
       set
@@ -55,7 +57,7 @@ namespace UofM.HCI.tPab
 
     public int ActualPage { get; set; }
 
-    private float WidthFactor
+    public float WidthFactor
     {
       get { return widthFactor; }
       set
@@ -65,7 +67,7 @@ namespace UofM.HCI.tPab
       }
     }
 
-    private float HeightFactor
+    public float HeightFactor
     {
       get { return heightFactor; }
       set
@@ -85,8 +87,19 @@ namespace UofM.HCI.tPab
       }
     }
 
-    public Simulator(Application launcher, Document document, UserControl app = null)
+    public System.Drawing.Point Location 
     {
+      get { return location; }
+      set
+      {
+        location = value;
+        OnPropertyChanged("Location");
+      }
+    }
+
+    public Simulator(Application launcher)
+    {
+      Document document = TPadCore.Instance.Registration.ActualDocument;
       if (!File.Exists(document.PageFileNames[0]))
         throw new ArgumentException(String.Format("Document \"{1}\" not found!", document.PageFileNames[0]));
 
@@ -94,19 +107,32 @@ namespace UofM.HCI.tPab
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
 
       ActualDocument = document;
-
-      if (app != null && app is ITPadApp)
-      {
-        TPadApp = app;
-        TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-        TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-        gTPadApp.Children.Add(TPadApp);
-        TPadAppBounds = Rect.Empty;
-      }
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    public void LoadTPadApp(ITPadApp tPadApp)
     {
+      if (tPadApp == null)
+        return;
+
+      TPadApp = tPadApp as UserControl;
+      TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+      TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+      gTPadApp.Children.Add(TPadApp);
+      TPadAppBounds = Rect.Empty;
+      BorderDiff = Size.Empty;
+    }
+
+    private void wSimulator_Loaded(object sender, RoutedEventArgs e)
+    {
+      if (TPadAppBounds == Rect.Empty)
+        TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp);
+      Rect ttPadBounds = TPadApp.TransformToAncestor(gTPadApp).TransformBounds(TPadAppBounds);
+      if (BorderDiff == Size.Empty)
+        BorderDiff = new Size(ttPadBounds.Left, ttPadBounds.Top);
+      Location = new System.Drawing.Point((int)BorderDiff.Width, (int)BorderDiff.Height);
+
+      Rect docBounds = iDocument.TransformToAncestor(gTop).TransformBounds(VisualTreeHelper.GetDescendantBounds(iDocument));
+      tAlign.X = docBounds.Left;
     }
 
     void iDocument_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -175,6 +201,11 @@ namespace UofM.HCI.tPab
         Point currentLocation = new Point(gTPadApp.Margin.Left, gTPadApp.Margin.Top);
         Point newLocation = currentLocation + displacement;
         gTPadApp.Margin = new Thickness(newLocation.X, newLocation.Y, 0, 0);
+
+        // Updates the device location
+        Point point = new Point(newLocation.X + BorderDiff.Width, newLocation.Y + BorderDiff.Height);
+        Point rotatedPoint = tRotate.Transform(point);
+        Location = new System.Drawing.Point((int)rotatedPoint.X, (int)rotatedPoint.Y);
       }
       else if (isRotating)
       {

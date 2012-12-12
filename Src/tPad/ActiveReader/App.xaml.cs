@@ -13,15 +13,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
   public partial class App : Application
   {
 
-    private Window hostWindow = null;
+    private Simulator hostWindow = null;
 
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
 
-      String[] pagesFolder = new String[1] {"Pages/"};
-      TPadCore.Instance.Registration.LoadDocuments(pagesFolder);
-
+      String[] pagesFolder = new String[1] { "Document/" };
       TPadProfile profile = new TPadProfile()
       {
         Resolution = new Size(800, 480),
@@ -29,8 +27,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
         DeviceSize = new Size(12.6, 18.7),
         DocumentSize = new Size(21, 29.7)
       };
-      hostWindow = new Simulator(this, TPadCore.Instance.Registration.ActualDocument, new ActiveReaderApp());
-      TPadCore.Instance.Startup(profile, true, hostWindow);
+      TPadCore.Instance.Configure(profile, true);
+      TPadCore.Instance.Registration.LoadDocuments(pagesFolder);
+
+      hostWindow = new Simulator(this);
+      hostWindow.LoadTPadApp(new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", hostWindow));
+
+      TPadCore.Instance.CoreStart(hostWindow);
       hostWindow.Show();
     }
 
