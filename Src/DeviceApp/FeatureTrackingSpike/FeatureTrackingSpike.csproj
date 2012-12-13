@@ -138,6 +138,9 @@
     <Content Include="photo 1.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Usability Engineering for Augmented Reality.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="images\cover.png" />
     <Content Include="images\paper_page.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

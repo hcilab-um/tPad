@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureTrackingSpike", "Fea
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FeatureTracking", "..\featureTracking\FeatureTracking\FeatureTracking\FeatureTracking.vcxproj", "{8CC11625-2ADF-4FD1-BAF3-0D427D040D05}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "paperRegistration", "paperRegistration\paperRegistration.vcxproj", "{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -45,6 +47,19 @@ Global
 		{8CC11625-2ADF-4FD1-BAF3-0D427D040D05}.Release|x64.ActiveCfg = Release|x64
 		{8CC11625-2ADF-4FD1-BAF3-0D427D040D05}.Release|x64.Build.0 = Release|x64
 		{8CC11625-2ADF-4FD1-BAF3-0D427D040D05}.Release|x86.ActiveCfg = Release|x64
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Debug|Win32.Build.0 = Debug|Win32
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Debug|x64.ActiveCfg = Debug|Win32
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Debug|x86.ActiveCfg = Debug|Win32
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Release|Win32.ActiveCfg = Release|Win32
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Release|Win32.Build.0 = Release|Win32
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Release|x64.ActiveCfg = Release|x64
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Release|x64.Build.0 = Release|x64
+		{54D0F52A-EBC8-4692-92AF-099F96D8CA2C}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

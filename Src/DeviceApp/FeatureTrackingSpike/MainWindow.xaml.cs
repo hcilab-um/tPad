@@ -171,7 +171,7 @@ namespace FeatureTrackingSpike
 
       //Draw the matched keypoints
       Image<Bgr, Byte> result = Features2DTracker.DrawMatches(deviceImage, deviceImageKeyPoints, pageImage, imageKeyPoints,
-         flannIndices, new Bgr(255, 0, 0), new Bgr(255, 0, 0), mask, Features2DTracker.KeypointDrawType.DEFAULT);
+         flannIndices, new Bgr(255, 0, 0), new Bgr(255, 0, 0), mask, Features2DTracker.KeypointDrawType.NOT_DRAW_SINGLE_POINTS);
 
       if (locationMat != null)
       {  //draw a rectangle along the projected model
