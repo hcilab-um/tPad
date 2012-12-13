@@ -2,13 +2,7 @@
 
 #include <iostream>
 
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2\calib3d\calib3d.hpp>
 #include <opencv2/nonfree/nonfree.hpp>
-#include <opencv2/flann/flann.hpp>
-#include <opencv2/legacy/legacy.hpp>
 
 class PaperRegistration
 {	
@@ -17,6 +11,13 @@ public:
 	~PaperRegistration(void);
 
 	void detectLocation(cv::Mat cameraImage);
+	void createIndex(cv::vector<cv::Mat> &dbDescriptors, cv::vector<cv::vector<cv::KeyPoint>> &dbKeyPoints);
+
+	int getPageIdx();
+	std::string getPageName();
+	cv::Size getLocationPx();
+	cv::Size getLocationCm();
+	float getRotationAngle();
 
 private:
 
@@ -28,12 +29,12 @@ private:
 	float RotationAngle; 
 
 	cv::FREAK extractor;
-	cv::flann::Index flannIdx;
+	cv::FlannBasedMatcher matcher;
 	cv::Mat warpMat;
 	
 	cv::Mat imageWarp();
-	cv::Mat computeLocalFeatures(cv::Mat &image, cv::vector<cv::KeyPoint> &pageKeyPoints);
-	void drawMatch();
+	cv::Mat computeLocalFeatures(cv::Mat &image, cv::vector<cv::vector<cv::KeyPoint>> &pageKeyPoints);
+	void drawMatch(cv::Mat *cameraImage, cv::Mat &homography);
 	
 };
 
