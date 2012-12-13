@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -27,6 +28,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public ITPadAppContainer Container { get; set; }
 
     public String DocumentPath { get; set; }
+
+    private 
 
     public ActiveReaderApp(String documentPDF, ITPadAppContainer container = null)
     {
