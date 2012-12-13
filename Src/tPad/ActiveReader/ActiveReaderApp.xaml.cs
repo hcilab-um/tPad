@@ -29,7 +29,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     public String DocumentPath { get; set; }
 
-    private 
+    //private 
 
     public ActiveReaderApp(String documentPDF, ITPadAppContainer container = null)
     {
