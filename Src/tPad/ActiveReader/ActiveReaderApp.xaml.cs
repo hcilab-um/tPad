@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -61,7 +62,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     void Device_RegistrationChanged(object sender, RegistrationEventArgs e)
     {
+      Dispatcher.Invoke(DispatcherPriority.Render,
+        (Action)delegate()
+        {
+          trCanvas.Angle = Device.Location.RotationAngle * -1;
+          trCanvas.CenterX = Device.Location.LocationPx.X + ActualWidth / 2;
+          trCanvas.CenterY = Device.Location.LocationPx.Y + ActualHeight / 2;
 
+          ttCanvas.X = Device.Location.LocationPx.X * -1;
+          ttCanvas.Y = Device.Location.LocationPx.Y * -1;
+        });
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -70,6 +80,5 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
-
   }
 }

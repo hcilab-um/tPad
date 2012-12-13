@@ -52,7 +52,7 @@ namespace UofM.HCI.tPab
       if (IsSimulation)
       {
         // These are the fictitious monitors used in simulation mode
-        cameraMonitor = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 200 };
+        cameraMonitor = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
         flippingMonitor = new SimFlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
         stackingMonitor = new SimStackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
       }
@@ -87,13 +87,13 @@ namespace UofM.HCI.tPab
       ContextServiceContainer.AddContextService(Registration);
     }
 
-    public void CoreStart(ITPadAppContainer cameraSource = null)
+    public void CoreStart(ITPadAppContainer appContainer = null)
     {
-      if(IsSimulation && cameraSource != null)
+      if(IsSimulation && appContainer != null)
       {
         SimCameraMonitor cameraMonitor = (SimCameraMonitor)ContextMonitorContainer.GetContextMonitor(typeof(SimCameraMonitor));
-        cameraMonitor.CameraSource = cameraSource;
-        Registration.Container = cameraSource;
+        cameraMonitor.CameraSource = appContainer;
+        Registration.Container = appContainer;
       }
 
       logger.Info("Starting Up Services and Monitors");
