@@ -39,6 +39,7 @@ namespace UofM.HCI.tPab.Services
         location.LocationPx = Container.Location;
         location.LocationCm = new PointF((float)(Container.Location.X / Container.WidthFactor), (float)(Container.Location.Y / Container.HeightFactor));
         location.Document = ActualDocument;
+        location.PageIndex = Container.ActualPage;
       }
       //----------------------------- MOCK CODE ------------------------------
 
@@ -56,7 +57,10 @@ namespace UofM.HCI.tPab.Services
       ActualDocument = new Document() { DocumentName = documentFolders[0] };
       String[] pages = Directory.GetFiles(documentFolders[0], "*.png");
       Array.Sort<String>(pages);
-      ActualDocument.PageFileNames = pages;
+      ActualDocument.Pages = new Page[pages.Length];
+      for (int index = 0; index < pages.Length; index++)
+        ActualDocument.Pages[index] = new Page() { FileName = pages[index] };
+
     }
 
   }

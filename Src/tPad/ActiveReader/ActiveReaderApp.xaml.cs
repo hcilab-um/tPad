@@ -29,12 +29,22 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     public String DocumentPath { get; set; }
 
-    //private 
+    public double WidthScalingFactor { get; set; }
+    public double HeightScalingFactor { get; set; }
+
+    private int ActualPage { get; set; }
+    private Document ActualDocument { get; set; }
 
     public ActiveReaderApp(String documentPDF, ITPadAppContainer container = null)
     {
       Device = TPadCore.Instance.Device;
       Profile = TPadCore.Instance.Profile;
+
+      WidthScalingFactor = 1;
+      HeightScalingFactor = 1;
+
+      ActualPage = -1;
+      ActualDocument = null;
 
       Container = container;
       DocumentPath = documentPDF;
@@ -46,6 +56,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
       TPadCore.Instance.Device.StackingChanged += new StackingChangedEventHandler(Device_StackingChanged);
       TPadCore.Instance.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
       TPadCore.Instance.Device.RegistrationChanged += new RegistrationChangedEventHandler(Device_RegistrationChanged);
+
+      WidthScalingFactor = ActualWidth / Profile.Resolution.Width;
+      HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
+      OnPropertyChanged("WidthScalingFactor");
+      OnPropertyChanged("HeightScalingFactor");
     }
 
     void Device_StackingChanged(object sender, StackingEventArgs e)
@@ -60,15 +75,22 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     void Device_RegistrationChanged(object sender, RegistrationEventArgs e)
     {
+      if (e.NewLocation.Status != LocationStatus.Located)
+        return;
+
+      //if (ActualDocument == null)
+      //  ActualDocument = e.NewLocation.Document;
+      //if(ActualDocument.DocumentName.CompareTo(e.NewLocation.Document.DocumentName) != 0)
+
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
-          trCanvas.Angle = Device.Location.RotationAngle * -1;
-          trCanvas.CenterX = Device.Location.LocationPx.X + ActualWidth / 2;
-          trCanvas.CenterY = Device.Location.LocationPx.Y + ActualHeight / 2;
+          trCanvas.Angle = e.NewLocation.RotationAngle * -1;
+          trCanvas.CenterX = e.NewLocation.LocationPx.X + ActualWidth / 2;
+          trCanvas.CenterY = e.NewLocation.LocationPx.Y + ActualHeight / 2;
 
-          ttCanvas.X = Device.Location.LocationPx.X * -1;
-          ttCanvas.Y = Device.Location.LocationPx.Y * -1;
+          ttCanvas.X = e.NewLocation.LocationPx.X * -1;
+          ttCanvas.Y = e.NewLocation.LocationPx.Y * -1;
         });
     }
 
@@ -121,6 +143,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Point newPosition = Mouse.GetPosition(gAnchoredLayers);
       newHighlight.X2 = newPosition.X;
       newHighlight.Y2 = newPosition.Y;
+    }
+
+    private void gFixedLayers_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+
     }
   }
 }

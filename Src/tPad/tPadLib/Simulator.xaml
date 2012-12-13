@@ -35,7 +35,8 @@
             <RotateTransform x:Name="tRotate" Angle="{Binding ElementName=wSimulator, Path=RotationAngle}" 
                            CenterX="{Binding ElementName=gTPadApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
                            CenterY="{Binding ElementName=gTPadApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
-            <TranslateTransform x:Name="tAlign" X="100"/>
+            <!-- This transformation aligns the initial position of the tPad to the document below it -->
+            <TranslateTransform x:Name="tAlign" X="0"/>
           </TransformGroup>
         </Grid.RenderTransform>
       </Grid>

@@ -22,7 +22,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       String[] pagesFolder = new String[1] { "Document/" };
       TPadProfile profile = new TPadProfile()
       {
-        Resolution = new Size(800, 480),
+        Resolution = new Size(480, 800),
         ScreenSize = new Size(8.6, 15.4),
         DeviceSize = new Size(12.6, 18.7),
         DocumentSize = new Size(21, 29.7)

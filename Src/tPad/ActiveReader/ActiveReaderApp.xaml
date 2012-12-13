@@ -15,17 +15,49 @@
 
   <Grid x:Name="gOuterWrapper">
     <Grid.Width>
-      <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}" FallbackValue="500">
+      <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
         <Binding ElementName="arApp" Path="Profile.DocumentSize.Width"/>
         <Binding ElementName="arApp" Path="Container.WidthFactor"/>
       </MultiBinding>
     </Grid.Width>
     <Grid.Height>
-      <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}" FallbackValue="600">
+      <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
         <Binding ElementName="arApp" Path="Profile.DocumentSize.Height"/>
         <Binding ElementName="arApp" Path="Container.HeightFactor"/>
       </MultiBinding>
     </Grid.Height>
+
+    <!--<Grid x:Name="gFixedLayers" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left"
+          Width="{Binding ElementName=arApp, Path=Profile.Resolution.Width}"
+          Height="{Binding ElementName=arApp, Path=Profile.Resolution.Height}" MouseDown="gFixedLayers_MouseDown">
+      <Grid.RenderTransform>
+        <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
+                        ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
+      </Grid.RenderTransform>
+      <Rectangle Width="48" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Fill="Blue"/>
+    </Grid>-->
+
+    <!--<Grid x:Name="gFixedLayers" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Width="480" Height="800">
+      <Grid.RenderTransform>
+        <ScaleTransform ScaleX="0.3994" ScaleY="0.4290"/>
+      </Grid.RenderTransform>
+      <Rectangle Width="48" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Fill="Blue"/>
+    </Grid>-->
+
+    <!--<Grid x:Name="gFixedLayers" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Width="480" Height="800">
+      <Grid.RenderTransform>
+        <TransformGroup>
+          <TranslateTransform X="0" />
+          <ScaleTransform ScaleX="0.3994"/>
+        </TransformGroup>
+      </Grid.RenderTransform>
+      <Rectangle Width="48" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Fill="Blue"/>
+    </Grid>-->
+
+    <!--<Grid x:Name="gFixedLayersTest" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Width="190" Height="340"
+           MouseDown="gFixedLayers_MouseDown">
+      <Rectangle Width="19" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Fill="Blue"/>
+    </Grid>-->
 
     <Grid x:Name="gAnchoredLayers" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 

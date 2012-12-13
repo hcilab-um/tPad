@@ -13,6 +13,7 @@ namespace UofM.HCI.tPab
     float HeightFactor { get; }
     float RotationAngle { get; }
     Point Location { get; }
+    int ActualPage { get; set; }
   }
 
 }

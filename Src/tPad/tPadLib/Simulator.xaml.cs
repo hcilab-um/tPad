@@ -49,9 +49,9 @@ namespace UofM.HCI.tPab
     {
       get
       {
-        if (ActualDocument == null || ActualDocument.PageFileNames == null)
+        if (ActualDocument == null || ActualDocument.Pages == null)
           return 0;
-        return ActualDocument.PageFileNames.Length;
+        return ActualDocument.Pages.Length;
       }
     }
 
@@ -100,8 +100,8 @@ namespace UofM.HCI.tPab
     public Simulator(Application launcher)
     {
       Document document = TPadCore.Instance.Registration.ActualDocument;
-      if (!File.Exists(document.PageFileNames[0]))
-        throw new ArgumentException(String.Format("Document \"{1}\" not found!", document.PageFileNames[0]));
+      if (!File.Exists(document.Pages[0].FileName))
+        throw new ArgumentException(String.Format("Document \"{1}\" not found!", document.Pages[0].FileName));
 
       InitializeComponent();
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
