@@ -12,10 +12,10 @@ namespace UofM.HCI.tPab.Converters
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if (values == null || values.Length != 2 || values[0] == DependencyProperty.UnsetValue || values[1] == DependencyProperty.UnsetValue)
-        return 0;
+        return (double)0;
 
-      var documentSizeCms = (double)values[0];
-      var factorPixels = (double)values[1];
+      var documentSizeCms = Double.Parse(values[0].ToString());
+      var factorPixels = Double.Parse(values[1].ToString());
       return documentSizeCms * factorPixels;
     }
 

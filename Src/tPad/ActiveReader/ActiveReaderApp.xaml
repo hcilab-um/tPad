@@ -6,7 +6,7 @@
              xmlns:src="clr-namespace:UofM.HCI.tPab;assembly=tPadLib"
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters;assembly=tPadLib"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded">
-  
+
   <UserControl.Resources>
     <convertersLib:LayerScalingConverter x:Key="cLayerScaling" />
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />
@@ -27,55 +27,47 @@
       </MultiBinding>
     </Grid.Height>
 
-    <Grid x:Name="gCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Red" Opacity="0.8">
-      <Grid.RowDefinitions>
-        <RowDefinition />
-        <RowDefinition />
-        <RowDefinition />
-        <RowDefinition />
-      </Grid.RowDefinitions>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition />
-        <ColumnDefinition />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
+    <Grid x:Name="gAnchoredLayers" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+      <Grid x:Name="gColoredSquares" Visibility="Hidden">
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Rectangle Grid.Row="0" Grid.Column="0" Fill="PaleGreen"/>
+        <Rectangle Grid.Row="0" Grid.Column="1" Fill="AntiqueWhite"/>
+        <Rectangle Grid.Row="0" Grid.Column="2" Fill="Aqua"/>
+        <Rectangle Grid.Row="0" Grid.Column="3" Fill="Aquamarine"/>
+        <Rectangle Grid.Row="1" Grid.Column="0" Fill="Purple"/>
+        <Rectangle Grid.Row="1" Grid.Column="1" Fill="Beige"/>
+        <Rectangle Grid.Row="1" Grid.Column="2" Fill="Bisque"/>
+        <Rectangle Grid.Row="1" Grid.Column="3" Fill="Black"/>
+        <Rectangle Grid.Row="2" Grid.Column="0" Fill="BlanchedAlmond"/>
+        <Rectangle Grid.Row="2" Grid.Column="1" Fill="Blue"/>
+        <Rectangle Grid.Row="2" Grid.Column="2" Fill="BlueViolet"/>
+        <Rectangle Grid.Row="2" Grid.Column="3" Fill="Brown"/>
+        <Rectangle Grid.Row="3" Grid.Column="0" Fill="BurlyWood"/>
+        <Rectangle Grid.Row="3" Grid.Column="1" Fill="CadetBlue"/>
+        <Rectangle Grid.Row="3" Grid.Column="2" Fill="Chartreuse"/>
+        <Rectangle Grid.Row="3" Grid.Column="3" Fill="Chocolate"/>
+      </Grid>
+
+      <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Rectangle Fill="White" Opacity="0.1" Canvas.Left="0" Canvas.Top="0" 
+                   Width="{Binding ElementName=cHighlights, Path=ActualWidth}" Height="{Binding ElementName=cHighlights, Path=ActualHeight}"
+                   MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
+      </Canvas>
       
-      <Rectangle Grid.Row="0" Grid.Column="0" Fill="PaleGreen"/>
-      <Rectangle Grid.Row="0" Grid.Column="1" Fill="AntiqueWhite"/>
-      <Rectangle Grid.Row="0" Grid.Column="2" Fill="Aqua"/>
-      <Rectangle Grid.Row="0" Grid.Column="3" Fill="Aquamarine"/>
-      <Rectangle Grid.Row="1" Grid.Column="0" Fill="Purple"/>
-      <Rectangle Grid.Row="1" Grid.Column="1" Fill="Beige"/>
-      <Rectangle Grid.Row="1" Grid.Column="2" Fill="Bisque"/>
-      <Rectangle Grid.Row="1" Grid.Column="3" Fill="Black"/>
-      <Rectangle Grid.Row="2" Grid.Column="0" Fill="BlanchedAlmond"/>
-      <Rectangle Grid.Row="2" Grid.Column="1" Fill="Blue"/>
-      <Rectangle Grid.Row="2" Grid.Column="2" Fill="BlueViolet"/>
-      <Rectangle Grid.Row="2" Grid.Column="3" Fill="Brown"/>
-      <Rectangle Grid.Row="3" Grid.Column="0" Fill="BurlyWood"/>
-      <Rectangle Grid.Row="3" Grid.Column="1" Fill="CadetBlue"/>
-      <Rectangle Grid.Row="3" Grid.Column="2" Fill="Chartreuse"/>
-      <Rectangle Grid.Row="3" Grid.Column="3" Fill="Chocolate"/>
       <Grid.RenderTransform>
         <TransformGroup>
-          <!--<RotateTransform  Angle="{Binding ElementName=arApp, Path=Device.Location.RotationAngle, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}">
-            <RotateTransform.CenterX>
-              <MultiBinding Converter="{StaticResource ResourceKey=cLayerRotationCenter}" ConverterParameter="CenterX">
-                <Binding ElementName="arApp" Path="Device.Location.LocationPx.X"/>
-                <Binding ElementName="arApp" Path="ActualWidth" Converter="{StaticResource ResourceKey=cMultiplier}" ConverterParameter="0.5"/>
-              </MultiBinding>
-            </RotateTransform.CenterX>
-            <RotateTransform.CenterY>
-              <MultiBinding Converter="{StaticResource ResourceKey=cLayerRotationCenter}" ConverterParameter="CenterY">
-                <Binding ElementName="arApp" Path="Device.Location.LocationPx.Y"/>
-                <Binding ElementName="arApp" Path="ActualHeight" Converter="{StaticResource ResourceKey=cMultiplier}" ConverterParameter="0.5"/>
-              </MultiBinding>
-            </RotateTransform.CenterY>
-          </RotateTransform>
-          <TranslateTransform X="{Binding ElementName=arApp, Path=Device.Location.LocationPx.X, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}" 
-                              Y="{Binding ElementName=arApp, Path=Device.Location.LocationPx.Y, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=-1, FallbackValue=0}"/>-->
-
           <RotateTransform x:Name="trCanvas" />
           <TranslateTransform x:Name="ttCanvas" />
         </TransformGroup>

@@ -38,6 +38,7 @@ namespace UofM.HCI.tPab.Services
         location.RotationAngle = Container.RotationAngle;
         location.LocationPx = Container.Location;
         location.LocationCm = new PointF((float)(Container.Location.X / Container.WidthFactor), (float)(Container.Location.Y / Container.HeightFactor));
+        location.Document = ActualDocument;
       }
       //----------------------------- MOCK CODE ------------------------------
 
@@ -58,12 +59,6 @@ namespace UofM.HCI.tPab.Services
       ActualDocument.PageFileNames = pages;
     }
 
-  }
-
-  public class Document
-  {
-    public String DocumentName { get; set; }
-    public String[] PageFileNames { get; set; }
   }
 
 }

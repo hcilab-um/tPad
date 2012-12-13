@@ -257,6 +257,12 @@ namespace UofM.HCI.tPab
 
       if (TPadAppBounds == Rect.Empty)
         TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp);
+      if (TPadAppBounds.Size.Width == 0 || TPadAppBounds.Size.Height == 0)
+      {
+        TPadAppBounds = Rect.Empty;
+        return null;
+      }
+
       Rect ttPadBounds = TPadApp.TransformToAncestor(this).TransformBounds(TPadAppBounds);
 
       System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds.Width, ttPadBounds.Height);
@@ -267,7 +273,6 @@ namespace UofM.HCI.tPab
       }
       catch (Exception ex)
       { }
-
       return result;
     }
 

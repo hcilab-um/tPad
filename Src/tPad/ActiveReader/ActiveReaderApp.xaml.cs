@@ -30,6 +30,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     public ActiveReaderApp(String documentPDF, ITPadAppContainer container = null)
     {
+      Device = TPadCore.Instance.Device;
+      Profile = TPadCore.Instance.Profile;
+
       Container = container;
       DocumentPath = documentPDF;
       InitializeComponent();
@@ -40,14 +43,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       TPadCore.Instance.Device.StackingChanged += new StackingChangedEventHandler(Device_StackingChanged);
       TPadCore.Instance.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
       TPadCore.Instance.Device.RegistrationChanged += new RegistrationChangedEventHandler(Device_RegistrationChanged);
-
-      Device = TPadCore.Instance.Device;
-      OnPropertyChanged("Device");
-
-      Profile = TPadCore.Instance.Profile;
-      OnPropertyChanged("Profile");
-
-      //wfhAcrobatReader.Child = new AcrobatReaderControl(DocumentPath);
     }
 
     void Device_StackingChanged(object sender, StackingEventArgs e)
@@ -79,6 +74,50 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
+    }
+
+    private bool isHighlighting = false;
+    private Point lastPosition;
+    private Line newHighlight;
+    private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
+      {
+        isHighlighting = true;
+        lastPosition = Mouse.GetPosition(gAnchoredLayers);
+
+        newHighlight = new Line() { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 10 };
+        newHighlight.MouseMove += cHighlights_MouseMove;
+        newHighlight.MouseUp += cHighlights_MouseUp;
+        newHighlight.X1 = lastPosition.X;
+        newHighlight.Y1 = lastPosition.Y;
+        newHighlight.X2 = lastPosition.X;
+        newHighlight.Y2 = lastPosition.Y;
+        cHighlights.Children.Add(newHighlight);
+      }
+    }
+
+    private void cHighlights_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+      if (!isHighlighting)
+        return;
+
+      Point newPosition = Mouse.GetPosition(gAnchoredLayers);
+      newHighlight.X2 = newPosition.X;
+      newHighlight.Y2 = newPosition.Y;
+      newHighlight.MouseMove -= cHighlights_MouseMove;
+      newHighlight.MouseUp -= cHighlights_MouseUp;
+      isHighlighting = false;
+    }
+
+    private void cHighlights_MouseMove(object sender, MouseEventArgs e)
+    {
+      if (!isHighlighting)
+        return;
+
+      Point newPosition = Mouse.GetPosition(gAnchoredLayers);
+      newHighlight.X2 = newPosition.X;
+      newHighlight.Y2 = newPosition.Y;
     }
   }
 }
