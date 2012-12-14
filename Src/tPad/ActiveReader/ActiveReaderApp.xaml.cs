@@ -112,6 +112,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
 
         newHighlight = new Line() { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 10 };
+        newHighlight.MouseDown += cHighlights_MouseDown;
         newHighlight.MouseMove += cHighlights_MouseMove;
         newHighlight.MouseUp += cHighlights_MouseUp;
         newHighlight.X1 = lastPosition.X;
@@ -130,8 +131,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Point newPosition = Mouse.GetPosition(gAnchoredLayers);
       newHighlight.X2 = newPosition.X;
       newHighlight.Y2 = newPosition.Y;
-      newHighlight.MouseMove -= cHighlights_MouseMove;
-      newHighlight.MouseUp -= cHighlights_MouseUp;
       isHighlighting = false;
     }
 
@@ -147,7 +146,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void gFixedLayers_MouseDown(object sender, MouseButtonEventArgs e)
     {
+      lastPosition = Mouse.GetPosition(sender as Grid);
+      Console.WriteLine(lastPosition);
+    }
 
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+      MessageBox.Show("Hello World!");
     }
   }
 }

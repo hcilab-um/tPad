@@ -13,6 +13,7 @@
     <convertersLib:LayerRotationCenterConverter x:Key="cLayerRotationCenter" />
   </UserControl.Resources>
 
+  <!-- This is the outer wrapper which makes the paintable area of the application to be as big as the ducoment page -->
   <Grid x:Name="gOuterWrapper">
     <Grid.Width>
       <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
@@ -27,83 +28,44 @@
       </MultiBinding>
     </Grid.Height>
 
-    <!--<Grid x:Name="gFixedLayers" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left"
-          Width="{Binding ElementName=arApp, Path=Profile.Resolution.Width}"
-          Height="{Binding ElementName=arApp, Path=Profile.Resolution.Height}" MouseDown="gFixedLayers_MouseDown">
-      <Grid.RenderTransform>
-        <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
-                        ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
-      </Grid.RenderTransform>
-      <Rectangle Width="48" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Fill="Blue"/>
-    </Grid>-->
-
-    <!--<Grid x:Name="gFixedLayers" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Width="480" Height="800">
-      <Grid.RenderTransform>
-        <ScaleTransform ScaleX="0.3994" ScaleY="0.4290"/>
-      </Grid.RenderTransform>
-      <Rectangle Width="48" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Fill="Blue"/>
-    </Grid>-->
-
-    <!--<Grid x:Name="gFixedLayers" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Width="480" Height="800">
-      <Grid.RenderTransform>
-        <TransformGroup>
-          <TranslateTransform X="0" />
-          <ScaleTransform ScaleX="0.3994"/>
-        </TransformGroup>
-      </Grid.RenderTransform>
-      <Rectangle Width="48" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Fill="Blue"/>
-    </Grid>-->
-
-    <!--<Grid x:Name="gFixedLayersTest" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Left" Width="190" Height="340"
-           MouseDown="gFixedLayers_MouseDown">
-      <Rectangle Width="19" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Fill="Blue"/>
-    </Grid>-->
-
+    <!-- This is the grid containing all the layers that are anchored to the page -->
+    <!-- The transformation below are manipulated from the code behind. It could also be made through binding bu the response time is slower. -->
     <Grid x:Name="gAnchoredLayers" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-      <Grid x:Name="gColoredSquares" Visibility="Hidden">
-        <Grid.RowDefinitions>
-          <RowDefinition />
-          <RowDefinition />
-          <RowDefinition />
-          <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition />
-          <ColumnDefinition />
-          <ColumnDefinition />
-          <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Rectangle Grid.Row="0" Grid.Column="0" Fill="PaleGreen"/>
-        <Rectangle Grid.Row="0" Grid.Column="1" Fill="AntiqueWhite"/>
-        <Rectangle Grid.Row="0" Grid.Column="2" Fill="Aqua"/>
-        <Rectangle Grid.Row="0" Grid.Column="3" Fill="Aquamarine"/>
-        <Rectangle Grid.Row="1" Grid.Column="0" Fill="Purple"/>
-        <Rectangle Grid.Row="1" Grid.Column="1" Fill="Beige"/>
-        <Rectangle Grid.Row="1" Grid.Column="2" Fill="Bisque"/>
-        <Rectangle Grid.Row="1" Grid.Column="3" Fill="Black"/>
-        <Rectangle Grid.Row="2" Grid.Column="0" Fill="BlanchedAlmond"/>
-        <Rectangle Grid.Row="2" Grid.Column="1" Fill="Blue"/>
-        <Rectangle Grid.Row="2" Grid.Column="2" Fill="BlueViolet"/>
-        <Rectangle Grid.Row="2" Grid.Column="3" Fill="Brown"/>
-        <Rectangle Grid.Row="3" Grid.Column="0" Fill="BurlyWood"/>
-        <Rectangle Grid.Row="3" Grid.Column="1" Fill="CadetBlue"/>
-        <Rectangle Grid.Row="3" Grid.Column="2" Fill="Chartreuse"/>
-        <Rectangle Grid.Row="3" Grid.Column="3" Fill="Chocolate"/>
-      </Grid>
-
-      <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Rectangle Fill="White" Opacity="0.1" Canvas.Left="0" Canvas.Top="0" 
-                   Width="{Binding ElementName=cHighlights, Path=ActualWidth}" Height="{Binding ElementName=cHighlights, Path=ActualHeight}"
-                   MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
-      </Canvas>
-      
       <Grid.RenderTransform>
         <TransformGroup>
           <RotateTransform x:Name="trCanvas" />
           <TranslateTransform x:Name="ttCanvas" />
         </TransformGroup>
       </Grid.RenderTransform>
+      
+      <!-- The first layer is for the highlights -->
+      <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Rectangle Fill="White" Opacity="0.1" Canvas.Left="0" Canvas.Top="0" 
+                   Width="{Binding ElementName=cHighlights, Path=ActualWidth}" Height="{Binding ElementName=cHighlights, Path=ActualHeight}"
+                   MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
+      </Canvas>
     </Grid>
+
+    <!-- This is the grid containing all the layers that are anchored to the device - This content remains static as you move the device -->
+    <Canvas x:Name="gFixedLayers" VerticalAlignment="Top" HorizontalAlignment="Left"
+          Width="{Binding ElementName=arApp, Path=Profile.Resolution.Width}" 
+          Height="{Binding ElementName=arApp, Path=Profile.Resolution.Height}" MouseDown="gFixedLayers_MouseDown">
+      <Canvas.RenderTransform>
+        <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
+                        ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
+      </Canvas.RenderTransform>
+
+      <Grid Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}" Canvas.Top="0" Canvas.Left="0">
+        <Button VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Click">Hello World</Button>
+      </Grid>
+
+      <Rectangle Width="48" Height="80" Canvas.Left="0" Canvas.Top="0" Fill="Blue"/>
+      <Rectangle Width="48" Height="80" Canvas.Left="0" Canvas.Bottom="0" Fill="Blue"/>
+      <Rectangle Width="48" Height="80" Canvas.Right="0" Canvas.Top="0" Fill="Blue"/>
+      <Rectangle Width="48" Height="80" Canvas.Right="0" Canvas.Bottom="0" Fill="Blue"/>
+    </Canvas>
+
   </Grid>
+
 </UserControl>
