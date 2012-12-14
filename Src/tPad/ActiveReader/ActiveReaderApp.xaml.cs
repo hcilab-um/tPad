@@ -76,11 +76,57 @@ namespace UofM.HCI.tPab.App.ActiveReader
     void Device_RegistrationChanged(object sender, RegistrationEventArgs e)
     {
       if (e.NewLocation.Status != LocationStatus.Located)
+      {
+        if (ActualDocument != null)
+        {
+          //Saves current layers to disk
+        }
         return;
+      }
 
-      //if (ActualDocument == null)
-      //  ActualDocument = e.NewLocation.Document;
-      //if(ActualDocument.DocumentName.CompareTo(e.NewLocation.Document.DocumentName) != 0)
+      if (ActualDocument == null)
+      {
+        //First time it comes to this document and first document
+        if (e.NewLocation.Document != null)
+        {
+          //1- Loads the layers should they exist in disk
+          ActualDocument = e.NewLocation.Document;
+          LoadLayersFromDisk(ActualDocument);
+
+          //2- Load layers for current page
+          ActualPage = e.NewLocation.PageIndex;
+          LoadLayersToPage(ActualDocument, ActualPage);
+        }
+        else
+          throw new Exception("Document cannot be null");
+      }
+      else
+      {
+        //Change of document
+        if (ActualDocument != e.NewLocation.Document)
+        {
+          //1- Saves current layers to disk
+          SaveLayersToDisk(ActualDocument);
+
+          //2- Loads the layers should they exist in disk
+          ActualDocument = e.NewLocation.Document;
+          LoadLayersFromDisk(ActualDocument);
+
+          //3- Load layers for current page
+          ActualPage = e.NewLocation.PageIndex;
+          LoadLayersToPage(ActualDocument, ActualPage);
+        }
+        // Change of page
+        else if (ActualPage != e.NewLocation.PageIndex)
+        {
+          //1- Saves current layers to disk
+          SaveLayersToDisk(ActualDocument);
+
+          //2- Load layers for current page
+          ActualPage = e.NewLocation.PageIndex;
+          LoadLayersToPage(ActualDocument, ActualPage);
+        }
+      }
 
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
@@ -91,6 +137,38 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
           ttCanvas.X = e.NewLocation.LocationPx.X * -1;
           ttCanvas.Y = e.NewLocation.LocationPx.Y * -1;
+        });
+    }
+
+    private void SaveLayersToDisk(Document ActualDocument)
+    {
+      Console.WriteLine("throw new NotImplementedException(SaveLayersToDisk);");
+    }
+
+    private void LoadLayersFromDisk(Document ActualDocument)
+    {
+      Console.WriteLine("throw new NotImplementedException(LoadLayersFromDisk);");
+    }
+
+    private void LoadLayersToPage(Document document, int pageIndex)
+    {
+      Dispatcher.Invoke(DispatcherPriority.Render,
+        (Action)delegate()
+        {
+          //Unloads existing highlights
+          var highlights = cHighlights.Children.OfType<Line>().ToList();
+          foreach (Line highlight in highlights)
+            cHighlights.Children.Remove(highlight);
+
+          //Loads other highlights for this page
+          foreach (UIElement element in document.Pages[pageIndex].Highlights)
+          {
+            Line highlight = (Line)element;
+            highlight.MouseDown += cHighlights_MouseDown;
+            highlight.MouseMove += cHighlights_MouseMove;
+            highlight.MouseUp += cHighlights_MouseUp;
+            cHighlights.Children.Add(highlight);
+          }
         });
     }
 
@@ -120,6 +198,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         newHighlight.X2 = lastPosition.X;
         newHighlight.Y2 = lastPosition.Y;
         cHighlights.Children.Add(newHighlight);
+        ActualDocument.Pages[ActualPage].Highlights.Add(newHighlight);
       }
     }
 

@@ -17,5 +17,12 @@ namespace UofM.HCI.tPab
   {
     public String FileName { get; set; }
     public Collection<Shape> Highlights { get; set; }
+
+    public Page(String fileName = null)
+    {
+      FileName = fileName;
+      Highlights = new Collection<Shape>();
+    }
+
   }
 }

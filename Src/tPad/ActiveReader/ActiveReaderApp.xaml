@@ -37,9 +37,13 @@
           <TranslateTransform x:Name="ttCanvas" />
         </TransformGroup>
       </Grid.RenderTransform>
-      
+
+      <!-- Here go all the other layers for content that's anchored to the document -->
+
       <!-- The first layer is for the highlights -->
       <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <!-- This rectange covering the whole area and almost transparent is necessary to detect the mouse events -->
+        <!-- We cannot have the cHighlights canvas handle this events because it would need to opacity to be that low and then the highlight themselves would be almost transparent too -->
         <Rectangle Fill="White" Opacity="0.1" Canvas.Left="0" Canvas.Top="0" 
                    Width="{Binding ElementName=cHighlights, Path=ActualWidth}" Height="{Binding ElementName=cHighlights, Path=ActualHeight}"
                    MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
@@ -55,15 +59,19 @@
                         ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
       </Canvas.RenderTransform>
 
-      <Grid Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
-            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}" Canvas.Top="0" Canvas.Left="0">
-        <Button VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Click">Hello World</Button>
+      <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->
+
+      <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0" 
+            Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
+        <Button VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,25,0,0" Click="Button_Click">Hello World</Button>
       </Grid>
 
-      <Rectangle Width="48" Height="80" Canvas.Left="0" Canvas.Top="0" Fill="Blue"/>
-      <Rectangle Width="48" Height="80" Canvas.Left="0" Canvas.Bottom="0" Fill="Blue"/>
-      <Rectangle Width="48" Height="80" Canvas.Right="0" Canvas.Top="0" Fill="Blue"/>
-      <Rectangle Width="48" Height="80" Canvas.Right="0" Canvas.Bottom="0" Fill="Blue"/>
+      <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0" 
+            Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" FontWeight="Bold">Reading Helper</Label>
+      </Grid>
     </Canvas>
 
   </Grid>
