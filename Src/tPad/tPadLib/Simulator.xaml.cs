@@ -264,8 +264,7 @@ namespace UofM.HCI.tPab
       }
 
       Rect ttPadBounds = TPadApp.TransformToAncestor(this).TransformBounds(TPadAppBounds);
-
-      System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds.Width, ttPadBounds.Height);
+      System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds);
       MemoryStream result = new MemoryStream();
       try
       {

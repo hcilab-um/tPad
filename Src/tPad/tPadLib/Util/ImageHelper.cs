@@ -91,13 +91,13 @@ namespace UofM.HCI.tPab.Util
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <returns></returns>
-    public static Bitmap ScreenCapture(double x, double y, double width, double height)
+    public static Bitmap ScreenCapture(double x, double y, Rect bounds)
     {
       int ix, iy, iw, ih;
       ix = Convert.ToInt32(x);
       iy = Convert.ToInt32(y);
-      iw = Convert.ToInt32(width);
-      ih = Convert.ToInt32(height);
+      iw = Convert.ToInt32(bounds.Width);
+      ih = Convert.ToInt32(bounds.Height);
       Bitmap image = new Bitmap(iw, ih, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
       Graphics g = Graphics.FromImage(image);
       g.CopyFromScreen(ix, iy, 0, 0, new System.Drawing.Size(iw, ih), CopyPixelOperation.SourceCopy);

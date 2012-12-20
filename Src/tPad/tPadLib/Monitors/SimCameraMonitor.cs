@@ -28,8 +28,8 @@ namespace UofM.HCI.tPab.Monitors
       Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as Simulator).TPadAppBounds);
       NotifyContextServices(this, new CAF.ContextAdapter.NotifyContextMonitorListenersEventArgs(typeof(Bitmap), rotatedView));
 
-      //using (FileStream storage = CreateFileStream(angle))
-      //  rotatedView.Save(storage, System.Drawing.Imaging.ImageFormat.Png);
+      using (FileStream storage = CreateFileStream(angle))
+        rotatedView.Save(storage, System.Drawing.Imaging.ImageFormat.Png);
     }
 
     private FileStream CreateFileStream(float angle)
