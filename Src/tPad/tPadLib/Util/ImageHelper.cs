@@ -107,8 +107,13 @@ namespace UofM.HCI.tPab.Util
 
     public static Bitmap RotateImageByAngle(System.Drawing.Image oldBitmap, float angle, Rect bounds)
     {
+      if (angle == 0)
+        return oldBitmap as Bitmap;
+
       var newBitmap = new Bitmap((int)bounds.Width, (int)bounds.Height);
       var graphics = Graphics.FromImage(newBitmap);
+      graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+      graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
       graphics.TranslateTransform((float)bounds.Width / 2, (float)bounds.Height / 2);
       graphics.RotateTransform(angle);
       graphics.TranslateTransform(-(float)bounds.Width / 2, -(float)bounds.Height / 2);

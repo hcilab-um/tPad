@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:tpad="clr-namespace:UofM.HCI.tPab"
         xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters"
-        Title="tPad Simulator Window" Height="700" Width="1366" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen"
+        Title="tPad Simulator Window" WindowState="Maximized" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen"
         MouseMove="rFrame_MouseMove" MouseUp="rFrame_MouseUp" Loaded="wSimulator_Loaded">
 
   <Window.Resources>
@@ -28,7 +28,11 @@
 
       <!-- This is the place holder for the TPadApp -->
       <Grid x:Name="gTPadApp" VerticalAlignment="Top" HorizontalAlignment="Left">
-        <Rectangle x:Name="rFrame" RadiusX="10" RadiusY="10" Fill="Transparent" Stroke="Black" StrokeThickness="45" MouseDown="rFrame_MouseDown"/>
+        <Rectangle x:Name="rFrameLeft" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+        <Rectangle x:Name="rFrameTop" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+        <Rectangle x:Name="rFrameRight" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+        <Rectangle x:Name="rFrameBottom" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+        
         <Image x:Name="iCameraIcon" Source="camera.png" VerticalAlignment="Top" HorizontalAlignment="Center" Width="30" Margin="0,10,0,0"/>
         <Grid.RenderTransform>
           <TransformGroup>

@@ -14,6 +14,7 @@ using System.IO;
 using System.ComponentModel;
 using UofM.HCI.tPab.Util;
 using UofM.HCI.tPab.Services;
+using System.Drawing.Imaging;
 
 namespace UofM.HCI.tPab
 {
@@ -31,8 +32,8 @@ namespace UofM.HCI.tPab
     public Rect TPadAppBounds { get; set; }
     private Size BorderDiff { get; set; }
 
-    private Document actualDocument = null;
-    public Document ActualDocument
+    private TPadDocument actualDocument = null;
+    public TPadDocument ActualDocument
     {
       get { return actualDocument; }
       set
@@ -87,7 +88,7 @@ namespace UofM.HCI.tPab
       }
     }
 
-    public System.Drawing.Point Location 
+    public System.Drawing.Point Location
     {
       get { return location; }
       set
@@ -99,7 +100,7 @@ namespace UofM.HCI.tPab
 
     public Simulator(Application launcher)
     {
-      Document document = TPadCore.Instance.Registration.ActualDocument;
+      TPadDocument document = TPadCore.Instance.Registration.ActualDocument;
       if (!File.Exists(document.Pages[0].FileName))
         throw new ArgumentException(String.Format("Document \"{1}\" not found!", document.Pages[0].FileName));
 
@@ -157,6 +158,11 @@ namespace UofM.HCI.tPab
       //Adjusts the screen size to the device size
       TPadApp.Width = WidthFactor * TPadCore.Instance.Profile.ScreenSize.Width;
       TPadApp.Height = HeightFactor * TPadCore.Instance.Profile.ScreenSize.Height;
+      //Adjusts the borders 
+      rFrameLeft.Width = (gTPadApp.Width - TPadApp.Width) / 2;
+      rFrameTop.Height = (gTPadApp.Height - TPadApp.Height) / 2;
+      rFrameRight.Width = (gTPadApp.Width - TPadApp.Width) / 2;
+      rFrameBottom.Height = (gTPadApp.Height - TPadApp.Height) / 2;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -250,10 +256,21 @@ namespace UofM.HCI.tPab
       if (!IsActive)
         return null;
 
-      int bordersize = (int)(RestoreBounds.Width - gTop.ActualWidth) / 2;
-      int bordertop = (int)(RestoreBounds.Height - gTop.ActualHeight - bordersize);
-      int zeroX = (int)(Left + bordersize);
-      int zeroY = (int)(Top + bordertop);
+      int bordersize, bordertop, zeroX, zeroY;
+      if (WindowState != System.Windows.WindowState.Maximized)
+      {
+        bordersize = (int)(ActualWidth - gTop.ActualWidth) / 2;
+        bordertop = (int)(ActualHeight - gTop.ActualHeight - bordersize);
+        zeroX = (int)(Left + bordersize);
+        zeroY = (int)(Top + bordertop);
+      }
+      else
+      {
+        bordersize = (int)(ActualWidth - gTop.ActualWidth) / 2;
+        bordertop = (int)(ActualHeight - gTop.ActualHeight - bordersize);
+        zeroX = 0;
+        zeroY = (int)(Top + bordertop);
+      }
 
       if (TPadAppBounds == Rect.Empty)
         TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp);
@@ -268,7 +285,11 @@ namespace UofM.HCI.tPab
       MemoryStream result = new MemoryStream();
       try
       {
-        capture.Save(result, System.Drawing.Imaging.ImageFormat.Png);
+        //ImageCodecInfo pngEncoder = GetEncoder(ImageFormat.Png);
+        //System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+        //EncoderParameters myEncoderParameters = new EncoderParameters(1);
+        //myEncoderParameters.Param[0] = new EncoderParameter(myEncoder, 100L);
+        capture.Save(result, ImageFormat.Bmp);
       }
       catch (Exception ex)
       { }
@@ -290,6 +311,17 @@ namespace UofM.HCI.tPab
       else
         ActualPage = ActualPage - 1;
       OnPropertyChanged("ActualPage");
+    }
+
+    private ImageCodecInfo GetEncoder(ImageFormat format)
+    {
+      ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+      foreach (ImageCodecInfo codec in codecs)
+      {
+        if (codec.FormatID == format.Guid)
+          return codec;
+      }
+      return null;
     }
 
   }

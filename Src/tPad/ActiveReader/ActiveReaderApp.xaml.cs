@@ -14,6 +14,9 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
+using TallComponents.PDF;
+using System.IO;
+using TallComponents.PDF.TextExtraction;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -33,7 +36,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public double HeightScalingFactor { get; set; }
 
     private int ActualPage { get; set; }
-    private Document ActualDocument { get; set; }
+    private TPadDocument ActualDocument { get; set; }
+    private Document PdfDocument { get; set; }
 
     public ActiveReaderApp(String documentPDF, ITPadAppContainer container = null)
     {
@@ -48,6 +52,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       Container = container;
       DocumentPath = documentPDF;
+
+      //Opens and closes the PDF just to make sure it does exist and loads
+      using (FileStream fileIn = new FileStream(DocumentPath, FileMode.Open, FileAccess.Read))
+        PdfDocument = new Document(fileIn);
+
       InitializeComponent();
     }
 
@@ -56,7 +65,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
       TPadCore.Instance.Device.StackingChanged += new StackingChangedEventHandler(Device_StackingChanged);
       TPadCore.Instance.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
       TPadCore.Instance.Device.RegistrationChanged += new RegistrationChangedEventHandler(Device_RegistrationChanged);
+    }
 
+    private void arApp_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
       WidthScalingFactor = ActualWidth / Profile.Resolution.Width;
       HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
       OnPropertyChanged("WidthScalingFactor");
@@ -140,17 +152,17 @@ namespace UofM.HCI.tPab.App.ActiveReader
         });
     }
 
-    private void SaveLayersToDisk(Document ActualDocument)
+    private void SaveLayersToDisk(TPadDocument ActualDocument)
     {
       Console.WriteLine("throw new NotImplementedException(SaveLayersToDisk);");
     }
 
-    private void LoadLayersFromDisk(Document ActualDocument)
+    private void LoadLayersFromDisk(TPadDocument ActualDocument)
     {
       Console.WriteLine("throw new NotImplementedException(LoadLayersFromDisk);");
     }
 
-    private void LoadLayersToPage(Document document, int pageIndex)
+    private void LoadLayersToPage(TPadDocument document, int pageIndex)
     {
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
@@ -198,7 +210,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
         newHighlight.X2 = lastPosition.X;
         newHighlight.Y2 = lastPosition.Y;
         cHighlights.Children.Add(newHighlight);
-        ActualDocument.Pages[ActualPage].Highlights.Add(newHighlight);
       }
     }
 
@@ -207,10 +218,19 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (!isHighlighting)
         return;
 
+      isHighlighting = false;
       Point newPosition = Mouse.GetPosition(gAnchoredLayers);
       newHighlight.X2 = newPosition.X;
       newHighlight.Y2 = newPosition.Y;
-      isHighlighting = false;
+
+      Vector lineVector = new Vector(newHighlight.X2 - newHighlight.X1, newHighlight.Y2 - newHighlight.Y1);
+      if (lineVector.Length > 3)
+        ActualDocument.Pages[ActualPage].Highlights.Add(newHighlight);
+      else //It was just a click to bring up the contextual menu
+      {
+        cHighlights.Children.Remove(newHighlight);
+        ShowContextualMenu(newPosition);
+      }
     }
 
     private void cHighlights_MouseMove(object sender, MouseEventArgs e)
@@ -233,5 +253,44 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       MessageBox.Show("Hello World!");
     }
+
+    private void ShowContextualMenu(Point position)
+    {
+      using (FileStream fileIn = new FileStream(DocumentPath, FileMode.Open, FileAccess.Read))
+      {
+        PdfDocument = new Document(fileIn);
+
+        //1- try to find the piece of content the mouse is hovering
+        TallComponents.PDF.Page page = PdfDocument.Pages[ActualPage];
+
+        //retrieve all glyphs from the current page
+        //Notice that you grep a strong reference to the glyphs, otherwise the GC can decide to recycle. 
+        GlyphCollection glyphs = page.Glyphs;
+
+        //default the glyph collection is ordered as they are present in the PDF file.
+        //we want them in reading order.
+        glyphs.Sort();
+
+        foreach (Glyph glyph in glyphs)
+        {
+          Rect bounds = new Rect(
+            glyph.TopLeft.X,
+            gAnchoredLayers.ActualHeight - glyph.TopLeft.Y, 
+            glyph.TopRight.X - glyph.TopLeft.X,
+            glyph.TopLeft.Y - glyph.BottomLeft.Y);
+
+          if (!bounds.Contains(position))
+            continue;
+
+          string chars = String.Empty;
+          foreach (char ch in glyph.Characters)
+            chars += ch.ToString();
+          Console.WriteLine("{0} -[{1},{2},{3},{4}] Font={5}({6})", chars, glyph.BottomLeft,
+            glyph.BottomRight, glyph.TopLeft, glyph.TopRight, glyph.Font.Name, glyph.FontSize);
+        }
+      }
+    }
+
   }
+
 }

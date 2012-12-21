@@ -23,7 +23,7 @@ namespace UofM.HCI.tPab.Converters
         return GetSampleDoc();
       
       int actualPage = (int)values[0];
-      Document actualDocument = (Document)values[1];
+      TPadDocument actualDocument = (TPadDocument)values[1];
 
       String pageFileName = actualDocument.Pages[actualPage].FileName;
       if (File.Exists(pageFileName))

@@ -12,7 +12,7 @@ namespace UofM.HCI.tPab.Services
   public class RegistrationService : ContextService
   {
 
-    public Document ActualDocument { get; set; }
+    public TPadDocument ActualDocument { get; set; }
 
     public ITPadAppContainer Container { get; set; }
 
@@ -54,12 +54,12 @@ namespace UofM.HCI.tPab.Services
       if (!Directory.Exists(documentFolders[0]))
         throw new ArgumentException(String.Format("Folder '{0}' does not exist!", documentFolders[0]));
 
-      ActualDocument = new Document() { DocumentName = documentFolders[0] };
+      ActualDocument = new TPadDocument() { DocumentName = documentFolders[0] };
       String[] pages = Directory.GetFiles(documentFolders[0], "*.png");
       Array.Sort<String>(pages);
-      ActualDocument.Pages = new Page[pages.Length];
+      ActualDocument.Pages = new TPadPage[pages.Length];
       for (int index = 0; index < pages.Length; index++)
-        ActualDocument.Pages[index] = new Page() { FileName = pages[index] };
+        ActualDocument.Pages[index] = new TPadPage() { FileName = pages[index] };
 
     }
 

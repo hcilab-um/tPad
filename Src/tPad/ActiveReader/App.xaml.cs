@@ -25,7 +25,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         Resolution = new Size(480, 800),
         ScreenSize = new Size(8.6, 15.4),
         DeviceSize = new Size(12.6, 18.7),
-        DocumentSize = new Size(21, 29.7)
+        DocumentSize = new Size(21.59, 27.94) //US Letter - 215.9 mm × 279.4 mm
       };
       TPadCore.Instance.Configure(profile, true);
       TPadCore.Instance.Registration.LoadDocuments(pagesFolder);

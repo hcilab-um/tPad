@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing;
 using UofM.HCI.tPab.Util;
+using System.Drawing.Imaging;
 
 namespace UofM.HCI.tPab.Monitors
 {
@@ -28,14 +29,15 @@ namespace UofM.HCI.tPab.Monitors
       Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as Simulator).TPadAppBounds);
       NotifyContextServices(this, new CAF.ContextAdapter.NotifyContextMonitorListenersEventArgs(typeof(Bitmap), rotatedView));
 
-      using (FileStream storage = CreateFileStream(angle))
-        rotatedView.Save(storage, System.Drawing.Imaging.ImageFormat.Png);
+      //using (FileStream storage = CreateFileStream(angle))
+      //  rotatedView.Save(storage, ImageFormat.Bmp);
     }
 
     private FileStream CreateFileStream(float angle)
     {
-      String fileName = String.Format("capture-{0}-{1}.PNG", (angle + 360) % 360, DateTime.Now.Ticks);
+      String fileName = String.Format("capture-{0}-{1}.BMP", (angle + 360) % 360, DateTime.Now.Ticks);
       return new FileStream(fileName, FileMode.OpenOrCreate);
     }
+
   }
 }
