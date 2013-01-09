@@ -34,6 +34,27 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ContextAwarenessFramework">
       <HintPath>..\Lib\ContextAwarenessFramework.dll</HintPath>
@@ -61,7 +82,7 @@
     <Compile Include="Converters\LayerScalingConverter.cs" />
     <Compile Include="Converters\MultiplierConverter.cs" />
     <Compile Include="Converters\PageLoaderConverter.cs" />
-    <Compile Include="TPadDocument.cs" />
+    <Compile Include="Converters\StatusVisibilityConverter.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="ITPadApp.cs" />
     <Compile Include="ITPadAppContainer.cs" />
@@ -75,6 +96,7 @@
     <Compile Include="Services\RegistrationService.cs" />
     <Compile Include="TPadCore.cs" />
     <Compile Include="TPadDevice.cs" />
+    <Compile Include="TPadDocument.cs" />
     <Compile Include="TPadLocation.cs" />
     <Compile Include="TPadProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -116,8 +138,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Registration\managedTest\managedTest.vcxproj">
+      <Project>{5C197F32-C069-4AB3-A6AF-1FF3FF27668B}</Project>
+      <Name>managedReg</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>copy $(SolutionDir)\x64\Release\*.dll $(TargetDir)</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

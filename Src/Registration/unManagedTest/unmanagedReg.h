@@ -20,25 +20,31 @@ public:
 
 	int getPageIdx();
 	std::string getPageName();
-	cv::Point2f getLocationPx();
+	cv::Point2f getLocationPxTL();
+	cv::Point2f getLocationPxTR();
+	cv::Point2f getLocationPxBL();
+	cv::Point2f getLocationPxBR();
+	cv::Point2f getLocationPxM();
 	float getRotationAngle();
 
-	void detectLocation(cv::Mat cameraImage);
-	void createIndex(std::string dir_path, cv::vector<cv::Mat> &dbDescriptors, cv::vector<cv::vector<cv::KeyPoint>> &dbKeyPoints);
+	int detectLocation(cv::Mat &currentImg, cv::Mat &lastImg);
+	void createIndex(std::string dir_path);
 
 private:	
 	int PageIdx;
 	std::string PageName;
-	cv::Point2f LocationPx;
+	cv::Point2f LocationPxTL, LocationPxTR, LocationPxBL, LocationPxBR, LocationPxM;
 	//angle in degree
 	float RotationAngle; 
 
 	cv::FlannBasedMatcher matcher;	
 	cv::Mat warpMat;
+	cv::vector<cv::vector<cv::KeyPoint>> dbKeyPoints;
 	
 	cv::Mat imageWarp();
 	cv::Mat computeLocalFeatures(cv::Mat &image, cv::vector<cv::vector<cv::KeyPoint>> &pageKeyPoints);
-	
+	float compareImages(cv::Mat &lastImg, cv::Mat &currentImg);
+
 	void getFiles(std::wstring directory, std::vector<std::string> &fileNameList);
 	void drawMatch(cv::Mat *cameraImage, cv::Mat &homography);
 };

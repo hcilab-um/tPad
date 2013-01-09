@@ -83,8 +83,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\OpenCV2.4.3\opencv\build\include\opencv2;C:\OpenCV2.4.3\opencv\build\include\opencv;C:\OpenCV2.4.3\opencv\build\include;C:\Users\sophie\Documents\GitHub\tPad\Src\Registration\unManagedTest;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib;C:\OpenCV2.4.3\opencv\build\common\tbb\intel64\vc10;C:\Users\sophie\Documents\GitHub\tPad\Src\Registration\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\OpenCV2.4.3\opencv\build\include\opencv2;C:\OpenCV2.4.3\opencv\build\include\opencv;C:\OpenCV2.4.3\opencv\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib;C:\OpenCV2.4.3\opencv\build\common\tbb\intel64\vc10;C:\Users\sophie\Documents\GitHub\tPad\Src\tPad\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -129,11 +129,11 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>C:\Users\sophie\project\unManagedTest\unManagedTest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\sophie\Documents\GitHub\tPad\Src\Registration\unManagedTest</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_core243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_calib3d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_flann243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_highgui243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_imgproc243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_legacy243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_ml243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_objdetect243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_video243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_nonfree243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_contrib243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_features2d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_photo243.lib;C:\Users\sophie\Documents\GitHub\tPad\Src\Registration\x64\Release\unmanagedReg.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_core243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_calib3d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_flann243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_highgui243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_imgproc243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_legacy243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_ml243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_objdetect243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_video243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_nonfree243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_contrib243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_features2d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_photo243.lib;unmanagedReg.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

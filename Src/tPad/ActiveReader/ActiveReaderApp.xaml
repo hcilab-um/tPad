@@ -5,12 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:src="clr-namespace:UofM.HCI.tPab;assembly=tPadLib"
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters;assembly=tPadLib"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded" SizeChanged="arApp_SizeChanged">
+             xmlns:convertersApp="clr-namespace:UofM.HCI.tPab.App.ActiveReader.Converters"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded">
 
   <UserControl.Resources>
     <convertersLib:LayerScalingConverter x:Key="cLayerScaling" />
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />
     <convertersLib:LayerRotationCenterConverter x:Key="cLayerRotationCenter" />
+    <convertersLib:StatusVisibilityConverter x:Key="cStatusVisibility"/>
+    <convertersApp:StatusAndModeVisibilityConverter x:Key="cStatusAndModeVisibility" />
   </UserControl.Resources>
 
   <!-- This is the outer wrapper which makes the paintable area of the application to be as big as the ducoment page -->
@@ -42,6 +45,12 @@
 
       <!-- The first layer is for the highlights -->
       <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Canvas.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located,Highlighting">
+            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="CurrentMode"/>
+          </MultiBinding>
+        </Canvas.Visibility>
         <!-- This rectange covering the whole area and almost transparent is necessary to detect the mouse events -->
         <!-- We cannot have the cHighlights canvas handle this events because it would need to opacity to be that low and then the highlight themselves would be almost transparent too -->
         <Rectangle Fill="White" Opacity="0.1" Canvas.Left="0" Canvas.Top="0" 
@@ -64,13 +73,18 @@
       <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0" 
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
-        <Button VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,25,0,0" Click="Button_Click">Hello World</Button>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" Margin="0,25,0,0">
+          <ToggleButton x:Name="bHighlight" IsThreeState="false" Click="bHighlight_Click">Highlight</ToggleButton>
+          <ToggleButton x:Name="bAnnotation" IsThreeState="false" Click="bAnnotation_Click" Margin="20,0,0,0">Annotations</ToggleButton>
+        </StackPanel>
       </Grid>
 
       <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0" 
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
-            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
+            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+            Visibility="{Binding ElementName=arApp, Path=Device.Location.Status, Converter={StaticResource ResourceKey=cStatusVisibility}, ConverterParameter=NotLocated}">
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" FontWeight="Bold">Reading Helper</Label>
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="0,70,0,0">Not Located</Label>
       </Grid>
     </Canvas>
 

@@ -16,6 +16,16 @@ namespace UofM.HCI.tPab.Services
 
     public ITPadAppContainer Container { get; set; }
 
+    private ManagedA.wrapperRegistClass featureTracker;
+
+    protected override void CustomStart()
+    {
+      base.CustomStart();
+
+      featureTracker = new ManagedA.wrapperRegistClass();
+      featureTracker.createIndex(Environment.CurrentDirectory + "\\" + ActualDocument.DocumentName);
+    }
+
     /// <summary>
     /// This method receives the image from the camera and finds the location of the device.
     /// Location defined as the page, the X and Y coordinates wihtin the page in cms, and the rotation angle
@@ -27,11 +37,29 @@ namespace UofM.HCI.tPab.Services
       if (e.Type != typeof(Bitmap))
         return;
 
+      TPadLocation location = new TPadLocation();
       // Here goes the machine vision code to find where the device is located based on the camera image
       // -- Beware you can use TPadCore.IsSimulation to determine the parameters for the image, e.g. whether it needs warping.
+      
+      //ToDo: real images
+      //Bitmap cameraView = (Bitmap)e.NewObject;
+      //Bitmap bmp2 = (Bitmap)System.Drawing.Image.FromFile("C:\\Users/sophie/Desktop/Registration/unManagedTest/images/LCD3.png");
+  
+      ////ToDo: Warping
+      
+      //if (featureTracker.detectLocation(cameraView, bmp2) == 1)
+      //{
+      //  location.Status = LocationStatus.Located;
+      //  location.RotationAngle = featureTracker.RotationAngle;
+      //  location.LocationPx = featureTracker.LocationPxM;
+      //  location.LocationCm = new PointF((float)(Container.Location.X / Container.WidthFactor), (float)(Container.Location.Y / Container.HeightFactor));
+      //  //ToDo: get Document object from pageIdx
+      //  location.Document = ActualDocument;
+      //  location.PageIndex = featureTracker.PageIdx;// featureTracker.PageIdx;
+      //}
+      //else location.Status = LocationStatus.NotLocated;
 
       //----------------------------- MOCK CODE ------------------------------
-      TPadLocation location = new TPadLocation();
       if (TPadCore.Instance.IsSimulation)
       {
         location.Status = LocationStatus.Located;
@@ -60,7 +88,6 @@ namespace UofM.HCI.tPab.Services
       ActualDocument.Pages = new TPadPage[pages.Length];
       for (int index = 0; index < pages.Length; index++)
         ActualDocument.Pages[index] = new TPadPage() { FileName = pages[index] };
-
     }
 
   }

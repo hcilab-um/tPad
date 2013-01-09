@@ -12,7 +12,7 @@ namespace ConsoleApplication1
   {
     static void Main(string[] args)
     {
-      Bitmap bmp = (Bitmap)Image.FromFile("C:\\Users/sophie/Documents/GitHub/tPad/Src/Registration/unManagedTest/images/1LCD.JPG");
+      Bitmap bmp = (Bitmap)Image.FromFile("C:\\Users/sophie/Documents/GitHub/tPad/Src/Registration/unManagedTest/images/test.png");
       
       ManagedA.wrapperRegistClass testObject = new wrapperRegistClass();
       testObject.detectLocation(bmp);
