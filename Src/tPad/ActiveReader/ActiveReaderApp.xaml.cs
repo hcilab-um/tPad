@@ -229,7 +229,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
       else //It was just a click to bring up the contextual menu
       {
         cHighlights.Children.Remove(newHighlight);
-        ShowContextualMenu(newPosition);
+        String content = PixelToContent(newPosition, true);
+        ShowContextualMenu(newPosition, content);
       }
     }
 
@@ -254,14 +255,19 @@ namespace UofM.HCI.tPab.App.ActiveReader
       MessageBox.Show("Hello World!");
     }
 
-    private void ShowContextualMenu(Point position)
+    private string PixelToContent(Point position, bool highlight = false)
     {
+      RemoveWordHighlight();
+
       using (FileStream fileIn = new FileStream(DocumentPath, FileMode.Open, FileAccess.Read))
       {
         PdfDocument = new Document(fileIn);
 
         //1- try to find the piece of content the mouse is hovering
         TallComponents.PDF.Page page = PdfDocument.Pages[ActualPage];
+
+        double widthT = gAnchoredLayers.ActualWidth / page.Width;
+        double heightT = gAnchoredLayers.ActualHeight / page.Height;
 
         //retrieve all glyphs from the current page
         //Notice that you grep a strong reference to the glyphs, otherwise the GC can decide to recycle. 
@@ -271,24 +277,77 @@ namespace UofM.HCI.tPab.App.ActiveReader
         //we want them in reading order.
         glyphs.Sort();
 
+        //the bounds of the last glyph analysed
+        Rect glyphBounds = Rect.Empty;
+
+        //the current word over which the user clicked
+        StringBuilder currentWord = new StringBuilder();
+        Rect wordBounds = Rect.Empty;
+        bool foundWord = false;
+
         foreach (Glyph glyph in glyphs)
         {
-          Rect bounds = new Rect(
+          if (glyph.Characters.Length == 0 || glyph.Characters[0] == ' ')
+          {
+            if (foundWord)
+            {
+              wordBounds = new Rect(wordBounds.Left, wordBounds.Top, glyphBounds.Right - wordBounds.Left, wordBounds.Height);
+              if (highlight)
+                AddWordHighlight(wordBounds);
+              return currentWord.ToString();
+            }
+
+            wordBounds = Rect.Empty;
+            currentWord.Clear();
+            continue;
+          }
+
+          glyphBounds = new Rect(
             glyph.TopLeft.X,
-            gAnchoredLayers.ActualHeight - glyph.TopLeft.Y, 
+            page.Height - glyph.TopLeft.Y,
             glyph.TopRight.X - glyph.TopLeft.X,
             glyph.TopLeft.Y - glyph.BottomLeft.Y);
+          glyphBounds.Scale(widthT, heightT);
 
-          if (!bounds.Contains(position))
-            continue;
+          if (wordBounds == Rect.Empty)
+            wordBounds = glyphBounds;
 
           string chars = String.Empty;
           foreach (char ch in glyph.Characters)
-            chars += ch.ToString();
-          Console.WriteLine("{0} -[{1},{2},{3},{4}] Font={5}({6})", chars, glyph.BottomLeft,
-            glyph.BottomRight, glyph.TopLeft, glyph.TopRight, glyph.Font.Name, glyph.FontSize);
+            currentWord.Append(ch);
+
+          if (!glyphBounds.Contains(position))
+            continue;
+
+          foundWord = true;
+          //Console.WriteLine("{0} -[{1},{2},{3},{4}] Font={5}({6})", chars, glyph.BottomLeft,
+          //  glyph.BottomRight, glyph.TopLeft, glyph.TopRight, glyph.Font.Name, glyph.FontSize);
         }
+
+        return null;
       }
+    }
+
+    private void RemoveWordHighlight()
+    {
+      if (wordHighlight == null)
+        return;
+      cHighlights.Children.Remove(wordHighlight);
+    }
+
+    private Line wordHighlight;
+    private void AddWordHighlight(Rect wordBounds)
+    {
+      wordHighlight = new Line() { Stroke = Brushes.Pink, Opacity = 0.5, StrokeThickness = wordBounds.Height };
+      wordHighlight.X1 = wordBounds.Left;
+      wordHighlight.Y1 = wordBounds.Top + wordBounds.Height / 2;
+      wordHighlight.X2 = wordBounds.Right;
+      wordHighlight.Y2 = wordBounds.Top + wordBounds.Height / 2;
+      cHighlights.Children.Add(wordHighlight);
+    }
+
+    private void ShowContextualMenu(Point position, String content)
+    {
     }
 
   }
