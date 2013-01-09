@@ -2,6 +2,7 @@
 bin
 obj
 x64
+Debug
 
 # mstest test results
 TestResults
