@@ -33,7 +33,7 @@ namespace UofM.HCI.tPab
     }
 
     private TPadCore()
-    {
+    {      
       Registration = new RegistrationService();
     }
 
@@ -46,7 +46,7 @@ namespace UofM.HCI.tPab
       Profile = profile;
       Device = new TPadDevice() { Profile = Profile };
       Device.LoadId();
-
+            
       ArduinoMonitor arduino = null;
       ContextMonitor cameraMonitor = null, flippingMonitor = null, stackingMonitor = null;
       if (IsSimulation)

@@ -26,6 +26,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
   public partial class ActiveReaderApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
 
+    public enum ActiveReaderMode { Nothing, Highlighting, Annotating };
+
     public TPadProfile Profile { get; set; }
     public TPadDevice Device { get; set; }
     public ITPadAppContainer Container { get; set; }
@@ -38,6 +40,17 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private int ActualPage { get; set; }
     private TPadDocument ActualDocument { get; set; }
     private Document PdfDocument { get; set; }
+
+    private ActiveReaderMode currentMode = ActiveReaderMode.Nothing;
+    public ActiveReaderMode CurrentMode
+    {
+      get { return currentMode; }
+      set
+      {
+        currentMode = value;
+        OnPropertyChanged("CurrentMode");
+      }
+    }
 
     public ActiveReaderApp(String documentPDF, ITPadAppContainer container = null)
     {
@@ -65,10 +78,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       TPadCore.Instance.Device.StackingChanged += new StackingChangedEventHandler(Device_StackingChanged);
       TPadCore.Instance.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
       TPadCore.Instance.Device.RegistrationChanged += new RegistrationChangedEventHandler(Device_RegistrationChanged);
-    }
 
-    private void arApp_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
       WidthScalingFactor = ActualWidth / Profile.Resolution.Width;
       HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
       OnPropertyChanged("WidthScalingFactor");
@@ -200,6 +210,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         isHighlighting = true;
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
+        Console.WriteLine(lastPosition);
 
         newHighlight = new Line() { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 10 };
         newHighlight.MouseDown += cHighlights_MouseDown;
@@ -250,9 +261,21 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Console.WriteLine(lastPosition);
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
+    private void bHighlight_Click(object sender, RoutedEventArgs e)
     {
-      MessageBox.Show("Hello World!");
+      if (bHighlight.IsChecked.Value)
+      {
+        CurrentMode = ActiveReaderMode.Highlighting;
+      }
+      else
+      {
+        CurrentMode = ActiveReaderMode.Nothing;
+      }
+    }
+
+    private void bAnnotation_Click(object sender, RoutedEventArgs e)
+    {
+      MessageBox.Show("Annotations");
     }
 
     private string PixelToContent(Point position, bool highlight = false)
@@ -351,5 +374,4 @@ namespace UofM.HCI.tPab.App.ActiveReader
     }
 
   }
-
 }

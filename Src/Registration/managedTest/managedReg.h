@@ -15,18 +15,12 @@ using namespace System::Runtime::InteropServices;
 
 namespace ManagedA 
 {	
-	public ref class wrapperRegistClass : IDisposable
+	public ref class wrapperRegistClass
 	{
 	public:
-		wrapperRegistClass(void)
-		{
-			registrationObj = new paperRegistration();
-		}
+		wrapperRegistClass();
 
-		~wrapperRegistClass(void)
-		{
-			delete registrationObj;
-		}
+		~wrapperRegistClass();
 		
 		property float RotationAngle
 		{
@@ -52,43 +46,60 @@ namespace ManagedA
 			}
 		}
 		
-		property Point LocationPx
+		property PointF LocationPxBR
 		{
-			Point get()
+			PointF get()
 			{
-				Point locationPt = *new Point((registrationObj->getLocationPx().x),(registrationObj->getLocationPx()).y);				
+				PointF locationPt = *new PointF((registrationObj->getLocationPxBR().x),(registrationObj->getLocationPxBR()).y);				
 				return locationPt;
 			}
 		}
 
-		void detectLocation(Bitmap ^bmp)
-		{	 
-			cv::Mat dst(bmp->Height, bmp->Width, CV_8UC3);
-			
-			System::Drawing::Imaging::BitmapData ^data = bmp->LockBits(
-				*(gcnew System::Drawing::Rectangle(0, 0, bmp->Width, bmp->Height)),
-				System::Drawing::Imaging::ImageLockMode::ReadOnly,
-				bmp->PixelFormat);
-			               
-			if (System::Drawing::Imaging::PixelFormat::Format24bppRgb == bmp->PixelFormat)
-				memcpy(dst.data, data->Scan0.ToPointer(), bmp->Width * bmp->Height * 3); 
-			else if (System::Drawing::Imaging::PixelFormat::Format32bppArgb == bmp->PixelFormat) 
+		property PointF LocationPxTL
+		{
+			PointF get()
 			{
-				uchar *pm = dst.data;
-				uchar *pb = (uchar *)data->Scan0.ToPointer();
-				for (int i = 0; i < bmp->Width * bmp->Height; i++) 
-					memcpy(pm + i * 3, pb + i * 4, 3);
-			} else {
-				uchar *pm = dst.data;
-				uchar *pb = (uchar *)data->Scan0.ToPointer();
-				for (int i = 0; i < bmp->Width * bmp->Height; i++) 
-					*(pm + i * 3) = *(pm + i * 3 + 1) = *(pm + i * 3 + 2) = *(pb + i);					
+				PointF locationPt = *new PointF((registrationObj->getLocationPxTL().x),(registrationObj->getLocationPxTL()).y);				
+				return locationPt;
 			}
-
-			bmp->UnlockBits(data);  		
-			registrationObj->detectLocation(dst);
 		}
 
+		property PointF LocationPxTR
+		{
+			PointF get()
+			{
+				PointF locationPt = *new PointF((registrationObj->getLocationPxTR().x),(registrationObj->getLocationPxTR()).y);				
+				return locationPt;
+			}
+		}
+
+		property PointF LocationPxBL
+		{
+			PointF get()
+			{
+				PointF locationPt = *new PointF((registrationObj->getLocationPxBL().x),(registrationObj->getLocationPxBL()).y);				
+				return locationPt;
+			}
+		}
+
+		property PointF LocationPxM
+		{
+			PointF get()
+			{
+				PointF locationPt = *new PointF((registrationObj->getLocationPxM().x),(registrationObj->getLocationPxM()).y);				
+				return locationPt;
+			}
+		}
+				
+		void createIndex(String^ path)
+		{
+			char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(path);
+			registrationObj->createIndex(str);
+		}
+		
+		int detectLocation(Bitmap^ bmp1, Bitmap^ bmp2);
+
+		
 	private: 
 		paperRegistration *registrationObj;
 	};
