@@ -77,8 +77,8 @@ float paperRegistration::getRotationAngle()
 
 cv::Mat paperRegistration::imageWarp()
 {
-	cv::Point2f srcPoint[4] = {cv::Point2f(10,91),cv::Point2f(184,77), cv::Point2f(10,365), cv::Point2f(161,364)};
-	cv::Point2f destPoint[4] = {cv::Point2f(386,664), cv::Point2f(163,681), cv::Point2f(387,312), cv::Point2f(193,313)};	
+	cv::Point2f srcPoint[4] = {cv::Point2f(10,10),cv::Point2f(155,10), cv::Point2f(10,292), cv::Point2f(166,292)};
+	cv::Point2f destPoint[4] = {cv::Point2f(446,666), cv::Point2f(267,666), cv::Point2f(446,316), cv::Point2f(253,316)};	
 
 	cv::Mat homography = cv::getPerspectiveTransform(srcPoint, destPoint);
 		
@@ -109,13 +109,13 @@ cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &cameraImage, cv::vector
 				{
 					mpts_1.push_back(deviceKeypoints[dmatches[i][0].queryIdx].pt);		
 					mpts_2.push_back(dbKeyPoints[dmatches[i][0].imgIdx][dmatches[i][0].trainIdx].pt);
-				}	
-
-				if (PageIdxIsSet != true)
-				{
-					PageIdx = dmatches[0][0].imgIdx;
-					PageIdxIsSet = true;
-				}
+				
+					if (PageIdxIsSet != true)
+					{
+						PageIdx = dmatches[i][0].imgIdx;
+						PageIdxIsSet = true;
+					}
+				}								
 			}
 		}
 
@@ -209,6 +209,9 @@ void paperRegistration::createIndex(std::string dir_path)
 	matcher = cv::FlannBasedMatcher(new cv::flann::LshIndexParams(10, 30, 1));
 	matcher.add(dbDescriptors);
 	matcher.train();
+
+	//compute homography matrix
+	warpMat = imageWarp();
 }
 
 
@@ -259,7 +262,7 @@ int paperRegistration::detectLocation(cv::Mat &cameraImage, cv::Mat &lastImg)
 	
 		//ToDo load warpImage
 		cv::Mat warpedImage;
-		cv::warpPerspective(cameraImage, warpedImage, warpMat, cv::Size(815,1204));
+		cv::warpPerspective(cameraImage, warpedImage, warpMat, cv::Size(2550,3300));
 		std::vector<cv::Point2f> point(2);
 		point[0] = cvPoint(0,0);
 		point[1] = cvPoint(cameraImage.cols,cameraImage.rows);
@@ -274,7 +277,7 @@ int paperRegistration::detectLocation(cv::Mat &cameraImage, cv::Mat &lastImg)
 			cv::Mat rotationMat, orthMat;
 			cv::Vec3d eulerAngles;
 			eulerAngles = cv::RQDecomp3x3(locationHM, rotationMat, orthMat);
-			RotationAngle = eulerAngles[2];
+			RotationAngle = ((int) (eulerAngles[2]*1000))/1000.0f;
 
 			//compute location
 			//ToDo: use Center of device instead of top left corner
@@ -293,7 +296,8 @@ int paperRegistration::detectLocation(cv::Mat &cameraImage, cv::Mat &lastImg)
 
 			return 1;
 		}
-		else return 0;
+		else return -1;
 	}
+	else return 0;
 	//drawMatch(&cameraImage, locationHM);
 }
