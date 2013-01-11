@@ -12,7 +12,7 @@
 #include <opencv2\calib3d\calib3d.hpp>
 
 
-//#include <ctime>
+#include <ctime>
 
 paperRegistration::paperRegistration()
 {
@@ -29,6 +29,10 @@ paperRegistration::paperRegistration()
 	LocationPxBR = cv::Point2f(-1,-1);
 	LocationPxM = cv::Point2f(-1,-1);
 	RotationAngle = 0;	
+
+	isSimulation_ = true;
+	imgRatio_ = 1.0;
+	miliseconds = 0;
 }
 
 paperRegistration::~paperRegistration()
@@ -75,14 +79,19 @@ float paperRegistration::getRotationAngle()
 	return RotationAngle;
 }
 
-cv::Mat paperRegistration::imageWarp()
+void paperRegistration::imageWarp(float imageRatio, bool isSim)
 {
-	cv::Point2f srcPoint[4] = {cv::Point2f(10,10),cv::Point2f(155,10), cv::Point2f(10,292), cv::Point2f(166,292)};
-	cv::Point2f destPoint[4] = {cv::Point2f(446,666), cv::Point2f(267,666), cv::Point2f(446,316), cv::Point2f(253,316)};	
+	isSimulation_ = isSim;
+	imgRatio_ = imageRatio;
 
-	cv::Mat homography = cv::getPerspectiveTransform(srcPoint, destPoint);
+	if (!isSimulation_)
+	{
+		cv::Point2f srcPoint[4] = {cv::Point2f(10,10),cv::Point2f(155,10), cv::Point2f(10,292), cv::Point2f(166,292)};
+		cv::Point2f destPoint[4] = {cv::Point2f(446,666), cv::Point2f(267,666), cv::Point2f(446,316), cv::Point2f(253,316)};		
 		
-	return homography;
+		//compute homography matrix
+		warpMat = cv::getPerspectiveTransform(srcPoint, destPoint);
+	}
 }
 
 cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &cameraImage, cv::vector<cv::vector<cv::KeyPoint>> &dbKeyPoints)
@@ -94,11 +103,10 @@ cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &cameraImage, cv::vector
 	cv::FREAK extractor;
 	extractor.compute(cameraImage, deviceKeypoints, deviceImageDescriptors);
 	
-	if (deviceImageDescriptors.rows > 4)
+		if (deviceImageDescriptors.rows > 4)
 	{
 		std::vector<std::vector<cv::DMatch>> dmatches;
 		matcher.knnMatch(deviceImageDescriptors, dmatches, 2);
-			
 		std::vector<cv::Point2f> mpts_1, mpts_2; // Used for homography	
 		bool PageIdxIsSet = false;
 		for(unsigned int i=0; i<(unsigned int)dmatches.size(); ++i)
@@ -119,6 +127,7 @@ cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &cameraImage, cv::vector
 			}
 		}
 
+		deviceKeypoints.clear();
 		std::vector<uchar> mask;
 		if (mpts_1.size() >= 4)
 		{
@@ -126,24 +135,32 @@ cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &cameraImage, cv::vector
 			return loc;
 		}
 	}
+
 	return cv::Mat();
 }
 
 void paperRegistration::drawMatch(cv::Mat *cameraImage, cv::Mat &homography)
 {
-	cv::Mat pageImage = cv::imread("C:/Users/sophie/Documents/GitHub/tPad/Src/Registration/unManagedTest/images/New folder/paper_page.png", CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat pageImage = cv::imread("C:/Users/sophie/Desktop/Registration/unManagedTest/images/New folder/paper_page.png", CV_LOAD_IMAGE_GRAYSCALE);
 
 	//draw detected region
-	std::vector<cv::Point2f> device_corners(4);
+	std::vector<cv::Point2f> device_corners(5);
 	device_corners[0] = cvPoint(0,0);
 	device_corners[1] = cvPoint(cameraImage->cols, 0 );
 	device_corners[2] = cvPoint(cameraImage->cols, cameraImage->rows ); 
 	device_corners[3] = cvPoint(0, cameraImage->rows );
-				
+	device_corners[4] = cvPoint(cameraImage->cols/2.0f, cameraImage->rows/2.0f );
+
 	if (!homography.empty())
 	{
 		cv::perspectiveTransform(device_corners, device_corners, homography);		
 		
+		LocationPxTL = device_corners[0];
+			LocationPxTR = device_corners[1];
+			LocationPxBL = device_corners[2];
+			LocationPxBR = device_corners[3];
+			LocationPxM = device_corners[4];
+
 		//-- Draw lines between the corners (the mapped object in the scene - image_2 )
 		cv::line( pageImage, device_corners[0], device_corners[1] , cv::Scalar( 0, 255, 0), 4 );
 		cv::line( pageImage, device_corners[1], device_corners[2] , cv::Scalar( 0, 255, 0), 4 );
@@ -206,12 +223,10 @@ void paperRegistration::createIndex(std::string dir_path)
 
 	flannMatcher.write(fs);*/
 
-	matcher = cv::FlannBasedMatcher(new cv::flann::LshIndexParams(10, 30, 1));
+	matcher = cv::FlannBasedMatcher(new cv::flann::LshIndexParams(13,22, 0));
 	matcher.add(dbDescriptors);
 	matcher.train();
-
-	//compute homography matrix
-	warpMat = imageWarp();
+	
 }
 
 
@@ -240,45 +255,61 @@ float paperRegistration::compareImages(cv::Mat &lastImg, cv::Mat &currentImg)
 	return mean[0];
 }
 
+float paperRegistration::getMiliSec()
+{
+	return miliseconds;
+}
+
 int paperRegistration::detectLocation(cv::Mat &cameraImage, cv::Mat &lastImg)
 {
+	//cv::resize(cameraImage, cameraImage, cv::Size(299,428));
+	//cv::resize(lastImg, lastImg, cv::Size(299,428));
+
 	//conert to grey scale image
-	cvtColor(cameraImage, cameraImage, CV_BGR2GRAY);
+	
+	cvtColor(cameraImage, cameraImage, CV_BGR2GRAY);	
 	cvtColor(lastImg, lastImg, CV_BGR2GRAY);
-	
+
 	if (compareImages(cameraImage, lastImg) > 1.5)
-	{
-		//int begin = clock();	
-		//cv::vector<cv::Mat> dbDescriptors;
-		//createIndex("C:/Users/sophie/Documents/GitHub/tPad/Src/Registration/unManagedTest/images/New folder", dbDescriptors, dbKeyPoints);
-	
+	{	
 		//toDo: load matcher	
 		/*std::string sceneImageData = "sceneImagedatamodel.xml";
 		cv::FileStorage fs(sceneImageData, cv::FileStorage::READ);
 		cv::FileNode fn = fs.getFirstTopLevelNode(); 
 		matcher.read(fn);*/
-	
-		//int end = clock();
-	
-		//ToDo load warpImage
-		cv::Mat warpedImage;
-		cv::warpPerspective(cameraImage, warpedImage, warpMat, cv::Size(2550,3300));
-		std::vector<cv::Point2f> point(2);
-		point[0] = cvPoint(0,0);
-		point[1] = cvPoint(cameraImage.cols,cameraImage.rows);
-		cv::perspectiveTransform(point, point, warpMat);	
-		cameraImage = cv::Mat(warpedImage, cv::Rect(point[0], point[1]));
-		warpedImage.release();
+		
+		//ToDo size in warp image
+		if (isSimulation_)
+		{			
+			warpMat = getRotationMatrix2D(cv::Point2f(cameraImage.cols/2.0, cameraImage.rows/2.0), 180, 1);
+			cv::warpAffine(cameraImage, cameraImage, warpMat, cameraImage.size());
+			cv::resize(cameraImage, cameraImage, cv::Size(cameraImage.cols*imgRatio_, cameraImage.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
+			//cv::imwrite("img.png", cameraImage);
+		}
+		else 
+		{
+			cv::Mat warpedImage;
+			cv::warpPerspective(cameraImage, warpedImage, warpMat, cv::Size(2500,3300));				
+			std::vector<cv::Point2f> point(2);
+			point[0] = cvPoint(0,0);
+			point[1] = cvPoint(cameraImage.cols,cameraImage.rows);
+			cv::perspectiveTransform(point, point, warpMat);	
+			cameraImage = cv::Mat(warpedImage, cv::Rect(point[0], point[1]));
+		//	cv::imwrite("img.png", cameraImage);
+			warpedImage.release();
+		}
+		
 		cv::Mat locationHM = computeLocalFeatures(cameraImage, dbKeyPoints);
-	
+		
 		//compute rotation angle (in degree)
 		if (!locationHM.empty())
 		{
+			//locationHM = locationHM * warpMat;
 			cv::Mat rotationMat, orthMat;
 			cv::Vec3d eulerAngles;
 			eulerAngles = cv::RQDecomp3x3(locationHM, rotationMat, orthMat);
-			RotationAngle = ((int) (eulerAngles[2]*1000))/1000.0f;
-
+			RotationAngle = eulerAngles[2];
+			
 			//compute location
 			//ToDo: use Center of device instead of top left corner
 			std::vector<cv::Point2f> device_point(5);
@@ -286,18 +317,58 @@ int paperRegistration::detectLocation(cv::Mat &cameraImage, cv::Mat &lastImg)
 			device_point[1] = cvPoint(cameraImage.cols,0);
 			device_point[2] = cvPoint(0,cameraImage.rows);
 			device_point[3] = cvPoint(cameraImage.cols,cameraImage.rows);
-			device_point[4] = cvPoint(cameraImage.cols/2.0f,cameraImage.rows/2.0f);
+			device_point[4] = cvPoint(cameraImage.cols/2,cameraImage.rows/2);
+
+			/*float area_searchImg = sqrt(((device_point[1].x-device_point[0].x)*(device_point[1].x-device_point[0].x))+
+				((device_point[1].y-device_point[0].y)*(device_point[1].y-device_point[0].y)))*
+				sqrt(((device_point[2].x-device_point[1].x)*(device_point[2].x-device_point[1].x))+
+				((device_point[2].y-device_point[1].y)*(device_point[2].y-device_point[1].y)));*/
+			
 			cv::perspectiveTransform(device_point, device_point, locationHM);	
 			LocationPxTL = device_point[0];
 			LocationPxTR = device_point[1];
 			LocationPxBL = device_point[2];
 			LocationPxBR = device_point[3];
 			LocationPxM = device_point[4];
+			
+			/*cv::Mat pageImage = cv::imread("C:/Users/Sophie/Documents/GitHub/tPad/Src/tPad/ActiveReader/bin/x64/Release/Document/17030000002000000.png", CV_LOAD_IMAGE_GRAYSCALE);
 
+			if (LocationPxTL.x < 0)
+				LocationPxTL.x = 0;
+			else if (LocationPxTL.x > pageImage.cols)
+				LocationPxTL.x = pageImage.cols;
+			if (LocationPxTL.y < 0)
+				LocationPxTL.y = 0;
+			else if (LocationPxTL.y > pageImage.rows)
+				LocationPxTL.y = pageImage.rows;
+			if (LocationPxBR.x < 0)
+				LocationPxBR.x = 0;
+			else if (LocationPxBR.x > pageImage.cols)
+				LocationPxBR.x = pageImage.cols;
+			if (LocationPxBR.y < 0)
+				LocationPxBR.y = 0;
+			else if (LocationPxBR.y > pageImage.rows)
+				LocationPxBR.y = pageImage.rows;
+			cv::Mat result = cv::Mat(pageImage, cv::Rect(LocationPxTL, LocationPxBR));
+			cv::imwrite("result.png", result);*/
+			
+			/*float area_result = sqrt(((device_point[1].x-device_point[0].x)*(device_point[1].x-device_point[0].x))+
+				((device_point[1].y-device_point[0].y)*(device_point[1].y-device_point[0].y)))*
+				sqrt(((device_point[2].x-device_point[1].x)*(device_point[2].x-device_point[1].x))+
+				((device_point[2].y-device_point[1].y)*(device_point[2].y-device_point[1].y)));*/
+						
+			/*if (area_searchImg > area_result && (area_result/area_searchImg) < 0.9)
+				return -1;			
+			else if (area_result > area_searchImg && (area_searchImg/area_result) < 0.9)
+				return -1;*/
+
+			//drawMatch(&cameraImage, locationHM);
+
+			
 			return 1;
 		}
 		else return -1;
 	}
 	else return 0;
-	//drawMatch(&cameraImage, locationHM);
+	
 }

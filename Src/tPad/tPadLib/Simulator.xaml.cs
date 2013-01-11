@@ -27,6 +27,7 @@ namespace UofM.HCI.tPab
     private float widthFactor, heightFactor;
     private float rotationAngle;
     private System.Drawing.Point location;
+    private float simCaptureToSourceImageRatio;
 
     private UserControl TPadApp { get; set; }
     public Rect TPadAppBounds { get; set; }
@@ -98,6 +99,16 @@ namespace UofM.HCI.tPab
       }
     }
 
+    public float SimCaptureToSourceImageRatio
+    {
+      get { return simCaptureToSourceImageRatio; }
+      set 
+      {
+        simCaptureToSourceImageRatio = value;
+        OnPropertyChanged("SimCaptureToSourceImageRatio");
+      }
+    }
+
     public Simulator(Application launcher)
     {
       TPadDocument document = TPadCore.Instance.Registration.ActualDocument;
@@ -151,6 +162,9 @@ namespace UofM.HCI.tPab
       // These two values should be nearly the same
       if (Math.Abs(HeightFactor - WidthFactor) >= 0.5)
         throw new ArgumentException("The document image does not match the specified document profile");
+
+      // The ratio between the capture and the source image is calculated.
+      SimCaptureToSourceImageRatio = (float)((iDocument.Source as BitmapFrame).PixelWidth / iDocument.ActualWidth);
 
       //Resize the device
       gTPadApp.Width = WidthFactor * TPadCore.Instance.Profile.DeviceSize.Width;
