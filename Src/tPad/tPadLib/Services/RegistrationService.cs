@@ -5,6 +5,7 @@ using System.Text;
 using CAF.ContextService;
 using System.Drawing;
 using System.IO;
+using System.Diagnostics;
 
 namespace UofM.HCI.tPab.Services
 {
@@ -22,15 +23,18 @@ namespace UofM.HCI.tPab.Services
 
     private TPadLocation location;
 
+    private float temp_SimCaptureToSourceImageRatio;
+
     protected override void CustomStart()
     {
       base.CustomStart();
 
       featureTracker = new ManagedA.wrapperRegistClass();
-      featureTracker.createIndex("C:\\Users/sophie/Desktop/Registration/unManagedTest/images/New folder");//Environment.CurrentDirectory + "\\" + ActualDocument.DocumentName);
+      featureTracker.createIndex(Environment.CurrentDirectory + "\\" + ActualDocument.DocumentName);
 
       location = new TPadLocation();
-      oldCamView = new Bitmap(10, 10);// (Bitmap)System.Drawing.Image.FromFile("C:\\Users/sophie/Documents/GitHub/tPad/Src/tPad/ActiveReader/bin/x64/Release/old1.png");
+      oldCamView = new Bitmap(10, 10);
+      temp_SimCaptureToSourceImageRatio = 1;
     }
 
     /// <summary>
@@ -44,43 +48,56 @@ namespace UofM.HCI.tPab.Services
       if (e.Type != typeof(Bitmap))
         return;
             
-      // Here goes the machine vision code to find where the device is located based on the camera image
-      // -- Beware you can use TPadCore.IsSimulation to determine the parameters for the image, e.g. whether it needs warping.
-      
-      //ToDo: correct warping with camera
+
       Bitmap camView = (Bitmap)e.NewObject;
-      //camView.Save("new.png");
-      //oldCamView.Save("old.png");
+      Stopwatch sw = new Stopwatch();
+      camView.Save("new.png");
+      oldCamView.Save("old.png");
+      sw.Start();
+      // Here goes the machine vision code to find where the device is located based on the camera image
+      //ToDo: correct warping with camera
+      
+      //compute warping matrix
+      if (temp_SimCaptureToSourceImageRatio != Container.SimCaptureToSourceImageRatio)
+      {
+        temp_SimCaptureToSourceImageRatio = Container.SimCaptureToSourceImageRatio;
+        featureTracker.imageWarp(temp_SimCaptureToSourceImageRatio, TPadCore.Instance.IsSimulation);
+      }
+      //start feature tracking
 
       int status = featureTracker.detectLocation(camView, oldCamView);
+
       if ( status == 1)
       {
         location.Status = LocationStatus.Located;
         location.RotationAngle = featureTracker.RotationAngle;
-        location.LocationPx = featureTracker.LocationPxM;
-        location.LocationCm = new PointF((float)(featureTracker.LocationPxM.X / Container.WidthFactor), (float)(featureTracker.LocationPxM.Y / Container.HeightFactor));
-      //  //ToDo: get Document object from pageIdx
+        location.LocationPx = new PointF(featureTracker.LocationPxM.X / Container.SimCaptureToSourceImageRatio, featureTracker.LocationPxM.Y / Container.SimCaptureToSourceImageRatio);
+        location.LocationCm = new PointF((float)(location.LocationPx.X / Container.WidthFactor), (float)(location.LocationPx.Y / Container.HeightFactor));
+        //ToDo: get Document object from pageIdx
         location.Document = ActualDocument;
-        location.PageIndex = featureTracker.PageIdx;// featureTracker.PageIdx;
+        location.PageIndex = featureTracker.PageIdx;
+        sw.Stop();
+        Console.WriteLine(sw.Elapsed.TotalMilliseconds);
       }
       else if (status == -1)
         location.Status = LocationStatus.NotLocated;
-
+      sw.Stop();
+      
       //----------------------------- MOCK CODE ------------------------------
-      if (TPadCore.Instance.IsSimulation)
-      {
+      //if (TPadCore.Instance.IsSimulation)
+      //{
         //location.Status = LocationStatus.Located;
         //location.RotationAngle = Container.RotationAngle;
         //location.LocationPx = Container.Location;
         //location.LocationCm = new PointF((float)(Container.Location.X / Container.WidthFactor), (float)(Container.Location.Y / Container.HeightFactor));
         //location.Document = ActualDocument;
         //location.PageIndex = Container.ActualPage;
-      }
+      //}
       //----------------------------- MOCK CODE ------------------------------
-
+      
       //update last image of camera
-      oldCamView = camView;
-     
+      oldCamView = camView;      
+
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));
     }
 

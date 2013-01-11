@@ -90,6 +90,14 @@ namespace ManagedA
 				return locationPt;
 			}
 		}
+
+		property float MiliSec
+		{
+			float get()
+			{			
+				return registrationObj->getMiliSec();
+			}
+		}
 				
 		void createIndex(String^ path)
 		{
@@ -97,6 +105,11 @@ namespace ManagedA
 			registrationObj->createIndex(str);
 		}
 		
+		void imageWarp(float imageRatio, bool isSim)
+		{
+			registrationObj->imageWarp(imageRatio, isSim);
+		}
+
 		int detectLocation(Bitmap^ bmp1, Bitmap^ bmp2);
 
 		

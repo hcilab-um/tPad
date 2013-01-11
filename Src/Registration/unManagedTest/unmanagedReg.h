@@ -26,9 +26,11 @@ public:
 	cv::Point2f getLocationPxBR();
 	cv::Point2f getLocationPxM();
 	float getRotationAngle();
+	float getMiliSec();
 
 	int detectLocation(cv::Mat &currentImg, cv::Mat &lastImg);
 	void createIndex(std::string dir_path);
+	void imageWarp(float imageRatio, bool isSim);
 
 private:	
 	int PageIdx;
@@ -36,12 +38,15 @@ private:
 	cv::Point2f LocationPxTL, LocationPxTR, LocationPxBL, LocationPxBR, LocationPxM;
 	//angle in degree
 	float RotationAngle; 
+	float miliseconds; 
 
 	cv::FlannBasedMatcher matcher;	
 	cv::Mat warpMat;
 	cv::vector<cv::vector<cv::KeyPoint>> dbKeyPoints;
-	
-	cv::Mat imageWarp();
+
+	bool isSimulation_;
+	float imgRatio_;
+		
 	cv::Mat computeLocalFeatures(cv::Mat &image, cv::vector<cv::vector<cv::KeyPoint>> &pageKeyPoints);
 	float compareImages(cv::Mat &lastImg, cv::Mat &currentImg);
 
