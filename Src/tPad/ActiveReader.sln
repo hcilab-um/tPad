@@ -8,6 +8,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unmanagedReg", "..\Registration\unmanagedTest\unManagedTest.vcxproj", "{2B219B29-BDA8-4438-A59E-4CC1A4465174}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "managedReg", "..\Registration\managedTest\managedTest.vcxproj", "{5C197F32-C069-4AB3-A6AF-1FF3FF27668B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2B219B29-BDA8-4438-A59E-4CC1A4465174} = {2B219B29-BDA8-4438-A59E-4CC1A4465174}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

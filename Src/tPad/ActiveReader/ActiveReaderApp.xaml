@@ -31,6 +31,11 @@
       </MultiBinding>
     </Grid.Height>
 
+    <!-- This rectangle guarantees a correct placement of the layers - do not delete -->
+    <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" 
+               Width="{Binding ElementName=arApp, Path=Profile.Resolution.Width}" Height="{Binding ElementName=arApp, Path=Profile.Resolution.Height}"
+               Stroke="Black" StrokeThickness="1" Fill="Transparent"/>
+
     <!-- This is the grid containing all the layers that are anchored to the page -->
     <!-- The transformation below are manipulated from the code behind. It could also be made through binding bu the response time is slower. -->
     <Grid x:Name="gAnchoredLayers" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -67,10 +72,10 @@
         <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
                         ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
       </Canvas.RenderTransform>
-
+      
       <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->
 
-      <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0" 
+      <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" Margin="0,25,0,0">

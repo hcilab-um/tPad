@@ -210,6 +210,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         isHighlighting = true;
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
+        Console.WriteLine(lastPosition);
 
         newHighlight = new Line() { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 10 };
         newHighlight.MouseDown += cHighlights_MouseDown;
