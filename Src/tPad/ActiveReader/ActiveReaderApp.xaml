@@ -34,7 +34,12 @@
     <!-- This rectangle guarantees a correct placement of the layers - do not delete -->
     <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" 
                Width="{Binding ElementName=arApp, Path=Profile.Resolution.Width}" Height="{Binding ElementName=arApp, Path=Profile.Resolution.Height}"
-               Stroke="Black" StrokeThickness="1" Fill="Transparent"/>
+               Stroke="Green" StrokeThickness="1" Fill="Transparent">
+      <Rectangle.RenderTransform>
+        <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
+                        ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
+      </Rectangle.RenderTransform>
+    </Rectangle>
 
     <!-- This is the grid containing all the layers that are anchored to the page -->
     <!-- The transformation below are manipulated from the code behind. It could also be made through binding bu the response time is slower. -->

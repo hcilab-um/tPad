@@ -7,15 +7,18 @@ using UofM.HCI.tPab.Monitors;
 using CAF.ContextService;
 using System.Windows;
 using UofM.HCI.tPab.Services;
+using System.ComponentModel;
 
 namespace UofM.HCI.tPab
 {
-  public class TPadCore : ContextService, IContextServiceListener
+  public class TPadCore : ContextService, IContextServiceListener, INotifyPropertyChanged
   {
 
     private static log4net.ILog logger;
 
     public bool IsSimulation { get; set; }
+    public bool UseFeatureTracking { get; set; }
+
     public TPadDevice Device { get; set; }
     public TPadProfile Profile { get; set; }
 
@@ -33,7 +36,7 @@ namespace UofM.HCI.tPab
     }
 
     private TPadCore()
-    {      
+    {
       Registration = new RegistrationService();
     }
 
@@ -46,7 +49,7 @@ namespace UofM.HCI.tPab
       Profile = profile;
       Device = new TPadDevice() { Profile = Profile };
       Device.LoadId();
-            
+
       ArduinoMonitor arduino = null;
       ContextMonitor cameraMonitor = null, flippingMonitor = null, stackingMonitor = null;
       if (IsSimulation)
@@ -89,7 +92,7 @@ namespace UofM.HCI.tPab
 
     public void CoreStart(ITPadAppContainer appContainer = null)
     {
-      if(IsSimulation && appContainer != null)
+      if (IsSimulation && appContainer != null)
       {
         SimCameraMonitor cameraMonitor = (SimCameraMonitor)ContextMonitorContainer.GetContextMonitor(typeof(SimCameraMonitor));
         cameraMonitor.CameraSource = appContainer;
@@ -112,6 +115,13 @@ namespace UofM.HCI.tPab
       {
         Device.Location = (TPadLocation)e.NewObject;
       }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    private void OnPropertyChanged(String name)
+    {
+      if (PropertyChanged != null)
+        PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
   }

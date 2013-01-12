@@ -109,6 +109,12 @@ namespace UofM.HCI.tPab
       }
     }
 
+    public bool UseFeatureTracking
+    {
+      get { return TPadCore.Instance.UseFeatureTracking; }
+      set { TPadCore.Instance.UseFeatureTracking = value; }
+    }
+
     public Simulator(Application launcher)
     {
       TPadDocument document = TPadCore.Instance.Registration.ActualDocument;
@@ -336,6 +342,11 @@ namespace UofM.HCI.tPab
           return codec;
       }
       return null;
+    }
+
+    private void tbRunOnTPad_Click(object sender, RoutedEventArgs e)
+    {
+
     }
 
   }

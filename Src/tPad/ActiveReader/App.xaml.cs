@@ -13,7 +13,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
   public partial class App : Application
   {
 
-    private Simulator hostWindow = null;
+    private ActiveReaderApp reader = null;
+    private Simulator simulatorWindow = null;
+    private TPadWindow deviceWindow = null;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -30,11 +32,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
       TPadCore.Instance.Configure(profile, true);
       TPadCore.Instance.Registration.LoadDocuments(pagesFolder);
 
-      hostWindow = new Simulator(this);
-      hostWindow.LoadTPadApp(new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", hostWindow));
+      simulatorWindow = new Simulator(this);
+      simulatorWindow.LoadTPadApp(new MockApp(simulatorWindow));
 
-      TPadCore.Instance.CoreStart(hostWindow);
-      hostWindow.Show();
+      //deviceWindow = new TPadWindow();
+      //reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", simulatorWindow);
+      //deviceWindow.LoadTPadApp(reader);
+
+      TPadCore.Instance.CoreStart(simulatorWindow);
+      simulatorWindow.Show();
     }
 
   }
