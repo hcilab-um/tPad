@@ -10,3 +10,4 @@ TestResults
 *.suo
 *.sdf
 *.opensdf
+*.csproj.user

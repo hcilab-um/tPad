@@ -223,7 +223,7 @@ void paperRegistration::createIndex(std::string dir_path)
 
 	flannMatcher.write(fs);*/
 
-	matcher = cv::FlannBasedMatcher(new cv::flann::LshIndexParams(13,22, 0));
+	matcher = cv::FlannBasedMatcher(new cv::flann::LshIndexParams(5,22, 0));
 	matcher.add(dbDescriptors);
 	matcher.train();
 	
@@ -284,7 +284,6 @@ int paperRegistration::detectLocation(cv::Mat &cameraImage, cv::Mat &lastImg)
 			warpMat = getRotationMatrix2D(cv::Point2f(cameraImage.cols/2.0, cameraImage.rows/2.0), 180, 1);
 			cv::warpAffine(cameraImage, cameraImage, warpMat, cameraImage.size());
 			cv::resize(cameraImage, cameraImage, cv::Size(cameraImage.cols*imgRatio_, cameraImage.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
-			//cv::imwrite("img.png", cameraImage);
 		}
 		else 
 		{
@@ -295,7 +294,6 @@ int paperRegistration::detectLocation(cv::Mat &cameraImage, cv::Mat &lastImg)
 			point[1] = cvPoint(cameraImage.cols,cameraImage.rows);
 			cv::perspectiveTransform(point, point, warpMat);	
 			cameraImage = cv::Mat(warpedImage, cv::Rect(point[0], point[1]));
-		//	cv::imwrite("img.png", cameraImage);
 			warpedImage.release();
 		}
 		
@@ -362,9 +360,7 @@ int paperRegistration::detectLocation(cv::Mat &cameraImage, cv::Mat &lastImg)
 			else if (area_result > area_searchImg && (area_searchImg/area_result) < 0.9)
 				return -1;*/
 
-			//drawMatch(&cameraImage, locationHM);
-
-			
+			//drawMatch(&cameraImage, locationHM);			
 			return 1;
 		}
 		else return -1;
