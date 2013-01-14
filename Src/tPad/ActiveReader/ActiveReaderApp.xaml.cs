@@ -619,7 +619,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newNote.annotation.PreviewMouseUp += Note_PreviewMouseUp;
       newNote.annotation.PreviewMouseMove += Note_PreviewMouseMove;
 
-      newNote.icon = new Image { Width = (int)iDocument.Width/30, Height = (int)iDocument.Width/25 };
+      newNote.icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
       string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
       newNote.icon.Source = new BitmapImage(new Uri(strUri2));
       newNote.icon.Margin = new Thickness(lastPosition_right.X - 35, lastPosition_right.Y, 0, 0);
@@ -692,5 +692,5 @@ namespace UofM.HCI.tPab.App.ActiveReader
         }
       }
     }
-
   }
+}
