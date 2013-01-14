@@ -171,9 +171,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <AppDesigner Include="Properties\" />
-    <Content Include="ICON.png">
+    <EmbeddedResource Include="ICON.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\tPadLib\tPadLib.csproj">

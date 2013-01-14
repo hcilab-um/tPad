@@ -507,7 +507,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newNote.annotation.PreviewMouseMove += Note_PreviewMouseMove;
 
       newNote.icon = new Image { Width = 26, Height = 20.5 };
-      string strUri2 = String.Format(@"C:\Users\sophie\Documents\GitHub\tPad\Src\tPad\ActiveReader\ICON.png");
+      string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
       newNote.icon.Source = new BitmapImage(new Uri(strUri2));
       newNote.icon.Margin = new Thickness(lastPosition_right.X - 35, lastPosition_right.Y, 0, 0);
       newNote.icon.MouseDown += Icon_MouseDown;
