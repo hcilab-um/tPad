@@ -127,9 +127,8 @@
       </Grid>
 
       <!-- on-screen keyboard -->
-      <Grid Canvas.Top="550" Canvas.Left="0" Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}"
-            Height="250" HorizontalAlignment="Center" Background="WhiteSmoke" Visibility="{Binding ElementName=arApp, Path=VisibilityKeyboard}">
-        <Grid.RowDefinitions>
+       <Grid Canvas.Top="{Binding ElementName=arApp, Path=KeyboardPosition}" Canvas.Left="0" Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}"
+            Height="200" Background="WhiteSmoke" Visibility="{Binding ElementName=arApp, Path=VisibilityKeyboard}">        <Grid.RowDefinitions>
           <RowDefinition Height="auto"/>
           <RowDefinition/>
         </Grid.RowDefinitions>
