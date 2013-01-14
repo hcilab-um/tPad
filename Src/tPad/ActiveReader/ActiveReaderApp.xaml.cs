@@ -116,6 +116,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
       OnPropertyChanged("HeightScalingFactor");
     }
 
+    private void arApp_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+      WidthScalingFactor = ActualWidth / Profile.Resolution.Width;
+      HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
+      OnPropertyChanged("WidthScalingFactor");
+      OnPropertyChanged("HeightScalingFactor");
+    }
+
     void Device_StackingChanged(object sender, StackingEventArgs e)
     {
       throw new NotImplementedException();
@@ -185,7 +193,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         (Action)delegate()
         {
           System.Drawing.PointF locationPx = new System.Drawing.PointF(
-            e.NewLocation.LocationCm.X * Container.WidthFactor, 
+            e.NewLocation.LocationCm.X * Container.WidthFactor,
             e.NewLocation.LocationCm.Y * Container.HeightFactor);
 
           trCanvas.Angle = e.NewLocation.RotationAngle * -1;
@@ -245,7 +253,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         isHighlighting = true;
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
-        Console.WriteLine(lastPosition);
 
         newHighlight = new Line() { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 10 };
         newHighlight.MouseDown += cHighlights_MouseDown;
@@ -293,7 +300,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void gFixedLayers_MouseDown(object sender, MouseButtonEventArgs e)
     {
       lastPosition = Mouse.GetPosition(sender as Grid);
-      Console.WriteLine(lastPosition);
     }
 
     private void bHighlight_Click(object sender, RoutedEventArgs e)
@@ -349,7 +355,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
           {
             if (foundWord)
             {
-              wordBounds = new Rect(wordBounds.Left, wordBounds.Top, glyphBounds.Right - wordBounds.Left, wordBounds.Height);
+              double wordWidth = glyphBounds.Right - wordBounds.Left;
+              if (wordWidth > 0) //multi-line word -- the bounds cover only the upper part of it
+                wordBounds = new Rect(wordBounds.Left, wordBounds.Top, wordWidth, wordBounds.Height);
+
               if (highlight)
                 AddWordHighlight(wordBounds);
               return currentWord.ToString();

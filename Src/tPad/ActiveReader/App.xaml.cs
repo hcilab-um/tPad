@@ -33,21 +33,21 @@ namespace UofM.HCI.tPab.App.ActiveReader
       TPadCore.Instance.Registration.LoadDocuments(pagesFolder);
 
       //*** Code to run on the deviceWindow ***//
-      //simulatorWindow = new Simulator(this);
-      //simulatorWindow.LoadTPadApp(new MockApp(simulatorWindow));
-      //deviceWindow = new TPadWindow(this);
-      //reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", deviceWindow);
-      //deviceWindow.LoadTPadApp(reader);
-      //TPadCore.Instance.CoreStart(deviceWindow, simulatorWindow);
-      //simulatorWindow.Show();
-      //deviceWindow.Show();
+      simulatorWindow = new Simulator(this);
+      simulatorWindow.LoadTPadApp(new MockApp(simulatorWindow));
+      deviceWindow = new TPadWindow(this);
+      reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", deviceWindow);
+      deviceWindow.LoadTPadApp(reader);
+      TPadCore.Instance.CoreStart(deviceWindow, simulatorWindow);
+      simulatorWindow.Show();
+      deviceWindow.Show();
 
       //*** Code to run only on the simulatorWindow ***//
-      simulatorWindow = new Simulator(this);
-      reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", simulatorWindow);
-      simulatorWindow.LoadTPadApp(reader);
-      TPadCore.Instance.CoreStart(simulatorWindow, simulatorWindow);
-      simulatorWindow.Show();
+      //simulatorWindow = new Simulator(this);
+      //reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", simulatorWindow);
+      //simulatorWindow.LoadTPadApp(reader);
+      //TPadCore.Instance.CoreStart(simulatorWindow, simulatorWindow);
+      //simulatorWindow.Show();
     }
 
     public void CloseAll(UIElement sender)

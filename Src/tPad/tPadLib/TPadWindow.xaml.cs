@@ -45,8 +45,11 @@ namespace UofM.HCI.tPab
       get { throw new NotImplementedException(); }
     }
 
+    public double SizeMultiplier { get; set; }
+
     public TPadWindow(ITPadAppLauncher launcher)
     {
+      SizeMultiplier = 0.75; // This makes the window smaller when using a single monitor set-up -- for development
       Launcher = launcher;
       Profile = TPadCore.Instance.Profile;
 
@@ -73,6 +76,24 @@ namespace UofM.HCI.tPab
         Launcher.CloseAll(this);
     }
 
+    private void tpWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+      if (System.Windows.Forms.SystemInformation.MonitorCount == 1)
+        return;
+
+      var tPadDisplay = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(tmp => tmp.Bounds.Width == Profile.Resolution.Width && tmp.Bounds.Height == Profile.Resolution.Height);
+      if (tPadDisplay == null)
+        return;
+
+      SizeMultiplier = 1;
+      OnPropertyChanged("SizeMultiplier");
+
+      Left = tPadDisplay.WorkingArea.Left;
+      Top = tPadDisplay.WorkingArea.Top;
+      WindowStyle = System.Windows.WindowStyle.None;
+      WindowState = System.Windows.WindowState.Maximized;
+    }
+
     private void tpWindow_SizeChanged(object sender, SizeChangedEventArgs e)
     {
       OnPropertyChanged("WidthFactor");
@@ -85,6 +106,7 @@ namespace UofM.HCI.tPab
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
+
   }
 
 }

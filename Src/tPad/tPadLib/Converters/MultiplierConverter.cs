@@ -15,7 +15,7 @@ namespace UofM.HCI.tPab.Converters
         return 0.0;
 
       var valueToMultiply = Double.Parse(value.ToString());
-      var multiplier = Double.Parse((String)parameter);
+      var multiplier = Double.Parse(parameter.ToString());
  
       return valueToMultiply * multiplier;
     }
