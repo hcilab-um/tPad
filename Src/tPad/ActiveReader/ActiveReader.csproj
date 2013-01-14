@@ -96,6 +96,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
     <Compile Include="Converters\StatusAndBoolBackgroundConverter.cs" />
     <Compile Include="Converters\StatusAndBoolVisibilityConverter.cs" />
     <Compile Include="Converters\StatusAndModeVisibilityConverter.cs" />
@@ -170,6 +171,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <AppDesigner Include="Properties\" />
+    <EmbeddedResource Include="ICON.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\tPadLib\tPadLib.csproj">

@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using TallComponents.PDF;
 using System.IO;
 using TallComponents.PDF.TextExtraction;
+using System.Text.RegularExpressions;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -80,6 +81,39 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         showPageImage = value;
         OnPropertyChanged("ShowPageImage");
+      }
+    }
+
+    private bool showNumericKeyboard;
+    public bool ShowNumericKeyboard
+    {
+      get { return showNumericKeyboard; }
+      set
+      {
+        showNumericKeyboard = value;
+        OnPropertyChanged("ShowNumericKeyboard");
+      }
+    }
+
+    private Visibility visibilityKeyboard = Visibility.Hidden;
+    public Visibility VisibilityKeyboard
+    {
+      get { return visibilityKeyboard; }
+      set
+      {
+        visibilityKeyboard = value;
+        OnPropertyChanged("VisibilityKeyboard");
+      }
+    }
+
+    private string result = String.Empty;
+    public string Result
+    {
+      get { return result; }
+      private set
+      {
+        result = value;
+        OnPropertyChanged("Result");
       }
     }
 
@@ -225,6 +259,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
           foreach (Line highlight in highlights)
             cHighlights.Children.Remove(highlight);
 
+          //Unload existing notes
+          var notes = cHighlights.Children.OfType<TextBox>().ToList();
+          foreach (TextBox note in notes)
+            cHighlights.Children.Remove(note);
+
+          //Unload existing icons
+          var iconNotes = cHighlights.Children.OfType<Image>().ToList();
+          foreach (Image icon in iconNotes)
+            cHighlights.Children.Remove(icon);
+
           //Loads other highlights for this page
           foreach (UIElement element in document.Pages[pageIndex].Highlights)
           {
@@ -233,6 +277,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
             highlight.MouseMove += cHighlights_MouseMove;
             highlight.MouseUp += cHighlights_MouseUp;
             cHighlights.Children.Add(highlight);
+          }
+
+          //Loads other notes for this page
+          foreach (Notes element in document.Pages[pageIndex].Notes)
+          {
+            Notes note = (Notes)element;
+            cHighlights.Children.Add(note.annotation);
+            cHighlights.Children.Add(note.icon);
           }
         });
     }
@@ -246,7 +298,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private bool isHighlighting = false;
     private Point lastPosition;
+    private Point lastPosition_right;
     private Line newHighlight;
+    private Line currentHighlight;
+    private Notes currentNote;
     private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
@@ -263,6 +318,24 @@ namespace UofM.HCI.tPab.App.ActiveReader
         newHighlight.X2 = lastPosition.X;
         newHighlight.Y2 = lastPosition.Y;
         cHighlights.Children.Add(newHighlight);
+
+        contextMenu.Visibility = Visibility.Hidden;
+        //hide on screen keyboard
+        VisibilityKeyboard = Visibility.Hidden;
+        foreach (Notes element in ActualDocument.Pages[ActualPage].Notes)
+          element.annotation.Visibility = Visibility.Hidden;
+      }
+      else if (e.RightButton == MouseButtonState.Pressed && e.LeftButton == MouseButtonState.Released)
+      {
+        //show context menu when right click on highlighting
+        if (sender.GetType() == typeof(Line))
+        {
+          contextMenu.IsOpen = false;
+          contextMenu.Visibility = Visibility.Visible;
+          currentHighlight = (Line)sender;
+          lastPosition_right = Mouse.GetPosition(gAnchoredLayers);
+        }
+        else contextMenu.Visibility = Visibility.Hidden;
       }
     }
 
@@ -415,6 +488,198 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void ShowContextualMenu(Point position, String content)
     {
+    }
+
+    private void CMDelete_Click(object sender, RoutedEventArgs e)
+    {
+      cHighlights.Children.Remove(currentHighlight);
+      ActualDocument.Pages[ActualPage].Highlights.Remove(currentHighlight);
+    }
+
+
+    private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+      VisibilityKeyboard = Visibility.Hidden;
+      foreach (Notes element in ActualDocument.Pages[ActualPage].Notes)
+      {
+        if (element.icon == (Image)sender)
+          currentNote = element;
+      }
+
+      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
+      {
+        if (currentNote.annotation.Visibility == Visibility.Hidden)
+        {
+          currentNote.annotation.Visibility = Visibility.Visible;
+        }
+        else
+        {
+          currentNote.annotation.Visibility = Visibility.Hidden;
+        }
+      }
+    }
+
+    private bool isAnnotationMoved = false;
+    private bool isAnnotationResized = false;
+    static Size defaultNoteSize = new Size(20, 20);
+    private void Note_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
+      {
+        currentNote.annotation = (TextBox)sender;
+
+        lastPosition = Mouse.GetPosition(gAnchoredLayers);
+        VisibilityKeyboard = Visibility.Visible;
+        Result = "";
+
+        //check if there is a click on bottom right corner of note
+        if (lastPosition.X <= (currentNote.annotation.Margin.Left + currentNote.annotation.Width) &&
+          lastPosition.X >= (currentNote.annotation.Margin.Left + currentNote.annotation.Width - 20) &&
+          lastPosition.Y <= (currentNote.annotation.Margin.Top + currentNote.annotation.Height) &&
+          lastPosition.Y >= (currentNote.annotation.Margin.Top + currentNote.annotation.Height - 20))
+          isAnnotationResized = true;
+        else if (lastPosition.X <= (currentNote.annotation.Margin.Left + currentNote.annotation.Width) &&
+          lastPosition.X >= (currentNote.annotation.Margin.Left + currentNote.annotation.Width - 20) &&
+          lastPosition.Y <= (currentNote.annotation.Margin.Top + 20) &&
+          lastPosition.Y >= currentNote.annotation.Margin.Top)
+        {
+          cHighlights.Children.Remove(currentNote.annotation);
+          cHighlights.Children.Remove(currentNote.icon);
+          ActualDocument.Pages[ActualPage].Notes.Remove(currentNote);
+          currentNote.annotation = null;
+          currentNote.icon = null;
+        }
+        else
+          isAnnotationMoved = true;
+      }
+    }
+
+    private void Note_PreviewMouseMove(object sender, MouseEventArgs e)
+    {
+      if (!isAnnotationMoved && !isAnnotationResized)
+        return;
+
+      Point currentPosition = Mouse.GetPosition(gAnchoredLayers);
+      Vector lineVector = new Vector(currentPosition.X - lastPosition.X,
+        currentPosition.Y - lastPosition.Y);
+      if (lineVector.Length > 3)
+      {
+        if (isAnnotationMoved)
+          currentNote.annotation.Margin = new Thickness(currentPosition.X, currentPosition.Y, 0, 0);
+        else
+        {
+          Point noteSize = new Point(currentPosition.X - currentNote.annotation.Margin.Left,
+            currentPosition.Y - currentNote.annotation.Margin.Top);
+          if (noteSize.X >= defaultNoteSize.Width)
+            currentNote.annotation.Width = noteSize.X;
+          if (noteSize.Y >= defaultNoteSize.Height)
+            currentNote.annotation.Height = noteSize.Y;
+        }
+        VisibilityKeyboard = Visibility.Hidden;
+      }
+    }
+
+    private void Note_PreviewMouseUp(object sender, MouseEventArgs e)
+    {
+      if (!isAnnotationMoved && !isAnnotationResized)
+        return;
+
+      isAnnotationMoved = false;
+      isAnnotationResized = false;
+    }
+
+    private void CMAnnotation_Click(object sender, RoutedEventArgs e)
+    {
+      //show keyboard and clean result
+      VisibilityKeyboard = Visibility.Visible;
+      Result = "";
+
+      Notes newNote;
+      newNote.annotation = new TextBox
+      {
+        BorderBrush = Brushes.Goldenrod,
+        Background = Brushes.LemonChiffon,
+        Width = 100,
+        Height = 100,
+        TextWrapping = TextWrapping.Wrap
+      };
+      newNote.annotation.Margin = new Thickness(lastPosition_right.X, lastPosition_right.Y, 0, 0);
+      newNote.annotation.PreviewMouseDown += Note_PreviewMouseDown;
+      newNote.annotation.PreviewMouseUp += Note_PreviewMouseUp;
+      newNote.annotation.PreviewMouseMove += Note_PreviewMouseMove;
+
+      newNote.icon = new Image { Width = 26, Height = 20.5 };
+      string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
+      newNote.icon.Source = new BitmapImage(new Uri(strUri2));
+      newNote.icon.Margin = new Thickness(lastPosition_right.X - 35, lastPosition_right.Y, 0, 0);
+      newNote.icon.MouseDown += Icon_MouseDown;
+
+      cHighlights.Children.Add(newNote.annotation);
+      cHighlights.Children.Add(newNote.icon);
+      ActualDocument.Pages[ActualPage].Notes.Add(newNote);
+
+      //Update current note
+      currentNote = newNote;
+    }
+
+    private void keyboardButton_Click(object sender, RoutedEventArgs e)
+    {
+      Button button = sender as Button;
+      if (button != null)
+      {
+        switch (button.CommandParameter.ToString())
+        {
+          case "LSHIFT":
+            Regex upperCaseRegex = new Regex("[A-Z]");
+            Regex lowerCaseRegex = new Regex("[a-z]");
+            Button btn;
+
+            foreach (UIElement elem in AlfaKeyboard.Children) //iterate the main grid
+            {
+              Grid grid = elem as Grid;
+              if (grid != null)
+              {
+                foreach (UIElement uiElement in grid.Children)  //iterate the single rows
+                {
+                  btn = uiElement as Button;
+                  if (btn != null) // if button contains only 1 character
+                  {
+                    if (btn.Content.ToString().Length == 1)
+                    {
+                      if (upperCaseRegex.Match(btn.Content.ToString()).Success) // if the char is a letter and uppercase
+                        btn.Content = btn.Content.ToString().ToLower();
+                      else if (lowerCaseRegex.Match(button.Content.ToString()).Success) // if the char is a letter and lower case
+                        btn.Content = btn.Content.ToString().ToUpper();
+                    }
+                  }
+                }
+              }
+            }
+            break;
+
+          case "ALT":
+          case "CTRL":
+            break;
+
+          case "RETURN":
+            //stickyNote.Text += Result.ToString();
+            currentNote.annotation.Text += "\r\n";
+            break;
+
+          case "BACK":
+            if (Result.Length > 0 && currentNote.annotation.Text.Length > 0)
+            {
+              Result = Result.Remove(Result.Length - 1);
+              currentNote.annotation.Text = currentNote.annotation.Text.Remove(currentNote.annotation.Text.Length - 1);
+            }
+            break;
+
+          default:
+            Result += button.Content.ToString();
+            currentNote.annotation.Text += button.Content.ToString();
+            break;
+        }
+      }
     }
 
   }
