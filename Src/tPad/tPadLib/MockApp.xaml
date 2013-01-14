@@ -6,20 +6,13 @@
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="mockApp_Loaded">
 
-  <Canvas Width="{Binding ElementName=mockApp, Path=Profile.Resolution.Width}" 
-          Height="{Binding ElementName=mockApp, Path=Profile.Resolution.Height}">
-    <Canvas.RenderTransform>
-      <ScaleTransform ScaleX="{Binding ElementName=mockApp, Path=WidthScalingFactor}"
-                      ScaleY="{Binding ElementName=mockApp, Path=HeightScalingFactor}"/>
-    </Canvas.RenderTransform>
-
+  <Grid Width="{Binding ElementName=mockApp, Path=ActualWidth}" Height="{Binding ElementName=mockApp, Path=ActualHeight}">
+    
     <!-- This rectangle guarantees a correct placement of the layers - do not delete -->
-    <Grid Canvas.Top="0" Canvas.Left="0"
-               Width="{Binding ElementName=mockApp, Path=Profile.Resolution.Width}" 
-               Height="{Binding ElementName=mockApp, Path=Profile.Resolution.Height}">
-      <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stroke="Green" StrokeThickness="1" Fill="Red" Opacity="0.5"/>
-      <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30">Mock TPad Application</Label>
-    </Grid>
-  </Canvas>
+    <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stroke="Green" StrokeThickness="1" Fill="Red" Opacity="0.5"/>
+
+    <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15">Mock TPad Application</Label>
+    
+  </Grid>
   
 </UserControl>

@@ -16,7 +16,7 @@ namespace UofM.HCI.tPab.Monitors
   public class SimCameraMonitor : ContextMonitor
   {
 
-    public ITPadAppContainer CameraSource { get; set; }
+    public ITPadAppController CameraSource { get; set; }
 
     protected override void CustomRun()
     {

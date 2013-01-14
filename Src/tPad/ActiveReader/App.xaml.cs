@@ -10,7 +10,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
   /// <summary>
   /// Interaction logic for App.xaml
   /// </summary>
-  public partial class App : Application
+  public partial class App : Application, ITPadAppLauncher
   {
 
     private ActiveReaderApp reader = null;
@@ -32,16 +32,32 @@ namespace UofM.HCI.tPab.App.ActiveReader
       TPadCore.Instance.Configure(profile, true);
       TPadCore.Instance.Registration.LoadDocuments(pagesFolder);
 
-      simulatorWindow = new Simulator(this);
-      simulatorWindow.LoadTPadApp(new MockApp(simulatorWindow));
-
-      //deviceWindow = new TPadWindow();
-      //reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", simulatorWindow);
+      //*** Code to run on the deviceWindow ***//
+      //simulatorWindow = new Simulator(this);
+      //simulatorWindow.LoadTPadApp(new MockApp(simulatorWindow));
+      //deviceWindow = new TPadWindow(this);
+      //reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", deviceWindow);
       //deviceWindow.LoadTPadApp(reader);
+      //TPadCore.Instance.CoreStart(deviceWindow, simulatorWindow);
+      //simulatorWindow.Show();
+      //deviceWindow.Show();
 
-      TPadCore.Instance.CoreStart(simulatorWindow);
+      //*** Code to run only on the simulatorWindow ***//
+      simulatorWindow = new Simulator(this);
+      reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", simulatorWindow);
+      simulatorWindow.LoadTPadApp(reader);
+      TPadCore.Instance.CoreStart(simulatorWindow, simulatorWindow);
       simulatorWindow.Show();
     }
 
+    public void CloseAll(UIElement sender)
+    {
+      if (sender != simulatorWindow && simulatorWindow != null)
+        simulatorWindow.Close();
+      if (sender != deviceWindow && deviceWindow != null)
+        deviceWindow.Close();
+    }
+
   }
+
 }

@@ -13,7 +13,10 @@
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />
     <convertersLib:LayerRotationCenterConverter x:Key="cLayerRotationCenter" />
     <convertersLib:StatusVisibilityConverter x:Key="cStatusVisibility"/>
+    <convertersLib:PageLoaderConverter x:Key="cPageLoader" />
     <convertersApp:StatusAndModeVisibilityConverter x:Key="cStatusAndModeVisibility" />
+    <convertersApp:StatusAndBoolVisibilityConverter x:Key="cStatusAndBoolVisibility" />
+    <convertersApp:StatusAndBoolBackgroundConverter x:Key="cStatusAndBoolBackground" />
   </UserControl.Resources>
 
   <!-- This is the outer wrapper which makes the paintable area of the application to be as big as the ducoment page -->
@@ -52,6 +55,20 @@
       </Grid.RenderTransform>
 
       <!-- Here go all the other layers for content that's anchored to the document -->
+      <Image x:Name="iDocument" Stretch="Fill" Width="{Binding ElementName=gAnchoredLayers, Path=ActualWidth}">
+        <Image.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolVisibility}" ConverterParameter="Located,True">
+            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="bShowPage" Path="IsChecked"/>
+          </MultiBinding>
+        </Image.Visibility>
+        <Image.Source>
+          <MultiBinding Converter="{StaticResource ResourceKey=cPageLoader}">
+            <Binding ElementName="arApp" Path="ActualPage"/>
+            <Binding ElementName="arApp" Path="ActualDocument"/>
+          </MultiBinding>
+        </Image.Source>
+      </Image>
 
       <!-- The first layer is for the highlights -->
       <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -77,7 +94,7 @@
         <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
                         ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
       </Canvas.RenderTransform>
-      
+
       <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->
 
       <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0"
@@ -86,6 +103,7 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" Margin="0,25,0,0">
           <ToggleButton x:Name="bHighlight" IsThreeState="false" Click="bHighlight_Click">Highlight</ToggleButton>
           <ToggleButton x:Name="bAnnotation" IsThreeState="false" Click="bAnnotation_Click" Margin="20,0,0,0">Annotations</ToggleButton>
+          <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0">Show Page</ToggleButton>
         </StackPanel>
       </Grid>
 
@@ -99,5 +117,12 @@
     </Canvas>
 
   </Grid>
+
+  <UserControl.Background>
+    <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolBackground}" ConverterParameter="Located,True">
+      <Binding ElementName="arApp" Path="Device.Location.Status"/>
+      <Binding ElementName="bShowPage" Path="IsChecked"/>
+    </MultiBinding>
+  </UserControl.Background>
 
 </UserControl>

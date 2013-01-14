@@ -90,13 +90,14 @@ namespace UofM.HCI.tPab
       ContextServiceContainer.AddContextService(Registration);
     }
 
-    public void CoreStart(ITPadAppContainer appContainer = null)
+    public void CoreStart(ITPadAppContainer appContainer, ITPadAppController appController)
     {
-      if (IsSimulation && appContainer != null)
+      if (IsSimulation && appController != null)
       {
         SimCameraMonitor cameraMonitor = (SimCameraMonitor)ContextMonitorContainer.GetContextMonitor(typeof(SimCameraMonitor));
-        cameraMonitor.CameraSource = appContainer;
+        cameraMonitor.CameraSource = appController;
         Registration.Container = appContainer;
+        Registration.Controller = appController;
       }
 
       logger.Info("Starting Up Services and Monitors");

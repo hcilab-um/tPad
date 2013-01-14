@@ -37,8 +37,28 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public double WidthScalingFactor { get; set; }
     public double HeightScalingFactor { get; set; }
 
-    private int ActualPage { get; set; }
-    private TPadDocument ActualDocument { get; set; }
+    private int actualPage = -1;
+    public int ActualPage
+    {
+      get { return actualPage; }
+      set
+      {
+        actualPage = value;
+        OnPropertyChanged("ActualPage");
+      }
+    }
+
+    private TPadDocument actualDocument = null;
+    public TPadDocument ActualDocument
+    {
+      get { return actualDocument; }
+      set
+      {
+        actualDocument = value;
+        OnPropertyChanged("ActualDocument");
+      }
+    }
+
     private Document PdfDocument { get; set; }
 
     private ActiveReaderMode currentMode = ActiveReaderMode.Nothing;
@@ -52,7 +72,18 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    public ActiveReaderApp(String documentPDF, ITPadAppContainer container = null)
+    private bool showPageImage = false;
+    public bool ShowPageImage
+    {
+      get { return showPageImage; }
+      set
+      {
+        showPageImage = value;
+        OnPropertyChanged("ShowPageImage");
+      }
+    }
+
+    public ActiveReaderApp(String documentPDF, ITPadAppContainer container)
     {
       Device = TPadCore.Instance.Device;
       Profile = TPadCore.Instance.Profile;
@@ -153,12 +184,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
-          trCanvas.Angle = e.NewLocation.RotationAngle * -1;
-          trCanvas.CenterX = e.NewLocation.LocationPx.X + ActualWidth / 2;
-          trCanvas.CenterY = e.NewLocation.LocationPx.Y + ActualHeight / 2;
+          System.Drawing.PointF locationPx = new System.Drawing.PointF(
+            e.NewLocation.LocationCm.X * Container.WidthFactor, 
+            e.NewLocation.LocationCm.Y * Container.HeightFactor);
 
-          ttCanvas.X = e.NewLocation.LocationPx.X * -1;
-          ttCanvas.Y = e.NewLocation.LocationPx.Y * -1;
+          trCanvas.Angle = e.NewLocation.RotationAngle * -1;
+          trCanvas.CenterX = locationPx.X + ActualWidth / 2;
+          trCanvas.CenterY = locationPx.Y + ActualHeight / 2;
+
+          ttCanvas.X = locationPx.X * -1;
+          ttCanvas.Y = locationPx.Y * -1;
         });
     }
 

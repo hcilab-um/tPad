@@ -21,9 +21,12 @@ namespace UofM.HCI.tPab.Converters
     {
       if (values.Length != 2 || values[1] == null || values[0] == DependencyProperty.UnsetValue)
         return GetSampleDoc();
-      
+
       int actualPage = (int)values[0];
       TPadDocument actualDocument = (TPadDocument)values[1];
+
+      if (actualPage == -1)
+        return GetSampleDoc();
 
       String pageFileName = actualDocument.Pages[actualPage].FileName;
       if (File.Exists(pageFileName))

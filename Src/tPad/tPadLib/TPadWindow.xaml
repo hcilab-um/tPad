@@ -1,22 +1,15 @@
-﻿<Window x:Class="UofM.HCI.tPab.TPadWindow"
+﻿<Window x:Class="UofM.HCI.tPab.TPadWindow" x:Name="tpWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters"
-        WindowStyle="None" ResizeMode="NoResize">
+        WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Topmost="True" SizeChanged="tpWindow_SizeChanged">
   
   <Window.Resources>
     <converters:MultiplierConverter x:Key="cMultiplier" />
   </Window.Resources>
   
-  <Grid x:Name="gTPadApp">
-    <Grid.RenderTransform>
-      <TransformGroup>
-        <RotateTransform x:Name="tRotate" Angle="{Binding ElementName=wSimulator, Path=RotationAngle}" 
-                           CenterX="{Binding ElementName=gTPadApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
-                           CenterY="{Binding ElementName=gTPadApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
-        <!-- This transformation aligns the initial position of the tPad to the document below it -->
-        <TranslateTransform x:Name="tAlign" X="0"/>
-      </TransformGroup>
-    </Grid.RenderTransform>
+  <Grid x:Name="gTPadApp" 
+        Width="{Binding ElementName=tpWindow, Path=Profile.Resolution.Width, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.75}" 
+        Height="{Binding ElementName=tpWindow, Path=Profile.Resolution.Height, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.75}">
   </Grid>
 </Window>

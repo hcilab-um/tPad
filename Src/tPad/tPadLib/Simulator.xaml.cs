@@ -21,7 +21,7 @@ namespace UofM.HCI.tPab
   /// <summary>
   /// Interaction logic for Simulatorç.xaml
   /// </summary>
-  public partial class Simulator : Window, INotifyPropertyChanged, ITPadAppContainer
+  public partial class Simulator : Window, INotifyPropertyChanged, ITPadAppContainer, ITPadAppController
   {
 
     private float widthFactor, heightFactor;
@@ -29,6 +29,7 @@ namespace UofM.HCI.tPab
     private System.Drawing.Point location;
     private float simCaptureToSourceImageRatio;
 
+    private ITPadAppLauncher Launcher { get; set; }
     private UserControl TPadApp { get; set; }
     public Rect TPadAppBounds { get; set; }
     private Size BorderDiff { get; set; }
@@ -115,8 +116,10 @@ namespace UofM.HCI.tPab
       set { TPadCore.Instance.UseFeatureTracking = value; }
     }
 
-    public Simulator(Application launcher)
+    public Simulator(ITPadAppLauncher launcher)
     {
+      Launcher = launcher;
+
       TPadDocument document = TPadCore.Instance.Registration.ActualDocument;
       if (!File.Exists(document.Pages[0].FileName))
         throw new ArgumentException(String.Format("Document \"{1}\" not found!", document.Pages[0].FileName));
@@ -347,6 +350,13 @@ namespace UofM.HCI.tPab
     private void tbRunOnTPad_Click(object sender, RoutedEventArgs e)
     {
 
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+      base.OnClosed(e);
+      if (Launcher != null)
+        Launcher.CloseAll(this);
     }
 
   }

@@ -25,7 +25,7 @@ namespace UofM.HCI.tPab
     /// <summary>
     /// This is the location of the center of the device.
     /// </summary>
-    public PointF LocationPx { get; set; } //Pixels on the simulator window
+    //public PointF LocationPx { get; set; } //Pixels on the simulator window
     public PointF LocationCm { get; set; }
 
     /// <summary>

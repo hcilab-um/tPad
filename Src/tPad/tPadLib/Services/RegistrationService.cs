@@ -17,6 +17,8 @@ namespace UofM.HCI.tPab.Services
 
     public ITPadAppContainer Container { get; set; }
 
+    public ITPadAppController Controller { get; set; }
+
     private ManagedA.wrapperRegistClass featureTracker;
 
     private Bitmap oldCamView;
@@ -71,9 +73,11 @@ namespace UofM.HCI.tPab.Services
         {
           location.Status = LocationStatus.Located;
           location.RotationAngle = featureTracker.RotationAngle;
-          location.LocationPx = new PointF(featureTracker.LocationPxM.X / Container.SimCaptureToSourceImageRatio, featureTracker.LocationPxM.Y / Container.SimCaptureToSourceImageRatio);
-          location.LocationCm = new PointF((float)(location.LocationPx.X / Container.WidthFactor), (float)(location.LocationPx.Y / Container.HeightFactor));
-          //ToDo: get Document object from pageIdx
+
+          PointF locationPx  = new PointF(featureTracker.LocationPxM.X / Container.SimCaptureToSourceImageRatio, featureTracker.LocationPxM.Y / Container.SimCaptureToSourceImageRatio);
+          location.LocationCm = new PointF((float)(locationPx.X / Container.WidthFactor), (float)(locationPx.Y / Container.HeightFactor));
+
+          //TODO: get Document object from featureTracker
           location.Document = ActualDocument;
           location.PageIndex = featureTracker.PageIdx;
           sw.Stop();
@@ -89,11 +93,10 @@ namespace UofM.HCI.tPab.Services
       else
       {
         location.Status = LocationStatus.Located;
-        location.RotationAngle = Container.RotationAngle;
-        location.LocationPx = Container.Location;
-        location.LocationCm = new PointF((float)(Container.Location.X / Container.WidthFactor), (float)(Container.Location.Y / Container.HeightFactor));
-        location.Document = ActualDocument;
-        location.PageIndex = Container.ActualPage;
+        location.RotationAngle = Controller.RotationAngle;
+        location.LocationCm = new PointF((float)(Controller.Location.X / Controller.WidthFactor), (float)(Controller.Location.Y / Controller.HeightFactor));
+        location.Document = Controller.ActualDocument;
+        location.PageIndex = Controller.ActualPage;
       }
 
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));

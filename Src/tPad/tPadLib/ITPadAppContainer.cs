@@ -11,9 +11,6 @@ namespace UofM.HCI.tPab
   {
     float WidthFactor { get; }
     float HeightFactor { get; }
-    float RotationAngle { get; }
-    Point Location { get; }
-    int ActualPage { get; set; }
 
     //This is the ratio between the page displayed in the simulator, and the page file stored in disk
     float SimCaptureToSourceImageRatio { get; }
