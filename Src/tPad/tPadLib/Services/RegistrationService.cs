@@ -61,9 +61,9 @@ namespace UofM.HCI.tPab.Services
         //ToDo: correct warping with camera
 
         //compute warping matrix
-        if (temp_SimCaptureToSourceImageRatio != Container.SimCaptureToSourceImageRatio)
+        if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
         {
-          temp_SimCaptureToSourceImageRatio = Container.SimCaptureToSourceImageRatio;
+          temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
           featureTracker.imageWarp(temp_SimCaptureToSourceImageRatio, TPadCore.Instance.IsSimulation);
         }
 
@@ -74,7 +74,7 @@ namespace UofM.HCI.tPab.Services
           location.Status = LocationStatus.Located;
           location.RotationAngle = featureTracker.RotationAngle;
 
-          PointF locationPx  = new PointF(featureTracker.LocationPxM.X / Container.SimCaptureToSourceImageRatio, featureTracker.LocationPxM.Y / Container.SimCaptureToSourceImageRatio);
+          PointF locationPx = new PointF(featureTracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio, featureTracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
           location.LocationCm = new PointF((float)(locationPx.X / Container.WidthFactor), (float)(locationPx.Y / Container.HeightFactor));
 
           //TODO: get Document object from featureTracker

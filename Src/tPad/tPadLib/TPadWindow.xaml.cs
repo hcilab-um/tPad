@@ -40,11 +40,6 @@ namespace UofM.HCI.tPab
       get { return (float)(ActualHeight / Profile.ScreenSize.Height); }
     }
 
-    public float SimCaptureToSourceImageRatio
-    {
-      get { throw new NotImplementedException(); }
-    }
-
     public double SizeMultiplier { get; set; }
 
     public TPadWindow(ITPadAppLauncher launcher)

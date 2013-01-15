@@ -1,0 +1,277 @@
+﻿<UserControl x:Class="UofM.HCI.tPab.TPadKeyboard" x:Name="tPadKeyboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="208" d:DesignWidth="498">
+  
+  <UserControl.Resources>
+    <convertersLib:BoolToKeyboardVisibilityConverter x:Key="BoolToKeyboardVisibilityConverter"/>
+  </UserControl.Resources>
+  
+  <Grid>
+    <!-- on-screen keyboard -->
+    <Grid Background="WhiteSmoke">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="auto"/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+
+      <Grid HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <!--<Button Grid.Column="0" CommandParameter="ESC" Content="Esc" Height="50" Width="80" IsCancel="True" Click="keyboardButton_Click"/>-->
+        <Label Content="{Binding Path=Result, ElementName=tPadKeyboard }" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="1" Grid.Column="1"
+                 Margin="5,5,5,5" FontSize="18" HorizontalAlignment="Stretch"/>
+      </Grid>
+
+      <Grid x:Name="AlfaKeyboard" Grid.Row="1" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="0" />
+          <RowDefinition x:Name="NumberKeys" Height="0"/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="2">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="1" CommandParameter="Q" Content="Q" Click="keyboardButton_Click"/>
+          <Button Grid.Column="2" CommandParameter="W" Content="W" Click="keyboardButton_Click"/>
+          <Button Grid.Column="3" CommandParameter="E" Content="E" Click="keyboardButton_Click"/>
+          <Button Grid.Column="4" CommandParameter="R" Content="R" Click="keyboardButton_Click"/>
+          <Button Grid.Column="5" CommandParameter="T" Content="T" Click="keyboardButton_Click"/>
+          <Button Grid.Column="6" CommandParameter="Y" Content="Y" Click="keyboardButton_Click"/>
+          <Button Grid.Column="7" CommandParameter="U" Content="U" Click="keyboardButton_Click"/>
+          <Button Grid.Column="8" CommandParameter="I" Content="I" Click="keyboardButton_Click"/>
+          <Button Grid.Column="9" CommandParameter="O" Content="O" Click="keyboardButton_Click"/>
+          <Button Grid.Column="10" CommandParameter="P" Content="P" Click="keyboardButton_Click"/>
+          <Button Grid.Column="13" CommandParameter="BACK" Click="keyboardButton_Click">
+            <Path Stretch="Fill" Width="36" Height="24" Data="F1M555.0371,274.4893L552.7871,276.7383L549.9861,273.9373L547.1991,276.7243L545.1131,274.6393L547.9001,271.8523L545.0101,268.9603L547.2601,266.7113L550.1501,269.6023L552.8921,266.8613L554.9761,268.9463L552.2361,271.6883z M555.3751,264.0003L544.8751,264.0003C543.1251,264.1253,535.0001,270.7503,535.0001,272.2503C535.0001,273.7503,543.1251,279.3753,544.8751,279.5003L555.3751,279.5003C558.8751,279.5003,559.3751,277.7093,559.3751,275.5003L559.3751,268.0003C559.3751,265.7913,558.7501,264.0003,555.3751,264.0003" Fill="#FF333333"></Path>
+          </Button>
+        </Grid>
+        <Grid Grid.Row="3">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="1.55*"/>
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="1" CommandParameter="A" Content="A" Click="keyboardButton_Click"/>
+          <Button Grid.Column="2" CommandParameter="S" Content="S" Click="keyboardButton_Click"/>
+          <Button Grid.Column="3" CommandParameter="D" Content="D" Click="keyboardButton_Click"/>
+          <Button Grid.Column="4" CommandParameter="F" Content="F" Click="keyboardButton_Click"/>
+          <Button Grid.Column="5" CommandParameter="G" Content="G" Click="keyboardButton_Click"/>
+          <Button Grid.Column="6" CommandParameter="H" Content="H" Click="keyboardButton_Click"/>
+          <Button Grid.Column="7" CommandParameter="J" Content="J" Click="keyboardButton_Click"/>
+          <Button Grid.Column="8" CommandParameter="K" Content="K" Click="keyboardButton_Click"/>
+          <Button Grid.Column="9" CommandParameter="L" Content="L" Click="keyboardButton_Click"/>
+          <Button Grid.Column="12" CommandParameter="RETURN" HorizontalContentAlignment="Right" Padding="10" Click="keyboardButton_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="Return "/>
+              <TextBlock Text="8 " FontFamily="Wingdings 3" TextAlignment="Center" />
+            </StackPanel>
+          </Button>
+        </Grid>
+        <Grid Grid.Row="4">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="1.1*"/>
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="0" CommandParameter="LSHIFT" Click="keyboardButton_Click">
+            <Path Fill="#FF333333" Stretch="Fill" Width="28" Height="24" Data="F1M269.5,262C269.026,262,268.552,262.168,268.171,262.505L259.671,270.505C259.05,271.057,258.835,271.935,259.131,272.71C259.425,273.487,260.169,274,261,274L265,274L265,278C265,279.104,265.896,280,267,280L272,280C273.104,280,274,279.104,274,278L274,274L278,274C278.81,274,279.538,273.513,279.849,272.766C280.157,272.018,279.986,271.158,279.415,270.585L270.914,262.586C270.524,262.197,270.013,262,269.5,262 M269.5,264L278,272L272,272L272,278L267,278L267,272L261,272L269.5,264"/>
+          </Button>
+          <Button Grid.Column="1" CommandParameter="Z" Content="Z" Click="keyboardButton_Click"/>
+          <Button Grid.Column="2" CommandParameter="X" Content="X" Click="keyboardButton_Click"/>
+          <Button Grid.Column="3" CommandParameter="C" Content="C" Click="keyboardButton_Click"/>
+          <Button Grid.Column="4" CommandParameter="V" Content="V" Click="keyboardButton_Click"/>
+          <Button Grid.Column="5" CommandParameter="B" Content="B" Click="keyboardButton_Click"/>
+          <Button Grid.Column="6" CommandParameter="N" Content="N" Click="keyboardButton_Click"/>
+          <Button Grid.Column="7" CommandParameter="M" Content="M" Click="keyboardButton_Click"/>
+          <Button Grid.Column="8" CommandParameter="," Content="," Click="keyboardButton_Click"/>
+          <Button Grid.Column="9" CommandParameter="." Content="." Click="keyboardButton_Click"/>
+          <Button Grid.Column="11" CommandParameter="-" Content="-" Click="keyboardButton_Click"/>
+        </Grid>
+        <Grid Grid.Row="5">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition  Width="5*"  />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <ToggleButton IsChecked="{Binding ShowNumericKeyboard, ElementName=tPadKeyboard}" Grid.Column="0" Grid.ColumnSpan="2" ClickMode="Press" Content=".?123" Click="keyboardButton_Click"/>
+          <Button Grid.Column="2"  CommandParameter="CTRL" Content="Ctrl" Click="keyboardButton_Click"/>
+          <!-- wingdings Windows Logo: ÿ -->
+          <!-- wingdings apple cmd key: z -->
+          <Button Grid.Column="3" CommandParameter="SPACE" Content=" " Click="keyboardButton_Click"/>
+          <Button Grid.Column="4" CommandParameter="ALT" Content="Alt" Click="keyboardButton_Click"/>
+          <ToggleButton IsChecked="{Binding ShowNumericKeyboard, ElementName=tPadKeyboard}" Grid.Column="5" Grid.ColumnSpan="2" Command="{Binding Path=PressAndHold}" CommandParameter="IGNORE" Content=".?123" Click="keyboardButton_Click"/>
+        </Grid>
+      </Grid>
+      <Grid Grid.Row="1" x:Name="NumKeyboard" Background="{DynamicResource IPhoneSteelBackground}" Margin="0,0,0,0" Visibility="{Binding ShowNumericKeyboard, ElementName=tPadKeyboard, Converter={StaticResource ResourceKey=BoolToKeyboardVisibilityConverter}}" >
+        <Grid.RowDefinitions>
+          <RowDefinition Height="0"/>
+          <RowDefinition />
+          <RowDefinition/>
+          <RowDefinition Height="0"/>
+          <RowDefinition/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="0" CommandParameter="_1" Content="1" Click="keyboardButton_Click"/>
+          <Button Grid.Column="1" CommandParameter="_2" Content="2" Click="keyboardButton_Click"/>
+          <Button Grid.Column="2" CommandParameter="_3" Content="3" Click="keyboardButton_Click"/>
+          <Button Grid.Column="3" CommandParameter="_4" Content="4" Click="keyboardButton_Click"/>
+          <Button Grid.Column="4" CommandParameter="_5" Content="5" Click="keyboardButton_Click"/>
+          <Button Grid.Column="5" CommandParameter="_6" Content="6" Click="keyboardButton_Click"/>
+          <Button Grid.Column="6" CommandParameter="_7" Content="7" Click="keyboardButton_Click"/>
+          <Button Grid.Column="7" CommandParameter="_8" Content="8" Click="keyboardButton_Click"/>
+          <Button Grid.Column="8" CommandParameter="_9" Content="9" Click="keyboardButton_Click"/>
+          <Button Grid.Column="9" CommandParameter="_0" Content="0" Click="keyboardButton_Click"/>
+          <Button Grid.Column="13" CommandParameter="BACK" Click="keyboardButton_Click">
+            <Path Stretch="Fill" Width="36" Height="24" Data="F1M555.0371,274.4893L552.7871,276.7383L549.9861,273.9373L547.1991,276.7243L545.1131,274.6393L547.9001,271.8523L545.0101,268.9603L547.2601,266.7113L550.1501,269.6023L552.8921,266.8613L554.9761,268.9463L552.2361,271.6883z M555.3751,264.0003L544.8751,264.0003C543.1251,264.1253,535.0001,270.7503,535.0001,272.2503C535.0001,273.7503,543.1251,279.3753,544.8751,279.5003L555.3751,279.5003C558.8751,279.5003,559.3751,277.7093,559.3751,275.5003L559.3751,268.0003C559.3751,265.7913,558.7501,264.0003,555.3751,264.0003" Fill="#FF333333"/>
+          </Button>
+        </Grid>
+        <Grid Grid.Row="2">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="1.55*"/>
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="1" CommandParameter="Q" Content="-" Click="keyboardButton_Click"/>
+          <Button Grid.Column="2" CommandParameter="W" Content="/" Click="keyboardButton_Click"/>
+          <Button Grid.Column="3" CommandParameter="E" Content=":" Click="keyboardButton_Click"/>
+          <Button Grid.Column="4" CommandParameter="R" Content=";" Click="keyboardButton_Click"/>
+          <Button Grid.Column="5" CommandParameter="T" Content="(" Click="keyboardButton_Click"/>
+          <Button Grid.Column="6" CommandParameter="Y" Content=")" Click="keyboardButton_Click"/>
+          <Button Grid.Column="7" CommandParameter="U" Content="$" Click="keyboardButton_Click"/>
+          <Button Grid.Column="8" CommandParameter="I" Content="&amp;" Click="keyboardButton_Click"/>
+          <Button Grid.Column="9" CommandParameter="O" Content="@" Click="keyboardButton_Click"/>
+          <Button Grid.Column="10" CommandParameter="P" Content="&quot;" Click="keyboardButton_Click"/>
+          <Button Grid.Column="12" CommandParameter="RETURN" HorizontalContentAlignment="Right" Padding="10" Click="keyboardButton_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="Return "/>
+              <TextBlock Text="8 " FontFamily="Wingdings 3" TextAlignment="Center" />
+            </StackPanel>
+          </Button>
+        </Grid>
+        <Grid Grid.Row="4">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="1.1*"/>
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="0" Command="{Binding Path=PressAndHold}" CommandParameter="LSHIFT" Click="keyboardButton_Click">
+            <Path Fill="#FF333333" Stretch="Fill" Width="28" Height="24" Data="F1M269.5,262C269.026,262,268.552,262.168,268.171,262.505L259.671,270.505C259.05,271.057,258.835,271.935,259.131,272.71C259.425,273.487,260.169,274,261,274L265,274L265,278C265,279.104,265.896,280,267,280L272,280C273.104,280,274,279.104,274,278L274,274L278,274C278.81,274,279.538,273.513,279.849,272.766C280.157,272.018,279.986,271.158,279.415,270.585L270.914,262.586C270.524,262.197,270.013,262,269.5,262 M269.5,264L278,272L272,272L272,278L267,278L267,272L261,272L269.5,264"/>
+          </Button>
+          <Button Grid.Column="1" CommandParameter="Z" Content="." Click="keyboardButton_Click"/>
+          <Button Grid.Column="2" CommandParameter="X" Content="," Click="keyboardButton_Click"/>
+          <Button Grid.Column="3" CommandParameter="C" Content="?" Click="keyboardButton_Click"/>
+          <Button Grid.Column="4" CommandParameter="B" Content="'" Click="keyboardButton_Click"/>
+          <Button Grid.Column="5" CommandParameter="N" Content="=" Click="keyboardButton_Click"/>
+          <Button Grid.Column="6" CommandParameter="M" Content="+" Click="keyboardButton_Click"/>
+          <Button Grid.Column="7" CommandParameter="OEM_COMMA" Click="keyboardButton_Click">*</Button>
+          <Button Grid.Column="8" CommandParameter="OEM_PERIOD" Click="keyboardButton_Click">\</Button>
+          <Button Grid.Column="9" CommandParameter="OEM_PERIOD" Click="keyboardButton_Click">[</Button>
+          <Button Grid.Column="11" CommandParameter="OEM_PERIOD" Click="keyboardButton_Click">]</Button>
+        </Grid>
+        <Grid Grid.Row="5">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition  Width="5*"  />
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="2*"/>
+          </Grid.ColumnDefinitions>
+          <Button Grid.Column="0" CommandParameter="RSHIFT" Content=".?123" Click="keyboardButton_Click"/>
+          <Button Grid.Column="1" CommandParameter="LCONTROL" Content="Ctrl" Click="keyboardButton_Click"/>
+          <Button Grid.Column="2" CommandParameter="LWIN" FontFamily="WingDings" Click="keyboardButton_Click">z
+          </Button>
+
+          <ToggleButton IsChecked="{Binding ShowNumericKeyboard, ElementName=tPadKeyboard}" CommandParameter="IGNORE" Grid.Column="0" ClickMode="Press" Content="ABC" Click="keyboardButton_Click"/>
+          <Button Grid.Column="3" CommandParameter="SPACE" Content=" " Click="keyboardButton_Click"/>
+          <Button Grid.Column="4" CommandParameter="MENU" Content="Alt" Click="keyboardButton_Click"/>
+          <Button Grid.Column="5" CommandParameter="LMENU" Content="Menu" Click="keyboardButton_Click"/>
+          <ToggleButton IsChecked="{Binding ShowNumericKeyboard, ElementName=tPadKeyboard}" CommandParameter="IGNORE" Grid.Column="6" ClickMode="Press" Content="ABC" Click="keyboardButton_Click"/>
+        </Grid>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>
