@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,6 +36,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public double WidthScalingFactor { get; set; }
     public double HeightScalingFactor { get; set; }
 
+    private PDFContentHelper PdfHelper { get; set; }
+
     private int actualPage = -1;
     public int ActualPage
     {
@@ -58,8 +60,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private PDFContentHelper PdfHelper { get; set; }
-
     private ActiveReaderMode currentMode = ActiveReaderMode.Nothing;
     public ActiveReaderMode CurrentMode
     {
@@ -79,6 +79,17 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         showPageImage = value;
         OnPropertyChanged("ShowPageImage");
+      }
+    }
+
+    private float keyboardPosition = 600;
+    public float KeyboardPosition
+    {
+      get { return keyboardPosition; }
+      set
+      {
+        keyboardPosition = value;
+        this.OnPropertyChanged("KeyboardPosition");
       }
     }
 
@@ -104,8 +115,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private string result = String.Empty;
-    public string Result
+    private StringBuilder result = new StringBuilder();
+    public StringBuilder Result
     {
       get { return result; }
       private set
@@ -454,7 +465,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
         VisibilityKeyboard = Visibility.Visible;
-        Result = "";
+        Result = new StringBuilder();
 
         //check if there is a click on bottom right corner of note
         if (lastPosition.X <= (currentNote.annotation.Margin.Left + currentNote.annotation.Width) &&
@@ -516,7 +527,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       //show keyboard and clean result
       VisibilityKeyboard = Visibility.Visible;
-      Result = "";
+      Result = new StringBuilder();
 
       Notes newNote;
       newNote.annotation = new TextBox
@@ -593,13 +604,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
           case "BACK":
             if (Result.Length > 0 && currentNote.annotation.Text.Length > 0)
             {
-              Result = Result.Remove(Result.Length - 1);
+              Result.Remove(Result.Length - 1, 1);
               currentNote.annotation.Text = currentNote.annotation.Text.Remove(currentNote.annotation.Text.Length - 1);
             }
             break;
 
           default:
-            Result += button.Content.ToString();
+            Result.Append(button.Content.ToString());
             currentNote.annotation.Text += button.Content.ToString();
             break;
         }
