@@ -86,6 +86,9 @@
                    MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
       </Canvas>
 
+      <!-- This layer is for the search results -->
+      <Canvas x:Name="cSearchResults" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
       <!-- This is the context menu for handling annotations -->
       <Grid.ContextMenu>
         <ContextMenu Name="contextMenu"  Width="140">
@@ -115,6 +118,7 @@
           <ToggleButton x:Name="bHighlight" IsThreeState="false" Click="bHighlight_Click">Highlight</ToggleButton>
           <ToggleButton x:Name="bAnnotation" IsThreeState="false" Click="bAnnotation_Click" Margin="20,0,0,0">Annotations</ToggleButton>
           <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0">Show Page</ToggleButton>
+          <Button x:Name="bSearchPACER" Margin="20,0,0,0" Click="bSearchPACER_Click">Search PACER</Button>
         </StackPanel>
       </Grid>
 

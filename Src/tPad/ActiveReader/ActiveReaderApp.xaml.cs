@@ -33,8 +33,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public TPadDevice Device { get; set; }
     public ITPadAppContainer Container { get; set; }
 
-    public String DocumentPath { get; set; }
-
     public double WidthScalingFactor { get; set; }
     public double HeightScalingFactor { get; set; }
 
@@ -60,7 +58,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private Document PdfDocument { get; set; }
+    private PDFContentHelper PdfHelper { get; set; }
 
     private ActiveReaderMode currentMode = ActiveReaderMode.Nothing;
     public ActiveReaderMode CurrentMode
@@ -129,11 +127,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       ActualDocument = null;
 
       Container = container;
-      DocumentPath = documentPDF;
-
-      //Opens and closes the PDF just to make sure it does exist and loads
-      using (FileStream fileIn = new FileStream(DocumentPath, FileMode.Open, FileAccess.Read))
-        PdfDocument = new Document(fileIn);
+      PdfHelper = new PDFContentHelper(documentPDF);
 
       InitializeComponent();
     }
@@ -355,7 +349,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
       else //It was just a click to bring up the contextual menu
       {
         cHighlights.Children.Remove(newHighlight);
-        String content = PixelToContent(newPosition, true);
+
+        Rect contentBounds = Rect.Empty;
+        String content = PdfHelper.PixelToContent(newPosition, ActualPage, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight, out contentBounds);
+        RemoveWordHighlight();
+        if (contentBounds != Rect.Empty)
+          AddWordHighlight(contentBounds);
+
         ShowContextualMenu(newPosition, content);
       }
     }
@@ -390,82 +390,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void bAnnotation_Click(object sender, RoutedEventArgs e)
     {
       MessageBox.Show("Annotations");
-    }
-
-    private string PixelToContent(Point position, bool highlight = false)
-    {
-      RemoveWordHighlight();
-
-      using (FileStream fileIn = new FileStream(DocumentPath, FileMode.Open, FileAccess.Read))
-      {
-        PdfDocument = new Document(fileIn);
-
-        //1- try to find the piece of content the mouse is hovering
-        TallComponents.PDF.Page page = PdfDocument.Pages[ActualPage];
-
-        double widthT = gAnchoredLayers.ActualWidth / page.Width;
-        double heightT = gAnchoredLayers.ActualHeight / page.Height;
-
-        //retrieve all glyphs from the current page
-        //Notice that you grep a strong reference to the glyphs, otherwise the GC can decide to recycle. 
-        GlyphCollection glyphs = page.Glyphs;
-
-        //default the glyph collection is ordered as they are present in the PDF file.
-        //we want them in reading order.
-        glyphs.Sort();
-
-        //the bounds of the last glyph analysed
-        Rect glyphBounds = Rect.Empty;
-
-        //the current word over which the user clicked
-        StringBuilder currentWord = new StringBuilder();
-        Rect wordBounds = Rect.Empty;
-        bool foundWord = false;
-
-        foreach (Glyph glyph in glyphs)
-        {
-          if (glyph.Characters.Length == 0 || glyph.Characters[0] == ' ')
-          {
-            if (foundWord)
-            {
-              double wordWidth = glyphBounds.Right - wordBounds.Left;
-              if (wordWidth > 0) //multi-line word -- the bounds cover only the upper part of it
-                wordBounds = new Rect(wordBounds.Left, wordBounds.Top, wordWidth, wordBounds.Height);
-
-              if (highlight)
-                AddWordHighlight(wordBounds);
-              return currentWord.ToString();
-            }
-
-            wordBounds = Rect.Empty;
-            currentWord.Clear();
-            continue;
-          }
-
-          glyphBounds = new Rect(
-            glyph.TopLeft.X,
-            page.Height - glyph.TopLeft.Y,
-            glyph.TopRight.X - glyph.TopLeft.X,
-            glyph.TopLeft.Y - glyph.BottomLeft.Y);
-          glyphBounds.Scale(widthT, heightT);
-
-          if (wordBounds == Rect.Empty)
-            wordBounds = glyphBounds;
-
-          string chars = String.Empty;
-          foreach (char ch in glyph.Characters)
-            currentWord.Append(ch);
-
-          if (!glyphBounds.Contains(position))
-            continue;
-
-          foundWord = true;
-          //Console.WriteLine("{0} -[{1},{2},{3},{4}] Font={5}({6})", chars, glyph.BottomLeft,
-          //  glyph.BottomRight, glyph.TopLeft, glyph.TopRight, glyph.Font.Name, glyph.FontSize);
-        }
-
-        return null;
-      }
     }
 
     private void RemoveWordHighlight()
@@ -679,6 +603,22 @@ namespace UofM.HCI.tPab.App.ActiveReader
             currentNote.annotation.Text += button.Content.ToString();
             break;
         }
+      }
+    }
+
+    private void bSearchPACER_Click(object sender, RoutedEventArgs e)
+    {
+      List<ContentLocation> pageSearch = PdfHelper.ContentToPixel("PACER", ActualPage, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
+
+      cSearchResults.Children.Clear();
+      foreach (ContentLocation content in pageSearch)
+      {
+        Line resultHL = new Line() { Stroke = Brushes.Blue, Opacity = 0.5, StrokeThickness = content.ContentBounds.Height };
+        resultHL.X1 = content.ContentBounds.Left;
+        resultHL.Y1 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
+        resultHL.X2 = content.ContentBounds.Right;
+        resultHL.Y2 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
+        cSearchResults.Children.Add(resultHL);
       }
     }
 

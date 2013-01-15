@@ -96,10 +96,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentLocation.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
     <Compile Include="Converters\StatusAndBoolBackgroundConverter.cs" />
     <Compile Include="Converters\StatusAndBoolVisibilityConverter.cs" />
     <Compile Include="Converters\StatusAndModeVisibilityConverter.cs" />
+    <Compile Include="PDFContentHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
