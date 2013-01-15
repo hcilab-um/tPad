@@ -93,39 +93,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private bool showNumericKeyboard;
-    public bool ShowNumericKeyboard
-    {
-      get { return showNumericKeyboard; }
-      set
-      {
-        showNumericKeyboard = value;
-        OnPropertyChanged("ShowNumericKeyboard");
-      }
-    }
-
-    private Visibility visibilityKeyboard = Visibility.Hidden;
-    public Visibility VisibilityKeyboard
-    {
-      get { return visibilityKeyboard; }
-      set
-      {
-        visibilityKeyboard = value;
-        OnPropertyChanged("VisibilityKeyboard");
-      }
-    }
-
-    private StringBuilder result = new StringBuilder();
-    public StringBuilder Result
-    {
-      get { return result; }
-      private set
-      {
-        result = value;
-        OnPropertyChanged("Result");
-      }
-    }
-
     public ActiveReaderApp(String documentPDF, ITPadAppContainer container)
     {
       Device = TPadCore.Instance.Device;
@@ -307,6 +274,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private Line newHighlight;
     private Line currentHighlight;
     private Notes currentNote;
+    private bool isSomething2Hide = false;
     private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
@@ -326,9 +294,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
         contextMenu.Visibility = Visibility.Hidden;
         //hide on screen keyboard
-        VisibilityKeyboard = Visibility.Hidden;
+        tpKeyboard.Visibility = Visibility.Hidden;
+
+        isSomething2Hide = false;
         foreach (Notes element in ActualDocument.Pages[ActualPage].Notes)
-          element.annotation.Visibility = Visibility.Hidden;
+        {
+          if (element.annotation.Visibility == Visibility.Visible)
+          {
+            isSomething2Hide = true;
+            element.annotation.Visibility = Visibility.Hidden;
+          }
+        }
+
+        if (!isSomething2Hide)
+          Console.WriteLine("toDo else open context menu");
       }
       else if (e.RightButton == MouseButtonState.Pressed && e.LeftButton == MouseButtonState.Released)
       {
@@ -431,26 +410,24 @@ namespace UofM.HCI.tPab.App.ActiveReader
       ActualDocument.Pages[ActualPage].Highlights.Remove(currentHighlight);
     }
 
-
     private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      VisibilityKeyboard = Visibility.Hidden;
+      tpKeyboard.Visibility = Visibility.Hidden;
       foreach (Notes element in ActualDocument.Pages[ActualPage].Notes)
       {
         if (element.icon == (Image)sender)
+        {
+          tpKeyboard.setCurrentNote(element.annotation);
           currentNote = element;
+        }
       }
 
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
         if (currentNote.annotation.Visibility == Visibility.Hidden)
-        {
           currentNote.annotation.Visibility = Visibility.Visible;
-        }
         else
-        {
           currentNote.annotation.Visibility = Visibility.Hidden;
-        }
       }
     }
 
@@ -462,10 +439,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
         currentNote.annotation = (TextBox)sender;
+        tpKeyboard.setCurrentNote((TextBox)sender);
 
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
-        VisibilityKeyboard = Visibility.Visible;
-        Result = new StringBuilder();
+        tpKeyboard.Visibility = Visibility.Visible;
+        tpKeyboard.ResultClear();
 
         //check if there is a click on bottom right corner of note
         if (lastPosition.X <= (currentNote.annotation.Margin.Left + currentNote.annotation.Width) &&
@@ -510,7 +488,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           if (noteSize.Y >= defaultNoteSize.Height)
             currentNote.annotation.Height = noteSize.Y;
         }
-        VisibilityKeyboard = Visibility.Hidden;
+        tpKeyboard.Visibility = Visibility.Hidden;
       }
     }
 
@@ -526,16 +504,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void CMAnnotation_Click(object sender, RoutedEventArgs e)
     {
       //show keyboard and clean result
-      VisibilityKeyboard = Visibility.Visible;
-      Result = new StringBuilder();
+      tpKeyboard.Visibility = Visibility.Visible;
+      tpKeyboard.ResultClear();
 
       Notes newNote;
       newNote.annotation = new TextBox
       {
         BorderBrush = Brushes.Goldenrod,
         Background = Brushes.LemonChiffon,
-        Width = 100,
-        Height = 100,
+        Width = (int)iDocument.Width / 7,
+        Height = (int)iDocument.Width / 7,
         TextWrapping = TextWrapping.Wrap
       };
       newNote.annotation.Margin = new Thickness(lastPosition_right.X, lastPosition_right.Y, 0, 0);
@@ -543,7 +521,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newNote.annotation.PreviewMouseUp += Note_PreviewMouseUp;
       newNote.annotation.PreviewMouseMove += Note_PreviewMouseMove;
 
-      newNote.icon = new Image { Width = 26, Height = 20.5 };
+      newNote.icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
       string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
       newNote.icon.Source = new BitmapImage(new Uri(strUri2));
       newNote.icon.Margin = new Thickness(lastPosition_right.X - 35, lastPosition_right.Y, 0, 0);
@@ -555,66 +533,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       //Update current note
       currentNote = newNote;
-    }
-
-    private void keyboardButton_Click(object sender, RoutedEventArgs e)
-    {
-      Button button = sender as Button;
-      if (button != null)
-      {
-        switch (button.CommandParameter.ToString())
-        {
-          case "LSHIFT":
-            Regex upperCaseRegex = new Regex("[A-Z]");
-            Regex lowerCaseRegex = new Regex("[a-z]");
-            Button btn;
-
-            foreach (UIElement elem in AlfaKeyboard.Children) //iterate the main grid
-            {
-              Grid grid = elem as Grid;
-              if (grid != null)
-              {
-                foreach (UIElement uiElement in grid.Children)  //iterate the single rows
-                {
-                  btn = uiElement as Button;
-                  if (btn != null) // if button contains only 1 character
-                  {
-                    if (btn.Content.ToString().Length == 1)
-                    {
-                      if (upperCaseRegex.Match(btn.Content.ToString()).Success) // if the char is a letter and uppercase
-                        btn.Content = btn.Content.ToString().ToLower();
-                      else if (lowerCaseRegex.Match(button.Content.ToString()).Success) // if the char is a letter and lower case
-                        btn.Content = btn.Content.ToString().ToUpper();
-                    }
-                  }
-                }
-              }
-            }
-            break;
-
-          case "ALT":
-          case "CTRL":
-            break;
-
-          case "RETURN":
-            //stickyNote.Text += Result.ToString();
-            currentNote.annotation.Text += "\r\n";
-            break;
-
-          case "BACK":
-            if (Result.Length > 0 && currentNote.annotation.Text.Length > 0)
-            {
-              Result.Remove(Result.Length - 1, 1);
-              currentNote.annotation.Text = currentNote.annotation.Text.Remove(currentNote.annotation.Text.Length - 1);
-            }
-            break;
-
-          default:
-            Result.Append(button.Content.ToString());
-            currentNote.annotation.Text += button.Content.ToString();
-            break;
-        }
-      }
+      tpKeyboard.setCurrentNote(newNote.annotation);
     }
 
     private void bSearchPACER_Click(object sender, RoutedEventArgs e)

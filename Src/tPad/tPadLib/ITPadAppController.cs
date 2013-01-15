@@ -17,6 +17,9 @@ namespace UofM.HCI.tPab
 
     float WidthFactor { get; }
     float HeightFactor { get; }
+
+    //This is the ratio between the page displayed in the simulator, and the page file stored in disk
+    float SimCaptureToSourceImageRatio { get; }
   }
 
 }

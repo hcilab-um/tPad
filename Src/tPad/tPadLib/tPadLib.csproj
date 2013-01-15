@@ -79,6 +79,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
     <Compile Include="Converters\LayerRotationCenterConverter.cs" />
     <Compile Include="Converters\LayerScalingConverter.cs" />
     <Compile Include="Converters\MultiplierConverter.cs" />
@@ -124,6 +125,9 @@
     <Compile Include="TPadWindow.xaml.cs">
       <DependentUpon>TPadWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TPadKeyboard.xaml.cs">
+      <DependentUpon>TPadKeyboard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util\ImageHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -147,6 +151,10 @@
     <Page Include="TPadWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TPadKeyboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
