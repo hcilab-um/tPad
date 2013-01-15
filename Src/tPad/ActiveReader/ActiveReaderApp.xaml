@@ -92,7 +92,7 @@
       <!-- This is the context menu for handling annotations -->
       <Grid.ContextMenu>
         <ContextMenu Name="contextMenu"  Width="140">
-          <MenuItem Header="Delete" Click="CMDelete_Click"/>
+          <MenuItem Name="cm_deleteItem"  Header="Delete" Click="CMDelete_Click"/>
           <Separator />
           <MenuItem Header="Add Annotation" Click="CMAnnotation_Click"/>
         </ContextMenu>
@@ -146,5 +146,4 @@
       <Binding ElementName="bShowPage" Path="IsChecked"/>
     </MultiBinding>
   </UserControl.Background>
-
 </UserControl>

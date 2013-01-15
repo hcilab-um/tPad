@@ -39,8 +39,8 @@ namespace UofM.HCI.tPab
       }
     }
        
-    private string result = String.Empty;
-    public string Result
+    private StringBuilder result = new StringBuilder();
+    public StringBuilder Result
     {
       get { return result; }
       private set
@@ -49,9 +49,21 @@ namespace UofM.HCI.tPab
         OnPropertyChanged("Result");
       }
     }
+
+    private string resultString = "";
+    public string ResultString
+    {
+      get { return resultString; }
+      private set
+      {
+        resultString = value;
+        OnPropertyChanged("ResultString");
+      }
+    }
+
     public void ResultClear()
     {
-      Result = "";
+      Result = new StringBuilder();
     }
 
     private float keyboardWidth = 300;
@@ -68,7 +80,7 @@ namespace UofM.HCI.tPab
     public TPadKeyboard()
     {
       InitializeComponent();
-      Result = "";
+      Result = new StringBuilder();
     }
 
     private void keyboardButton_Click(object sender, RoutedEventArgs e)
@@ -113,19 +125,19 @@ namespace UofM.HCI.tPab
           case "RETURN":
             //stickyNote.Text += Result.ToString();
             currentNote.Text += "\r\n";
-            Result = "";
+            Result = new StringBuilder();
             break;
 
           case "BACK":
             if (Result.Length > 0 && currentNote.Text.Length > 0)
             {
-              Result = Result.Remove(Result.Length - 1);
+              Result.Remove(Result.Length - 1,1);
               currentNote.Text = currentNote.Text.Remove(currentNote.Text.Length - 1);
             }
             break;
 
           default:
-            Result += button.Content.ToString();
+            Result.Append(button.Content.ToString());
             currentNote.Text += button.Content.ToString();
             break;
         }
