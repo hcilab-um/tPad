@@ -115,7 +115,7 @@ namespace UofM.HCI.tPab.Services
       Array.Sort<String>(pages);
       ActualDocument.Pages = new TPadPage[pages.Length];
       for (int index = 0; index < pages.Length; index++)
-        ActualDocument.Pages[index] = new TPadPage() { FileName = pages[index] };
+        ActualDocument.Pages[index] = new TPadPage() { PageIndex = index, FileName = pages[index] };
     }
 
   }

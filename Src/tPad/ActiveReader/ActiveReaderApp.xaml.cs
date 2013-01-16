@@ -106,7 +106,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       Container = container;
       PdfHelper = new PDFContentHelper(documentPDF);
-
+            
       InitializeComponent();
     }
 
@@ -152,12 +152,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
 
       if (ActualDocument == null)
-      {
+      {        
         //First time it comes to this document and first document
         if (e.NewLocation.Document != null)
         {
           //1- Loads the layers should they exist in disk
-          ActualDocument = e.NewLocation.Document;
+          ActualDocument = e.NewLocation.Document;       
           LoadLayersFromDisk(ActualDocument);
 
           //2- Load layers for current page
@@ -252,7 +252,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           }
 
           //Loads other notes for this page
-          foreach (Notes element in document.Pages[pageIndex].Notes)
+          foreach (Notes element in document.Pages[pageIndex].Annotations)
           {
             Notes note = (Notes)element;
             cHighlights.Children.Add(note.annotation);
@@ -277,7 +277,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
-      {
+      {        
         isHighlighting = true;
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
 
@@ -296,7 +296,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         tpKeyboard.Visibility = Visibility.Hidden;
 
         isSomething2Hide = false;
-        foreach (Notes element in ActualDocument.Pages[ActualPage].Notes)
+        foreach (Notes element in ActualDocument.Pages[ActualPage].Annotations)
         {
           if (element.annotation.Visibility == Visibility.Visible)
           {
@@ -414,8 +414,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
       //show keyboard and clean result
       tpKeyboard.Visibility = Visibility.Visible;
       tpKeyboard.ResultClear();
-
-      Notes newNote;
+      
+      Notes newNote = new Notes();
       newNote.annotation = new TextBox
       {
         BorderBrush = Brushes.Goldenrod,
@@ -437,7 +437,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       cHighlights.Children.Add(newNote.annotation);
       cHighlights.Children.Add(newNote.icon);
-      ActualDocument.Pages[ActualPage].Notes.Add(newNote);
+      ActualDocument.Pages[ActualPage].Annotations.Add(newNote);
 
       //Update current note
       currentNote = newNote;
@@ -447,7 +447,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
     {
       tpKeyboard.Visibility = Visibility.Hidden;
-      foreach (Notes element in ActualDocument.Pages[ActualPage].Notes)
+      foreach (Notes element in ActualDocument.Pages[ActualPage].Annotations)
       {
         if (element.icon == (Image)sender)
         {
@@ -492,7 +492,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         {
           cHighlights.Children.Remove(currentNote.annotation);
           cHighlights.Children.Remove(currentNote.icon);
-          ActualDocument.Pages[ActualPage].Notes.Remove(currentNote);
+          ActualDocument.Pages[ActualPage].Annotations.Remove(currentNote);
           currentNote.annotation = null;
           currentNote.icon = null;
           tpKeyboard.Visibility = Visibility.Hidden;

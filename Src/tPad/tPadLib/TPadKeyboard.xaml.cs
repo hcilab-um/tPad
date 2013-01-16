@@ -38,7 +38,7 @@ namespace UofM.HCI.tPab
         OnPropertyChanged("ShowNumericKeyboard");
       }
     }
-       
+
     private StringBuilder result = new StringBuilder();
     public StringBuilder Result
     {
@@ -47,18 +47,13 @@ namespace UofM.HCI.tPab
       {
         result = value;
         OnPropertyChanged("Result");
+        OnPropertyChanged("ResultString");
       }
     }
 
-    private string resultString = "";
     public string ResultString
     {
-      get { return resultString; }
-      private set
-      {
-        resultString = value;
-        OnPropertyChanged("ResultString");
-      }
+      get { return result.ToString(); }
     }
 
     public void ResultClear()
@@ -131,13 +126,19 @@ namespace UofM.HCI.tPab
           case "BACK":
             if (Result.Length > 0 && currentNote.Text.Length > 0)
             {
-              Result.Remove(Result.Length - 1,1);
+              Result.Remove(Result.Length - 1, 1);
+              OnPropertyChanged("Result");
+              OnPropertyChanged("ResultString");
+
               currentNote.Text = currentNote.Text.Remove(currentNote.Text.Length - 1);
             }
             break;
 
           default:
             Result.Append(button.Content.ToString());
+            OnPropertyChanged("Result");
+            OnPropertyChanged("ResultString");
+
             currentNote.Text += button.Content.ToString();
             break;
         }
