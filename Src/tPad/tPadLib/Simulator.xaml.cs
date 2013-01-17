@@ -128,7 +128,6 @@ namespace UofM.HCI.tPab
 
       InitializeComponent();
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
-      CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
       ActualDocument = document;
     }
@@ -370,28 +369,6 @@ namespace UofM.HCI.tPab
       base.OnClosed(e);
       if (Launcher != null)
         Launcher.CloseAll(this);
-    }
-
-    private EventWaitHandle captureMonitor = null;
-    public void PreCapture(EventWaitHandle monitor)
-    {
-      captureMonitor = monitor;
-      TPadApp.Visibility = System.Windows.Visibility.Hidden;
-      InvalidateVisual();
-      Console.WriteLine("PreCapture(EventWaitHandle monitor)");
-    }
-
-    void CompositionTarget_Rendering(object sender, EventArgs e)
-    {
-      if (captureMonitor != null)
-        captureMonitor.Set();
-      Console.WriteLine("TPadApp_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)");
-    }
-
-    public void PostCapture()
-    {
-      TPadApp.Visibility = System.Windows.Visibility.Visible;
-      Console.WriteLine("PostCapture()");
     }
 
   }
