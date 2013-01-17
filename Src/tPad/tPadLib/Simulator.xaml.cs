@@ -15,6 +15,8 @@ using System.ComponentModel;
 using UofM.HCI.tPab.Util;
 using UofM.HCI.tPab.Services;
 using System.Drawing.Imaging;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace UofM.HCI.tPab
 {
@@ -103,7 +105,7 @@ namespace UofM.HCI.tPab
     public float SimCaptureToSourceImageRatio
     {
       get { return simCaptureToSourceImageRatio; }
-      set 
+      set
       {
         simCaptureToSourceImageRatio = value;
         OnPropertyChanged("SimCaptureToSourceImageRatio");
@@ -126,6 +128,7 @@ namespace UofM.HCI.tPab
 
       InitializeComponent();
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
+      CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
       ActualDocument = document;
     }
@@ -262,17 +265,30 @@ namespace UofM.HCI.tPab
 
     public System.Drawing.Bitmap GetDeviceView(out float angle)
     {
+      Dispatcher.Invoke(DispatcherPriority.Render,
+        (Action)delegate()
+        {
+          TPadApp.Visibility = System.Windows.Visibility.Hidden;
+        });
+
+      Thread.Sleep(100);
       angle = RotationAngle;
       GetDeviceViewDelegate gdvDelegate = new GetDeviceViewDelegate(SafeGetDeviceView);
       Object[] args = new Object[0];
       MemoryStream result = (MemoryStream)Dispatcher.Invoke(gdvDelegate, args);
+
+      Dispatcher.Invoke(DispatcherPriority.Render,
+        (Action)delegate()
+        {
+          TPadApp.Visibility = System.Windows.Visibility.Visible;
+        });
+
       if (result == null)
         return null;
 
       System.Drawing.Bitmap frame = new System.Drawing.Bitmap(result);
       return frame;
     }
-
 
     private MemoryStream SafeGetDeviceView()
     {
@@ -308,14 +324,11 @@ namespace UofM.HCI.tPab
       MemoryStream result = new MemoryStream();
       try
       {
-        //ImageCodecInfo pngEncoder = GetEncoder(ImageFormat.Png);
-        //System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
-        //EncoderParameters myEncoderParameters = new EncoderParameters(1);
-        //myEncoderParameters.Param[0] = new EncoderParameter(myEncoder, 100L);
         capture.Save(result, ImageFormat.Bmp);
       }
       catch (Exception ex)
       { }
+
       return result;
     }
 
@@ -357,6 +370,28 @@ namespace UofM.HCI.tPab
       base.OnClosed(e);
       if (Launcher != null)
         Launcher.CloseAll(this);
+    }
+
+    private EventWaitHandle captureMonitor = null;
+    public void PreCapture(EventWaitHandle monitor)
+    {
+      captureMonitor = monitor;
+      TPadApp.Visibility = System.Windows.Visibility.Hidden;
+      InvalidateVisual();
+      Console.WriteLine("PreCapture(EventWaitHandle monitor)");
+    }
+
+    void CompositionTarget_Rendering(object sender, EventArgs e)
+    {
+      if (captureMonitor != null)
+        captureMonitor.Set();
+      Console.WriteLine("TPadApp_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)");
+    }
+
+    public void PostCapture()
+    {
+      TPadApp.Visibility = System.Windows.Visibility.Visible;
+      Console.WriteLine("PostCapture()");
     }
 
   }
