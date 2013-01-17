@@ -14,24 +14,24 @@ namespace UofM.HCI.tPab
     public TPadPage[] Pages { get; set; }
   }
 
-  public struct Notes
+  public class Notes
   {
-    public TextBox annotation;
-    public Image icon;
+    public TextBox annotation { get; set; }
+    public Image icon { get; set; }
   }
 
   public class TPadPage
   {
+    public int PageIndex { get; set; }
     public String FileName { get; set; }
-    public Collection<Shape> Highlights { get; set; }
-    public Collection<Notes> Notes { get; set; }
+    public ObservableCollection<Line> Highlights { get; set; }
+    public ObservableCollection<Notes> Annotations { get; set; }
 
     public TPadPage(String fileName = null)
     {
       FileName = fileName;
-      Highlights = new Collection<Shape>();
-      Notes = new Collection<Notes>();
+      Highlights = new ObservableCollection<Line>();
+      Annotations = new ObservableCollection<Notes>();
     }
-
   }
 }

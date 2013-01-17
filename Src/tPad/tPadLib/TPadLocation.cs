@@ -9,7 +9,7 @@ namespace UofM.HCI.tPab
 
   public enum LocationStatus { NotLocated, Locating, Located }
 
-  public struct TPadLocation
+  public class TPadLocation
   {
     /// <summary>
     /// This is the LocationStatus of the registration process.
@@ -32,7 +32,6 @@ namespace UofM.HCI.tPab
     /// This angle is calculated relative to the vertical axis of the document.
     /// </summary>
     public float RotationAngle { get; set; }
-
   }
 
 }

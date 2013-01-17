@@ -7,6 +7,7 @@
              xmlns:tpadcontrols="clr-namespace:UofM.HCI.tPab;assembly=tPadLib"
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters;assembly=tPadLib"
              xmlns:convertersApp="clr-namespace:UofM.HCI.tPab.App.ActiveReader.Converters"
+             xmlns:menuBar="clr-namespace:UofM.HCI.tPab.App.ActiveReader"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded" SizeChanged="arApp_SizeChanged">
 
   <UserControl.Resources>
@@ -92,7 +93,7 @@
       <!-- This is the context menu for handling annotations -->
       <Grid.ContextMenu>
         <ContextMenu Name="contextMenu"  Width="140">
-          <MenuItem Header="Delete" Click="CMDelete_Click"/>
+          <MenuItem Name="cm_deleteItem"  Header="Delete" Click="CMDelete_Click"/>
           <Separator />
           <MenuItem Header="Add Annotation" Click="CMAnnotation_Click"/>
         </ContextMenu>
@@ -130,6 +131,15 @@
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="0,70,0,0">Not Located</Label>
       </Grid>
 
+      <menuBar:AnnotationBar x:Name="annotationBar" Canvas.Left="440" Width="42" Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}" 
+                             ActualDocument="{Binding ElementName=arApp, Path=ActualDocument}" 
+                             ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
+                             PageHeight="{Binding ElementName=gAnchoredLayers, Path=ActualHeight}"
+                             DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
+                             HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
+                             BorderThickness="0"/>
+
+      <!--This is the keyboard-->
       <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" 
                                  Canvas.Top="{Binding ElementName=arApp, Path=KeyboardPosition}" Canvas.Left="0" 
                                  Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" Height="200"
@@ -146,5 +156,4 @@
       <Binding ElementName="bShowPage" Path="IsChecked"/>
     </MultiBinding>
   </UserControl.Background>
-
 </UserControl>

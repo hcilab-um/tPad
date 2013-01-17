@@ -96,8 +96,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnnotationBar.xaml.cs">
+      <DependentUpon>AnnotationBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ContentLocation.cs" />
+    <Compile Include="Converters\BarItemLocationConverter.cs" />
+    <Compile Include="Converters\BarPositionItemLocationConverter.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
+    <Compile Include="Converters\PageBackgroundConverter.cs" />
+    <Compile Include="Converters\PagePositionVisibilityConverter.cs" />
     <Compile Include="Converters\StatusAndBoolBackgroundConverter.cs" />
     <Compile Include="Converters\StatusAndBoolVisibilityConverter.cs" />
     <Compile Include="Converters\StatusAndModeVisibilityConverter.cs" />
@@ -134,6 +141,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="ActiveReaderApp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AnnotationBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
