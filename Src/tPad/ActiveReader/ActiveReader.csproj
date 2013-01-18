@@ -103,11 +103,17 @@
     <Compile Include="Converters\BarItemLocationConverter.cs" />
     <Compile Include="Converters\BarPositionItemLocationConverter.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
+    <Compile Include="Converters\OffScreenItemLocationConverter.cs" />
+    <Compile Include="Converters\OffScreenItemRotationConverter.cs" />
+    <Compile Include="Converters\OffScreenPageVisibilityConverter.cs" />
     <Compile Include="Converters\PageBackgroundConverter.cs" />
     <Compile Include="Converters\PagePositionVisibilityConverter.cs" />
     <Compile Include="Converters\StatusAndBoolBackgroundConverter.cs" />
     <Compile Include="Converters\StatusAndBoolVisibilityConverter.cs" />
     <Compile Include="Converters\StatusAndModeVisibilityConverter.cs" />
+    <Compile Include="OffScreenVisualization.xaml.cs">
+      <DependentUpon>OffScreenVisualization.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PDFContentHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -148,8 +154,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OffScreenVisualization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Document\17030000002000000.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

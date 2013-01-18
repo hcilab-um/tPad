@@ -28,7 +28,7 @@
         <Setter.Value>
           <DataTemplate>
             <Rectangle Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth}" 
-                       Height="5" Fill="MidnightBlue">
+                       Height="5" Fill="MidnightBlue" Opacity="0.5">
               <Rectangle.Margin>
                 <MultiBinding Converter="{StaticResource ResourceKey=cBarItemLocation}">
                   <Binding ElementName="annoBar" Path="PageHeight"/>
@@ -59,7 +59,7 @@
         <Setter.Value>
           <DataTemplate>
             <Rectangle Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth}" 
-                       Height="5" Fill="DarkTurquoise">
+                       Height="5" Fill="DarkTurquoise" Opacity="0.5">
               <Rectangle.Margin>
                 <MultiBinding Converter="{StaticResource ResourceKey=cBarItemLocation}">
                   <Binding ElementName="annoBar" Path="PageHeight"/>
@@ -82,7 +82,7 @@
         <Setter.Value>
           <DataTemplate>
             <Grid Height="{Binding ElementName=annoBar, Path=RectangleHeight}" 
-                  Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth}">
+                  Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth}" Opacity="0.8">
               <Grid.Background>
                 <MultiBinding Converter="{StaticResource ResourceKey=cPageBackground}">
                   <Binding ElementName="annoBar" Path="ActualPage" />
@@ -123,7 +123,7 @@
     </Style>
   </UserControl.Resources>
 
-  <Grid x:Name="annotationBar" Width="{Binding ElementName=annoBar, Path=ActualWidth}">
+  <Grid>
     <ListBox x:Name="list" Style="{StaticResource ResourceKey=BarStyle}"
              BorderThickness="0" Background="Transparent" 
              ItemsSource="{Binding ElementName=annoBar, Path=ActualDocument.Pages}"

@@ -7,7 +7,7 @@
              xmlns:tpadcontrols="clr-namespace:UofM.HCI.tPab;assembly=tPadLib"
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters;assembly=tPadLib"
              xmlns:convertersApp="clr-namespace:UofM.HCI.tPab.App.ActiveReader.Converters"
-             xmlns:menuBar="clr-namespace:UofM.HCI.tPab.App.ActiveReader"
+             xmlns:menuBar="clr-namespace:UofM.HCI.tPab.App.ActiveReader"             
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded" SizeChanged="arApp_SizeChanged">
 
   <UserControl.Resources>
@@ -111,17 +111,42 @@
       </Canvas.RenderTransform>
 
       <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->
+      <menuBar:OffScreenVisualization x:Name="offScreenVis" Canvas.Top="0" Canvas.Left="0"
+                                      Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+                                      Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
+                                      ActualDocument="{Binding ElementName=arApp, Path=ActualDocument}" 
+                                      ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
+                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
+                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
+                                      PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
+        <menuBar:OffScreenVisualization.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located,Highlighting">
+            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="CurrentMode"/>
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.Visibility>
+      </menuBar:OffScreenVisualization>
 
       <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" Margin="0,25,0,0">
-          <ToggleButton x:Name="bHighlight" IsThreeState="false" Click="bHighlight_Click">Highlight</ToggleButton>
-          <ToggleButton x:Name="bAnnotation" IsThreeState="false" Click="bAnnotation_Click" Margin="20,0,0,0">Annotations</ToggleButton>
+          <ToggleButton x:Name="bHighlight" IsThreeState="False" Click="bHighlight_Click">Highlight</ToggleButton>
+          <ToggleButton x:Name="bAnnotation" IsThreeState="false" Click="bAnnotation_Click" Margin="20,0,0,0">Off-Screen</ToggleButton>
           <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0">Show Page</ToggleButton>
           <Button x:Name="bSearchPACER" Margin="20,0,0,0" Click="bSearchPACER_Click">Search PACER</Button>
         </StackPanel>
       </Grid>
+
+      <menuBar:AnnotationBar x:Name="annotationBar" Canvas.Left="440" Width="42" Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}" 
+                             ActualDocument="{Binding ElementName=arApp, Path=ActualDocument}" 
+                             ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
+                             PageHeight="{Binding ElementName=gAnchoredLayers, Path=ActualHeight}"
+                             DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
+                             HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"/>
 
       <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0" 
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
@@ -130,14 +155,6 @@
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" FontWeight="Bold">Reading Helper</Label>
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="0,70,0,0">Not Located</Label>
       </Grid>
-
-      <menuBar:AnnotationBar x:Name="annotationBar" Canvas.Left="440" Width="42" Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}" 
-                             ActualDocument="{Binding ElementName=arApp, Path=ActualDocument}" 
-                             ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
-                             PageHeight="{Binding ElementName=gAnchoredLayers, Path=ActualHeight}"
-                             DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
-                             HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
-                             BorderThickness="0"/>
 
       <!--This is the keyboard-->
       <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" 
