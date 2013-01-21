@@ -121,6 +121,7 @@
                                       DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
                                       HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
                                       WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located,Highlighting">

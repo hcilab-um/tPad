@@ -236,6 +236,7 @@ namespace UofM.HCI.tPab
         // Updates the device location
         Point point = new Point(newLocation.X + BorderDiff.Width, newLocation.Y + BorderDiff.Height);
         Point rotatedPoint = tRotate.Transform(point);
+        
         Location = new System.Drawing.Point((int)point.X, (int)point.Y);
       }
       else if (isRotating)
@@ -264,11 +265,11 @@ namespace UofM.HCI.tPab
 
     public System.Drawing.Bitmap GetDeviceView(out float angle)
     {
-      Dispatcher.Invoke(DispatcherPriority.Render,
-        (Action)delegate()
-        {
-          TPadApp.Visibility = System.Windows.Visibility.Hidden;
-        });
+      //Dispatcher.Invoke(DispatcherPriority.Render,
+      //  (Action)delegate()
+      //  {
+      //    TPadApp.Visibility = System.Windows.Visibility.Hidden;
+      //  });
 
       Thread.Sleep(100);
       angle = RotationAngle;

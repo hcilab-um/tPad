@@ -12,57 +12,106 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
   {
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      var deviceWidth = float.Parse(values[0].ToString());
-      var deviceHeight = float.Parse(values[1].ToString());
+      var deviceWidthInPage = float.Parse(values[0].ToString());
+      var deviceHeightInPage = float.Parse(values[1].ToString());
       var highlightPositionX = float.Parse(values[2].ToString());
       var highlightPositionY = float.Parse(values[3].ToString());
-      var deviceLocation = (PointF)values[4];
+      var deviceLoc = (System.Drawing.PointF)values[4];
       var widthFactor = float.Parse(values[5].ToString());
       var heightFactor = float.Parse(values[6].ToString());
-      var devicePageWidthFactor = float.Parse(values[7].ToString()) / deviceWidth;
+      var angle = double.Parse(values[7].ToString());
 
-      //border (lines) of device
-      float xBorderRight = (deviceLocation.X * widthFactor) + deviceWidth - (42 / devicePageWidthFactor);
-      float xBorderLeft = deviceLocation.X * widthFactor;
-      float yBorderTop = deviceLocation.Y * heightFactor;
-      float yBorderBottom = (deviceLocation.Y * heightFactor) + deviceHeight;
+      Vector deviceLocation = new Vector(deviceLoc.X * widthFactor, deviceLoc.Y * heightFactor);
+      Vector deviceCenter = new Vector(deviceLocation.X + (deviceWidthInPage / 2.0f), deviceLocation.Y + (deviceHeightInPage / 2.0f)); //center within the page
 
-      //compute linear equation (i.e. gradient and the point n at which the line crosses the y-axis) of line between center of device and hoghlight position
-      PointF deviceCenter = new PointF((deviceLocation.X * widthFactor) + (deviceWidth / 2.0f), (deviceLocation.Y * heightFactor) + (deviceHeight / 2.0f));
-      float gradient = (highlightPositionY - deviceCenter.Y) / (highlightPositionX - deviceCenter.X);
-      float n = deviceCenter.Y - (deviceCenter.X * gradient);
-      float angle = (float)((Math.Atan(gradient) * 180) / Math.PI);
+      //parametric line equation: deviceCenter + s * directionHighlight
+      Vector directionHighlight = new Vector(highlightPositionX - deviceCenter.X, highlightPositionY - deviceCenter.Y);
 
+      //rotate corners of device
+      Vector lowerLeft = rotateAroundPoint(new Vector(deviceLocation.X, deviceLocation.Y + deviceHeightInPage), deviceCenter, angle);
+      Vector lowerRight = rotateAroundPoint(new Vector(deviceLocation.X + deviceWidthInPage, deviceLocation.Y + deviceHeightInPage), deviceCenter, angle);
+      Vector upperRight = rotateAroundPoint(new Vector(deviceLocation.X + deviceWidthInPage, deviceLocation.Y), deviceCenter, angle);
+      deviceLocation = rotateAroundPoint(deviceLocation, deviceCenter, angle);
+
+      //Compute intersections:
       //intersection with left device border
-      float yBorderLeft = (gradient * xBorderLeft) + n;
-      if (yBorderLeft < yBorderBottom && yBorderLeft > yBorderTop && highlightPositionX < xBorderLeft)
-        return (double)(angle + 90);
+      Vector directionVertBorder = new Vector(deviceLocation.X - lowerLeft.X, deviceLocation.Y - lowerLeft.Y);
+      Vector leftIntersection = computeIntersection(lowerLeft, directionVertBorder, deviceCenter, directionHighlight);
+      if (isBetween(deviceLocation, lowerLeft, leftIntersection) && isPointLeft(new Vector(highlightPositionX, highlightPositionY), lowerLeft, deviceLocation))
+        return computeAngle(directionHighlight, directionVertBorder); 
 
       //intersection with right device border
-      float yBorderRight = (gradient * xBorderRight) + n;
-      if (yBorderRight >= yBorderTop && yBorderRight <= yBorderBottom && highlightPositionX > xBorderRight)
-        return (double)(angle - 90);
+      Vector rightIntersection = computeIntersection(lowerRight, directionVertBorder, deviceCenter, directionHighlight);
+      if (isBetween(upperRight, lowerRight, rightIntersection) && !isPointLeft(new Vector(highlightPositionX, highlightPositionY), lowerRight, upperRight))
+        return -1 * computeAngle(directionHighlight, directionVertBorder); 
 
-      //intersection with top device border
-      float xBorderTop = (yBorderTop - n) / gradient;
-      if (xBorderTop >= xBorderLeft && xBorderTop <= xBorderRight && highlightPositionY < yBorderTop)
-      {
-        if (angle < 0)
-          return (double)(angle - 90);
-        return (double)(angle + 90);
-      }
+      //intersection with upper device border
+      Vector directionHorizBorder = new Vector(deviceLocation.X - upperRight.X, deviceLocation.Y - upperRight.Y);
+      Vector upperIntersection = computeIntersection(upperRight, directionHorizBorder, deviceCenter, directionHighlight);
+      if (isBetween(deviceLocation, upperRight, upperIntersection) && isPointLeft(new Vector(highlightPositionX, highlightPositionY), deviceLocation, upperRight))
+        return 90.0 + computeAngle(directionHighlight, directionHorizBorder); 
 
-      //intersection with bottom device border
-      float xBorderBottom = (yBorderBottom - n) / gradient;
-      if (xBorderBottom >= xBorderLeft && xBorderBottom <= xBorderRight && highlightPositionY > yBorderBottom)
-      {
-        if (angle < 0)
-          return (double)(angle + 90);
-        return (double)(angle - 90);
-      }
+      //intersection with lower device border
+      Vector lowerIntersection = computeIntersection(lowerRight, directionHorizBorder, deviceCenter, directionHighlight);
+      if (isBetween(lowerLeft, lowerRight, lowerIntersection) && !isPointLeft(new Vector(highlightPositionX, highlightPositionY), lowerLeft, lowerRight))
+        return -90.0 + computeAngle(directionHighlight, directionHorizBorder);        
 
-      //highlight is within the device display
-      return 0;
+      return (double)0;
+    }
+
+    private Vector rotateAroundPoint(Vector point, Vector center, double angle)
+    {
+      angle = (angle * Math.PI) / 180.0;
+      //counterclockwise
+
+      double x = Math.Cos(angle) * (point.X - center.X) - Math.Sin(angle) * (point.Y - center.Y) + center.X;
+      double y = Math.Sin(angle) * (point.X - center.X) + Math.Cos(angle) * (point.Y - center.Y) + center.Y;
+
+      return new Vector(x, y);
+    }
+
+    private Vector computeIntersection(Vector point1, Vector direction1, Vector point2, Vector direction2)
+    {
+      double t = ((-(point2.X - point1.X) * direction1.Y) + (direction1.X * (point2.Y - point1.Y))) /
+        ((direction2.X * direction1.Y) - (direction2.Y * direction1.X));
+      double s;
+      if (direction1.X != 0)
+        s = (point2.X - point1.X + (t * direction2.X)) / direction1.X;
+      else s = (point2.Y - point1.Y + (t * direction2.Y)) / direction1.Y;
+
+      double x = point2.X + direction2.X * t;
+      double y = point2.Y + direction2.Y * t;
+
+      return new Vector(x, y);
+    }
+
+    private bool isPointLeft(Vector point, Vector linePoint1, Vector linePoint2)
+    {
+      int position = Math.Sign((linePoint2.X - linePoint1.X) * (point.Y - linePoint1.Y) - (linePoint2.Y - linePoint1.Y) * (point.X - linePoint1.X));
+
+      if (position > 0)
+        return false;
+      else return true;
+    }
+
+    private double computeAngle(Vector direction1, Vector direction2)
+    {
+      double scalarproduct = direction1.X * direction2.X + direction1.Y * direction2.Y;
+      double rotationAngle = Math.Acos(scalarproduct / (direction1.Length * direction2.Length));
+
+      rotationAngle = -1 * (rotationAngle * 180) / Math.PI;
+
+      return rotationAngle;
+    }
+
+    private double distance(Vector point1, Vector point2)
+    {
+      return Math.Sqrt((point1.X - point2.X) * (point1.X - point2.X) + (point1.Y - point2.Y) * (point1.Y - point2.Y));
+    }
+
+    private bool isBetween(Vector startPoint, Vector endPoint, Vector point)
+    {
+      return distance(startPoint, point) + distance(point, endPoint) == distance(startPoint, endPoint);
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

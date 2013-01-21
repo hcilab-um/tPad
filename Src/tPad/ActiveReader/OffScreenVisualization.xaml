@@ -12,6 +12,7 @@
     <convertersApp:OffScreenPageVisibilityConverter x:Key="cOffScreenPageVisibility" />
     <convertersApp:OffScreenItemLocationConverter x:Key="cOffScreenItemLocation" />
     <convertersApp:OffScreenItemRotationConverter x:Key="cOffScreenItemRotation" />
+    <convertersApp:FloatToDoubleConverter x:Key="cFloatToDouble" />
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />
 
     <!-- Here comes the style template of the highlightings -->
@@ -53,6 +54,7 @@
                   <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualWidth"/>
                   <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualHeight"/>
                   <Binding ElementName="iArrow" Path="ActualWidth"/>
+                  <Binding ElementName="offScreen" Path="DeviceRotation"/>               
                 </MultiBinding>
               </Grid.Margin>              
               <Grid.RenderTransform>
@@ -67,7 +69,7 @@
                       <Binding ElementName="offScreen" Path="DeviceLocation"/>
                       <Binding ElementName="offScreen" Path="WidthFactor"/>
                       <Binding ElementName="offScreen" Path="HeightFactor"/>
-                      <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualWidth"/>
+                      <Binding ElementName="offScreen" Path="DeviceRotation"/>
                     </MultiBinding>
                   </RotateTransform.Angle>
                 </RotateTransform>
