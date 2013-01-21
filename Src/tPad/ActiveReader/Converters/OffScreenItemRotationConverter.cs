@@ -104,14 +104,17 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
       return rotationAngle;
     }
 
-    private double distance(Vector point1, Vector point2)
-    {
-      return Math.Sqrt((point1.X - point2.X) * (point1.X - point2.X) + (point1.Y - point2.Y) * (point1.Y - point2.Y));
-    }
-
     private bool isBetween(Vector startPoint, Vector endPoint, Vector point)
     {
-      return distance(startPoint, point) + distance(point, endPoint) == distance(startPoint, endPoint);
+      double dotproduct = (point.X - startPoint.X) * (endPoint.X - startPoint.X) + (point.Y - startPoint.Y) * (endPoint.Y - startPoint.Y);
+      if (dotproduct < 0)
+        return false;
+
+      double sqrtLength = (endPoint.X - startPoint.X) * (endPoint.X - startPoint.X) + (endPoint.Y - startPoint.Y) * (endPoint.Y - startPoint.Y);
+      if (dotproduct > sqrtLength)
+        return false;
+
+      return true;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
