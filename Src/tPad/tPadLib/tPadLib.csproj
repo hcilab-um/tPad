@@ -105,6 +105,7 @@
     <Compile Include="TPadDevice.cs" />
     <Compile Include="TPadDocument.cs" />
     <Compile Include="TPadLocation.cs" />
+    <Compile Include="ITPadMarker.cs" />
     <Compile Include="TPadProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

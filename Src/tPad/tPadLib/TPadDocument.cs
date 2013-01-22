@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Shapes;
 using System.Windows.Controls;
 
+
 namespace UofM.HCI.tPab
 {
   public class TPadDocument
@@ -14,24 +15,59 @@ namespace UofM.HCI.tPab
     public TPadPage[] Pages { get; set; }
   }
 
-  public class Notes
+  public class Note : ITPadMarker
   {
     public TextBox annotation { get; set; }
     public Image icon { get; set; }
+
+    public double X
+    {
+      get { return icon.Margin.Left; }
+    }
+
+    public double Y
+    {
+      get { return icon.Margin.Top; }
+    }
+
+    public System.Drawing.PointF Position
+    {
+      get { return new System.Drawing.PointF((float)icon.Margin.Left, (float)icon.Margin.Top); }
+    }
+  }
+
+  public class Highlight : ITPadMarker
+  {
+    public Line line { get; set; }
+
+    public double X
+    {
+      get { return line.X1; }
+    }
+
+    public double Y
+    {
+      get { return line.Y1; }
+    }
+
+    public System.Drawing.PointF Position
+    {
+      get { return new System.Drawing.PointF((float)X, (float)Y); }
+    }
   }
 
   public class TPadPage
   {
     public int PageIndex { get; set; }
     public String FileName { get; set; }
-    public ObservableCollection<Line> Highlights { get; set; }
-    public ObservableCollection<Notes> Annotations { get; set; }
+    public ObservableCollection<ITPadMarker> Highlights { get; set; }
+    public ObservableCollection<ITPadMarker> Annotations { get; set; }
 
     public TPadPage(String fileName = null)
     {
       FileName = fileName;
-      Highlights = new ObservableCollection<Line>();
-      Annotations = new ObservableCollection<Notes>();
+      Highlights = new ObservableCollection<ITPadMarker>();
+      Annotations = new ObservableCollection<ITPadMarker>();
     }
   }
 }

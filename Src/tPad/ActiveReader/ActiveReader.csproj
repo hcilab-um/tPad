@@ -161,7 +161,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Arrow.png">
+    <Content Include="ArrowHighlight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ArrowAnnotation.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Document\17030000002000000.png">

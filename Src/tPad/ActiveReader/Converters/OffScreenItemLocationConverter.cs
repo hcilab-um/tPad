@@ -16,23 +16,22 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
     {
       var deviceWidthInPage = float.Parse(values[0].ToString());
       var deviceHeightInPage = float.Parse(values[1].ToString());
-      var highlightPositionX = float.Parse(values[2].ToString());
-      var highlightPositionY = float.Parse(values[3].ToString());
-      var deviceLoc = (System.Drawing.PointF)values[4];
-      var widthFactor = float.Parse(values[5].ToString());
-      var heightFactor = float.Parse(values[6].ToString());
-      var deviceWidth = float.Parse(values[7].ToString());
-      var deviceHeight = float.Parse(values[8].ToString());
+      var highlightPosition = (System.Drawing.PointF)values[2];
+      var deviceLoc = (System.Drawing.PointF)values[3];
+      var widthFactor = float.Parse(values[4].ToString());
+      var heightFactor = float.Parse(values[5].ToString());
+      var deviceWidth = float.Parse(values[6].ToString());
+      var deviceHeight = float.Parse(values[7].ToString());
       var devicePageWidthFactor = deviceWidth / deviceWidthInPage;
       var devicePageHeightFactor = deviceHeight/ deviceHeightInPage;
-      var sizeOffScreenIcon = float.Parse(values[9].ToString());
-      var angle = double.Parse(values[10].ToString());
+      var sizeOffScreenIcon = float.Parse(values[8].ToString());
+      var angle = double.Parse(values[9].ToString());
 
       Vector deviceLocation = new Vector(deviceLoc.X * widthFactor, deviceLoc.Y * heightFactor);
       Vector deviceCenter = new Vector(deviceLocation.X + (deviceWidthInPage / 2.0f), deviceLocation.Y + (deviceHeightInPage / 2.0f)); //center within the page
       
       //parametric line equation: deviceCenter + s * directionHighlight
-      Vector directionHighlight = new Vector(highlightPositionX - deviceCenter.X, highlightPositionY - deviceCenter.Y);
+      Vector directionHighlight = new Vector(highlightPosition.X - deviceCenter.X, highlightPosition.Y - deviceCenter.Y);
              
       //rotate corners of device
       Vector lowerLeft = rotateAroundPoint(new Vector(deviceLocation.X, deviceLocation.Y + deviceHeightInPage), deviceCenter, angle);
@@ -44,7 +43,7 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
       //intersection with left device border
       Vector directionVertBorder = new Vector(deviceLocation.X - lowerLeft.X, deviceLocation.Y - lowerLeft.Y);
       Vector leftIntersection = computeIntersection(lowerLeft, directionVertBorder, deviceCenter, directionHighlight);
-      if (isBetween(deviceLocation, lowerLeft, leftIntersection) && isPointLeft(new Vector(highlightPositionX, highlightPositionY), lowerLeft, deviceLocation))
+      if (isBetween(deviceLocation, lowerLeft, leftIntersection) && isPointLeft(new Vector(highlightPosition.X, highlightPosition.Y), lowerLeft, deviceLocation))
       {
         deviceLocation = rotateAroundPoint(deviceLocation, deviceCenter, -angle);
         leftIntersection = rotateAroundPoint(leftIntersection, deviceCenter, -angle);
@@ -53,7 +52,7 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
 
       //intersection with right device border
       Vector rightIntersection = computeIntersection(lowerRight, directionVertBorder, deviceCenter, directionHighlight);
-      if (isBetween(upperRight, lowerRight, rightIntersection) && !isPointLeft(new Vector(highlightPositionX, highlightPositionY), lowerRight, upperRight))
+      if (isBetween(upperRight, lowerRight, rightIntersection) && !isPointLeft(new Vector(highlightPosition.X, highlightPosition.Y), lowerRight, upperRight))
       {
         deviceLocation = rotateAroundPoint(deviceLocation, deviceCenter, -angle);
         rightIntersection = rotateAroundPoint(rightIntersection, deviceCenter, -angle);
@@ -64,7 +63,7 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
       //intersection with upper device border
       Vector directionHorizBorder = new Vector(deviceLocation.X - upperRight.X, deviceLocation.Y - upperRight.Y);
       Vector upperIntersection = computeIntersection(upperRight, directionHorizBorder, deviceCenter, directionHighlight);
-      if (isBetween(deviceLocation, upperRight, upperIntersection) && isPointLeft(new Vector(highlightPositionX, highlightPositionY), deviceLocation, upperRight))
+      if (isBetween(deviceLocation, upperRight, upperIntersection) && isPointLeft(new Vector(highlightPosition.X, highlightPosition.Y), deviceLocation, upperRight))
       {
         deviceLocation = rotateAroundPoint(deviceLocation, deviceCenter, -angle);
         upperIntersection = rotateAroundPoint(upperIntersection, deviceCenter, -angle);
@@ -73,7 +72,7 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
 
       //intersection with lower device border
       Vector lowerIntersection = computeIntersection(lowerRight, directionHorizBorder, deviceCenter, directionHighlight);
-      if (isBetween(lowerLeft, lowerRight, lowerIntersection) && !isPointLeft(new Vector(highlightPositionX, highlightPositionY), lowerLeft, lowerRight))
+      if (isBetween(lowerLeft, lowerRight, lowerIntersection) && !isPointLeft(new Vector(highlightPosition.X, highlightPosition.Y), lowerLeft, lowerRight))
       {
         deviceLocation = rotateAroundPoint(deviceLocation, deviceCenter, -angle);
         lowerIntersection = rotateAroundPoint(lowerIntersection, deviceCenter, -angle);

@@ -5,13 +5,10 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
+using System.Windows.Media;
 using System.Drawing;
 
 namespace UofM.HCI.tPab.App.ActiveReader
@@ -22,18 +19,18 @@ namespace UofM.HCI.tPab.App.ActiveReader
   public partial class OffScreenVisualization : UserControl, INotifyPropertyChanged
   {
 
-    public static readonly DependencyProperty ActualDocumentProperty = DependencyProperty.Register("ActualDocument", typeof(TPadDocument), typeof(OffScreenVisualization));
-    public TPadDocument ActualDocument
+    public static readonly DependencyProperty ActualMarkerProperty = DependencyProperty.Register("ActualMarker", typeof(ObservableCollection<ITPadMarker>), typeof(OffScreenVisualization));
+    public ObservableCollection<ITPadMarker> ActualMarker
     {
-      get { return (TPadDocument)GetValue(ActualDocumentProperty); }
-      set { SetValue(ActualDocumentProperty, value); }
+      get { return (ObservableCollection<ITPadMarker>)GetValue(ActualMarkerProperty); }
+      set { SetValue(ActualMarkerProperty, value); }
     }
 
-    public static readonly DependencyProperty ActualPageProperty = DependencyProperty.Register("ActualPage", typeof(int), typeof(OffScreenVisualization));
-    public int ActualPage
+    public static readonly DependencyProperty ActualIconProperty = DependencyProperty.Register("ActualIcon", typeof(ImageSource), typeof(OffScreenVisualization));
+    public ImageSource ActualIcon
     {
-      get { return (int)GetValue(ActualPageProperty); }
-      set { SetValue(ActualPageProperty, value); }
+      get { return (ImageSource)GetValue(ActualIconProperty); }
+      set { SetValue(ActualIconProperty, value); }
     }
 
     public static readonly DependencyProperty PageHeightProperty = DependencyProperty.Register("PageHeight", typeof(float), typeof(OffScreenVisualization));
@@ -78,29 +75,29 @@ namespace UofM.HCI.tPab.App.ActiveReader
       set { SetValue(WidthFactorProperty, value); }
     }
 
-    public TPadPage ActualPageObject
-    {
-      get
-      {
-        if (ActualDocument == null || ActualPage == -1 || ActualDocument.Pages == null || ActualDocument.Pages.Length <= ActualPage)
-          return null;
-        return ActualDocument.Pages[ActualPage];
-      }
-    }
+    //public TPadPage ActualPageObject
+    //{
+    //  get
+    //  {
+    //    if (ActualDocument == null || ActualPage == -1 || ActualDocument.Pages == null || ActualDocument.Pages.Length <= ActualPage)
+    //      return null;
+    //    return ActualDocument.Pages[ActualPage];
+    //  }
+    //}
 
     public OffScreenVisualization()
     {
       InitializeComponent();
     }
 
-    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-    {
-      base.OnPropertyChanged(e);
-      if (e.Property == OffScreenVisualization.ActualPageProperty || e.Property == OffScreenVisualization.ActualDocumentProperty)
-      {
-        OnPropertyChanged("ActualPageObject");
-      }
-    }
+    //protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    //{
+    //  base.OnPropertyChanged(e);
+    //  if (e.Property == OffScreenVisualization.ActualPageProperty || e.Property == OffScreenVisualization.ActualDocumentProperty)
+    //  {
+    //    OnPropertyChanged("ActualPageObject");
+    //  }
+    //}
 
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged(String name)

@@ -20,11 +20,7 @@
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate>
-            <Border>
-              <ScrollViewer>
-                <ItemsPresenter />
-              </ScrollViewer>
-            </Border>
+            <ItemsPresenter />
           </ControlTemplate>
         </Setter.Value>
       </Setter>
@@ -41,13 +37,12 @@
         <Setter.Value>
           <DataTemplate>
             <Grid>
-              <Image x:Name="iArrow" Width="30" Height="28" Source="Arrow.png" />
+              <Image x:Name="iArrow" Width="30" Height="28" Source="{Binding ElementName=offScreen, Path=ActualIcon}" />
               <Grid.Margin>
                 <MultiBinding Converter="{StaticResource ResourceKey=cOffScreenItemLocation}" ConverterParameter="Margin">
                   <Binding ElementName="offScreen" Path="PageWidth"/>
                   <Binding ElementName="offScreen" Path="PageHeight"/>
-                  <Binding Path="X1"/>
-                  <Binding Path="Y1"/>
+                  <Binding Path="Position"/>
                   <Binding ElementName="offScreen" Path="DeviceLocation"/>
                   <Binding ElementName="offScreen" Path="WidthFactor"/>
                   <Binding ElementName="offScreen" Path="HeightFactor"/>
@@ -64,8 +59,7 @@
                     <MultiBinding Converter="{StaticResource ResourceKey=cOffScreenItemRotation}" ConverterParameter="Angle">
                       <Binding ElementName="offScreen" Path="PageWidth"/>
                       <Binding ElementName="offScreen" Path="PageHeight"/>
-                      <Binding Path="X1"/>
-                      <Binding Path="Y1"/>
+                      <Binding Path="Position"/>
                       <Binding ElementName="offScreen" Path="DeviceLocation"/>
                       <Binding ElementName="offScreen" Path="WidthFactor"/>
                       <Binding ElementName="offScreen" Path="HeightFactor"/>
@@ -93,9 +87,9 @@
   </UserControl.Resources>
 
   <ListBox IsSynchronizedWithCurrentItem="True"
-           ItemsSource="{Binding ElementName=offScreen, Path=ActualPageObject.Highlights}"
+           ItemsSource="{Binding ElementName=offScreen, Path=ActualMarker}"
            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-           ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+           ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
   </ListBox>
 
 </UserControl>

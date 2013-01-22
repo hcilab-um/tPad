@@ -93,8 +93,18 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    public ActiveReaderApp(String documentPDF, ITPadAppContainer container)
+    public TPadPage ActualPageObject
     {
+      get
+      {
+        if (ActualDocument == null || ActualPage == -1 || ActualDocument.Pages == null || ActualDocument.Pages.Length <= ActualPage)
+          return null;
+        return ActualDocument.Pages[ActualPage];
+      }
+    }
+    
+    public ActiveReaderApp(String documentPDF, ITPadAppContainer container)
+    {      
       Device = TPadCore.Instance.Device;
       Profile = TPadCore.Instance.Profile;
 
@@ -106,8 +116,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       Container = container;
       PdfHelper = new PDFContentHelper(documentPDF);
-            
+
+      PropertyChanged += new PropertyChangedEventHandler(ActiveReaderApp_PropertyChanged);
       InitializeComponent();
+    }
+
+    void ActiveReaderApp_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if (e.PropertyName == "ActualPage" || e.PropertyName == "ActualDocument")
+        OnPropertyChanged("ActualPageObject");
     }
 
     private void arApp_Loaded(object sender, RoutedEventArgs e)
@@ -242,19 +259,19 @@ namespace UofM.HCI.tPab.App.ActiveReader
             cHighlights.Children.Remove(icon);
 
           //Loads other highlights for this page
-          foreach (UIElement element in document.Pages[pageIndex].Highlights)
-          {            
-            Line highlight = (Line)element;
-            highlight.MouseDown += cHighlights_MouseDown;
-            highlight.MouseMove += cHighlights_MouseMove;
-            highlight.MouseUp += cHighlights_MouseUp;
-            cHighlights.Children.Add(highlight);
+          foreach (Highlight element in document.Pages[pageIndex].Highlights)
+          {
+            Highlight highlight = (Highlight)element;
+            highlight.line.MouseDown += cHighlights_MouseDown;
+            highlight.line.MouseMove += cHighlights_MouseMove;
+            highlight.line.MouseUp += cHighlights_MouseUp;
+            cHighlights.Children.Add(highlight.line);
           }
 
           //Loads other notes for this page
-          foreach (Notes element in document.Pages[pageIndex].Annotations)
+          foreach (Note element in document.Pages[pageIndex].Annotations)
           {
-            Notes note = (Notes)element;
+            Note note = (Note)element;
             cHighlights.Children.Add(note.annotation);
             cHighlights.Children.Add(note.icon);
           }
@@ -266,13 +283,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
+
+      if (name == "ActualPage" || name == "ActualDocument")
+        OnPropertyChanged("ActualPageObject");
     }
 
     private bool isHighlighting = false;
     private Point lastPosition;
-    private Line newHighlight;
-    private Line currentHighlight;
-    private Notes currentNote;
+    private Highlight newHighlight = new Highlight();
+    private Highlight currentHighlight = new Highlight();
+    private Note currentNote;
     private bool isSomething2Hide = false;
     private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -283,22 +303,23 @@ namespace UofM.HCI.tPab.App.ActiveReader
         Console.WriteLine("lastPosition " + lastPosition);
         //Console.WriteLine("deviceLocation " + Device.Location.LocationCm.X * Container.WidthFactor + " " + Device.Location.LocationCm.Y * Container.HeightFactor);
 
-        newHighlight = new Line() { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 10 };
-        newHighlight.MouseDown += cHighlights_MouseDown;
-        newHighlight.MouseMove += cHighlights_MouseMove;
-        newHighlight.MouseUp += cHighlights_MouseUp;
-        newHighlight.X1 = lastPosition.X;
-        newHighlight.Y1 = lastPosition.Y;
-        newHighlight.X2 = lastPosition.X;
-        newHighlight.Y2 = lastPosition.Y;
-        cHighlights.Children.Add(newHighlight);
+        newHighlight = new Highlight();
+        newHighlight.line = new Line{ Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 10 };
+        newHighlight.line.MouseDown += cHighlights_MouseDown;
+        newHighlight.line.MouseMove += cHighlights_MouseMove;
+        newHighlight.line.MouseUp += cHighlights_MouseUp;
+        newHighlight.line.X1 = lastPosition.X;
+        newHighlight.line.Y1 = lastPosition.Y;
+        newHighlight.line.X2 = lastPosition.X;
+        newHighlight.line.Y2 = lastPosition.Y;
+        cHighlights.Children.Add(newHighlight.line);
 
         contextMenu.Visibility = Visibility.Hidden;
         //hide on screen keyboard
         tpKeyboard.Visibility = Visibility.Hidden;
 
         isSomething2Hide = false;
-        foreach (Notes element in ActualDocument.Pages[ActualPage].Annotations)
+        foreach (Note element in ActualDocument.Pages[ActualPage].Annotations)
         {
           if (element.annotation.Visibility == Visibility.Visible)
           {
@@ -316,15 +337,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       isHighlighting = false;
       Point newPosition = Mouse.GetPosition(gAnchoredLayers);
-      newHighlight.X2 = newPosition.X;
-      newHighlight.Y2 = newPosition.Y;
+      newHighlight.line.X2 = newPosition.X;
+      newHighlight.line.Y2 = newPosition.Y;
 
-      Vector lineVector = new Vector(newHighlight.X2 - newHighlight.X1, newHighlight.Y2 - newHighlight.Y1);
+      Vector lineVector = new Vector(newHighlight.line.X2 - newHighlight.line.X1, newHighlight.line.Y2 - newHighlight.line.Y1);
       if (lineVector.Length > 3)
         ActualDocument.Pages[ActualPage].Highlights.Add(newHighlight);
       else //It was just a click to bring up the contextual menu
       {
-        cHighlights.Children.Remove(newHighlight);
+        cHighlights.Children.Remove(newHighlight.line);
 
         Rect contentBounds = Rect.Empty;
         String content = PdfHelper.PixelToContent(newPosition, ActualPage, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight, out contentBounds);
@@ -342,8 +363,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
         return;
 
       Point newPosition = Mouse.GetPosition(gAnchoredLayers);
-      newHighlight.X2 = newPosition.X;
-      newHighlight.Y2 = newPosition.Y;
+      newHighlight.line.X2 = newPosition.X;
+      newHighlight.line.Y2 = newPosition.Y;
     }
 
     private void gFixedLayers_MouseDown(object sender, MouseButtonEventArgs e)
@@ -400,14 +421,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (sender.GetType() == typeof(Line))
         {
           cm_deleteItem.Visibility = Visibility.Visible;
-          currentHighlight = (Line)sender;
+          currentHighlight.line = (Line)sender;
         }
       }
     }
 
     private void CMDelete_Click(object sender, RoutedEventArgs e)
     {
-      cHighlights.Children.Remove(currentHighlight);
+      cHighlights.Children.Remove(currentHighlight.line);
       ActualDocument.Pages[ActualPage].Highlights.Remove(currentHighlight);
     }
 
@@ -417,7 +438,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       tpKeyboard.Visibility = Visibility.Visible;
       tpKeyboard.ResultClear();
       
-      Notes newNote = new Notes();
+      Note newNote = new Note();
       newNote.annotation = new TextBox
       {
         BorderBrush = Brushes.Goldenrod,
@@ -449,7 +470,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
     {
       tpKeyboard.Visibility = Visibility.Hidden;
-      foreach (Notes element in ActualDocument.Pages[ActualPage].Annotations)
+      foreach (Note element in ActualDocument.Pages[ActualPage].Annotations)
       {
         if (element.icon == (Image)sender)
         {

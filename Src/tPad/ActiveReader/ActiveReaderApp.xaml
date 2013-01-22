@@ -111,11 +111,34 @@
       </Canvas.RenderTransform>
 
       <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->
-      <menuBar:OffScreenVisualization x:Name="offScreenVis" Canvas.Top="0" Canvas.Left="0"
+      
+      <!--The off-screen visualization for highlightings-->
+      <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
                                       Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
-                                      ActualDocument="{Binding ElementName=arApp, Path=ActualDocument}" 
-                                      ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
+                                      ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.Highlights}"
+                                      ActualIcon="ArrowHighlight.png"
+                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
+                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
+                                      PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
+        <menuBar:OffScreenVisualization.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located,Highlighting">
+            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="CurrentMode"/>
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.Visibility>
+      </menuBar:OffScreenVisualization>
+
+      <!--The off-screen visualization for annotations-->
+      <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
+                                      Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+                                      Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
+                                      ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.Annotations}"
+                                      ActualIcon="ArrowAnnotation.png"
                                       PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
                                       PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
                                       DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
