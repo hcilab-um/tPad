@@ -75,9 +75,9 @@
       <!-- The first layer is for the highlights -->
       <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Canvas.Visibility>
-          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located,Highlighting">
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Device.Location.Status"/>
-            <Binding ElementName="arApp" Path="CurrentMode"/>
+            <Binding ElementName="bHighlight" Path="IsChecked"/>
           </MultiBinding>
         </Canvas.Visibility>
         <!-- This rectange covering the whole area and almost transparent is necessary to detect the mouse events -->
@@ -126,9 +126,9 @@
                                       DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
-          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located,Highlighting">
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Device.Location.Status"/>
-            <Binding ElementName="arApp" Path="CurrentMode"/>
+            <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
       </menuBar:OffScreenVisualization>
@@ -147,9 +147,9 @@
                                       DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
-          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located,Highlighting">
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Device.Location.Status"/>
-            <Binding ElementName="arApp" Path="CurrentMode"/>
+            <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
       </menuBar:OffScreenVisualization>
@@ -159,7 +159,7 @@
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" Margin="0,25,0,0">
           <ToggleButton x:Name="bHighlight" IsThreeState="False" Click="bHighlight_Click">Highlight</ToggleButton>
-          <ToggleButton x:Name="bAnnotation" IsThreeState="false" Click="bAnnotation_Click" Margin="20,0,0,0">Off-Screen</ToggleButton>
+          <ToggleButton x:Name="bOffScreenVisualization" IsThreeState="false" Click="bOffScreenVisualization_Click" IsEnabled="False" Margin="20,0,0,0">Off-Screen</ToggleButton>
           <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0">Show Page</ToggleButton>
           <Button x:Name="bSearchPACER" Margin="20,0,0,0" Click="bSearchPACER_Click">Search PACER</Button>
         </StackPanel>

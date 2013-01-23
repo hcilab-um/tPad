@@ -19,10 +19,10 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
       LocationStatus status = (LocationStatus)values[0];
       LocationStatus targetStatus = (LocationStatus)Enum.Parse(typeof(LocationStatus), (String)parameters[0]);
 
-      ActiveReaderApp.ActiveReaderMode mode = (ActiveReaderApp.ActiveReaderMode)values[1];
-      ActiveReaderApp.ActiveReaderMode targetMode = (ActiveReaderApp.ActiveReaderMode)Enum.Parse(typeof(ActiveReaderApp.ActiveReaderMode), (String)parameters[1]);
+      bool isButtonChecked = (bool)values[1];
+      //ActiveReaderApp.ActiveReaderMode targetMode = (ActiveReaderApp.ActiveReaderMode)Enum.Parse(typeof(ActiveReaderApp.ActiveReaderMode), (String)parameters[1]);
 
-      if (status == targetStatus && mode == targetMode)
+      if (status == targetStatus && isButtonChecked)
         return System.Windows.Visibility.Visible;
       return System.Windows.Visibility.Collapsed;
     }

@@ -32,7 +32,7 @@ namespace UofM.HCI.tPab
 
     public System.Drawing.PointF Position
     {
-      get { return new System.Drawing.PointF((float)icon.Margin.Left, (float)icon.Margin.Top); }
+      get { return new System.Drawing.PointF((float)X, (float)Y); }
     }
   }
 
@@ -42,12 +42,12 @@ namespace UofM.HCI.tPab
 
     public double X
     {
-      get { return line.X1; }
+      get { return line.X1 + (line.X2 - line.X1) * 0.5; }
     }
 
     public double Y
     {
-      get { return line.Y1; }
+      get { return line.Y1 + (line.Y2 - line.Y1) * 0.5; }
     }
 
     public System.Drawing.PointF Position

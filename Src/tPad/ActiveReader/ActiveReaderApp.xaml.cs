@@ -26,8 +26,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
   /// </summary>
   public partial class ActiveReaderApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
-
-    public enum ActiveReaderMode { Nothing, Highlighting, Annotating };
+    //public enum ActiveReaderMode { Nothing, Highlighting, OffScreenVisualization };
 
     public TPadProfile Profile { get; set; }
     public TPadDevice Device { get; set; }
@@ -60,16 +59,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private ActiveReaderMode currentMode = ActiveReaderMode.Nothing;
-    public ActiveReaderMode CurrentMode
-    {
-      get { return currentMode; }
-      set
-      {
-        currentMode = value;
-        OnPropertyChanged("CurrentMode");
-      }
-    }
+    //private ActiveReaderMode currentMode = ActiveReaderMode.Nothing;
+    //public ActiveReaderMode CurrentMode
+    //{
+    //  get { return currentMode; }
+    //  set
+    //  {
+    //    currentMode = value;
+    //    OnPropertyChanged("CurrentMode");
+    //  }
+    //}
 
     private bool showPageImage = false;
     public bool ShowPageImage
@@ -300,9 +299,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {        
         isHighlighting = true;
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
-        Console.WriteLine("lastPosition " + lastPosition);
-        //Console.WriteLine("deviceLocation " + Device.Location.LocationCm.X * Container.WidthFactor + " " + Device.Location.LocationCm.Y * Container.HeightFactor);
-
+       
         newHighlight = new Highlight();
         newHighlight.line = new Line{ Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 10 };
         newHighlight.line.MouseDown += cHighlights_MouseDown;
@@ -376,17 +373,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (bHighlight.IsChecked.Value)
       {
-        CurrentMode = ActiveReaderMode.Highlighting;
+        //CurrentMode = ActiveReaderMode.Highlighting;
+        bOffScreenVisualization.IsEnabled = true;
       }
       else
       {
-        CurrentMode = ActiveReaderMode.Nothing;
+        //CurrentMode = ActiveReaderMode.Nothing;
+        bOffScreenVisualization.IsEnabled = false;
+        bOffScreenVisualization.IsChecked = false;
       }
     }
 
-    private void bAnnotation_Click(object sender, RoutedEventArgs e)
+    private void bOffScreenVisualization_Click(object sender, RoutedEventArgs e)
     {
-      MessageBox.Show("Annotations");
+
     }
 
     private void RemoveWordHighlight()
@@ -447,11 +447,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
         Height = (int)iDocument.Width / 7,
         TextWrapping = TextWrapping.Wrap
       };
+
+      //rotate sticky note
+      //RotateTransform rotation = new RotateTransform(Device.Location.RotationAngle, newNote.annotation.Width * 0.5, newNote.annotation.Height * 0.5);
+      //newNote.annotation.RenderTransform = rotation;
+
       newNote.annotation.Margin = new Thickness(lastPosition.X, lastPosition.Y + 10, 0, 0);
       newNote.annotation.PreviewMouseDown += Note_PreviewMouseDown;
       newNote.annotation.PreviewMouseUp += Note_PreviewMouseUp;
       newNote.annotation.PreviewMouseMove += Note_PreviewMouseMove;
-
+      
       newNote.icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
       string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
       newNote.icon.Source = new BitmapImage(new Uri(strUri2));
