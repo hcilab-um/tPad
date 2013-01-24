@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:src="clr-namespace:UofM.HCI.tPab;assembly=tPadLib"
+             xmlns:src="clr-namespace:UofM.HCI.tPab.App.ActiveReader"
              xmlns:tpadcontrols="clr-namespace:UofM.HCI.tPab;assembly=tPadLib"
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters;assembly=tPadLib"
              xmlns:convertersApp="clr-namespace:UofM.HCI.tPab.App.ActiveReader.Converters"
@@ -59,9 +59,10 @@
       <!-- Here go all the other layers for content that's anchored to the document -->
       <Image x:Name="iDocument" Stretch="Fill" Width="{Binding ElementName=gAnchoredLayers, Path=ActualWidth}">
         <Image.Visibility>
-          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolVisibility}" ConverterParameter="Located,True">
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolVisibility}" ConverterParameter="Located,True,True">
             <Binding ElementName="arApp" Path="Device.Location.Status"/>
             <Binding ElementName="bShowPage" Path="IsChecked"/>
+            <Binding ElementName="bCopyAndLock" Path="IsChecked"/>
           </MultiBinding>
         </Image.Visibility>
         <Image.Source>
@@ -92,13 +93,13 @@
 
       <!-- This is the context menu for handling annotations -->
       <Grid.ContextMenu>
-        <ContextMenu Name="contextMenu"  Width="140">
+        <ContextMenu Name="contextMenu">
           <MenuItem Name="cm_deleteItem"  Header="Delete" Click="CMDelete_Click"/>
+          <MenuItem Name="cm_searchItem" Click="CMSearch_Click"/>
           <Separator />
           <MenuItem Header="Add Annotation" Click="CMAnnotation_Click"/>
         </ContextMenu>
       </Grid.ContextMenu>
-
     </Grid>
 
     <!-- This is the grid containing all the layers that are anchored to the device - This content remains static as you move the device -->
@@ -154,14 +155,37 @@
         </menuBar:OffScreenVisualization.Visibility>
       </menuBar:OffScreenVisualization>
 
+      <!--The off-screen visualization for search results-->
+      <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
+                                      Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+                                      Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
+                                      ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.SearchResults}"
+                                      ActualIcon="ArrowSearchResults.png"
+                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
+                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
+                                      PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
+        <menuBar:OffScreenVisualization.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
+            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.Visibility>
+      </menuBar:OffScreenVisualization>
+
       <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" Margin="0,25,0,0">
           <ToggleButton x:Name="bHighlight" IsThreeState="False" Click="bHighlight_Click">Highlight</ToggleButton>
-          <ToggleButton x:Name="bOffScreenVisualization" IsThreeState="false" Click="bOffScreenVisualization_Click" IsEnabled="False" Margin="20,0,0,0">Off-Screen</ToggleButton>
+          <ToggleButton x:Name="bOffScreenVisualization" IsThreeState="false" IsEnabled="False" Margin="20,0,0,0">Off-Screen</ToggleButton>
           <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0">Show Page</ToggleButton>
-          <Button x:Name="bSearchPACER" Margin="20,0,0,0" Click="bSearchPACER_Click">Search PACER</Button>
+          <ToggleButton x:Name="bCopyAndLock" IsThreeState="False" Margin="20,0,0,0" Click="bCopyAndLock_Click" >Copy 8 Lock</ToggleButton>
+          <Button x:Name="bSearch" Margin="20,0,0,0" Click="bSearch_Click" >Search</Button>
+          
         </StackPanel>
       </Grid>
 
@@ -172,29 +196,31 @@
                              DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
                              HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"/>
 
-      <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0" 
+      <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
             Visibility="{Binding ElementName=arApp, Path=Device.Location.Status, Converter={StaticResource ResourceKey=cStatusVisibility}, ConverterParameter=NotLocated}">
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" FontWeight="Bold">Reading Helper</Label>
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="0,70,0,0">Not Located</Label>
       </Grid>
-
+      
       <!--This is the keyboard-->
       <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" 
+                                 EnterKeyPressed="tpKeyboard_EnterKeyPressed"
+                                 AlphaNumericKeyPressed="tpKeyboard_AlphaNumericKeyPressed"
                                  Canvas.Top="{Binding ElementName=arApp, Path=KeyboardPosition}" Canvas.Left="0" 
                                  Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" Height="200"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                                  Visibility="Hidden"/>
-
     </Canvas>
 
   </Grid>
 
   <UserControl.Background>
-    <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolBackground}" ConverterParameter="Located,True">
+    <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolBackground}" ConverterParameter="Located,True,True">
       <Binding ElementName="arApp" Path="Device.Location.Status"/>
       <Binding ElementName="bShowPage" Path="IsChecked"/>
+      <Binding ElementName="bCopyAndLock" Path="IsChecked"/>
     </MultiBinding>
   </UserControl.Background>
 </UserControl>

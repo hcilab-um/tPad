@@ -12,10 +12,13 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
   {
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
+      if (values[2] == DependencyProperty.UnsetValue)
+        return (double)0;
+
       var deviceWidthInPage = float.Parse(values[0].ToString());
       var deviceHeightInPage = float.Parse(values[1].ToString());
-      var highlightPosition = (System.Drawing.PointF)values[2];
-      var deviceLoc = (System.Drawing.PointF)values[3];
+      var highlightPosition = (PointF)values[2];
+      var deviceLoc = (PointF)values[3];
       var widthFactor = float.Parse(values[4].ToString());
       var heightFactor = float.Parse(values[5].ToString());
       var angle = double.Parse(values[6].ToString());
@@ -37,23 +40,23 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
       Vector directionVertBorder = new Vector(deviceLocation.X - lowerLeft.X, deviceLocation.Y - lowerLeft.Y);
       Vector leftIntersection = computeIntersection(lowerLeft, directionVertBorder, deviceCenter, directionHighlight);
       if (isBetween(deviceLocation, lowerLeft, leftIntersection) && isPointLeft(new Vector(highlightPosition.X, highlightPosition.Y), lowerLeft, deviceLocation))
-        return computeAngle(directionHighlight, directionVertBorder); 
+        return -1 * computeAngle(directionHighlight, directionVertBorder); 
 
       //intersection with right device border
       Vector rightIntersection = computeIntersection(lowerRight, directionVertBorder, deviceCenter, directionHighlight);
       if (isBetween(upperRight, lowerRight, rightIntersection) && !isPointLeft(new Vector(highlightPosition.X, highlightPosition.Y), lowerRight, upperRight))
-        return -1 * computeAngle(directionHighlight, directionVertBorder); 
+        return computeAngle(directionHighlight, directionVertBorder); 
 
       //intersection with upper device border
       Vector directionHorizBorder = new Vector(deviceLocation.X - upperRight.X, deviceLocation.Y - upperRight.Y);
       Vector upperIntersection = computeIntersection(upperRight, directionHorizBorder, deviceCenter, directionHighlight);
       if (isBetween(deviceLocation, upperRight, upperIntersection) && isPointLeft(new Vector(highlightPosition.X, highlightPosition.Y), deviceLocation, upperRight))
-        return 90.0 + computeAngle(directionHighlight, directionHorizBorder); 
+        return -90.0 + computeAngle(directionHighlight, directionHorizBorder); 
 
       //intersection with lower device border
       Vector lowerIntersection = computeIntersection(lowerRight, directionHorizBorder, deviceCenter, directionHighlight);
       if (isBetween(lowerLeft, lowerRight, lowerIntersection) && !isPointLeft(new Vector(highlightPosition.X, highlightPosition.Y), lowerLeft, lowerRight))
-        return -90.0 + computeAngle(directionHighlight, directionHorizBorder);        
+        return -90.0 - computeAngle(directionHighlight, directionHorizBorder);        
 
       return (double)0;
     }
@@ -98,7 +101,7 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
       double scalarproduct = direction1.X * direction2.X + direction1.Y * direction2.Y;
       double rotationAngle = Math.Acos(scalarproduct / (direction1.Length * direction2.Length));
 
-      rotationAngle = -1 * (rotationAngle * 180) / Math.PI;
+      rotationAngle = (rotationAngle * 180) / Math.PI;
 
       return rotationAngle;
     }

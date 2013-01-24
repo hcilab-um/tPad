@@ -62,12 +62,14 @@ namespace UofM.HCI.tPab
     public String FileName { get; set; }
     public ObservableCollection<ITPadMarker> Highlights { get; set; }
     public ObservableCollection<ITPadMarker> Annotations { get; set; }
+    public ObservableCollection<ITPadMarker> SearchResults { get; set; }
 
     public TPadPage(String fileName = null)
     {
       FileName = fileName;
       Highlights = new ObservableCollection<ITPadMarker>();
       Annotations = new ObservableCollection<ITPadMarker>();
+      SearchResults = new ObservableCollection<ITPadMarker>();
     }
   }
 }

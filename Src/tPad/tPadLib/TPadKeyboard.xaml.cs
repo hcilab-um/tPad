@@ -28,6 +28,20 @@ namespace UofM.HCI.tPab
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
+    public event EventHandler EnterKeyPressed;
+    private void OnEnterKeyPressed()
+    {
+      if (EnterKeyPressed != null)
+        EnterKeyPressed(this, null);
+    }
+
+    public event EventHandler AlphaNumericKeyPressed;
+    private void OnAlphaNumericKeyPressed()
+    {
+      if (AlphaNumericKeyPressed != null)
+        AlphaNumericKeyPressed(this, null);
+    }
+        
     private bool showNumericKeyboard;
     public bool ShowNumericKeyboard
     {
@@ -38,27 +52,40 @@ namespace UofM.HCI.tPab
         OnPropertyChanged("ShowNumericKeyboard");
       }
     }
-
-    private StringBuilder result = new StringBuilder();
-    public StringBuilder Result
+    
+    public string ResultString
     {
-      get { return result; }
+      get { return currentTextLine.ToString(); }
+    }
+
+    private StringBuilder currentTextLine = new StringBuilder();
+    public StringBuilder CurrentTextLine
+    {
+      get { return currentTextLine; }
       private set
       {
-        result = value;
-        OnPropertyChanged("Result");
+        currentTextLine = value;
+        OnPropertyChanged("CurrentTextLine");
         OnPropertyChanged("ResultString");
       }
     }
 
-    public string ResultString
+    private StringBuilder currentText = new StringBuilder();
+    public StringBuilder CurrentText
     {
-      get { return result.ToString(); }
+      get { return currentText; }
+      private set
+      {
+        currentText = value;
+        OnPropertyChanged("CurrentText");
+        OnPropertyChanged("ResultString");
+      }
     }
 
     public void ResultClear()
     {
-      Result = new StringBuilder();
+      CurrentText = new StringBuilder();
+      CurrentTextLine = new StringBuilder();
     }
 
     private float keyboardWidth = 300;
@@ -75,14 +102,17 @@ namespace UofM.HCI.tPab
     public TPadKeyboard()
     {
       InitializeComponent();
-      Result = new StringBuilder();
+      CurrentText = new StringBuilder();
+      CurrentTextLine = new StringBuilder();
     }
 
     private void keyboardButton_Click(object sender, RoutedEventArgs e)
     {
       Button button = sender as Button;
+      //IsEnterPressed = false;
+
       if (button != null)
-      {
+      {        
         switch (button.CommandParameter.ToString())
         {
           case "LSHIFT":
@@ -118,41 +148,37 @@ namespace UofM.HCI.tPab
             break;
 
           case "RETURN":
-            //stickyNote.Text += Result.ToString();
-            currentNote.Text += "\r\n";
-            Result = new StringBuilder();
+            //IsEnterPressed = true;
+            OnEnterKeyPressed();
+            CurrentTextLine = new StringBuilder();
+            CurrentText.Append("\r\n");
             break;
 
           case "BACK":
-            if (Result.Length > 0 && currentNote.Text.Length > 0)
+            if (CurrentText.Length > 0)
             {
-              Result.Remove(Result.Length - 1, 1);
-              OnPropertyChanged("Result");
-              OnPropertyChanged("ResultString");
+              CurrentText.Remove(CurrentText.Length - 1, 1);
+          
 
-              currentNote.Text = currentNote.Text.Remove(currentNote.Text.Length - 1);
+              OnAlphaNumericKeyPressed();
             }
+            if (CurrentTextLine.Length > 0)
+            {
+              CurrentTextLine.Remove(CurrentTextLine.Length - 1, 1);
+            }
+            OnPropertyChanged("ResultString");
             break;
 
           default:
-            Result.Append(button.Content.ToString());
-            OnPropertyChanged("Result");
+            CurrentText.Append(button.Content.ToString());
+            CurrentTextLine.Append(button.Content.ToString());
             OnPropertyChanged("ResultString");
 
-            currentNote.Text += button.Content.ToString();
+            OnAlphaNumericKeyPressed();  
+            
             break;
         }
       }
-    }
-
-    private TextBox currentNote;
-    public void setCurrentNote(TextBox note)
-    {
-      currentNote = note;
-    }
-    public TextBox getCurrentNote()
-    {
-      return currentNote;
     }
   }
 }
