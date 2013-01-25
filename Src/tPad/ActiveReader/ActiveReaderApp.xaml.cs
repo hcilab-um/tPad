@@ -269,10 +269,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
             cHighlights.Children.Remove(note);
 
           //Unload existing icons
-          var iconNotes = cHighlights.Children.OfType<Image>().ToList();
-          foreach (Image icon in iconNotes)
+          var icons = cHighlights.Children.OfType<Image>().ToList();
+          foreach (Image icon in icons)
             cHighlights.Children.Remove(icon);
 
+          //Unload existing scribblings
+          var scribblings = cHighlights.Children.OfType<InkCanvas>().ToList();
+          foreach (InkCanvas scribble in scribblings)
+            cHighlights.Children.Remove(scribble);
+          
           //Unload existing search results
           cSearchResults.Children.Clear();
 
@@ -286,7 +291,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
             cHighlights.Children.Add(highlight.line);
           }
 
-          //Loads other search results for this page
+          //Loads search results for this page
           foreach (Highlight element in document.Pages[pageIndex].SearchResults)
           {
             Highlight searchHighlight = (Highlight)element;
@@ -296,11 +301,19 @@ namespace UofM.HCI.tPab.App.ActiveReader
             cSearchResults.Children.Add(searchHighlight.line);
           }
 
-          //Loads other notes for this page
+          //Loads notes for this page
           foreach (Note element in document.Pages[pageIndex].Annotations)
           {
             Note note = (Note)element;
             cHighlights.Children.Add(note.annotation);
+            cHighlights.Children.Add(note.icon);
+          }
+
+          //Loads scribbles for this page
+          foreach (Scribble element in document.Pages[pageIndex].Scribblings)
+          {
+            Scribble note = (Scribble)element;
+            cHighlights.Children.Add(note.scribbling);
             cHighlights.Children.Add(note.icon);
           }
         });
@@ -378,6 +391,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
           {
             isSomething2Hide = true;
             element.annotation.Visibility = Visibility.Hidden;
+          }
+        }
+
+        foreach (Scribble element in ActualDocument.Pages[ActualPage].Scribblings)
+        {
+          if (element.scribbling.Visibility == Visibility.Visible)
+          {
+            isSomething2Hide = true;
+            element.scribbling.Visibility = Visibility.Hidden;
           }
         }
 
@@ -528,6 +550,30 @@ namespace UofM.HCI.tPab.App.ActiveReader
       ActualNote = newNote;
     }
 
+    private void CMScribble_Click(object sender, RoutedEventArgs e)
+    {
+      Scribble newScribble = new Scribble();
+      newScribble.scribbling = new InkCanvas()
+      {
+        Background = Brushes.Beige,
+        Width = (int)iDocument.Width / 7,
+        Height = (int)iDocument.Width / 7,
+      };
+
+      newScribble.scribbling.Margin = new Thickness(lastPosition.X, lastPosition.Y + 10, 0, 0);
+
+      newScribble.icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
+      string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
+      newScribble.icon.Source = new BitmapImage(new Uri(strUri2));
+      newScribble.icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newScribble.icon.Height, 0, 0);
+      newScribble.icon.MouseDown += ScribbleIcon_MouseDown;
+
+      cHighlights.Children.Add(newScribble.scribbling);
+      cHighlights.Children.Add(newScribble.icon);
+      ActualDocument.Pages[ActualPage].Scribblings.Add(newScribble);
+    }
+
+
     private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
     {
       tpKeyboard.Visibility = Visibility.Hidden;
@@ -543,6 +589,24 @@ namespace UofM.HCI.tPab.App.ActiveReader
           ActualNote.annotation.Visibility = Visibility.Visible;
         else
           ActualNote.annotation.Visibility = Visibility.Hidden;
+      }
+    }
+
+    private Scribble ActualScribble;
+    private void ScribbleIcon_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+      foreach (Scribble element in ActualDocument.Pages[ActualPage].Scribblings)
+      {
+        if (element.icon == (Image)sender)
+          ActualScribble = element;
+      }
+
+      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
+      {
+        if (ActualScribble.scribbling.Visibility == Visibility.Hidden)
+          ActualScribble.scribbling.Visibility = Visibility.Visible;
+        else
+          ActualScribble.scribbling.Visibility = Visibility.Hidden;
       }
     }
 
