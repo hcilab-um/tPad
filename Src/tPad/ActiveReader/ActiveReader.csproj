@@ -103,7 +103,8 @@
     <Compile Include="Converters\BarItemLocationConverter.cs" />
     <Compile Include="Converters\BarPositionItemLocationConverter.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
-    <Compile Include="Converters\FloatToDoubleConverter.cs" />
+    <Compile Include="Converters\ContextMenuVisibilityConverter.cs" />
+    <Compile Include="Converters\IsButtonEnabledConverter.cs" />
     <Compile Include="Converters\OffScreenItemLocationConverter.cs" />
     <Compile Include="Converters\OffScreenItemRotationConverter.cs" />
     <Compile Include="Converters\OffScreenPageVisibilityConverter.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Converters\StatusAndBoolBackgroundConverter.cs" />
     <Compile Include="Converters\StatusAndBoolVisibilityConverter.cs" />
     <Compile Include="Converters\StatusAndModeVisibilityConverter.cs" />
+    <Compile Include="Converters\StringToContextMenuLabelConverter.cs" />
     <Compile Include="OffScreenVisualization.xaml.cs">
       <DependentUpon>OffScreenVisualization.xaml</DependentUpon>
     </Compile>
@@ -165,6 +167,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ArrowAnnotation.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ArrowSearchResults.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Document\17030000002000000.png">

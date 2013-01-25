@@ -12,7 +12,6 @@
     <convertersApp:OffScreenPageVisibilityConverter x:Key="cOffScreenPageVisibility" />
     <convertersApp:OffScreenItemLocationConverter x:Key="cOffScreenItemLocation" />
     <convertersApp:OffScreenItemRotationConverter x:Key="cOffScreenItemRotation" />
-    <convertersApp:FloatToDoubleConverter x:Key="cFloatToDouble" />
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />
 
     <!-- Here comes the style template of the highlightings -->

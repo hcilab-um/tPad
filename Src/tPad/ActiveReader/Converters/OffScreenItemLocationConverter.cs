@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Shapes;
+using System.Drawing;
 
 
 namespace UofM.HCI.tPab.App.ActiveReader.Converters
@@ -14,10 +14,13 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
   {
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
+      if (values[2] == DependencyProperty.UnsetValue)
+        return new System.Windows.Thickness(-50, -50, 0, 0);
+
       var deviceWidthInPage = float.Parse(values[0].ToString());
       var deviceHeightInPage = float.Parse(values[1].ToString());
-      var highlightPosition = (System.Drawing.PointF)values[2];
-      var deviceLoc = (System.Drawing.PointF)values[3];
+      var highlightPosition = (PointF)values[2];
+      var deviceLoc = (PointF)values[3];
       var widthFactor = float.Parse(values[4].ToString());
       var heightFactor = float.Parse(values[5].ToString());
       var deviceWidth = float.Parse(values[6].ToString());

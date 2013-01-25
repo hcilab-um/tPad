@@ -13,6 +13,14 @@
     <convertersApp:BarPositionItemLocationConverter x:Key="cBarPositionItemLocation" />
     <convertersApp:PagePositionVisibilityConverter x:Key="cPagePositionVisibility" />
 
+    <!--Here comes the hover style for the bar-->
+    <Style x:Key="hoverStyle" TargetType="{x:Type ListBoxItem}">
+      <Style.Resources>
+        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                             Color="Transparent"/>
+      </Style.Resources>
+    </Style>
+    
     <!--Here comes the style template of the highlightings-->
     <Style TargetType="{x:Type ListBox}" x:Key="HighlightsStyle">
 
@@ -28,7 +36,7 @@
         <Setter.Value>
           <DataTemplate>
             <Rectangle Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth}" 
-                       Height="5" Fill="MidnightBlue" Opacity="0.5">
+                       Height="5" Fill="YellowGreen" Opacity="0.5">
               <Rectangle.Margin>
                 <MultiBinding Converter="{StaticResource ResourceKey=cBarItemLocation}">
                   <Binding ElementName="annoBar" Path="PageHeight"/>
@@ -59,11 +67,42 @@
         <Setter.Value>
           <DataTemplate>
             <Rectangle Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth}" 
-                       Height="5" Fill="DarkTurquoise" Opacity="0.5">
+                       Height="5" Fill="Orange" Opacity="0.5">
               <Rectangle.Margin>
                 <MultiBinding Converter="{StaticResource ResourceKey=cBarItemLocation}">
                   <Binding ElementName="annoBar" Path="PageHeight"/>
                   <Binding Path="icon.Margin.Top"/>
+                  <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualHeight" />
+                  <Binding RelativeSource="{RelativeSource Self}"  Path="ActualHeight" />
+                </MultiBinding>
+              </Rectangle.Margin>
+            </Rectangle>
+          </DataTemplate>
+        </Setter.Value>
+      </Setter>
+
+    </Style>
+
+    <!--Here comes the style template of the search results-->
+    <Style TargetType="{x:Type ListBox}" x:Key="SearchResultStyle">
+
+      <Setter Property="ItemsPanel">
+        <Setter.Value>
+          <ItemsPanelTemplate>
+            <Canvas VerticalAlignment="Stretch"/>
+          </ItemsPanelTemplate>
+        </Setter.Value>
+      </Setter>
+
+      <Setter Property="ItemTemplate">
+        <Setter.Value>
+          <DataTemplate>
+            <Rectangle Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth}" 
+                       Height="5" Fill="Blue" Opacity="0.5">
+              <Rectangle.Margin>
+                <MultiBinding Converter="{StaticResource ResourceKey=cBarItemLocation}">
+                  <Binding ElementName="annoBar" Path="PageHeight"/>
+                  <Binding Path="Y"/>
                   <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualHeight" />
                   <Binding RelativeSource="{RelativeSource Self}"  Path="ActualHeight" />
                 </MultiBinding>
@@ -80,7 +119,7 @@
            explains how to display an object of type BitmapImage. -->
       <Setter Property="ItemTemplate">
         <Setter.Value>
-          <DataTemplate>
+          <DataTemplate>            
             <Grid Height="{Binding ElementName=annoBar, Path=RectangleHeight}" 
                   Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth}" Opacity="0.8">
               <Grid.Background>
@@ -90,6 +129,18 @@
                 </MultiBinding>
               </Grid.Background>
 
+              <ListBox VerticalAlignment="Stretch" Background="Transparent" BorderThickness="0"
+                       ItemsSource="{Binding Path=SearchResults}" 
+                       Style="{StaticResource ResourceKey=SearchResultStyle}"/>
+
+              <ListBox VerticalAlignment="Stretch" Background="Transparent" BorderThickness="0"
+                       ItemsSource="{Binding Path=Highlights}" 
+                       Style="{StaticResource ResourceKey=HighlightsStyle}"/>
+
+              <ListBox VerticalAlignment="Stretch" Background="Transparent" BorderThickness="0"
+                       ItemsSource="{Binding Path=Annotations}" 
+                       Style="{StaticResource ResourceKey=AnnotationsStyle}"/>
+              
               <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="5" Background="Crimson">
                 <Grid.Visibility>
                   <MultiBinding Converter="{StaticResource ResourceKey=cPagePositionVisibility}">
@@ -107,14 +158,6 @@
                   </MultiBinding>
                 </Grid.Margin>
               </Grid>
-
-              <ListBox VerticalAlignment="Stretch" Background="Transparent" BorderThickness="0"
-                       ItemsSource="{Binding Path=Highlights}" 
-                       Style="{StaticResource ResourceKey=HighlightsStyle}"/>
-
-              <ListBox VerticalAlignment="Stretch" Background="Transparent" BorderThickness="0"
-                       ItemsSource="{Binding Path=Annotations}" 
-                       Style="{StaticResource ResourceKey=AnnotationsStyle}"/>         
               
             </Grid>
           </DataTemplate>
@@ -125,10 +168,11 @@
 
   <Grid>
     <ListBox x:Name="list" Style="{StaticResource ResourceKey=BarStyle}"
-             BorderThickness="0" Background="Transparent" 
+             BorderThickness="0" Background="Transparent"
              ItemsSource="{Binding ElementName=annoBar, Path=ActualDocument.Pages}"
+             ItemContainerStyle="{StaticResource hoverStyle}"
              HorizontalAlignment="Stretch"
-             ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
     </ListBox>
   </Grid>
 

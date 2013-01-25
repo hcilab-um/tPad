@@ -36,6 +36,27 @@ namespace UofM.HCI.tPab
     }
   }
 
+  public class Scribble : ITPadMarker
+  {
+    public InkCanvas scribbling { get; set; }
+    public Image icon { get; set; }
+
+    public double X
+    {
+      get { return icon.Margin.Left; }
+    }
+
+    public double Y
+    {
+      get { return icon.Margin.Top; }
+    }
+
+    public System.Drawing.PointF Position
+    {
+      get { return new System.Drawing.PointF((float)X, (float)Y); }
+    }
+  }
+
   public class Highlight : ITPadMarker
   {
     public Line line { get; set; }
@@ -62,12 +83,16 @@ namespace UofM.HCI.tPab
     public String FileName { get; set; }
     public ObservableCollection<ITPadMarker> Highlights { get; set; }
     public ObservableCollection<ITPadMarker> Annotations { get; set; }
+    public ObservableCollection<ITPadMarker> SearchResults { get; set; }
+    public ObservableCollection<ITPadMarker> Scribblings { get; set; }
 
     public TPadPage(String fileName = null)
     {
       FileName = fileName;
       Highlights = new ObservableCollection<ITPadMarker>();
       Annotations = new ObservableCollection<ITPadMarker>();
+      SearchResults = new ObservableCollection<ITPadMarker>();
+      Scribblings = new ObservableCollection<ITPadMarker>();
     }
   }
 }
