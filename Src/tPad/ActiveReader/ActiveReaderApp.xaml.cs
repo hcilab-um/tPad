@@ -26,8 +26,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
   /// </summary>
   public partial class ActiveReaderApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
-    //public enum ActiveReaderMode { Nothing, Highlighting, OffScreenVisualization };
-
     public TPadProfile Profile { get; set; }
     public TPadDevice Device { get; set; }
     public ITPadAppContainer Container { get; set; }
@@ -59,17 +57,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    //private ActiveReaderMode currentMode = ActiveReaderMode.Nothing;
-    //public ActiveReaderMode CurrentMode
-    //{
-    //  get { return currentMode; }
-    //  set
-    //  {
-    //    currentMode = value;
-    //    OnPropertyChanged("CurrentMode");
-    //  }
-    //}
-
     private bool showPageImage = false;
     public bool ShowPageImage
     {
@@ -81,15 +68,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private float keyboardPosition = 600;
     public float KeyboardPosition
     {
-      get { return keyboardPosition; }
-      set
-      {
-        keyboardPosition = value;
-        this.OnPropertyChanged("KeyboardPosition");
-      }
+      get { return (float)(gFixedLayers.Height - tpKeyboard.Height); }
     }
 
     private String searchTerm = String.Empty;
@@ -124,17 +105,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    //private string keyboardText = "";
-    //public string KeyboardText
-    //{
-    //  get { return keyboardText; }
-    //  set
-    //  {
-    //    keyboardText = value;
-    //    this.OnPropertyChanged("KeyboardText");
-    //  }
-    //}
-
     public ActiveReaderApp(String documentPDF, ITPadAppContainer container)
     {
       Device = TPadCore.Instance.Device;
@@ -142,10 +112,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       WidthScalingFactor = 1;
       HeightScalingFactor = 1;
-
+      
       ActualPage = -1;
       ActualDocument = null;
-
+      
       Container = container;
       PdfHelper = new PDFContentHelper(documentPDF);
 
@@ -204,9 +174,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     void Device_RegistrationChanged(object sender, RegistrationEventArgs e)
     {
-      //TPadCore.Instance.Registration.Stop();
-      //TPadCore.Instance.Registration.Start();
-
       if (e.NewLocation.Status != LocationStatus.Located)
       {
         if (ActualDocument != null)
@@ -263,19 +230,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
-          if (!bCopyAndLock.IsChecked.Value)
-          {
-            System.Drawing.PointF locationPx = new System.Drawing.PointF(
+          System.Drawing.PointF locationPx = new System.Drawing.PointF(
               e.NewLocation.LocationCm.X * Container.WidthFactor,
               e.NewLocation.LocationCm.Y * Container.HeightFactor);
 
-            trCanvas.Angle = e.NewLocation.RotationAngle * -1;
-            trCanvas.CenterX = locationPx.X + ActualWidth / 2;
-            trCanvas.CenterY = locationPx.Y + ActualHeight / 2;
+          trCanvas.Angle = e.NewLocation.RotationAngle * -1;
+          trCanvas.CenterX = locationPx.X + ActualWidth / 2;
+          trCanvas.CenterY = locationPx.Y + ActualHeight / 2;
 
-            ttCanvas.X = locationPx.X * -1;
-            ttCanvas.Y = locationPx.Y * -1;
-          }
+          ttCanvas.X = locationPx.X * -1;
+          ttCanvas.Y = locationPx.Y * -1;
         });
     }
 
@@ -352,16 +316,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
         OnPropertyChanged("ActualPageObject");
     }
 
-    private void search(String word, int page)
+    private void clearSearch()
     {
-      List<ContentLocation> pageSearch = PdfHelper.ContentToPixel(word, page, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
-
       foreach (TPadPage documentPage in ActualDocument.Pages)
       {
         documentPage.SearchResults.Clear();
       }
       cSearchResults.Children.Clear();
+    }
+    private void search(String word, int page)
+    {
+      clearSearch();
 
+      List<ContentLocation> pageSearch = PdfHelper.ContentToPixel(word, page, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
+      
       foreach (ContentLocation content in pageSearch)
       {
         Highlight resultHL = new Highlight();
@@ -381,6 +349,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private Highlight newHighlight = new Highlight();
     private Highlight currentHighlight = new Highlight();
     private bool isSomething2Hide = false;
+    private bool isSenderLine = false;
     private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
@@ -389,7 +358,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
 
         newHighlight = new Highlight();
-        newHighlight.line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 10 };
+        newHighlight.line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 };
         newHighlight.line.MouseDown += cHighlights_MouseDown;
         newHighlight.line.MouseMove += cHighlights_MouseMove;
         newHighlight.line.MouseUp += cHighlights_MouseUp;
@@ -400,7 +369,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
         cHighlights.Children.Add(newHighlight.line);
 
         contextMenu.Visibility = Visibility.Hidden;
-        //hide on screen keyboard
         tpKeyboard.Visibility = Visibility.Hidden;
 
         isSomething2Hide = false;
@@ -412,9 +380,17 @@ namespace UofM.HCI.tPab.App.ActiveReader
             element.annotation.Visibility = Visibility.Hidden;
           }
         }
+
+        if (sender.GetType() == typeof(Line))
+        {
+          isSenderLine = true;
+          currentHighlight.line = (Line)sender;
+        }
+        else isSenderLine = false;
       }
     }
 
+    private float minlength_Highlight = 10;
     private void cHighlights_MouseUp(object sender, MouseButtonEventArgs e)
     {
       if (!isHighlighting)
@@ -426,7 +402,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newHighlight.line.Y2 = newPosition.Y;
 
       Vector lineVector = new Vector(newHighlight.line.X2 - newHighlight.line.X1, newHighlight.line.Y2 - newHighlight.line.Y1);
-      if (lineVector.Length > 8)
+      if (lineVector.Length > minlength_Highlight)
         ActualDocument.Pages[ActualPage].Highlights.Add(newHighlight);
       else //It was just a click to bring up the contextual menu
       {
@@ -441,7 +417,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (contentBounds != Rect.Empty)
           AddWordHighlight(contentBounds);
 
-        ShowContextualMenu(content, sender);
+        ShowContextualMenu();
       }
     }
 
@@ -462,17 +438,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void bHighlight_Click(object sender, RoutedEventArgs e)
     {
-      if (bHighlight.IsChecked.Value)
-      {
-        //CurrentMode = ActiveReaderMode.Highlighting;
-        bOffScreenVisualization.IsEnabled = true;
-      }
-      else
-      {
-        //CurrentMode = ActiveReaderMode.Nothing;
-        bOffScreenVisualization.IsEnabled = false;
+      if (!bHighlight.IsChecked.Value)
         bOffScreenVisualization.IsChecked = false;
-      }
     }
 
     private void RemoveWordHighlight()
@@ -493,7 +460,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       cHighlights.Children.Add(wordHighlight);
     }
 
-    private void ShowContextualMenu(String content, object sender)
+    private void ShowContextualMenu()
     {
       if (!isSomething2Hide && !isHighlighting)
       {
@@ -502,14 +469,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
         //open context menu at new position
         contextMenu.IsOpen = true;
         contextMenu.Visibility = Visibility.Visible;
-
         cm_deleteItem.Visibility = Visibility.Collapsed;
 
-        if (sender.GetType() == typeof(Line))
-        {
+        if (isSenderLine)
           cm_deleteItem.Visibility = Visibility.Visible;
-          currentHighlight.line = (Line)sender;
-        }
       }
     }
 
@@ -523,6 +486,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       search(SearchTerm, -1);
       SearchTerm = String.Empty;
+      bSearch.IsChecked = true;
     }
 
     private void CMAnnotation_Click(object sender, RoutedEventArgs e)
@@ -652,37 +616,43 @@ namespace UofM.HCI.tPab.App.ActiveReader
       isAnnotationMoved = false;
       isAnnotationResized = false;
     }
-
-    bool wasBSearchClicked = false;
+        
     private void bSearch_Click(object sender, RoutedEventArgs e)
     {
-      wasBSearchClicked = true;
-      tpKeyboard.Visibility = Visibility.Visible;
-      tpKeyboard.ResultClear();
+      if (bSearch.IsChecked.Value)
+      {
+        tpKeyboard.Visibility = Visibility.Visible;
+        tpKeyboard.ResultClear();
+      }
+      else
+      {
+        bOffScreenVisualization.IsChecked = false;
+        tpKeyboard.Visibility = Visibility.Hidden;
+        clearSearch();               
+      }
     }
 
     private void bCopyAndLock_Click(object sender, RoutedEventArgs e)
     {
-      //ToDo disable registration function
+      if (bCopyAndLock.IsChecked.Value)
+        TPadCore.Instance.Registration.Stop();
+      else TPadCore.Instance.Registration.Start();
     }
 
     public void tpKeyboard_EnterKeyPressed(System.Object sender, EventArgs args)
     {
-      if (wasBSearchClicked)
+      if (bSearch.IsChecked.Value)
       {
         tpKeyboard.Visibility = Visibility.Hidden;
-        wasBSearchClicked = false;
         search(tpKeyboard.CurrentTextLine.ToString(), -1);
       }
       else if (bHighlight.IsChecked.Value && ActualNote.annotation != null)
-      {
         ActualNote.annotation.Text = tpKeyboard.CurrentText.ToString();
-      }
     }
 
     public void tpKeyboard_AlphaNumericKeyPressed(System.Object sender, EventArgs args)
     {
-      if (bHighlight.IsChecked.Value && ActualNote.annotation != null && !wasBSearchClicked)
+      if (bHighlight.IsChecked.Value && ActualNote.annotation != null && !bSearch.IsChecked.Value)
         ActualNote.annotation.Text = tpKeyboard.CurrentText.ToString();
     }
 

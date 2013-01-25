@@ -85,6 +85,7 @@
     <Compile Include="Converters\MultiplierConverter.cs" />
     <Compile Include="Converters\PageLoaderConverter.cs" />
     <Compile Include="Converters\StatusVisibilityConverter.cs" />
+    <Compile Include="Converters\SubstractionConverter.cs" />
     <Compile Include="ITPadAppController.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="ITPadApp.cs" />

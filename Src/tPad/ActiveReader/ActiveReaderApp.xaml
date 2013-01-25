@@ -13,12 +13,14 @@
   <UserControl.Resources>
     <convertersLib:LayerScalingConverter x:Key="cLayerScaling" />
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />
+    <convertersLib:SubstractionConverter x:Key="cSubtraction" />
     <convertersLib:LayerRotationCenterConverter x:Key="cLayerRotationCenter" />
     <convertersLib:StatusVisibilityConverter x:Key="cStatusVisibility"/>
     <convertersLib:PageLoaderConverter x:Key="cPageLoader" />
     <convertersApp:StatusAndModeVisibilityConverter x:Key="cStatusAndModeVisibility" />
     <convertersApp:StatusAndBoolVisibilityConverter x:Key="cStatusAndBoolVisibility" />
     <convertersApp:StatusAndBoolBackgroundConverter x:Key="cStatusAndBoolBackground" />
+    <convertersApp:IsButtonEnabledConverter x:Key="cIsButtonEnabled" />
   </UserControl.Resources>
 
   <!-- This is the outer wrapper which makes the paintable area of the application to be as big as the ducoment page -->
@@ -89,7 +91,7 @@
       </Canvas>
 
       <!-- This layer is for the search results -->
-      <Canvas x:Name="cSearchResults" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+      <Canvas x:Name="cSearchResults" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
       <!-- This is the context menu for handling annotations -->
       <Grid.ContextMenu>
@@ -111,8 +113,7 @@
                         ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
       </Canvas.RenderTransform>
 
-      <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->
-      
+      <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->      
       <!--The off-screen visualization for highlightings-->
       <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
                                       Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
@@ -180,12 +181,19 @@
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" Margin="0,25,0,0">
-          <ToggleButton x:Name="bHighlight" IsThreeState="False" Click="bHighlight_Click">Highlight</ToggleButton>
-          <ToggleButton x:Name="bOffScreenVisualization" IsThreeState="false" IsEnabled="False" Margin="20,0,0,0">Off-Screen</ToggleButton>
-          <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0">Show Page</ToggleButton>
+          <ToggleButton x:Name="bHighlight" IsThreeState="False" Click="bHighlight_Click" IsChecked="True">Highlight</ToggleButton>
+          <ToggleButton x:Name="bOffScreenVisualization" IsThreeState="false" Margin="20,0,0,0">Off-Screen
+            <ToggleButton.IsEnabled>
+              <MultiBinding Converter="{StaticResource ResourceKey=cIsButtonEnabled}">
+                <Binding ElementName="bHighlight" Path="IsChecked"/>
+                <Binding ElementName="bSearch" Path="IsChecked"/>
+              </MultiBinding>
+            </ToggleButton.IsEnabled>
+          </ToggleButton>
+          <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0" IsChecked="True">Show Page</ToggleButton>
+          <ToggleButton x:Name="bSearch" IsThreeState="False" Margin="20,0,0,0" Click="bSearch_Click" >Search</ToggleButton>
           <ToggleButton x:Name="bCopyAndLock" IsThreeState="False" Margin="20,0,0,0" Click="bCopyAndLock_Click" >Copy 8 Lock</ToggleButton>
-          <Button x:Name="bSearch" Margin="20,0,0,0" Click="bSearch_Click" >Search</Button>
-          
+                    
         </StackPanel>
       </Grid>
 
@@ -207,11 +215,12 @@
       <!--This is the keyboard-->
       <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" 
                                  EnterKeyPressed="tpKeyboard_EnterKeyPressed"
-                                 AlphaNumericKeyPressed="tpKeyboard_AlphaNumericKeyPressed"
-                                 Canvas.Top="{Binding ElementName=arApp, Path=KeyboardPosition}" Canvas.Left="0" 
+                                 AlphaNumericKeyPressed="tpKeyboard_AlphaNumericKeyPressed"                                 
                                  Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" Height="200"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                 Visibility="Hidden"/>
+                                 Visibility="Hidden" Canvas.Top="{Binding ElementName=arApp, Path=KeyboardPosition}"  Canvas.Left="0">
+      </tpadcontrols:TPadKeyboard>
+        
     </Canvas>
 
   </Grid>
