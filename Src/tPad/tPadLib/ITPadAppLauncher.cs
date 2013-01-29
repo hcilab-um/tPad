@@ -8,6 +8,7 @@ namespace UofM.HCI.tPab
 {
   public interface ITPadAppLauncher
   {
+    void StartCore(String comPort = null, String cameraPort = null);
     void CloseAll(UIElement sender);
   }
 }

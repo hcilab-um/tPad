@@ -16,7 +16,6 @@ namespace UofM.HCI.tPab
 
     private static log4net.ILog logger;
 
-    public bool IsSimulation { get; set; }
     public bool UseFeatureTracking { get; set; }
 
     public TPadDevice Device { get; set; }
@@ -35,53 +34,49 @@ namespace UofM.HCI.tPab
       }
     }
 
+    private BoardMonitor Board { get; set; }
+    private SimBoardMonitor SimBoard { get; set; }
+    private CameraMonitor Camera { get; set; }
+    private SimCameraMonitor SimCamera { get; set; }
+
     private TPadCore()
     {
       Registration = new RegistrationService();
     }
 
-    public void Configure(TPadProfile profile, bool isSimulation = false)
+    public void Configure(TPadProfile profile)
     {
       log4net.Config.XmlConfigurator.Configure();
       logger = log4net.LogManager.GetLogger(typeof(TPadCore));
 
-      IsSimulation = isSimulation;
       Profile = profile;
       Device = new TPadDevice() { Profile = Profile };
       Device.LoadId();
 
-      ArduinoMonitor arduino = null;
-      ContextMonitor cameraMonitor = null, flippingMonitor = null, stackingMonitor = null;
-      if (IsSimulation)
-      {
-        // These are the fictitious monitors used in simulation mode
-        cameraMonitor = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
-        flippingMonitor = new SimFlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-        stackingMonitor = new SimStackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-      }
-      else
-      {
-        // Create here the actual monitors
-        arduino = new ArduinoMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-        cameraMonitor = new CameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
-        flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-        stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+      Board = new BoardMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+      SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+      Camera = new CameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
+      SimCamera = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
 
-        // Arduino wiring
-        arduino.OnNotifyContextServices += (flippingMonitor as FlippingMonitor).UpdateMonitorReading;
-        arduino.OnNotifyContextServices += (stackingMonitor as StackingMonitor).UpdateMonitorReading;
-        // Arduino embedding
-        ContextMonitorContainer.AddMonitor(arduino);
-      }
+      ContextMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+      ContextMonitor stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
 
       //Wiring up the components
-      cameraMonitor.OnNotifyContextServices += Registration.UpdateMonitorReading;
+      Board.OnNotifyContextServices += (flippingMonitor as FlippingMonitor).UpdateMonitorReading;
+      Board.OnNotifyContextServices += (stackingMonitor as StackingMonitor).UpdateMonitorReading;
+      SimBoard.OnNotifyContextServices += (flippingMonitor as FlippingMonitor).UpdateMonitorReading;
+      SimBoard.OnNotifyContextServices += (stackingMonitor as StackingMonitor).UpdateMonitorReading;
+      Camera.OnNotifyContextServices += Registration.UpdateMonitorReading;
+      SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       Registration.OnNotifyContextServiceListeners += this.ContextChanged;
 
       //Register the monitors to the container
-      ContextMonitorContainer.AddMonitor(cameraMonitor);
+      ContextMonitorContainer.AddMonitor(Board);
+      ContextMonitorContainer.AddMonitor(Camera);
+      ContextMonitorContainer.AddMonitor(SimBoard);
+      ContextMonitorContainer.AddMonitor(SimCamera);
       ContextMonitorContainer.AddMonitor(flippingMonitor);
       ContextMonitorContainer.AddMonitor(stackingMonitor);
 
@@ -90,15 +85,20 @@ namespace UofM.HCI.tPab
       ContextServiceContainer.AddContextService(Registration);
     }
 
-    public void CoreStart(ITPadAppContainer appContainer, ITPadAppController appController)
+    public void CoreStart(ITPadAppContainer appContainer, ITPadAppController appController, String boardPort, String cameraPort)
     {
-      if (IsSimulation && appController != null)
-      {
-        SimCameraMonitor cameraMonitor = (SimCameraMonitor)ContextMonitorContainer.GetContextMonitor(typeof(SimCameraMonitor));
-        cameraMonitor.CameraSource = appController;
-        Registration.Container = appContainer;
-        Registration.Controller = appController;
-      }
+      //Stops everything
+      ContextServiceContainer.StopServices();
+      ContextMonitorContainer.StopMonitors();
+
+      //Sets the COM port for the board and camera monitors
+      Board.COMPort = boardPort;
+      Camera.COMPort = cameraPort;
+
+      //By default the system works with the simulated sources (camera, board)
+      SimCamera.CameraSource = appController;
+      Registration.Container = appContainer;
+      Registration.Controller = appController;
 
       logger.Info("Starting Up Services and Monitors");
       ContextServiceContainer.StartServices();

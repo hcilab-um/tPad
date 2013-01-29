@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
+    <Compile Include="Converters\ConditionalTypeConverter.cs" />
     <Compile Include="Converters\LayerRotationCenterConverter.cs" />
     <Compile Include="Converters\LayerScalingConverter.cs" />
     <Compile Include="Converters\MultiplierConverter.cs" />
@@ -94,13 +95,12 @@
     <Compile Include="MockApp.xaml.cs">
       <DependentUpon>MockApp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Monitors\ArduinoMonitor.cs" />
+    <Compile Include="Monitors\BoardMonitor.cs" />
     <Compile Include="Monitors\CameraMonitor.cs" />
     <Compile Include="Monitors\FlippingMonitor.cs" />
     <Compile Include="Monitors\StackingMonitor.cs" />
     <Compile Include="Monitors\SimCameraMonitor.cs" />
-    <Compile Include="Monitors\SimFlippingMonitor.cs" />
-    <Compile Include="Monitors\SimStackingMonitor.cs" />
+    <Compile Include="Monitors\SimBoardMonitor.cs" />
     <Compile Include="Services\RegistrationService.cs" />
     <Compile Include="TPadCore.cs" />
     <Compile Include="TPadDevice.cs" />

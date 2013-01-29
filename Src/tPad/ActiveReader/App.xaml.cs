@@ -29,7 +29,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         DeviceSize = new Size(12.6, 18.7),
         DocumentSize = new Size(21.59, 27.94) //US Letter - 215.9 mm × 279.4 mm
       };
-      TPadCore.Instance.Configure(profile, true);
+      TPadCore.Instance.Configure(profile);
       TPadCore.Instance.Registration.LoadDocuments(pagesFolder);
 
       //*** Code to run on the deviceWindow ***//
@@ -38,7 +38,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       deviceWindow = new TPadWindow(this);
       reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", deviceWindow);
       deviceWindow.LoadTPadApp(reader);
-      TPadCore.Instance.CoreStart(deviceWindow, simulatorWindow);
+      StartCore(null, null); // runs without connecting to the board
       simulatorWindow.Show();
       deviceWindow.Show();
 
@@ -46,8 +46,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
       //simulatorWindow = new Simulator(this);
       //reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", simulatorWindow);
       //simulatorWindow.LoadTPadApp(reader);
-      //TPadCore.Instance.CoreStart(simulatorWindow, simulatorWindow);
+      //StartCore(null, null); // runs without connecting to the board
       //simulatorWindow.Show();
+    }
+
+    public void StartCore(String boardPort, String cameraPort)
+    {
+      if(deviceWindow != null)
+        TPadCore.Instance.CoreStart(deviceWindow, simulatorWindow, boardPort, cameraPort);
+      else
+        TPadCore.Instance.CoreStart(simulatorWindow, simulatorWindow, boardPort, cameraPort);
     }
 
     public void CloseAll(UIElement sender)
@@ -57,7 +65,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (sender != deviceWindow && deviceWindow != null)
         deviceWindow.Close();
     }
-
   }
 
 }

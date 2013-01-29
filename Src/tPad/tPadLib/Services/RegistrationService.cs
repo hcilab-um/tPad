@@ -31,8 +31,6 @@ namespace UofM.HCI.tPab.Services
 
     protected override void CustomStart()
     {
-      base.CustomStart();
-
       if (!isProcessStopped)
       {
         featureTracker = new ManagedA.wrapperRegistClass();
@@ -42,13 +40,12 @@ namespace UofM.HCI.tPab.Services
         oldCamView = new Bitmap(10, 10);
         temp_SimCaptureToSourceImageRatio = 1;
       }
-      else isProcessStopped = false;
+
+      isProcessStopped = false;
     }
 
     protected override void CustomStop()
     {
-      base.CustomStop();
-
       isProcessStopped = true;
     }
 
@@ -62,57 +59,58 @@ namespace UofM.HCI.tPab.Services
     {
       if (e.Type != typeof(Bitmap))
         return;
-      if (!isProcessStopped)
+      if (isProcessStopped)
+        return;
+
+      if (TPadCore.Instance.UseFeatureTracking)
       {
-        if (TPadCore.Instance.UseFeatureTracking)
+        Bitmap camView = (Bitmap)e.NewObject;
+        Stopwatch sw = new Stopwatch();
+        camView.Save("new.png");
+        oldCamView.Save("old.png");
+        sw.Start();
+        // Here goes the machine vision code to find where the device is located based on the camera image
+        //ToDo: correct warping with camera
+
+        //compute warping matrix
+        if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
         {
-          Bitmap camView = (Bitmap)e.NewObject;
-          Stopwatch sw = new Stopwatch();
-          camView.Save("new.png");
-          oldCamView.Save("old.png");
-          sw.Start();
-          // Here goes the machine vision code to find where the device is located based on the camera image
-          //ToDo: correct warping with camera
-
-          //compute warping matrix
-          if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
-          {
-            temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
-            featureTracker.imageWarp(temp_SimCaptureToSourceImageRatio, TPadCore.Instance.IsSimulation);
-          }
-
-          //start feature tracking
-          int status = featureTracker.detectLocation(camView, oldCamView);
-          if (status == 1)
-          {
-            location.Status = LocationStatus.Located;
-            location.RotationAngle = featureTracker.RotationAngle;
-
-            PointF locationPx = new PointF(featureTracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio, featureTracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
-            location.LocationCm = new PointF((float)(locationPx.X / Container.WidthFactor), (float)(locationPx.Y / Container.HeightFactor));
-
-            //TODO: get Document object from featureTracker
-            location.Document = ActualDocument;
-            location.PageIndex = featureTracker.PageIdx;
-            sw.Stop();
-            //Console.WriteLine(sw.Elapsed.TotalMilliseconds);
-          }
-          else if (status == -1)
-            location.Status = LocationStatus.NotLocated;
-
-          sw.Stop();
-          //update last image of camera
-          oldCamView = camView;
+          temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
+          featureTracker.imageWarp(temp_SimCaptureToSourceImageRatio, true);
         }
-        else
+
+        //start feature tracking
+        int status = featureTracker.detectLocation(camView, oldCamView);
+        if (status == 1)
         {
           location.Status = LocationStatus.Located;
-          location.RotationAngle = Controller.RotationAngle;
-          location.LocationCm = new PointF((float)(Controller.Location.X / Controller.WidthFactor), (float)(Controller.Location.Y / Controller.HeightFactor));
-          location.Document = Controller.ActualDocument;
-          location.PageIndex = Controller.ActualPage;
+          location.RotationAngle = featureTracker.RotationAngle;
+
+          PointF locationPx = new PointF(featureTracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio, featureTracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
+          location.LocationCm = new PointF((float)(locationPx.X / Container.WidthFactor), (float)(locationPx.Y / Container.HeightFactor));
+
+          //TODO: get Document object from featureTracker
+          location.Document = ActualDocument;
+          location.PageIndex = featureTracker.PageIdx;
+          sw.Stop();
+          //Console.WriteLine(sw.Elapsed.TotalMilliseconds);
         }
+        else if (status == -1)
+          location.Status = LocationStatus.NotLocated;
+
+        sw.Stop();
+        //update last image of camera
+        oldCamView = camView;
       }
+      else
+      {
+        location.Status = LocationStatus.Located;
+        location.RotationAngle = Controller.RotationAngle;
+        location.LocationCm = new PointF((float)(Controller.Location.X / Controller.WidthFactor), (float)(Controller.Location.Y / Controller.HeightFactor));
+        location.Document = Controller.ActualDocument;
+        location.PageIndex = Controller.ActualPage;
+      }
+
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));
     }
 

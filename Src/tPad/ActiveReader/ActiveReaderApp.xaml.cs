@@ -285,20 +285,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
           foreach (Highlight element in document.Pages[pageIndex].Highlights)
           {
             Highlight highlight = (Highlight)element;
-            highlight.line.MouseDown += cHighlights_MouseDown;
-            highlight.line.MouseMove += cHighlights_MouseMove;
-            highlight.line.MouseUp += cHighlights_MouseUp;
-            cHighlights.Children.Add(highlight.line);
+            highlight.Line.MouseDown += cHighlights_MouseDown;
+            highlight.Line.MouseMove += cHighlights_MouseMove;
+            highlight.Line.MouseUp += cHighlights_MouseUp;
+            cHighlights.Children.Add(highlight.Line);
           }
 
           //Loads search results for this page
           foreach (Highlight element in document.Pages[pageIndex].SearchResults)
           {
             Highlight searchHighlight = (Highlight)element;
-            searchHighlight.line.MouseDown += cHighlights_MouseDown;
-            searchHighlight.line.MouseMove += cHighlights_MouseMove;
-            searchHighlight.line.MouseUp += cHighlights_MouseUp;
-            cSearchResults.Children.Add(searchHighlight.line);
+            searchHighlight.Line.MouseDown += cHighlights_MouseDown;
+            searchHighlight.Line.MouseMove += cHighlights_MouseMove;
+            searchHighlight.Line.MouseUp += cHighlights_MouseUp;
+            cSearchResults.Children.Add(searchHighlight.Line);
           }
 
           //Loads notes for this page
@@ -329,7 +329,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         OnPropertyChanged("ActualPageObject");
     }
 
-    private void clearSearch()
+    private void ClearSearch()
     {
       foreach (TPadPage documentPage in ActualDocument.Pages)
       {
@@ -337,22 +337,23 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
       cSearchResults.Children.Clear();
     }
-    private void search(String word, int page)
+
+    private void Search(String word, int page)
     {
-      clearSearch();
+      ClearSearch();
 
       List<ContentLocation> pageSearch = PdfHelper.ContentToPixel(word, page, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
       
       foreach (ContentLocation content in pageSearch)
       {
         Highlight resultHL = new Highlight();
-        resultHL.line = new Line() { Stroke = Brushes.Blue, Opacity = 0.5, StrokeThickness = content.ContentBounds.Height };
-        resultHL.line.X1 = content.ContentBounds.Left;
-        resultHL.line.Y1 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
-        resultHL.line.X2 = content.ContentBounds.Right;
-        resultHL.line.Y2 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
+        resultHL.Line = new Line() { Stroke = Brushes.Blue, Opacity = 0.5, StrokeThickness = content.ContentBounds.Height };
+        resultHL.Line.X1 = content.ContentBounds.Left;
+        resultHL.Line.Y1 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
+        resultHL.Line.X2 = content.ContentBounds.Right;
+        resultHL.Line.Y2 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
         if (content.PageIndex == ActualPage)
-          cSearchResults.Children.Add(resultHL.line);
+          cSearchResults.Children.Add(resultHL.Line);
         ActualDocument.Pages[content.PageIndex].SearchResults.Add(resultHL);
       }
     }
@@ -371,15 +372,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
 
         newHighlight = new Highlight();
-        newHighlight.line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 };
-        newHighlight.line.MouseDown += cHighlights_MouseDown;
-        newHighlight.line.MouseMove += cHighlights_MouseMove;
-        newHighlight.line.MouseUp += cHighlights_MouseUp;
-        newHighlight.line.X1 = lastPosition.X;
-        newHighlight.line.Y1 = lastPosition.Y;
-        newHighlight.line.X2 = lastPosition.X;
-        newHighlight.line.Y2 = lastPosition.Y;
-        cHighlights.Children.Add(newHighlight.line);
+        newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 };
+        newHighlight.Line.MouseDown += cHighlights_MouseDown;
+        newHighlight.Line.MouseMove += cHighlights_MouseMove;
+        newHighlight.Line.MouseUp += cHighlights_MouseUp;
+        newHighlight.Line.X1 = lastPosition.X;
+        newHighlight.Line.Y1 = lastPosition.Y;
+        newHighlight.Line.X2 = lastPosition.X;
+        newHighlight.Line.Y2 = lastPosition.Y;
+        cHighlights.Children.Add(newHighlight.Line);
 
         contextMenu.Visibility = Visibility.Hidden;
         tpKeyboard.Visibility = Visibility.Hidden;
@@ -406,7 +407,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (sender.GetType() == typeof(Line))
         {
           isSenderLine = true;
-          currentHighlight.line = (Line)sender;
+          currentHighlight.Line = (Line)sender;
         }
         else isSenderLine = false;
       }
@@ -420,15 +421,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       isHighlighting = false;
       Point newPosition = Mouse.GetPosition(gAnchoredLayers);
-      newHighlight.line.X2 = newPosition.X;
-      newHighlight.line.Y2 = newPosition.Y;
+      newHighlight.Line.X2 = newPosition.X;
+      newHighlight.Line.Y2 = newPosition.Y;
 
-      Vector lineVector = new Vector(newHighlight.line.X2 - newHighlight.line.X1, newHighlight.line.Y2 - newHighlight.line.Y1);
+      Vector lineVector = new Vector(newHighlight.Line.X2 - newHighlight.Line.X1, newHighlight.Line.Y2 - newHighlight.Line.Y1);
       if (lineVector.Length > minlength_Highlight)
         ActualDocument.Pages[ActualPage].Highlights.Add(newHighlight);
       else //It was just a click to bring up the contextual menu
       {
-        cHighlights.Children.Remove(newHighlight.line);
+        cHighlights.Children.Remove(newHighlight.Line);
 
         Rect contentBounds = Rect.Empty;
         String content = PdfHelper.PixelToContent(newPosition, ActualPage, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight, out contentBounds);
@@ -449,8 +450,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
         return;
 
       Point newPosition = Mouse.GetPosition(gAnchoredLayers);
-      newHighlight.line.X2 = newPosition.X;
-      newHighlight.line.Y2 = newPosition.Y;
+      newHighlight.Line.X2 = newPosition.X;
+      newHighlight.Line.Y2 = newPosition.Y;
     }
 
     private void gFixedLayers_MouseDown(object sender, MouseButtonEventArgs e)
@@ -500,13 +501,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void CMDelete_Click(object sender, RoutedEventArgs e)
     {
-      cHighlights.Children.Remove(currentHighlight.line);
+      cHighlights.Children.Remove(currentHighlight.Line);
       ActualDocument.Pages[ActualPage].Highlights.Remove(currentHighlight);
     }
 
     private void CMSearch_Click(object sender, RoutedEventArgs e)
     {
-      search(SearchTerm, -1);
+      Search(SearchTerm, -1);
       SearchTerm = String.Empty;
       bSearch.IsChecked = true;
     }
@@ -692,7 +693,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         bOffScreenVisualization.IsChecked = false;
         tpKeyboard.Visibility = Visibility.Hidden;
-        clearSearch();               
+        ClearSearch();               
       }
     }
 
@@ -708,7 +709,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (bSearch.IsChecked.Value)
       {
         tpKeyboard.Visibility = Visibility.Hidden;
-        search(tpKeyboard.CurrentTextLine.ToString(), -1);
+        Search(tpKeyboard.CurrentTextLine.ToString(), -1);
       }
       else if (bHighlight.IsChecked.Value && ActualNote.annotation != null)
         ActualNote.annotation.Text = tpKeyboard.CurrentText.ToString();

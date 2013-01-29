@@ -360,9 +360,9 @@ namespace UofM.HCI.tPab
       return null;
     }
 
-    private void tbRunOnTPad_Click(object sender, RoutedEventArgs e)
+    private void tbRunCore_Click(object sender, RoutedEventArgs e)
     {
-
+      Launcher.StartCore((cbComPorts.SelectedItem as ComboBoxItem).Tag as String);
     }
 
     protected override void OnClosed(EventArgs e)

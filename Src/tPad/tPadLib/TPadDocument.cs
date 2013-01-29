@@ -59,16 +59,16 @@ namespace UofM.HCI.tPab
 
   public class Highlight : ITPadMarker
   {
-    public Line line { get; set; }
+    public Line Line { get; set; }
 
     public double X
     {
-      get { return line.X1 + (line.X2 - line.X1) * 0.5; }
+      get { return Line.X1 + (Line.X2 - Line.X1) * 0.5; }
     }
 
     public double Y
     {
-      get { return line.Y1 + (line.Y2 - line.Y1) * 0.5; }
+      get { return Line.Y1 + (Line.Y2 - Line.Y1) * 0.5; }
     }
 
     public System.Drawing.PointF Position
