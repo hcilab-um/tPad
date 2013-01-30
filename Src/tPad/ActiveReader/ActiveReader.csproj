@@ -114,6 +114,9 @@
     <Compile Include="Converters\StatusAndBoolVisibilityConverter.cs" />
     <Compile Include="Converters\StatusAndModeVisibilityConverter.cs" />
     <Compile Include="Converters\StringToContextMenuLabelConverter.cs" />
+    <Compile Include="FigureViewer.xaml.cs">
+      <DependentUpon>FigureViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OffScreenVisualization.xaml.cs">
       <DependentUpon>OffScreenVisualization.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AnnotationBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FigureViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
