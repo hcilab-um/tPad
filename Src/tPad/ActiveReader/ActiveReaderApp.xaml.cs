@@ -29,6 +29,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public TPadProfile Profile { get; set; }
     public TPadDevice Device { get; set; }
     public ITPadAppContainer Container { get; set; }
+    public FigureList FigurePositions { get; set; }
+    public List<ContentLocation> FigureWordPositions { get; set; }
 
     public double WidthScalingFactor { get; set; }
     public double HeightScalingFactor { get; set; }
@@ -105,7 +107,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    public ActiveReaderApp(String documentPDF, ITPadAppContainer container)
+    public ActiveReaderApp(String documentPDF, ITPadAppContainer container, FigureList figures)
     {
       Device = TPadCore.Instance.Device;
       Profile = TPadCore.Instance.Profile;
@@ -118,6 +120,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
       
       Container = container;
       PdfHelper = new PDFContentHelper(documentPDF);
+
+      FigurePositions = figures;
+      FigureWordPositions = new List<ContentLocation>();
 
       PropertyChanged += new PropertyChangedEventHandler(ActiveReaderApp_PropertyChanged);
       InitializeComponent();
@@ -172,6 +177,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
       throw new NotImplementedException();
     }
 
+    private void CalculateFigurePositions()
+    {
+      //Search for the term "figure" in document
+      foreach (Figure figure in FigurePositions.Figures)
+      {
+        List<ContentLocation> currentFigure = PdfHelper.ContentToPixel(figure.TriggerText[1], -1, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
+        FigureWordPositions.AddRange(currentFigure);                 
+      }
+    }
+
     void Device_RegistrationChanged(object sender, RegistrationEventArgs e)
     {
       if (e.NewLocation.Status != LocationStatus.Located)
@@ -187,15 +202,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         //First time it comes to this document and first document
         if (e.NewLocation.Document != null)
-        {
-          //1- Loads the layers should they exist in disk
-          ActualDocument = e.NewLocation.Document;
-          LoadLayersFromDisk(ActualDocument);
-
-          //2- Load layers for current page
-          ActualPage = e.NewLocation.PageIndex;
-          LoadLayersToPage(ActualDocument, ActualPage);
-        }
+          LoadDocument(e.NewLocation);
         else
           throw new Exception("Document cannot be null");
       }
@@ -207,13 +214,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
           //1- Saves current layers to disk
           SaveLayersToDisk(ActualDocument);
 
-          //2- Loads the layers should they exist in disk
-          ActualDocument = e.NewLocation.Document;
-          LoadLayersFromDisk(ActualDocument);
-
-          //3- Load layers for current page
-          ActualPage = e.NewLocation.PageIndex;
-          LoadLayersToPage(ActualDocument, ActualPage);
+          //2- Loads the layers (for current page)
+          LoadDocument(e.NewLocation);
         }
         // Change of page
         else if (ActualPage != e.NewLocation.PageIndex)
@@ -241,6 +243,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
           ttCanvas.X = locationPx.X * -1;
           ttCanvas.Y = locationPx.Y * -1;
         });
+    }
+
+    private void LoadDocument(TPadLocation newLocation)
+    {
+      //1- Loads the layers should they exist in disk
+      ActualDocument = newLocation.Document;
+      LoadLayersFromDisk(ActualDocument);
+
+      //2- HACK: Finds the links to figures
+      CalculateFigurePositions();
+
+      //3- Load layers for current page
+      ActualPage = newLocation.PageIndex;
+      LoadLayersToPage(ActualDocument, ActualPage);
     }
 
     private void SaveLayersToDisk(TPadDocument ActualDocument)
@@ -299,6 +315,31 @@ namespace UofM.HCI.tPab.App.ActiveReader
             searchHighlight.Line.MouseMove += cHighlights_MouseMove;
             searchHighlight.Line.MouseUp += cHighlights_MouseUp;
             cSearchResults.Children.Add(searchHighlight.Line);
+          }
+
+          //Loads figure highlights for this page
+          foreach (ContentLocation content in FigureWordPositions)
+          {
+            if (content.PageIndex != ActualPage)
+              continue;
+            Highlight resultHL = new Highlight();
+            resultHL.Line = new Line() { Stroke = Brushes.Yellow, Opacity = 0.7, StrokeThickness = content.ContentBounds.Height };
+            resultHL.Line.X1 = content.ContentBounds.Left;
+            resultHL.Line.Y1 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
+            resultHL.Line.X2 = content.ContentBounds.Right;
+            resultHL.Line.Y2 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
+            resultHL.Line.MouseDown += cHighlights_MouseDown;
+            resultHL.Line.MouseMove += cHighlights_MouseMove;
+            resultHL.Line.MouseUp += cHighlights_MouseUp;
+            foreach (Figure figure in FigurePositions.Figures)
+            {
+              if (figure.TriggerText[1].Equals(content.Content, StringComparison.CurrentCultureIgnoreCase))
+              {
+                resultHL.Line.Tag = figure;
+                break;
+              }
+            }
+            cHighlights.Children.Add(resultHL.Line);
           }
 
           //Loads notes for this page
@@ -370,7 +411,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         isHighlighting = true;
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
-
+        Console.WriteLine(lastPosition);
         newHighlight = new Highlight();
         newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 };
         newHighlight.Line.MouseDown += cHighlights_MouseDown;
@@ -404,13 +445,28 @@ namespace UofM.HCI.tPab.App.ActiveReader
           }
         }
 
-        if (sender.GetType() == typeof(Line))
+        if (sender is Line)
         {
-          isSenderLine = true;
-          currentHighlight.Line = (Line)sender;
+          Line line = (Line) sender;
+          if (line.Tag != null)
+            ShowFigure((line.Tag as Figure));
+          else
+          {
+            isSenderLine = true;
+            currentHighlight.Line = line;
+          }
         }
         else isSenderLine = false;
       }
+    }
+
+    private void ShowFigure(Figure figure)
+    {      
+      System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(ActualDocument.Pages[figure.PageIndex].FileName);
+      
+      IntPtr ip = bmp.GetHbitmap();
+      BitmapSource bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(ip, IntPtr.Zero, Int32Rect.Empty, System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+      BitmapSource croppedBmp = new CroppedBitmap(bs, new Int32Rect((int)figure.FigureRect.X, (int)figure.FigureRect.Y, (int)figure.FigureRect.Width, (int)figure.FigureRect.Height));
     }
 
     private float minlength_Highlight = 10;
@@ -433,6 +489,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
         Rect contentBounds = Rect.Empty;
         String content = PdfHelper.PixelToContent(newPosition, ActualPage, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight, out contentBounds);
+
         if (content != null)
           SearchTerm = content;
         else SearchTerm = String.Empty;
