@@ -205,7 +205,15 @@
                              DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
                              HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"/>
 
-      <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0"
+      <menuBar:FigureViewer x:Name="figureViewer"
+                            Canvas.Top="0" Canvas.Left="0"
+                            Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+                            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+                            FigureSource="{Binding ElementName=arApp, Path=CroppedImage}"
+                            Visibility="Collapsed"/>
+
+
+        <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
             Visibility="{Binding ElementName=arApp, Path=Device.Location.Status, Converter={StaticResource ResourceKey=cStatusVisibility}, ConverterParameter=NotLocated}">

@@ -88,8 +88,8 @@ namespace UofM.HCI.tPab
     public void CoreStart(ITPadAppContainer appContainer, ITPadAppController appController, String boardPort, String cameraPort)
     {
       //Stops everything
-      ContextServiceContainer.StopServices();
-      ContextMonitorContainer.StopMonitors();
+      //ContextServiceContainer.StopServices();
+      //ContextMonitorContainer.StopMonitors();
 
       //Sets the COM port for the board and camera monitors
       Board.COMPort = boardPort;

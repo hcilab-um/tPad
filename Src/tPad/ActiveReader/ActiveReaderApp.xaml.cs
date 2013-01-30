@@ -86,6 +86,17 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
+    private BitmapSource croppedImage;
+    public BitmapSource CroppedImage
+    {
+      get { return croppedImage; }
+      set
+      {
+        croppedImage = value;
+        OnPropertyChanged("CroppedImage");
+      }
+    }
+
     public TPadPage ActualPageObject
     {
       get
@@ -447,9 +458,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
         if (sender is Line)
         {
+          isHighlighting = false;
           Line line = (Line) sender;
           if (line.Tag != null)
-            ShowFigure((line.Tag as Figure));
+            GetFigure((line.Tag as Figure));
           else
           {
             isSenderLine = true;
@@ -460,13 +472,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private void ShowFigure(Figure figure)
+    private void GetFigure(Figure figure)
     {      
       System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(ActualDocument.Pages[figure.PageIndex].FileName);
       
-      IntPtr ip = bmp.GetHbitmap();
-      BitmapSource bs = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(ip, IntPtr.Zero, Int32Rect.Empty, System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-      BitmapSource croppedBmp = new CroppedBitmap(bs, new Int32Rect((int)figure.FigureRect.X, (int)figure.FigureRect.Y, (int)figure.FigureRect.Width, (int)figure.FigureRect.Height));
+      BitmapSource source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, 
+        System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+      CroppedImage = new CroppedBitmap(source, figure.FigureRect);
+
+      figureViewer.Visibility = Visibility.Visible;
     }
 
     private float minlength_Highlight = 10;

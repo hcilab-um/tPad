@@ -11,10 +11,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
   {
     public int PageIndex {get; set; }
     public int FigureIndex { get; set; }
-    public Rect FigureRect { get; set; }
+    public Int32Rect FigureRect { get; set; }
     public string[] TriggerText { get; set; }
 
-    public Figure(int figureIdx, int pageIdx, Rect figRect, string[] triggerTxt)
+    public Figure(int figureIdx, int pageIdx, Int32Rect figRect, string[] triggerTxt)
     {
       this.PageIndex = pageIdx;
       this.FigureIndex = figureIdx;

@@ -75,29 +75,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
       set { SetValue(WidthFactorProperty, value); }
     }
 
-    //public TPadPage ActualPageObject
-    //{
-    //  get
-    //  {
-    //    if (ActualDocument == null || ActualPage == -1 || ActualDocument.Pages == null || ActualDocument.Pages.Length <= ActualPage)
-    //      return null;
-    //    return ActualDocument.Pages[ActualPage];
-    //  }
-    //}
-
     public OffScreenVisualization()
     {
       InitializeComponent();
     }
-
-    //protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-    //{
-    //  base.OnPropertyChanged(e);
-    //  if (e.Property == OffScreenVisualization.ActualPageProperty || e.Property == OffScreenVisualization.ActualDocumentProperty)
-    //  {
-    //    OnPropertyChanged("ActualPageObject");
-    //  }
-    //}
 
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged(String name)
