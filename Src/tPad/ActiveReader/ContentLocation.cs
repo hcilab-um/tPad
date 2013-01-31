@@ -6,7 +6,8 @@ using System.Windows;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
-  public struct ContentLocation
+  [Serializable]
+  public class ContentLocation
   {
     public String Content { get; set; }
     public int PageIndex { get; set; }
