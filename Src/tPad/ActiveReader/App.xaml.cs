@@ -16,6 +16,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private Simulator simulatorWindow = null;
     private TPadWindow deviceWindow = null;
 
+    private TPadCore core1 = null;
+
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
@@ -28,8 +30,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
         DeviceSize = new Size(12.6, 18.7),
         DocumentSize = new Size(21.59, 27.94) //US Letter - 215.9 mm × 279.4 mm
       };
-      TPadCore.Instance.Configure(profile);
-      TPadCore.Instance.Registration.LoadDocuments(pagesFolder);
+
+      core1 = new TPadCore();
+      core1.Configure(profile);
+      core1.Registration.LoadDocuments(pagesFolder);
 
       //list of hardcoded figures within the paper "LensMouse: Augmenting the Mouse with an Interactive Touch Display"
       FigureList ListOfFigures = new FigureList();
@@ -44,12 +48,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
       ListOfFigures.Figures.Add(new Figure(9, 8, new Int32Rect(106, 210, 320, 123), new string[] { "Fig 9", "Figure 9", "Fig. 9" })); //figure 9    
 
       //*** Code to run on the deviceWindow ***//
-      simulatorWindow = new Simulator(this);
-      simulatorWindow.LoadTPadApp(new MockApp(simulatorWindow));
-      deviceWindow = new TPadWindow(this);
-      reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", deviceWindow, ListOfFigures);
+      simulatorWindow = new Simulator(this, profile, core1.Registration.ActualDocument);
+      simulatorWindow.LoadTPadApp(new MockApp(core1, simulatorWindow));
+      deviceWindow = new TPadWindow(core1, this);
+      reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", core1, deviceWindow, ListOfFigures);
       deviceWindow.LoadTPadApp(reader);
-      StartCore(null, null); // runs without connecting to the board
+      core1.CoreStart(deviceWindow, simulatorWindow, null, null);
       simulatorWindow.Show();
       deviceWindow.Show();
 
@@ -57,16 +61,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
       //simulatorWindow = new Simulator(this);
       //reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", simulatorWindow);
       //simulatorWindow.LoadTPadApp(reader);
-      //StartCore(null, null); // runs without connecting to the board
+      //TPadCore.Instance.CoreStart(simulatorWindow, simulatorWindow, null, null);
       //simulatorWindow.Show();
     }
 
     public void StartCore(String boardPort, String cameraPort)
     {
-      if (deviceWindow != null)
-        TPadCore.Instance.CoreStart(deviceWindow, simulatorWindow, boardPort, cameraPort);
-      else
-        TPadCore.Instance.CoreStart(simulatorWindow, simulatorWindow, boardPort, cameraPort);
+      core1.ConfigurePeripherals(boardPort, cameraPort);
     }
 
     public void CloseAll(UIElement sender)

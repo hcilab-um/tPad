@@ -21,7 +21,7 @@ namespace UofM.HCI.tPab
   {
 
     private ITPadAppLauncher Launcher { get; set; }
-    public TPadProfile Profile { get; set; }
+    public TPadCore Core { get; set; }
 
     private UserControl TPadApp { get; set; }
     public Rect TPadAppBounds { get; set; }
@@ -32,21 +32,21 @@ namespace UofM.HCI.tPab
     /// </summary>
     public float WidthFactor
     {
-      get { return (float)(ActualWidth / Profile.ScreenSize.Width); }
+      get { return (float)(ActualWidth / Core.Profile.ScreenSize.Width); }
     }
 
     public float HeightFactor
     {
-      get { return (float)(ActualHeight / Profile.ScreenSize.Height); }
+      get { return (float)(ActualHeight / Core.Profile.ScreenSize.Height); }
     }
 
     public double SizeMultiplier { get; set; }
 
-    public TPadWindow(ITPadAppLauncher launcher)
+    public TPadWindow(TPadCore core, ITPadAppLauncher launcher)
     {
       SizeMultiplier = 0.75; // This makes the window smaller when using a single monitor set-up -- for development
       Launcher = launcher;
-      Profile = TPadCore.Instance.Profile;
+      Core = core;
 
       InitializeComponent();
     }
@@ -76,7 +76,7 @@ namespace UofM.HCI.tPab
       if (System.Windows.Forms.SystemInformation.MonitorCount == 1)
         return;
 
-      var tPadDisplay = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(tmp => tmp.Bounds.Width == Profile.Resolution.Width && tmp.Bounds.Height == Profile.Resolution.Height);
+      var tPadDisplay = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(tmp => tmp.Bounds.Width == Core.Profile.Resolution.Width && tmp.Bounds.Height == Core.Profile.Resolution.Height);
       if (tPadDisplay == null)
         return;
 

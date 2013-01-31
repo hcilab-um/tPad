@@ -16,10 +16,20 @@ namespace UofM.HCI.tPab.Monitors
   public class SimCameraMonitor : ContextMonitor
   {
 
+    public bool Pause { get; set; }
+
     public ITPadAppController CameraSource { get; set; }
+
+    public SimCameraMonitor()
+    {
+      Pause = false;
+    }
 
     protected override void CustomRun()
     {
+      if (Pause)
+        return;
+
       float angle = 0;
       Bitmap deviceView = (CameraSource as Simulator).GetDeviceView(out angle);
       if (deviceView == null)
@@ -38,7 +48,6 @@ namespace UofM.HCI.tPab.Monitors
       String fileName = String.Format("capture-{0}-{1}.BMP", (angle + 360) % 360, DateTime.Now.Ticks);
       return new FileStream(fileName, FileMode.OpenOrCreate);
     }
-
   }
 }
 

@@ -26,8 +26,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
   /// </summary>
   public partial class ActiveReaderApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
-    public TPadProfile Profile { get; set; }
-    public TPadDevice Device { get; set; }
+    public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public FigureList FigurePositions { get; set; }
     public List<ContentLocation> FigureWordPositions { get; set; }
@@ -118,10 +117,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    public ActiveReaderApp(String documentPDF, ITPadAppContainer container, FigureList figures)
+    public ActiveReaderApp(String documentPDF, TPadCore core, ITPadAppContainer container, FigureList figures)
     {
-      Device = TPadCore.Instance.Device;
-      Profile = TPadCore.Instance.Profile;
+      Core = core;
 
       WidthScalingFactor = 1;
       HeightScalingFactor = 1;
@@ -147,12 +145,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void arApp_Loaded(object sender, RoutedEventArgs e)
     {
-      TPadCore.Instance.Device.StackingChanged += new StackingChangedEventHandler(Device_StackingChanged);
-      TPadCore.Instance.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
-      TPadCore.Instance.Device.RegistrationChanged += new RegistrationChangedEventHandler(Device_RegistrationChanged);
+      Core.Device.StackingChanged += new StackingChangedEventHandler(Device_StackingChanged);
+      Core.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
+      Core.Device.RegistrationChanged += new RegistrationChangedEventHandler(Device_RegistrationChanged);
 
-      WidthScalingFactor = ActualWidth / Profile.Resolution.Width;
-      HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
+      WidthScalingFactor = ActualWidth / Core.Profile.Resolution.Width;
+      HeightScalingFactor = ActualHeight / Core.Profile.Resolution.Height;
       OnPropertyChanged("WidthScalingFactor");
       OnPropertyChanged("HeightScalingFactor");
 
@@ -172,8 +170,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void arApp_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-      WidthScalingFactor = ActualWidth / Profile.Resolution.Width;
-      HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
+      WidthScalingFactor = ActualWidth / Core.Profile.Resolution.Width;
+      HeightScalingFactor = ActualHeight / Core.Profile.Resolution.Height;
       OnPropertyChanged("WidthScalingFactor");
       OnPropertyChanged("HeightScalingFactor");
     }
@@ -771,8 +769,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void bCopyAndLock_Click(object sender, RoutedEventArgs e)
     {
       if (bCopyAndLock.IsChecked.Value)
-        TPadCore.Instance.Registration.Stop();
-      else TPadCore.Instance.Registration.Start();
+        Core.Registration.Pause();
+      else 
+        Core.Registration.Continue();
     }
 
     public void tpKeyboard_EnterKeyPressed(System.Object sender, EventArgs args)
@@ -791,6 +790,5 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (bHighlight.IsChecked.Value && ActualNote.annotation != null && !bSearch.IsChecked.Value)
         ActualNote.annotation.Text = tpKeyboard.CurrentText.ToString();
     }
-
   }
 }

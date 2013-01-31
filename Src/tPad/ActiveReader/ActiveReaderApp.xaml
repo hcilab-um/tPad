@@ -27,20 +27,20 @@
   <Grid x:Name="gOuterWrapper">
     <Grid.Width>
       <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
-        <Binding ElementName="arApp" Path="Profile.DocumentSize.Width"/>
+        <Binding ElementName="arApp" Path="Core.Profile.DocumentSize.Width"/>
         <Binding ElementName="arApp" Path="Container.WidthFactor"/>
       </MultiBinding>
     </Grid.Width>
     <Grid.Height>
       <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
-        <Binding ElementName="arApp" Path="Profile.DocumentSize.Height"/>
+        <Binding ElementName="arApp" Path="Core.Profile.DocumentSize.Height"/>
         <Binding ElementName="arApp" Path="Container.HeightFactor"/>
       </MultiBinding>
     </Grid.Height>
 
     <!-- This rectangle guarantees a correct placement of the layers - do not delete -->
     <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" 
-               Width="{Binding ElementName=arApp, Path=Profile.Resolution.Width}" Height="{Binding ElementName=arApp, Path=Profile.Resolution.Height}"
+               Width="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
                Stroke="Green" StrokeThickness="1" Fill="Transparent">
       <Rectangle.RenderTransform>
         <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
@@ -62,7 +62,7 @@
       <Image x:Name="iDocument" Stretch="Fill" Width="{Binding ElementName=gAnchoredLayers, Path=ActualWidth}">
         <Image.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolVisibility}" ConverterParameter="Located,True,True">
-            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bShowPage" Path="IsChecked"/>
             <Binding ElementName="bCopyAndLock" Path="IsChecked"/>
           </MultiBinding>
@@ -79,7 +79,7 @@
       <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Canvas.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
-            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bHighlight" Path="IsChecked"/>
           </MultiBinding>
         </Canvas.Visibility>
@@ -107,8 +107,8 @@
 
     <!-- This is the grid containing all the layers that are anchored to the device - This content remains static as you move the device -->
     <Canvas x:Name="gFixedLayers" VerticalAlignment="Top" HorizontalAlignment="Left"
-          Width="{Binding ElementName=arApp, Path=Profile.Resolution.Width}" 
-          Height="{Binding ElementName=arApp, Path=Profile.Resolution.Height}" MouseDown="gFixedLayers_MouseDown">
+          Width="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}" 
+          Height="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}" MouseDown="gFixedLayers_MouseDown">
       <Canvas.RenderTransform>
         <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
                         ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
@@ -123,14 +123,14 @@
                                       ActualIcon="ArrowHighlight.png"
                                       PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
                                       PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
-                                      DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
                                       HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
                                       WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
-                                      DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
-            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
@@ -144,14 +144,14 @@
                                       ActualIcon="ArrowAnnotation.png"
                                       PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
                                       PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
-                                      DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
                                       HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
                                       WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
-                                      DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
-            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
@@ -165,14 +165,14 @@
                                       ActualIcon="ArrowSearchResults.png"
                                       PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
                                       PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
-                                      DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
                                       HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
                                       WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
-                                      DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
-            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
@@ -202,7 +202,7 @@
                              ActualDocument="{Binding ElementName=arApp, Path=ActualDocument}" 
                              ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
                              PageHeight="{Binding ElementName=gAnchoredLayers, Path=ActualHeight}"
-                             DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
+                             DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
                              HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"/>
 
       <menuBar:FigureViewer x:Name="figureViewer"
@@ -216,7 +216,7 @@
         <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
-            Visibility="{Binding ElementName=arApp, Path=Device.Location.Status, Converter={StaticResource ResourceKey=cStatusVisibility}, ConverterParameter=NotLocated}">
+            Visibility="{Binding ElementName=arApp, Path=Core.Device.Location.Status, Converter={StaticResource ResourceKey=cStatusVisibility}, ConverterParameter=NotLocated}">
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" FontWeight="Bold">Reading Helper</Label>
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="0,70,0,0">Not Located</Label>
       </Grid>
@@ -236,7 +236,7 @@
 
   <UserControl.Background>
     <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolBackground}" ConverterParameter="Located,True,True">
-      <Binding ElementName="arApp" Path="Device.Location.Status"/>
+      <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
       <Binding ElementName="bShowPage" Path="IsChecked"/>
       <Binding ElementName="bCopyAndLock" Path="IsChecked"/>
     </MultiBinding>

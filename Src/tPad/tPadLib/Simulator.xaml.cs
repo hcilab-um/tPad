@@ -31,6 +31,7 @@ namespace UofM.HCI.tPab
     private System.Drawing.Point location;
     private float simCaptureToSourceImageRatio;
 
+    private TPadProfile Profile { get; set; }
     private ITPadAppLauncher Launcher { get; set; }
     private UserControl TPadApp { get; set; }
     public Rect TPadAppBounds { get; set; }
@@ -114,15 +115,14 @@ namespace UofM.HCI.tPab
 
     public bool UseFeatureTracking
     {
-      get { return TPadCore.Instance.UseFeatureTracking; }
-      set { TPadCore.Instance.UseFeatureTracking = value; }
+      get { return TPadCore.UseFeatureTracking; }
+      set { TPadCore.UseFeatureTracking = value; }
     }
 
-    public Simulator(ITPadAppLauncher launcher)
+    public Simulator(ITPadAppLauncher launcher, TPadProfile profile, TPadDocument document)
     {
       Launcher = launcher;
-
-      TPadDocument document = TPadCore.Instance.Registration.ActualDocument;
+      Profile = profile;
       if (!File.Exists(document.Pages[0].FileName))
         throw new ArgumentException(String.Format("Document \"{1}\" not found!", document.Pages[0].FileName));
 
@@ -166,9 +166,9 @@ namespace UofM.HCI.tPab
     private void CalculateFactors()
     {
       // This is the number of pixels per centimeter on the height.
-      HeightFactor = (float)(iDocument.ActualHeight / TPadCore.Instance.Profile.DocumentSize.Height);
+      HeightFactor = (float)(iDocument.ActualHeight / Profile.DocumentSize.Height);
       // This is the number of pixels per centimeter on the width
-      WidthFactor = (float)(iDocument.ActualWidth / TPadCore.Instance.Profile.DocumentSize.Width);
+      WidthFactor = (float)(iDocument.ActualWidth / Profile.DocumentSize.Width);
 
       // These two values should be nearly the same
       if (Math.Abs(HeightFactor - WidthFactor) >= 0.5)
@@ -178,11 +178,11 @@ namespace UofM.HCI.tPab
       SimCaptureToSourceImageRatio = (float)((iDocument.Source as BitmapFrame).PixelWidth / iDocument.ActualWidth);
 
       //Resize the device
-      gTPadApp.Width = WidthFactor * TPadCore.Instance.Profile.DeviceSize.Width;
-      gTPadApp.Height = HeightFactor * TPadCore.Instance.Profile.DeviceSize.Height;
+      gTPadApp.Width = WidthFactor * Profile.DeviceSize.Width;
+      gTPadApp.Height = HeightFactor * Profile.DeviceSize.Height;
       //Adjusts the screen size to the device size
-      TPadApp.Width = WidthFactor * TPadCore.Instance.Profile.ScreenSize.Width;
-      TPadApp.Height = HeightFactor * TPadCore.Instance.Profile.ScreenSize.Height;
+      TPadApp.Width = WidthFactor * Profile.ScreenSize.Width;
+      TPadApp.Height = HeightFactor * Profile.ScreenSize.Height;
       //Adjusts the borders 
       rFrameLeft.Width = (gTPadApp.Width - TPadApp.Width) / 2;
       rFrameTop.Height = (gTPadApp.Height - TPadApp.Height) / 2;
@@ -326,8 +326,7 @@ namespace UofM.HCI.tPab
       {
         capture.Save(result, ImageFormat.Bmp);
       }
-      catch (Exception ex)
-      { }
+      catch { }
 
       return result;
     }
@@ -371,7 +370,6 @@ namespace UofM.HCI.tPab
       if (Launcher != null)
         Launcher.CloseAll(this);
     }
-
   }
 
 }

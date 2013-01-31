@@ -211,7 +211,9 @@
     <Content Include="Document\11334700003000009.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Document\FXPAL-PR-10-550.pdf" />
+    <Content Include="Document\FXPAL-PR-10-550.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="ICON.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

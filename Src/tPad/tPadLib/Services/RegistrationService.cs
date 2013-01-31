@@ -31,22 +31,22 @@ namespace UofM.HCI.tPab.Services
 
     protected override void CustomStart()
     {
-      if (!isProcessStopped)
-      {
-        featureTracker = new ManagedA.wrapperRegistClass();
-        featureTracker.createIndex(Environment.CurrentDirectory + "\\" + ActualDocument.DocumentName);
+      featureTracker = new ManagedA.wrapperRegistClass();
+      featureTracker.createIndex(Environment.CurrentDirectory + "\\" + ActualDocument.DocumentName);
 
-        location = new TPadLocation();
-        oldCamView = new Bitmap(10, 10);
-        temp_SimCaptureToSourceImageRatio = 1;
-      }
-
-      isProcessStopped = false;
+      location = new TPadLocation();
+      oldCamView = new Bitmap(10, 10);
+      temp_SimCaptureToSourceImageRatio = 1;
     }
 
-    protected override void CustomStop()
+    public void Pause()
     {
       isProcessStopped = true;
+    }
+
+    public void Continue()
+    {
+      isProcessStopped = false;
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ namespace UofM.HCI.tPab.Services
       if (isProcessStopped)
         return;
 
-      if (TPadCore.Instance.UseFeatureTracking)
+      if (TPadCore.UseFeatureTracking)
       {
         Bitmap camView = (Bitmap)e.NewObject;
         Stopwatch sw = new Stopwatch();

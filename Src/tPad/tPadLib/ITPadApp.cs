@@ -8,8 +8,7 @@ namespace UofM.HCI.tPab
 
   public interface ITPadApp
   {
-    TPadProfile Profile { get; set; }
-    TPadDevice Device { get; set; }
+    TPadCore Core { get; set; }
     ITPadAppContainer Container { get; set; }
 
     double WidthScalingFactor { get; set; }

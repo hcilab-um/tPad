@@ -16,30 +16,20 @@ namespace UofM.HCI.tPab
 
     private static log4net.ILog logger;
 
-    public bool UseFeatureTracking { get; set; }
+    //This is a shared variable among all the instances of core
+    public static bool UseFeatureTracking { get; set; }
 
     public TPadDevice Device { get; set; }
     public TPadProfile Profile { get; set; }
 
     public RegistrationService Registration { get; set; }
 
-    private static TPadCore instance = null;
-    public static TPadCore Instance
-    {
-      get
-      {
-        if (instance == null)
-          instance = new TPadCore();
-        return instance;
-      }
-    }
-
     private BoardMonitor Board { get; set; }
     private SimBoardMonitor SimBoard { get; set; }
     private CameraMonitor Camera { get; set; }
     private SimCameraMonitor SimCamera { get; set; }
 
-    private TPadCore()
+    public TPadCore()
     {
       Registration = new RegistrationService();
     }
@@ -87,13 +77,7 @@ namespace UofM.HCI.tPab
 
     public void CoreStart(ITPadAppContainer appContainer, ITPadAppController appController, String boardPort, String cameraPort)
     {
-      //Stops everything
-      //ContextServiceContainer.StopServices();
-      //ContextMonitorContainer.StopMonitors();
-
-      //Sets the COM port for the board and camera monitors
-      Board.COMPort = boardPort;
-      Camera.COMPort = cameraPort;
+      ConfigurePeripherals(boardPort, cameraPort);
 
       //By default the system works with the simulated sources (camera, board)
       SimCamera.CameraSource = appController;
@@ -104,6 +88,25 @@ namespace UofM.HCI.tPab
       ContextServiceContainer.StartServices();
       ContextMonitorContainer.StartMonitors();
       logger.Info("Monitors Started");
+    }
+
+    public void ConfigurePeripherals(String boardPort, String cameraPort)
+    {
+      //Stops everything
+      Board.COMPort = null;
+      SimBoard.Pause = true;
+      Camera.COMPort = null;
+      SimCamera.Pause = true;
+
+      //Sets the COM port for the board and camera monitors
+      Board.COMPort = boardPort;
+      Camera.COMPort = cameraPort;
+
+      //Gets everything ready to re-start
+      if (Board.COMPort == null)
+        SimBoard.Pause = false;
+      if (Camera.COMPort == null)
+        SimCamera.Pause = false;
     }
 
     protected override void CustomUpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)
