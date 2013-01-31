@@ -18,6 +18,9 @@ using TallComponents.PDF;
 using System.IO;
 using TallComponents.PDF.TextExtraction;
 using System.Text.RegularExpressions;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -30,8 +33,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public TPadDevice Device { get; set; }
     public ITPadAppContainer Container { get; set; }
     public FigureList FigurePositions { get; set; }
-    public List<ContentLocation> FigureWordPositions { get; set; }
-
+     public List<ContentLocation> FigureWordPositions { get; set; }
+    
     public double WidthScalingFactor { get; set; }
     public double HeightScalingFactor { get; set; }
 
@@ -190,11 +193,17 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void CalculateFigurePositions()
     {
-      //Search for the term "figure" in document
-      foreach (Figure figure in FigurePositions.Figures)
+      if (File.Exists("figures.xml"))
+        FigureWordPositions = DeserializeFromXML("figures.xml");
+      else
       {
-        List<ContentLocation> currentFigure = PdfHelper.ContentToPixel(figure.TriggerText[1], -1, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
-        FigureWordPositions.AddRange(currentFigure);                 
+        //Search for the term "figure" in document
+        foreach (Figure figure in FigurePositions.Figures)
+        {
+          List<ContentLocation> currentFigure = PdfHelper.ContentToPixel(figure.TriggerText[1], -1, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
+          FigureWordPositions.AddRange(currentFigure);
+        }
+        SerializeToXML(FigureWordPositions, "figures.xml");
       }
     }
 
@@ -792,5 +801,23 @@ namespace UofM.HCI.tPab.App.ActiveReader
         ActualNote.annotation.Text = tpKeyboard.CurrentText.ToString();
     }
 
+    static public void SerializeToXML(List<ContentLocation> locations, string path)
+    {
+      XmlSerializer serializer = new XmlSerializer(typeof(List<ContentLocation>));
+      TextWriter textWriter = new StreamWriter(@path);
+      serializer.Serialize(textWriter, locations);
+      textWriter.Close();
+    }
+
+    static List<ContentLocation> DeserializeFromXML(string path)
+    {
+      XmlSerializer deserializer = new XmlSerializer(typeof(List<ContentLocation>));
+      TextReader textReader = new StreamReader(@path);
+      List<ContentLocation> locations;
+      locations = (List<ContentLocation>)deserializer.Deserialize(textReader);
+      textReader.Close();
+
+      return locations;
+    }
   }
 }
