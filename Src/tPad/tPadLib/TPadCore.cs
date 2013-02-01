@@ -43,10 +43,10 @@ namespace UofM.HCI.tPab
       Device = new TPadDevice() { Profile = Profile };
       Device.LoadId();
 
-      Board = new BoardMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-      SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-      Camera = new CameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
-      SimCamera = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
+      Board = new BoardMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
+      SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
+      Camera = new CameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
+      SimCamera = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
 
       ContextMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
       ContextMonitor stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
@@ -101,6 +101,11 @@ namespace UofM.HCI.tPab
       //Sets the COM port for the board and camera monitors
       Board.COMPort = boardPort;
       Camera.COMPort = cameraPort;
+
+      if (!Board.TryPort())
+        throw new ArgumentException(String.Format("Board COM port {0} could not be opened", Board.COMPort));
+      if (!Camera.TryPort())
+        throw new ArgumentException(String.Format("Camera COM port {0} could not be opened", Camera.COMPort));
 
       //Gets everything ready to re-start
       if (Board.COMPort == null)

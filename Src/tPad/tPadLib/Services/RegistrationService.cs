@@ -32,7 +32,7 @@ namespace UofM.HCI.tPab.Services
     protected override void CustomStart()
     {
       featureTracker = new ManagedA.wrapperRegistClass();
-      featureTracker.createIndex(Environment.CurrentDirectory + "\\" + ActualDocument.DocumentName);
+      featureTracker.createIndex(Environment.CurrentDirectory + "\\" + ActualDocument.Folder);
 
       location = new TPadLocation();
       oldCamView = new Bitmap(10, 10);
@@ -112,22 +112,6 @@ namespace UofM.HCI.tPab.Services
       }
 
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));
-    }
-
-
-    public void LoadDocuments(string[] documentFolders)
-    {
-      if (documentFolders == null || documentFolders.Length == 0)
-        throw new ArgumentException("Parameter 'documentFolders' cannot be empty");
-      if (!Directory.Exists(documentFolders[0]))
-        throw new ArgumentException(String.Format("Folder '{0}' does not exist!", documentFolders[0]));
-
-      ActualDocument = new TPadDocument() { DocumentName = documentFolders[0] };
-      String[] pages = Directory.GetFiles(documentFolders[0], "*.png");
-      Array.Sort<String>(pages);
-      ActualDocument.Pages = new TPadPage[pages.Length];
-      for (int index = 0; index < pages.Length; index++)
-        ActualDocument.Pages[index] = new TPadPage() { PageIndex = index, FileName = pages[index] };
     }
 
   }

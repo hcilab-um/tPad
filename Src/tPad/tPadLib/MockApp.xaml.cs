@@ -23,14 +23,16 @@ namespace UofM.HCI.tPab
 
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
+    public ITPadAppController Controller { get; set; }
 
     public double WidthScalingFactor { get; set; }
     public double HeightScalingFactor { get; set; }
 
-    public MockApp(TPadCore core, ITPadAppContainer container)
+    public MockApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
     {
       Core = core;
       Container = container;
+      Controller = controller;
 
       WidthScalingFactor = 1;
       HeightScalingFactor = 1;

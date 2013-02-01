@@ -31,9 +31,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
   {
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
-    public FigureList FigurePositions { get; set; }
-     public List<ContentLocation> FigureWordPositions { get; set; }
-    
+    public ITPadAppController Controller { get; set; }
+
     public double WidthScalingFactor { get; set; }
     public double HeightScalingFactor { get; set; }
 
@@ -120,21 +119,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    public ActiveReaderApp(String documentPDF, TPadCore core, ITPadAppContainer container, FigureList figures)
+    public ActiveReaderApp(String documentPDF, TPadCore core, ITPadAppContainer container, ObservableCollection<Figure> figures)
     {
       Core = core;
 
       WidthScalingFactor = 1;
       HeightScalingFactor = 1;
-      
+
       ActualPage = -1;
       ActualDocument = null;
-      
+
       Container = container;
       PdfHelper = new PDFContentHelper(documentPDF);
 
       FigurePositions = figures;
-      FigureWordPositions = new List<ContentLocation>();
 
       PropertyChanged += new PropertyChangedEventHandler(ActiveReaderApp_PropertyChanged);
       InitializeComponent();
@@ -187,22 +185,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
     void Device_FlippingChanged(object sender, FlippingEventArgs e)
     {
       throw new NotImplementedException();
-    }
-
-    private void CalculateFigurePositions()
-    {
-      if (File.Exists("figures.xml"))
-        FigureWordPositions = DeserializeFromXML("figures.xml");
-      else
-      {
-        //Search for the term "figure" in document
-        foreach (Figure figure in FigurePositions.Figures)
-        {
-          List<ContentLocation> currentFigure = PdfHelper.ContentToPixel(figure.TriggerText[1], -1, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
-          FigureWordPositions.AddRange(currentFigure);
-        }
-        SerializeToXML(FigureWordPositions, "figures.xml");
-      }
     }
 
     void Device_RegistrationChanged(object sender, RegistrationEventArgs e)
@@ -277,14 +259,54 @@ namespace UofM.HCI.tPab.App.ActiveReader
       LoadLayersToPage(ActualDocument, ActualPage);
     }
 
-    private void SaveLayersToDisk(TPadDocument ActualDocument)
+    private void SaveLayersToDisk(TPadDocument document)
     {
-      Console.WriteLine("throw new NotImplementedException(SaveLayersToDisk);");
+      XmlSerializer serializer = new XmlSerializer(typeof(TPadDocument));
+      TextWriter textWriter = new StreamWriter(document.Folder + "cache.xml");
+      serializer.Serialize(textWriter, document);
+      textWriter.Close();
     }
 
-    private void LoadLayersFromDisk(TPadDocument ActualDocument)
+    private void LoadLayersFromDisk(TPadDocument document)
     {
-      Console.WriteLine("throw new NotImplementedException(LoadLayersFromDisk);");
+      XmlSerializer deserializer = new XmlSerializer(typeof(TPadDocument));
+      TextReader textReader = new StreamReader(document.Folder + "cache.xml");
+      TPadDocument newDoc = (TPadDocument)deserializer.Deserialize(textReader);
+      textReader.Close();
+
+      for (int index = 0; index < document.Pages.Length; index++)
+      {
+        document.Pages[index].Annotations = newDoc.Pages[index].Annotations;
+        document.Pages[index].Highlights = newDoc.Pages[index].Highlights;
+        document.Pages[index].Scribblings = newDoc.Pages[index].Scribblings;
+        document.Pages[index].SearchResults = newDoc.Pages[index].SearchResults;
+        document.Pages[index].FigureLinks = newDoc.Pages[index].FigureLinks;
+      }
+    }
+
+    public ObservableCollection<Figure> FigurePositions { get; set; }
+    private void CalculateFigurePositions()
+    {
+      if (FigurePositions.Count == 0)
+        return;
+      if (ActualDocument.HasFigureLinks)
+        return;
+
+      //Search for the term "figure" in document
+      foreach (Figure figure in FigurePositions)
+      {
+        List<ContentLocation> linksForFigure = PdfHelper.ContentToPixel(figure.TriggerText[1], -1, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
+        foreach (ContentLocation figureLink in linksForFigure)
+        {
+          Highlight link = new Highlight();
+          link.Line = new Line() { Stroke = Brushes.Yellow, Opacity = 0.7, StrokeThickness = figureLink.ContentBounds.Height };
+          link.Line.X1 = figureLink.ContentBounds.Left;
+          link.Line.Y1 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
+          link.Line.X2 = figureLink.ContentBounds.Right;
+          link.Line.Y2 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
+          ActualDocument.Pages[figureLink.PageIndex].FigureLinks.Add(link);
+        }
+      }
     }
 
     private void LoadLayersToPage(TPadDocument document, int pageIndex)
@@ -311,7 +333,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           var scribblings = cHighlights.Children.OfType<InkCanvas>().ToList();
           foreach (InkCanvas scribble in scribblings)
             cHighlights.Children.Remove(scribble);
-          
+
           //Unload existing search results
           cSearchResults.Children.Clear();
 
@@ -335,29 +357,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
             cSearchResults.Children.Add(searchHighlight.Line);
           }
 
-          //Loads figure highlights for this page
-          foreach (ContentLocation content in FigureWordPositions)
+          //Loads figure links for this page
+          foreach (Highlight element in document.Pages[pageIndex].FigureLinks)
           {
-            if (content.PageIndex != ActualPage)
-              continue;
-            Highlight resultHL = new Highlight();
-            resultHL.Line = new Line() { Stroke = Brushes.Yellow, Opacity = 0.7, StrokeThickness = content.ContentBounds.Height };
-            resultHL.Line.X1 = content.ContentBounds.Left;
-            resultHL.Line.Y1 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
-            resultHL.Line.X2 = content.ContentBounds.Right;
-            resultHL.Line.Y2 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
-            resultHL.Line.MouseDown += cHighlights_MouseDown;
-            resultHL.Line.MouseMove += cHighlights_MouseMove;
-            resultHL.Line.MouseUp += cHighlights_MouseUp;
-            foreach (Figure figure in FigurePositions.Figures)
-            {
-              if (figure.TriggerText[1].Equals(content.Content, StringComparison.CurrentCultureIgnoreCase))
-              {
-                resultHL.Line.Tag = figure;
-                break;
-              }
-            }
-            cHighlights.Children.Add(resultHL.Line);
+            Highlight linkHighlight = (Highlight)element;
+            linkHighlight.Line.MouseDown += cHighlights_MouseDown;
+            linkHighlight.Line.MouseMove += cHighlights_MouseMove;
+            linkHighlight.Line.MouseUp += cHighlights_MouseUp;
+            cSearchResults.Children.Add(linkHighlight.Line);
           }
 
           //Loads notes for this page
@@ -402,7 +409,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       ClearSearch();
 
       List<ContentLocation> pageSearch = PdfHelper.ContentToPixel(word, page, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
-      
+
       foreach (ContentLocation content in pageSearch)
       {
         Highlight resultHL = new Highlight();
@@ -466,7 +473,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (sender is Line)
         {
           isHighlighting = false;
-          Line line = (Line) sender;
+          Line line = (Line)sender;
           if (line.Tag != null)
             GetFigure((line.Tag as Figure));
           else
@@ -480,10 +487,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
     }
 
     private void GetFigure(Figure figure)
-    {      
+    {
       System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(ActualDocument.Pages[figure.PageIndex].FileName);
-      
-      BitmapSource source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, 
+
+      BitmapSource source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty,
         System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
       CroppedImage = new CroppedBitmap(source, figure.FigureRect);
 
@@ -759,7 +766,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       isAnnotationMoved = false;
       isAnnotationResized = false;
     }
-        
+
     private void bSearch_Click(object sender, RoutedEventArgs e)
     {
       if (bSearch.IsChecked.Value)
@@ -771,7 +778,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         bOffScreenVisualization.IsChecked = false;
         tpKeyboard.Visibility = Visibility.Hidden;
-        ClearSearch();               
+        ClearSearch();
       }
     }
 
@@ -779,7 +786,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (bCopyAndLock.IsChecked.Value)
         Core.Registration.Pause();
-      else 
+      else
         Core.Registration.Continue();
     }
 
@@ -798,25 +805,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (bHighlight.IsChecked.Value && ActualNote.annotation != null && !bSearch.IsChecked.Value)
         ActualNote.annotation.Text = tpKeyboard.CurrentText.ToString();
-    }
-
-    static public void SerializeToXML(List<ContentLocation> locations, string path)
-    {
-      XmlSerializer serializer = new XmlSerializer(typeof(List<ContentLocation>));
-      TextWriter textWriter = new StreamWriter(@path);
-      serializer.Serialize(textWriter, locations);
-      textWriter.Close();
-    }
-
-    static List<ContentLocation> DeserializeFromXML(string path)
-    {
-      XmlSerializer deserializer = new XmlSerializer(typeof(List<ContentLocation>));
-      TextReader textReader = new StreamReader(@path);
-      List<ContentLocation> locations;
-      locations = (List<ContentLocation>)deserializer.Deserialize(textReader);
-      textReader.Close();
-
-      return locations;
     }
   }
 }

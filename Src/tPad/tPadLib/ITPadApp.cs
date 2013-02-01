@@ -10,6 +10,7 @@ namespace UofM.HCI.tPab
   {
     TPadCore Core { get; set; }
     ITPadAppContainer Container { get; set; }
+    ITPadAppController Controller { get; set; }
 
     double WidthScalingFactor { get; set; }
     double HeightScalingFactor { get; set; }

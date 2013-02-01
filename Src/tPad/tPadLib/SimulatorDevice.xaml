@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="UofM.HCI.tPab.SimulatorDevice" x:Name="sDevice"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
+             MouseMove="rFrame_MouseMove" MouseUp="rFrame_MouseUp" Loaded="sDevice_Loaded">
+  
+  <UserControl.Resources>
+    <converters:MultiplierConverter x:Key="cMultiplier" />
+  </UserControl.Resources>
+  
+  <!-- This is the place holder for the TPadApp -->
+  <Grid x:Name="gTPadApp" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Rectangle x:Name="rFrameLeft" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Left"
+               Width="{Binding ElementName=sDevice, Path=FrameWidth}"/>
+    <Rectangle x:Name="rFrameTop" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Top" HorizontalAlignment="Stretch"
+               Height="{Binding ElementName=sDevice, Path=FrameHeight}"/>
+    <Rectangle x:Name="rFrameRight" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Right"
+               Width="{Binding ElementName=sDevice, Path=FrameWidth}"/>
+    <Rectangle x:Name="rFrameBottom" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+               Height="{Binding ElementName=sDevice, Path=FrameHeight}"/>
+
+    <Image x:Name="iCameraIcon" Source="camera.png" VerticalAlignment="Top" HorizontalAlignment="Center" Width="30" Margin="0,10,0,0"/>
+  </Grid>
+
+  <UserControl.RenderTransform>
+    <TransformGroup>
+      <RotateTransform x:Name="tRotate" Angle="{Binding ElementName=sDevice, Path=RotationAngle}" 
+                       CenterX="{Binding ElementName=sDevice, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
+                       CenterY="{Binding ElementName=sDevice, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
+      <!-- This transformation aligns the initial position of the tPad to the document below it -->
+      <TranslateTransform x:Name="tAlign" X="{Binding ElementName=sDevice, Path=InitialX}"/>
+    </TransformGroup>
+  </UserControl.RenderTransform>
+
+</UserControl>

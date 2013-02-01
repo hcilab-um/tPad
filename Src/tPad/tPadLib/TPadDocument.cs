@@ -11,8 +11,44 @@ namespace UofM.HCI.tPab
 {
   public class TPadDocument
   {
-    public String DocumentName { get; set; }
+    public String Folder { get; set; }
+    public String FileName { get; set; }
+
     public TPadPage[] Pages { get; set; }
+
+    public bool HasFigureLinks
+    {
+      get
+      {
+        foreach (TPadPage page in Pages)
+        {
+          if (page.FigureLinks.Count > 0)
+            return true;
+        }
+        return false;
+      }
+    }
+  }
+
+  public class TPadPage
+  {
+    public int PageIndex { get; set; }
+    public String FileName { get; set; }
+    public ObservableCollection<ITPadMarker> Highlights { get; set; }
+    public ObservableCollection<ITPadMarker> Annotations { get; set; }
+    public ObservableCollection<ITPadMarker> SearchResults { get; set; }
+    public ObservableCollection<ITPadMarker> Scribblings { get; set; }
+    public ObservableCollection<ITPadMarker> FigureLinks { get; set; }
+
+    public TPadPage(String fileName = null)
+    {
+      FileName = fileName;
+      Highlights = new ObservableCollection<ITPadMarker>();
+      Annotations = new ObservableCollection<ITPadMarker>();
+      SearchResults = new ObservableCollection<ITPadMarker>();
+      Scribblings = new ObservableCollection<ITPadMarker>();
+      FigureLinks = new ObservableCollection<ITPadMarker>();
+    }
   }
 
   public class Note : ITPadMarker
@@ -77,22 +113,4 @@ namespace UofM.HCI.tPab
     }
   }
 
-  public class TPadPage
-  {
-    public int PageIndex { get; set; }
-    public String FileName { get; set; }
-    public ObservableCollection<ITPadMarker> Highlights { get; set; }
-    public ObservableCollection<ITPadMarker> Annotations { get; set; }
-    public ObservableCollection<ITPadMarker> SearchResults { get; set; }
-    public ObservableCollection<ITPadMarker> Scribblings { get; set; }
-
-    public TPadPage(String fileName = null)
-    {
-      FileName = fileName;
-      Highlights = new ObservableCollection<ITPadMarker>();
-      Annotations = new ObservableCollection<ITPadMarker>();
-      SearchResults = new ObservableCollection<ITPadMarker>();
-      Scribblings = new ObservableCollection<ITPadMarker>();
-    }
-  }
 }

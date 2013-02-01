@@ -102,6 +102,9 @@
     <Compile Include="Monitors\SimCameraMonitor.cs" />
     <Compile Include="Monitors\SimBoardMonitor.cs" />
     <Compile Include="Services\RegistrationService.cs" />
+    <Compile Include="SimulatorDevice.xaml.cs">
+      <DependentUpon>SimulatorDevice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TPadCore.cs" />
     <Compile Include="TPadDevice.cs" />
     <Compile Include="TPadDocument.cs" />
@@ -148,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Simulator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SimulatorDevice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

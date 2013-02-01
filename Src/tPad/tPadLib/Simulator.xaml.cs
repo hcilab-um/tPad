@@ -23,19 +23,19 @@ namespace UofM.HCI.tPab
   /// <summary>
   /// Interaction logic for Simulatorç.xaml
   /// </summary>
-  public partial class Simulator : Window, INotifyPropertyChanged, ITPadAppContainer, ITPadAppController
+  public partial class Simulator : Window, INotifyPropertyChanged, ITPadAppContainer
   {
 
+    private double deviceWidth, deviceHeight;
+    private double appWidth, appHeight;
+    private double frameWidth, frameHeight;
+
+    private double startPageX = 0;
     private float widthFactor, heightFactor;
-    private float rotationAngle;
-    private System.Drawing.Point location;
     private float simCaptureToSourceImageRatio;
 
     private TPadProfile Profile { get; set; }
     private ITPadAppLauncher Launcher { get; set; }
-    private UserControl TPadApp { get; set; }
-    public Rect TPadAppBounds { get; set; }
-    private Size BorderDiff { get; set; }
 
     private TPadDocument actualDocument = null;
     public TPadDocument ActualDocument
@@ -83,26 +83,6 @@ namespace UofM.HCI.tPab
       }
     }
 
-    public float RotationAngle
-    {
-      get { return rotationAngle; }
-      set
-      {
-        rotationAngle = value;
-        OnPropertyChanged("RotationAngle");
-      }
-    }
-
-    public System.Drawing.Point Location
-    {
-      get { return location; }
-      set
-      {
-        location = value;
-        OnPropertyChanged("Location");
-      }
-    }
-
     public float SimCaptureToSourceImageRatio
     {
       get { return simCaptureToSourceImageRatio; }
@@ -119,6 +99,77 @@ namespace UofM.HCI.tPab
       set { TPadCore.UseFeatureTracking = value; }
     }
 
+    public double StartPageX
+    {
+      get { return startPageX; }
+      set
+      {
+        startPageX = value;
+        OnPropertyChanged("StartPageX");
+      }
+    }
+
+    public double DeviceWidth
+    {
+      get { return deviceWidth; }
+      set
+      {
+        deviceWidth = value;
+        OnPropertyChanged("DeviceWidth");
+      }
+    }
+
+
+    public double DeviceHeight
+    {
+      get { return deviceHeight; }
+      set
+      {
+        deviceHeight = value;
+        OnPropertyChanged("DeviceHeight");
+      }
+    }
+
+    public double AppWidth
+    {
+      get { return appWidth; }
+      set
+      {
+        appWidth = value;
+        OnPropertyChanged("AppWidth");
+      }
+    }
+
+    public double AppHeight
+    {
+      get { return appHeight; }
+      set
+      {
+        appHeight = value;
+        OnPropertyChanged("AppHeight");
+      }
+    }
+
+    public double FrameWidth
+    {
+      get { return frameWidth; }
+      set
+      {
+        frameWidth = value;
+        OnPropertyChanged("FrameWidth");
+      }
+    }
+
+    public double FrameHeight
+    {
+      get { return frameHeight; }
+      set
+      {
+        frameHeight = value;
+        OnPropertyChanged("FrameHeight");
+      }
+    }
+
     public Simulator(ITPadAppLauncher launcher, TPadProfile profile, TPadDocument document)
     {
       Launcher = launcher;
@@ -132,30 +183,10 @@ namespace UofM.HCI.tPab
       ActualDocument = document;
     }
 
-    public void LoadTPadApp(ITPadApp tPadApp)
-    {
-      if (tPadApp == null)
-        return;
-
-      TPadApp = tPadApp as UserControl;
-      TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-      TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-      gTPadApp.Children.Add(TPadApp);
-      TPadAppBounds = Rect.Empty;
-      BorderDiff = Size.Empty;
-    }
-
     private void wSimulator_Loaded(object sender, RoutedEventArgs e)
     {
-      if (TPadAppBounds == Rect.Empty)
-        TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp);
-      Rect ttPadBounds = TPadApp.TransformToAncestor(gTPadApp).TransformBounds(TPadAppBounds);
-      if (BorderDiff == Size.Empty)
-        BorderDiff = new Size(ttPadBounds.Left, ttPadBounds.Top);
-      Location = new System.Drawing.Point((int)BorderDiff.Width, (int)BorderDiff.Height);
-
       Rect docBounds = iDocument.TransformToAncestor(gTop).TransformBounds(VisualTreeHelper.GetDescendantBounds(iDocument));
-      tAlign.X = docBounds.Left;
+      StartPageX = docBounds.Left;
     }
 
     void iDocument_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -178,16 +209,45 @@ namespace UofM.HCI.tPab
       SimCaptureToSourceImageRatio = (float)((iDocument.Source as BitmapFrame).PixelWidth / iDocument.ActualWidth);
 
       //Resize the device
-      gTPadApp.Width = WidthFactor * Profile.DeviceSize.Width;
-      gTPadApp.Height = HeightFactor * Profile.DeviceSize.Height;
+      DeviceWidth = WidthFactor * Profile.DeviceSize.Width;
+      DeviceHeight = HeightFactor * Profile.DeviceSize.Height;
       //Adjusts the screen size to the device size
-      TPadApp.Width = WidthFactor * Profile.ScreenSize.Width;
-      TPadApp.Height = HeightFactor * Profile.ScreenSize.Height;
+      AppWidth = WidthFactor * Profile.ScreenSize.Width;
+      AppHeight = HeightFactor * Profile.ScreenSize.Height;
       //Adjusts the borders 
-      rFrameLeft.Width = (gTPadApp.Width - TPadApp.Width) / 2;
-      rFrameTop.Height = (gTPadApp.Height - TPadApp.Height) / 2;
-      rFrameRight.Width = (gTPadApp.Width - TPadApp.Width) / 2;
-      rFrameBottom.Height = (gTPadApp.Height - TPadApp.Height) / 2;
+      FrameWidth = (DeviceWidth - AppWidth) / 2;
+      FrameHeight = (DeviceHeight - AppHeight) / 2;
+    }
+
+    private List<ITPadApp> appInstances = new List<ITPadApp>();
+    private void tbRunCore_Click(object sender, RoutedEventArgs e)
+    {
+      try
+      {
+        ITPadApp instance = Launcher.GetAppInstance(null, null);
+
+        SimulatorDevice simDevice = new SimulatorDevice();
+        simDevice.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+        simDevice.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+        BindingOperations.SetBinding(simDevice, SimulatorDevice.InitialXProperty, new Binding("StartPageX") { Source = this });
+        BindingOperations.SetBinding(simDevice, SimulatorDevice.WidthProperty, new Binding("DeviceWidth") { Source = this });
+        BindingOperations.SetBinding(simDevice, SimulatorDevice.HeightProperty, new Binding("DeviceHeight") { Source = this });
+        BindingOperations.SetBinding(simDevice, SimulatorDevice.AppWidthProperty, new Binding("AppWidth") { Source = this });
+        BindingOperations.SetBinding(simDevice, SimulatorDevice.AppHeightProperty, new Binding("AppHeight") { Source = this });
+        BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameWidthProperty, new Binding("FrameWidth") { Source = this });
+        BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameHeightProperty, new Binding("FrameHeight") { Source = this });
+        simDevice.LoadTPadApp(new MockApp(instance.Core, simDevice, simDevice));
+        gTop.Children.Add(simDevice);
+
+        //TPadWindow deviceWindow = new TPadWindow(instance.Core, Launcher);
+        //deviceWindow.Closed += new EventHandler(deviceWindow_Closed);
+        //instance.Container = deviceWindow;
+        //instance.Controller = simDevice;
+      }
+      catch (Exception exception)
+      {
+        MessageBox.Show(exception.Message);
+      }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -196,142 +256,6 @@ namespace UofM.HCI.tPab
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
-
-    private bool isTraslating = false, isRotating = false;
-    private Point lastPosition;
-    private void rFrame_MouseDown(object sender, MouseButtonEventArgs e)
-    {
-      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
-      {
-        isTraslating = true;
-        lastPosition = Mouse.GetPosition(this);
-      }
-      else if (e.LeftButton == MouseButtonState.Released && e.RightButton == MouseButtonState.Pressed)
-      {
-        isRotating = true;
-        lastPosition = Mouse.GetPosition(this);
-      }
-    }
-
-    private void rFrame_MouseMove(object sender, MouseEventArgs e)
-    {
-      if (isTraslating)
-      {
-        //Gets the new position and checks whether there has been any movement since last time
-        Point newPosition = Mouse.GetPosition(this);
-        if (newPosition == lastPosition)
-          return;
-
-        //Finds how much the mouse moved from last frame
-        Vector displacement = newPosition - lastPosition;
-
-        //Replaces the last position
-        lastPosition = newPosition;
-
-        //Adds such displacement to the current position of the app control
-        Point currentLocation = new Point(gTPadApp.Margin.Left, gTPadApp.Margin.Top);
-        Point newLocation = currentLocation + displacement;
-        gTPadApp.Margin = new Thickness(newLocation.X, newLocation.Y, 0, 0);
-
-        // Updates the device location
-        Point point = new Point(newLocation.X + BorderDiff.Width, newLocation.Y + BorderDiff.Height);
-        Point rotatedPoint = tRotate.Transform(point);
-        
-        Location = new System.Drawing.Point((int)point.X, (int)point.Y);
-      }
-      else if (isRotating)
-      {
-        //Gets the new position and checks whether there has been any movement since last time
-        Point newPosition = Mouse.GetPosition(this);
-        if (newPosition == lastPosition)
-          return;
-
-        //Finds how much the mouse moved from last frame
-        Vector displacement = newPosition - lastPosition;
-
-        //Replaces the last position
-        lastPosition = newPosition;
-
-        //Adds such displacement to the current position of the app control
-        RotationAngle -= (float)displacement.X;
-      }
-    }
-
-    private void rFrame_MouseUp(object sender, MouseButtonEventArgs e)
-    {
-      isTraslating = false;
-      isRotating = false;
-    }
-
-    public System.Drawing.Bitmap GetDeviceView(out float angle)
-    {
-      //Dispatcher.Invoke(DispatcherPriority.Render,
-      //  (Action)delegate()
-      //  {
-      //    TPadApp.Visibility = System.Windows.Visibility.Hidden;
-      //  });
-
-      Thread.Sleep(100);
-      angle = RotationAngle;
-      GetDeviceViewDelegate gdvDelegate = new GetDeviceViewDelegate(SafeGetDeviceView);
-      Object[] args = new Object[0];
-      MemoryStream result = (MemoryStream)Dispatcher.Invoke(gdvDelegate, args);
-
-      Dispatcher.Invoke(DispatcherPriority.Render,
-        (Action)delegate()
-        {
-          TPadApp.Visibility = System.Windows.Visibility.Visible;
-        });
-
-      if (result == null)
-        return null;
-
-      System.Drawing.Bitmap frame = new System.Drawing.Bitmap(result);
-      return frame;
-    }
-
-    private MemoryStream SafeGetDeviceView()
-    {
-      if (!IsActive)
-        return null;
-
-      int bordersize, bordertop, zeroX, zeroY;
-      if (WindowState != System.Windows.WindowState.Maximized)
-      {
-        bordersize = (int)(ActualWidth - gTop.ActualWidth) / 2;
-        bordertop = (int)(ActualHeight - gTop.ActualHeight - bordersize);
-        zeroX = (int)(Left + bordersize);
-        zeroY = (int)(Top + bordertop);
-      }
-      else
-      {
-        bordersize = (int)(ActualWidth - gTop.ActualWidth) / 2;
-        bordertop = (int)(ActualHeight - gTop.ActualHeight - bordersize);
-        zeroX = 0;
-        zeroY = (int)(Top + bordertop);
-      }
-
-      if (TPadAppBounds == Rect.Empty)
-        TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp);
-      if (TPadAppBounds.Size.Width == 0 || TPadAppBounds.Size.Height == 0)
-      {
-        TPadAppBounds = Rect.Empty;
-        return null;
-      }
-
-      Rect ttPadBounds = TPadApp.TransformToAncestor(this).TransformBounds(TPadAppBounds);
-      System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds);
-      MemoryStream result = new MemoryStream();
-      try
-      {
-        capture.Save(result, ImageFormat.Bmp);
-      }
-      catch { }
-
-      return result;
-    }
-
-    private delegate MemoryStream GetDeviceViewDelegate();
 
     private void bNext_Click(object sender, RoutedEventArgs e)
     {
@@ -359,17 +283,45 @@ namespace UofM.HCI.tPab
       return null;
     }
 
-    private void tbRunCore_Click(object sender, RoutedEventArgs e)
-    {
-      Launcher.StartCore((cbComPorts.SelectedItem as ComboBoxItem).Tag as String);
-    }
-
     protected override void OnClosed(EventArgs e)
     {
       base.OnClosed(e);
-      if (Launcher != null)
-        Launcher.CloseAll(this);
+      foreach (ITPadApp instance in appInstances)
+      {
+        if (instance.Container is Window)
+          (instance.Container as Window).Close();
+      }
     }
+
+    void deviceWindow_Closed(object sender, EventArgs e)
+    {
+      ITPadApp instanceClosed = appInstances.FirstOrDefault(tmp => tmp.Container == sender);
+    }
+
+    public void GetCoordinatesForScreenCapture(out int zeroX, out int zeroY)
+    {
+      zeroX = -1;
+      zeroY = -1;
+      if (!IsActive)
+        return;
+
+      int bordersize, bordertop;
+      if (WindowState != System.Windows.WindowState.Maximized)
+      {
+        bordersize = (int)(ActualWidth - gTop.ActualWidth) / 2;
+        bordertop = (int)(ActualHeight - gTop.ActualHeight - bordersize);
+        zeroX = (int)(Left + bordersize);
+        zeroY = (int)(Top + bordertop);
+      }
+      else
+      {
+        bordersize = (int)(ActualWidth - gTop.ActualWidth) / 2;
+        bordertop = (int)(ActualHeight - gTop.ActualHeight - bordersize);
+        zeroX = 0;
+        zeroY = (int)(Top + bordertop);
+      }
+    }
+
   }
 
 }

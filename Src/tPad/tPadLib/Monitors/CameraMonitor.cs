@@ -15,5 +15,12 @@ namespace UofM.HCI.tPab.Monitors
       if (COMPort == null || COMPort.Length == 0)
         return;
     }
+
+    internal bool TryPort()
+    {
+      if (COMPort == null)
+        return true;
+      return false;
+    }
   }
 }

@@ -31,12 +31,12 @@ namespace UofM.HCI.tPab.Monitors
         return;
 
       float angle = 0;
-      Bitmap deviceView = (CameraSource as Simulator).GetDeviceView(out angle);
+      Bitmap deviceView = (CameraSource as SimulatorDevice).GetDeviceView(out angle);
       if (deviceView == null)
         return;
 
       //EUREKA!!!
-      Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as Simulator).TPadAppBounds);
+      Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as SimulatorDevice).TPadAppBounds);
       NotifyContextServices(this, new CAF.ContextAdapter.NotifyContextMonitorListenersEventArgs(typeof(Bitmap), rotatedView));
 
       //using (FileStream storage = CreateFileStream(angle))

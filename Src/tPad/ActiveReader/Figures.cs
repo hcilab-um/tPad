@@ -23,24 +23,4 @@ namespace UofM.HCI.tPab.App.ActiveReader
     }
   }
 
-  public class FigureList
-  {
-    public ObservableCollection<Figure> Figures { get; set; }
-
-    public FigureList()
-    {
-      Figures = new ObservableCollection<Figure>();  
-    }
-
-    public Figure searchFigure(int figureIndex)
-    {
-      foreach (Figure fig in Figures)
-      {
-        if (fig.FigureIndex == figureIndex)
-          return fig;
-      }
-      return null;
-    }
-  }
-
 }

@@ -5,7 +5,7 @@
         xmlns:tpad="clr-namespace:UofM.HCI.tPab"
         xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters"
         Title="tPad Simulator Window" WindowState="Maximized" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen"
-        MouseMove="rFrame_MouseMove" MouseUp="rFrame_MouseUp" Loaded="wSimulator_Loaded">
+        Loaded="wSimulator_Loaded">
 
   <Window.Resources>
 
@@ -27,43 +27,29 @@
         </Image.Source>
       </Image>
 
-      <!-- This is the place holder for the TPadApp -->
-      <Grid x:Name="gTPadApp" VerticalAlignment="Top" HorizontalAlignment="Left">
-        <Rectangle x:Name="rFrameLeft" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
-        <Rectangle x:Name="rFrameTop" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
-        <Rectangle x:Name="rFrameRight" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
-        <Rectangle x:Name="rFrameBottom" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+      <!-- This is where the SimulatorDevices are added -->
 
-        <Image x:Name="iCameraIcon" Source="camera.png" VerticalAlignment="Top" HorizontalAlignment="Center" Width="30" Margin="0,10,0,0"/>
-        <Grid.RenderTransform>
-          <TransformGroup>
-            <RotateTransform x:Name="tRotate" Angle="{Binding ElementName=wSimulator, Path=RotationAngle}" 
-                           CenterX="{Binding ElementName=gTPadApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
-                           CenterY="{Binding ElementName=gTPadApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
-            <!-- This transformation aligns the initial position of the tPad to the document below it -->
-            <TranslateTransform x:Name="tAlign" X="0"/>
-          </TransformGroup>
-        </Grid.RenderTransform>
-      </Grid>
     </Grid>
 
     <StackPanel x:Name="spControls" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Orientation="Vertical">
-      <StackPanel x:Name="spNavigation" Orientation="Horizontal">
+      <StackPanel x:Name="spNavigation" Orientation="Horizontal" Margin="0,10,0,0">
         <Button x:Name="bPrevious" Content="&lt; Prev" Click="bPrevious_Click" />
         <Label Content="{Binding ElementName=wSimulator, Path=ActualPage, FallbackValue=5}"/>
         <Button x:Name="bNext" Content="Next >" Click="bNext_Click" />
       </StackPanel>
+
       <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
         <CheckBox IsChecked="{Binding ElementName=wSimulator, Path=UseFeatureTracking}" Margin="0,8,0,0"/>
         <Label Content="Use Feature Tracking?"/>
       </StackPanel>
-      <StackPanel Orientation="Horizontal">
+
+      <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
         <ComboBox x:Name="cbComPorts" Text="COM Port:">
           <ComboBoxItem IsSelected="True">Simulator</ComboBoxItem>
           <ComboBoxItem Tag="COM3">Juan (COM3)</ComboBoxItem>
           <ComboBoxItem Tag="COM5">Sophie (COM5)</ComboBoxItem>
         </ComboBox>
-        <ToggleButton x:Name="tbRunCore" Click="tbRunCore_Click" Content="Restart@Port"/>
+        <Button x:Name="tbRunCore" Click="tbRunCore_Click" Content="New@Port"/>
       </StackPanel>
     </StackPanel>
 

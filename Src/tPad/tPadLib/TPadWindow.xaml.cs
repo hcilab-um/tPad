@@ -42,6 +42,8 @@ namespace UofM.HCI.tPab
 
     public double SizeMultiplier { get; set; }
 
+    public bool IsFirstInstance { get; set; }
+    
     public TPadWindow(TPadCore core, ITPadAppLauncher launcher)
     {
       SizeMultiplier = 0.75; // This makes the window smaller when using a single monitor set-up -- for development
@@ -64,16 +66,12 @@ namespace UofM.HCI.tPab
       BorderDiff = Size.Empty;
     }
 
-    protected override void OnClosed(EventArgs e)
-    {
-      base.OnClosed(e);
-      if (Launcher != null)
-        Launcher.CloseAll(this);
-    }
-
     private void tpWindow_Loaded(object sender, RoutedEventArgs e)
     {
       if (System.Windows.Forms.SystemInformation.MonitorCount == 1)
+        return;
+
+      if (!IsFirstInstance)
         return;
 
       var tPadDisplay = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(tmp => tmp.Bounds.Width == Core.Profile.Resolution.Width && tmp.Bounds.Height == Core.Profile.Resolution.Height);
