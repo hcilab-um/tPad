@@ -191,8 +191,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void CalculateFigurePositions()
     {
-      if (File.Exists("figures.xml"))
-        FigureWordPositions = DeserializeFromXML("figures.xml");
+      string path = "figures.xml";
+
+      if (File.Exists(path))
+        FigureWordPositions = DeserializeFromXML(path);
       else
       {
         //Search for the term "figure" in document
@@ -201,7 +203,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           List<ContentLocation> currentFigure = PdfHelper.ContentToPixel(figure.TriggerText[1], -1, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
           FigureWordPositions.AddRange(currentFigure);
         }
-        SerializeToXML(FigureWordPositions, "figures.xml");
+        SerializeToXML(FigureWordPositions, path);
       }
     }
 
@@ -420,16 +422,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private bool isHighlighting = false;
     private Point lastPosition;
     private Highlight newHighlight = new Highlight();
-    private Highlight currentHighlight = new Highlight();
+    private Line currentHighlight;
     private bool isSomething2Hide = false;
-    private bool isSenderLine = false;
+    private bool isSenderHighlight = false;
     private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
         isHighlighting = true;
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
-        Console.WriteLine(lastPosition);
+
         newHighlight = new Highlight();
         newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 };
         newHighlight.Line.MouseDown += cHighlights_MouseDown;
@@ -464,18 +466,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
         }
 
         if (sender is Line)
-        {
-          isHighlighting = false;
+        {          
           Line line = (Line) sender;
           if (line.Tag != null)
+          {
+            isHighlighting = false; //to avoid highlighting in Figure-Mode
             GetFigure((line.Tag as Figure));
+          }
           else
           {
-            isSenderLine = true;
-            currentHighlight.Line = line;
+            isSenderHighlight = true;
+            currentHighlight = line;
           }
         }
-        else isSenderLine = false;
+        else isSenderHighlight = false;
       }
     }
 
@@ -569,18 +573,25 @@ namespace UofM.HCI.tPab.App.ActiveReader
         contextMenu.IsOpen = false;
         //open context menu at new position
         contextMenu.IsOpen = true;
-        contextMenu.Visibility = Visibility.Visible;
         cm_deleteItem.Visibility = Visibility.Collapsed;
+        contextMenu.Visibility = Visibility.Visible;        
 
-        if (isSenderLine)
+        if (isSenderHighlight)
           cm_deleteItem.Visibility = Visibility.Visible;
       }
     }
 
     private void CMDelete_Click(object sender, RoutedEventArgs e)
     {
-      cHighlights.Children.Remove(currentHighlight.Line);
-      ActualDocument.Pages[ActualPage].Highlights.Remove(currentHighlight);
+      cHighlights.Children.Remove(currentHighlight);
+      foreach (Highlight line in ActualDocument.Pages[ActualPage].Highlights)
+      {
+        if (currentHighlight == line.Line)
+        {
+          ActualDocument.Pages[ActualPage].Highlights.Remove(line);
+          break;
+        }
+      }      
     }
 
     private void CMSearch_Click(object sender, RoutedEventArgs e)
