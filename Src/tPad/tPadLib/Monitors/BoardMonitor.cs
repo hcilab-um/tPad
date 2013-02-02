@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CAF.ContextAdapter;
+using Ubicomp.Utils.NET.CAF.ContextAdapter;
 
 namespace UofM.HCI.tPab.Monitors
 {

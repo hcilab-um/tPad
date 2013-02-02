@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CAF.ContextService;
 using System.Drawing;
 using System.IO;
 using System.Diagnostics;
+using Ubicomp.Utils.NET.CAF.ContextService;
+using Ubicomp.Utils.NET.CAF.ContextAdapter;
 
 namespace UofM.HCI.tPab.Services
 {
 
   public class RegistrationService : ContextService
   {
-
-    public TPadDocument ActualDocument { get; set; }
 
     public ITPadAppContainer Container { get; set; }
 
@@ -32,7 +31,7 @@ namespace UofM.HCI.tPab.Services
     protected override void CustomStart()
     {
       featureTracker = new ManagedA.wrapperRegistClass();
-      featureTracker.createIndex(Environment.CurrentDirectory + "\\" + ActualDocument.Folder);
+      featureTracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
 
       location = new TPadLocation();
       oldCamView = new Bitmap(10, 10);
@@ -55,11 +54,13 @@ namespace UofM.HCI.tPab.Services
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected override void CustomUpdateMonitorReading(object sender, CAF.ContextAdapter.NotifyContextMonitorListenersEventArgs e)
+    protected override void CustomUpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)
     {
       if (e.Type != typeof(Bitmap))
         return;
       if (isProcessStopped)
+        return;
+      if (Container == null || Controller == null)
         return;
 
       if (TPadCore.UseFeatureTracking)
@@ -90,7 +91,7 @@ namespace UofM.HCI.tPab.Services
           location.LocationCm = new PointF((float)(locationPx.X / Container.WidthFactor), (float)(locationPx.Y / Container.HeightFactor));
 
           //TODO: get Document object from featureTracker
-          location.Document = ActualDocument;
+          location.DocumentID = Controller.ActualDocument.ID;
           location.PageIndex = featureTracker.PageIdx;
           sw.Stop();
           //Console.WriteLine(sw.Elapsed.TotalMilliseconds);
@@ -107,13 +108,12 @@ namespace UofM.HCI.tPab.Services
         location.Status = LocationStatus.Located;
         location.RotationAngle = Controller.RotationAngle;
         location.LocationCm = new PointF((float)(Controller.Location.X / Controller.WidthFactor), (float)(Controller.Location.Y / Controller.HeightFactor));
-        location.Document = Controller.ActualDocument;
+        location.DocumentID = Controller.ActualDocument.ID;
         location.PageIndex = Controller.ActualPage;
       }
 
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));
     }
-
   }
 
 }

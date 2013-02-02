@@ -13,13 +13,13 @@
   <Grid x:Name="gTPadApp">
     <Grid.Width>
       <MultiBinding Converter="{StaticResource ResourceKey=cMultiplier}">
-        <Binding ElementName="tpWindow" Path="Core.Profile.Resolution.Width"/>
+        <Binding ElementName="tpWindow" Path="Profile.Resolution.Width"/>
         <Binding ElementName="tpWindow" Path="SizeMultiplier"/>
       </MultiBinding>
     </Grid.Width>
     <Grid.Height>
       <MultiBinding Converter="{StaticResource ResourceKey=cMultiplier}">
-        <Binding ElementName="tpWindow" Path="Core.Profile.Resolution.Height"/>
+        <Binding ElementName="tpWindow" Path="Profile.Resolution.Height"/>
         <Binding ElementName="tpWindow" Path="SizeMultiplier"/>
       </MultiBinding>      
     </Grid.Height>

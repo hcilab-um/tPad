@@ -9,6 +9,6 @@ namespace UofM.HCI.tPab
 {
   public interface ITPadAppLauncher
   {
-    ITPadApp GetAppInstance(String boardPort, String cameraPort);
+    ITPadApp GetAppInstance(ITPadAppContainer container, ITPadAppController controller, String boardPort, String cameraPort);
   }
 }

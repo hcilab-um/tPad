@@ -6,6 +6,10 @@ using System.Linq;
 using System.Windows;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -17,25 +21,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private Simulator simulatorWindow = null;
 
-    private TPadDocument document = null;
+    private ActiveReaderDocument document = null;
     private TPadProfile profile = null;
     private ObservableCollection<Figure> listOfFigures = null;
 
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
-
-      //list of hardcoded figures within the paper "LensMouse: Augmenting the Mouse with an Interactive Touch Display"
-      listOfFigures = new ObservableCollection<Figure>();
-      listOfFigures.Add(new Figure(1, 0, new Int32Rect(481, 741, 368, 186), new string[] { "Fig 1", "Figure 1", "Fig. 1" })); //figure 1
-      listOfFigures.Add(new Figure(2, 2, new Int32Rect(510, 209, 306, 148), new string[] { "Fig 2", "Figure 2", "Fig. 2" })); //figure 2
-      listOfFigures.Add(new Figure(3, 3, new Int32Rect(490, 593, 354, 150), new string[] { "Fig 3", "Figure 3", "Fig. 3" })); //figure 3
-      listOfFigures.Add(new Figure(4, 4, new Int32Rect(489, 669, 337, 191), new string[] { "Fig 4", "Figure 4", "Fig. 4" })); //figure 4
-      listOfFigures.Add(new Figure(5, 5, new Int32Rect(110, 543, 299, 205), new string[] { "Fig 5", "Figure 5", "Fig. 5" })); //figure 5
-      listOfFigures.Add(new Figure(6, 5, new Int32Rect(507, 557, 317, 224), new string[] { "Fig 6", "Figure 6", "Fig. 6" })); //figure 6
-      listOfFigures.Add(new Figure(7, 7, new Int32Rect(94, 73, 696, 161), new string[] { "Fig 7", "Figure 7", "Fig. 7" })); //figure 7
-      listOfFigures.Add(new Figure(8, 7, new Int32Rect(501, 551, 331, 135), new string[] { "Fig 8", "Figure 8", "Fig. 8" })); //figure 8
-      listOfFigures.Add(new Figure(9, 8, new Int32Rect(106, 210, 320, 123), new string[] { "Fig 9", "Figure 9", "Fig. 9" })); //figure 9    
 
       //Document over which the tPad is located
       document = LoadDocument("Document/", @"Document/FXPAL-PR-10-550.pdf");
@@ -49,54 +41,83 @@ namespace UofM.HCI.tPab.App.ActiveReader
         DocumentSize = new Size(21.59, 27.94) //US Letter - 215.9 mm × 279.4 mm
       };
 
+      //list of hardcoded figures within the paper "LensMouse: Augmenting the Mouse with an Interactive Touch Display"
+      listOfFigures = new ObservableCollection<Figure>();
+      listOfFigures.Add(new Figure(1, 0, new Int32Rect(481, 741, 368, 186), new string[] { "Fig 1", "Figure 1", "Fig. 1" })); //figure 1
+      listOfFigures.Add(new Figure(2, 2, new Int32Rect(510, 209, 306, 148), new string[] { "Fig 2", "Figure 2", "Fig. 2" })); //figure 2
+      listOfFigures.Add(new Figure(3, 3, new Int32Rect(490, 593, 354, 150), new string[] { "Fig 3", "Figure 3", "Fig. 3" })); //figure 3
+      listOfFigures.Add(new Figure(4, 4, new Int32Rect(489, 669, 337, 191), new string[] { "Fig 4", "Figure 4", "Fig. 4" })); //figure 4
+      listOfFigures.Add(new Figure(5, 5, new Int32Rect(110, 543, 299, 205), new string[] { "Fig 5", "Figure 5", "Fig. 5" })); //figure 5
+      listOfFigures.Add(new Figure(6, 5, new Int32Rect(507, 557, 317, 224), new string[] { "Fig 6", "Figure 6", "Fig. 6" })); //figure 6
+      listOfFigures.Add(new Figure(7, 7, new Int32Rect(94, 73, 696, 161), new string[] { "Fig 7", "Figure 7", "Fig. 7" })); //figure 7
+      listOfFigures.Add(new Figure(8, 7, new Int32Rect(501, 551, 331, 135), new string[] { "Fig 8", "Figure 8", "Fig. 8" })); //figure 8
+      listOfFigures.Add(new Figure(9, 8, new Int32Rect(106, 210, 320, 123), new string[] { "Fig 9", "Figure 9", "Fig. 9" })); //figure 9    
+      CalculateFigurePositions();
+
       //*** Code to run on the deviceWindow ***//
       simulatorWindow = new Simulator(this, profile, document);
       simulatorWindow.Show();
-
-      //simulatorWindow.LoadTPadApp(new MockApp(core1, simulatorWindow));
-      //deviceWindow = new TPadWindow(core1, this);
-      //reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", core1, deviceWindow, ListOfFigures);
-      //deviceWindow.LoadTPadApp(reader);
-      //core1.CoreStart(deviceWindow, simulatorWindow, null, null);
-      //deviceWindow.Show();
-
-      //*** Code to run only on the simulatorWindow ***//
-      //simulatorWindow = new Simulator(this);
-      //reader = new ActiveReaderApp(@"Document/FXPAL-PR-10-550.pdf", simulatorWindow);
-      //simulatorWindow.LoadTPadApp(reader);
-      //TPadCore.Instance.CoreStart(simulatorWindow, simulatorWindow, null, null);
-      //simulatorWindow.Show();
     }
 
-    //public void StartCore(String boardPort, String cameraPort)
-    //{
-    //  core1.ConfigurePeripherals(boardPort, cameraPort);
-    //}
+    private void CalculateFigurePositions()
+    {
+      if (listOfFigures.Count == 0)
+        return;
+      if (document.HasFigureLinks)
+        return;
 
-    public TPadDocument LoadDocument(string documentFolder, string pdfFile)
+
+      double pageWidth = (profile.Resolution.Width / profile.ScreenSize.Width) * profile.DocumentSize.Width;
+      double pageHeight = (profile.Resolution.Height / profile.ScreenSize.Height) * profile.DocumentSize.Height;
+      if (pageWidth == 0 || pageHeight == 0)
+        return;
+
+      PDFContentHelper pdfHelper = new PDFContentHelper(document.FileName);
+
+      //Search for the term "figure" in document
+      foreach (Figure figure in listOfFigures)
+      {
+        List<ContentLocation> linksForFigure = pdfHelper.ContentToPixel(figure.TriggerText[1], -1, pageWidth, pageHeight);
+        foreach (ContentLocation figureLink in linksForFigure)
+        {
+          Highlight link = new Highlight();
+          link.Line = new Line() { Stroke = Brushes.Yellow, Opacity = 0.7, StrokeThickness = figureLink.ContentBounds.Height };
+          link.Line.X1 = figureLink.ContentBounds.Left;
+          link.Line.Y1 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
+          link.Line.X2 = figureLink.ContentBounds.Right;
+          link.Line.Y2 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
+          document[figureLink.PageIndex].FigureLinks.Add(link);
+        }
+      }
+    }
+
+    public ActiveReaderDocument LoadDocument(string documentFolder, string pdfFile)
     {
       if (documentFolder == null || documentFolder.Length == 0)
         throw new ArgumentException("Parameter 'documentFolders' cannot be empty");
       if (!Directory.Exists(documentFolder))
         throw new ArgumentException(String.Format("Folder '{0}' does not exist!", documentFolder[0]));
 
-      TPadDocument result = new TPadDocument() { Folder = documentFolder, FileName = pdfFile };
+      ActiveReaderDocument result = new ActiveReaderDocument() { ID = 0, Folder = documentFolder, FileName = pdfFile };
       String[] pages = Directory.GetFiles(documentFolder, "*.png");
       Array.Sort<String>(pages);
       result.Pages = new TPadPage[pages.Length];
       for (int index = 0; index < pages.Length; index++)
-        result.Pages[index] = new TPadPage() { PageIndex = index, FileName = pages[index] };
+        result.Pages[index] = new ActiveReaderPage() { PageIndex = index, FileName = pages[index] };
 
       return result;
     }
 
-    public ITPadApp GetAppInstance(String boardPort, String cameraPort)
+    public ITPadApp GetAppInstance(ITPadAppContainer container, ITPadAppController controller, String boardPort, String cameraPort)
     {
       TPadCore core = new TPadCore();
+      core.BoardCOM = boardPort;
+      core.CameraCOM = cameraPort;
       core.Configure(profile);
-      core.ConfigurePeripherals(boardPort, cameraPort);
+      core.CoreStart(container, controller);
 
-      ActiveReaderApp appInstance = new ActiveReaderApp(document.FileName, core, simulatorWindow, listOfFigures);
+      ActiveReaderApp appInstance = new ActiveReaderApp(core, container, controller, listOfFigures);
+      appInstance.DbDocuments.Add(document.ID, document.Clone() as ActiveReaderDocument);
 
       return appInstance;
     }

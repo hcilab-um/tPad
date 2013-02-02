@@ -29,6 +29,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
   /// </summary>
   public partial class ActiveReaderApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
+
+    public ObservableCollection<Figure> FigurePositions { get; set; }
+    public Dictionary<int, ActiveReaderDocument> DbDocuments { get; set; }
+
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
@@ -49,8 +53,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private TPadDocument actualDocument = null;
-    public TPadDocument ActualDocument
+    private ActiveReaderDocument actualDocument = null;
+    public ActiveReaderDocument ActualDocument
     {
       get { return actualDocument; }
       set
@@ -98,13 +102,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    public TPadPage ActualPageObject
+    public ActiveReaderPage ActualPageObject
     {
       get
       {
         if (ActualDocument == null || ActualPage == -1 || ActualDocument.Pages == null || ActualDocument.Pages.Length <= ActualPage)
           return null;
-        return ActualDocument.Pages[ActualPage];
+        return ActualDocument[ActualPage];
       }
     }
 
@@ -119,20 +123,21 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    public ActiveReaderApp(String documentPDF, TPadCore core, ITPadAppContainer container, ObservableCollection<Figure> figures)
+    public ActiveReaderApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, ObservableCollection<Figure> figures)
     {
       Core = core;
-
-      WidthScalingFactor = 1;
-      HeightScalingFactor = 1;
 
       ActualPage = -1;
       ActualDocument = null;
 
       Container = container;
-      PdfHelper = new PDFContentHelper(documentPDF);
+      Controller = controller;
 
       FigurePositions = figures;
+      DbDocuments = new Dictionary<int, ActiveReaderDocument>();
+
+      WidthScalingFactor = 1;
+      HeightScalingFactor = 1;
 
       PropertyChanged += new PropertyChangedEventHandler(ActiveReaderApp_PropertyChanged);
       InitializeComponent();
@@ -201,7 +206,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (ActualDocument == null)
       {
         //First time it comes to this document and first document
-        if (e.NewLocation.Document != null)
+        if (e.NewLocation.DocumentID != -1)
           LoadDocument(e.NewLocation);
         else
           throw new Exception("Document cannot be null");
@@ -209,7 +214,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       else
       {
         //Change of document
-        if (ActualDocument != e.NewLocation.Document)
+        if (ActualDocument.ID != e.NewLocation.DocumentID)
         {
           //1- Saves current layers to disk
           SaveLayersToDisk(ActualDocument);
@@ -248,11 +253,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void LoadDocument(TPadLocation newLocation)
     {
       //1- Loads the layers should they exist in disk
-      ActualDocument = newLocation.Document;
+      ActualDocument = DbDocuments[newLocation.DocumentID];
+      PdfHelper = new PDFContentHelper(ActualDocument.FileName);
       LoadLayersFromDisk(ActualDocument);
-
-      //2- HACK: Finds the links to figures
-      CalculateFigurePositions();
 
       //3- Load layers for current page
       ActualPage = newLocation.PageIndex;
@@ -261,55 +264,34 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void SaveLayersToDisk(TPadDocument document)
     {
+      return;
+
       XmlSerializer serializer = new XmlSerializer(typeof(TPadDocument));
       TextWriter textWriter = new StreamWriter(document.Folder + "cache.xml");
       serializer.Serialize(textWriter, document);
       textWriter.Close();
     }
 
-    private void LoadLayersFromDisk(TPadDocument document)
+    private void LoadLayersFromDisk(ActiveReaderDocument document)
     {
+      return;
+
       XmlSerializer deserializer = new XmlSerializer(typeof(TPadDocument));
       TextReader textReader = new StreamReader(document.Folder + "cache.xml");
-      TPadDocument newDoc = (TPadDocument)deserializer.Deserialize(textReader);
+      ActiveReaderDocument newDoc = (ActiveReaderDocument)deserializer.Deserialize(textReader);
       textReader.Close();
 
       for (int index = 0; index < document.Pages.Length; index++)
       {
-        document.Pages[index].Annotations = newDoc.Pages[index].Annotations;
-        document.Pages[index].Highlights = newDoc.Pages[index].Highlights;
-        document.Pages[index].Scribblings = newDoc.Pages[index].Scribblings;
-        document.Pages[index].SearchResults = newDoc.Pages[index].SearchResults;
-        document.Pages[index].FigureLinks = newDoc.Pages[index].FigureLinks;
+        document[index].Annotations = newDoc[index].Annotations;
+        document[index].Highlights = newDoc[index].Highlights;
+        document[index].Scribblings = newDoc[index].Scribblings;
+        document[index].SearchResults = newDoc[index].SearchResults;
+        document[index].FigureLinks = newDoc[index].FigureLinks;
       }
     }
 
-    public ObservableCollection<Figure> FigurePositions { get; set; }
-    private void CalculateFigurePositions()
-    {
-      if (FigurePositions.Count == 0)
-        return;
-      if (ActualDocument.HasFigureLinks)
-        return;
-
-      //Search for the term "figure" in document
-      foreach (Figure figure in FigurePositions)
-      {
-        List<ContentLocation> linksForFigure = PdfHelper.ContentToPixel(figure.TriggerText[1], -1, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
-        foreach (ContentLocation figureLink in linksForFigure)
-        {
-          Highlight link = new Highlight();
-          link.Line = new Line() { Stroke = Brushes.Yellow, Opacity = 0.7, StrokeThickness = figureLink.ContentBounds.Height };
-          link.Line.X1 = figureLink.ContentBounds.Left;
-          link.Line.Y1 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
-          link.Line.X2 = figureLink.ContentBounds.Right;
-          link.Line.Y2 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
-          ActualDocument.Pages[figureLink.PageIndex].FigureLinks.Add(link);
-        }
-      }
-    }
-
-    private void LoadLayersToPage(TPadDocument document, int pageIndex)
+    private void LoadLayersToPage(ActiveReaderDocument document, int pageIndex)
     {
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
@@ -338,7 +320,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           cSearchResults.Children.Clear();
 
           //Loads other highlights for this page
-          foreach (Highlight element in document.Pages[pageIndex].Highlights)
+          foreach (Highlight element in document[pageIndex].Highlights)
           {
             Highlight highlight = (Highlight)element;
             highlight.Line.MouseDown += cHighlights_MouseDown;
@@ -348,7 +330,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           }
 
           //Loads search results for this page
-          foreach (Highlight element in document.Pages[pageIndex].SearchResults)
+          foreach (Highlight element in document[pageIndex].SearchResults)
           {
             Highlight searchHighlight = (Highlight)element;
             searchHighlight.Line.MouseDown += cHighlights_MouseDown;
@@ -358,7 +340,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           }
 
           //Loads figure links for this page
-          foreach (Highlight element in document.Pages[pageIndex].FigureLinks)
+          foreach (Highlight element in document[pageIndex].FigureLinks)
           {
             Highlight linkHighlight = (Highlight)element;
             linkHighlight.Line.MouseDown += cHighlights_MouseDown;
@@ -368,19 +350,19 @@ namespace UofM.HCI.tPab.App.ActiveReader
           }
 
           //Loads notes for this page
-          foreach (Note element in document.Pages[pageIndex].Annotations)
+          foreach (Note element in document[pageIndex].Annotations)
           {
             Note note = (Note)element;
-            cHighlights.Children.Add(note.annotation);
-            cHighlights.Children.Add(note.icon);
+            cHighlights.Children.Add(note.Annotation);
+            cHighlights.Children.Add(note.Icon);
           }
 
           //Loads scribbles for this page
-          foreach (Scribble element in document.Pages[pageIndex].Scribblings)
+          foreach (Scribble element in document[pageIndex].Scribblings)
           {
             Scribble note = (Scribble)element;
-            cHighlights.Children.Add(note.scribbling);
-            cHighlights.Children.Add(note.icon);
+            cHighlights.Children.Add(note.Scribbling);
+            cHighlights.Children.Add(note.Icon);
           }
         });
     }
@@ -397,10 +379,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void ClearSearch()
     {
-      foreach (TPadPage documentPage in ActualDocument.Pages)
-      {
+      foreach (ActiveReaderPage documentPage in ActualDocument.Pages)
         documentPage.SearchResults.Clear();
-      }
       cSearchResults.Children.Clear();
     }
 
@@ -420,7 +400,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         resultHL.Line.Y2 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
         if (content.PageIndex == ActualPage)
           cSearchResults.Children.Add(resultHL.Line);
-        ActualDocument.Pages[content.PageIndex].SearchResults.Add(resultHL);
+        (ActualDocument.Pages[content.PageIndex] as ActiveReaderPage).SearchResults.Add(resultHL);
       }
     }
 
@@ -452,21 +432,21 @@ namespace UofM.HCI.tPab.App.ActiveReader
         tpKeyboard.Visibility = Visibility.Hidden;
 
         isSomething2Hide = false;
-        foreach (Note element in ActualDocument.Pages[ActualPage].Annotations)
+        foreach (Note element in ActualDocument[ActualPage].Annotations)
         {
-          if (element.annotation.Visibility == Visibility.Visible)
+          if (element.Annotation.Visibility == Visibility.Visible)
           {
             isSomething2Hide = true;
-            element.annotation.Visibility = Visibility.Hidden;
+            element.Annotation.Visibility = Visibility.Hidden;
           }
         }
 
-        foreach (Scribble element in ActualDocument.Pages[ActualPage].Scribblings)
+        foreach (Scribble element in ActualDocument[ActualPage].Scribblings)
         {
-          if (element.scribbling.Visibility == Visibility.Visible)
+          if (element.Scribbling.Visibility == Visibility.Visible)
           {
             isSomething2Hide = true;
-            element.scribbling.Visibility = Visibility.Hidden;
+            element.Scribbling.Visibility = Visibility.Hidden;
           }
         }
 
@@ -510,7 +490,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       Vector lineVector = new Vector(newHighlight.Line.X2 - newHighlight.Line.X1, newHighlight.Line.Y2 - newHighlight.Line.Y1);
       if (lineVector.Length > minlength_Highlight)
-        ActualDocument.Pages[ActualPage].Highlights.Add(newHighlight);
+        ActualDocument[ActualPage].Highlights.Add(newHighlight);
       else //It was just a click to bring up the contextual menu
       {
         cHighlights.Children.Remove(newHighlight.Line);
@@ -587,7 +567,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void CMDelete_Click(object sender, RoutedEventArgs e)
     {
       cHighlights.Children.Remove(currentHighlight.Line);
-      ActualDocument.Pages[ActualPage].Highlights.Remove(currentHighlight);
+      ActualDocument[ActualPage].Highlights.Remove(currentHighlight);
     }
 
     private void CMSearch_Click(object sender, RoutedEventArgs e)
@@ -604,7 +584,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       tpKeyboard.ResultClear();
 
       Note newNote = new Note();
-      newNote.annotation = new TextBox
+      newNote.Annotation = new TextBox
       {
         BorderBrush = Brushes.Goldenrod,
         Background = Brushes.LemonChiffon,
@@ -617,20 +597,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
       //RotateTransform rotation = new RotateTransform(Device.Location.RotationAngle, newNote.annotation.Width * 0.5, newNote.annotation.Height * 0.5);
       //newNote.annotation.RenderTransform = rotation;
 
-      newNote.annotation.Margin = new Thickness(lastPosition.X, lastPosition.Y + 10, 0, 0);
-      newNote.annotation.PreviewMouseDown += Note_PreviewMouseDown;
-      newNote.annotation.PreviewMouseUp += Note_PreviewMouseUp;
-      newNote.annotation.PreviewMouseMove += Note_PreviewMouseMove;
+      newNote.Annotation.Margin = new Thickness(lastPosition.X, lastPosition.Y + 10, 0, 0);
+      newNote.Annotation.PreviewMouseDown += Note_PreviewMouseDown;
+      newNote.Annotation.PreviewMouseUp += Note_PreviewMouseUp;
+      newNote.Annotation.PreviewMouseMove += Note_PreviewMouseMove;
 
-      newNote.icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
+      newNote.Icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
       string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
-      newNote.icon.Source = new BitmapImage(new Uri(strUri2));
-      newNote.icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newNote.icon.Height, 0, 0);
-      newNote.icon.MouseDown += Icon_MouseDown;
+      newNote.Icon.Source = new BitmapImage(new Uri(strUri2));
+      newNote.Icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newNote.Icon.Height, 0, 0);
+      newNote.Icon.MouseDown += Icon_MouseDown;
 
-      cHighlights.Children.Add(newNote.annotation);
-      cHighlights.Children.Add(newNote.icon);
-      ActualDocument.Pages[ActualPage].Annotations.Add(newNote);
+      cHighlights.Children.Add(newNote.Annotation);
+      cHighlights.Children.Add(newNote.Icon);
+      ActualDocument[ActualPage].Annotations.Add(newNote);
 
       //Update current note
       ActualNote = newNote;
@@ -639,60 +619,60 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void CMScribble_Click(object sender, RoutedEventArgs e)
     {
       Scribble newScribble = new Scribble();
-      newScribble.scribbling = new InkCanvas()
+      newScribble.Scribbling = new InkCanvas()
       {
         Background = Brushes.Beige,
         Width = (int)iDocument.Width / 7,
         Height = (int)iDocument.Width / 7,
       };
 
-      newScribble.scribbling.Margin = new Thickness(lastPosition.X, lastPosition.Y + 10, 0, 0);
+      newScribble.Scribbling.Margin = new Thickness(lastPosition.X, lastPosition.Y + 10, 0, 0);
 
-      newScribble.icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
+      newScribble.Icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
       string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
-      newScribble.icon.Source = new BitmapImage(new Uri(strUri2));
-      newScribble.icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newScribble.icon.Height, 0, 0);
-      newScribble.icon.MouseDown += ScribbleIcon_MouseDown;
+      newScribble.Icon.Source = new BitmapImage(new Uri(strUri2));
+      newScribble.Icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newScribble.Icon.Height, 0, 0);
+      newScribble.Icon.MouseDown += ScribbleIcon_MouseDown;
 
-      cHighlights.Children.Add(newScribble.scribbling);
-      cHighlights.Children.Add(newScribble.icon);
-      ActualDocument.Pages[ActualPage].Scribblings.Add(newScribble);
+      cHighlights.Children.Add(newScribble.Scribbling);
+      cHighlights.Children.Add(newScribble.Icon);
+      ActualDocument[ActualPage].Scribblings.Add(newScribble);
     }
 
 
     private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
     {
       tpKeyboard.Visibility = Visibility.Hidden;
-      foreach (Note element in ActualDocument.Pages[ActualPage].Annotations)
+      foreach (Note element in ActualDocument[ActualPage].Annotations)
       {
-        if (element.icon == (Image)sender)
+        if (element.Icon == (Image)sender)
           ActualNote = element;
       }
 
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
-        if (ActualNote.annotation.Visibility == Visibility.Hidden)
-          ActualNote.annotation.Visibility = Visibility.Visible;
+        if (ActualNote.Annotation.Visibility == Visibility.Hidden)
+          ActualNote.Annotation.Visibility = Visibility.Visible;
         else
-          ActualNote.annotation.Visibility = Visibility.Hidden;
+          ActualNote.Annotation.Visibility = Visibility.Hidden;
       }
     }
 
     private Scribble ActualScribble;
     private void ScribbleIcon_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      foreach (Scribble element in ActualDocument.Pages[ActualPage].Scribblings)
+      foreach (Scribble element in ActualDocument[ActualPage].Scribblings)
       {
-        if (element.icon == (Image)sender)
+        if (element.Icon == (Image)sender)
           ActualScribble = element;
       }
 
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
-        if (ActualScribble.scribbling.Visibility == Visibility.Hidden)
-          ActualScribble.scribbling.Visibility = Visibility.Visible;
+        if (ActualScribble.Scribbling.Visibility == Visibility.Hidden)
+          ActualScribble.Scribbling.Visibility = Visibility.Visible;
         else
-          ActualScribble.scribbling.Visibility = Visibility.Hidden;
+          ActualScribble.Scribbling.Visibility = Visibility.Hidden;
       }
     }
 
@@ -703,29 +683,29 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
-        ActualNote.annotation = (TextBox)sender;
+        ActualNote.Annotation = (TextBox)sender;
 
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
         tpKeyboard.Visibility = Visibility.Visible;
         tpKeyboard.ResultClear();
-        tpKeyboard.CurrentText.Append(ActualNote.annotation.Text);
+        tpKeyboard.CurrentText.Append(ActualNote.Annotation.Text);
 
         //check if there is a click on bottom right corner of note
-        if (lastPosition.X <= (ActualNote.annotation.Margin.Left + ActualNote.annotation.Width) &&
-          lastPosition.X >= (ActualNote.annotation.Margin.Left + ActualNote.annotation.Width - 20) &&
-          lastPosition.Y <= (ActualNote.annotation.Margin.Top + ActualNote.annotation.Height) &&
-          lastPosition.Y >= (ActualNote.annotation.Margin.Top + ActualNote.annotation.Height - 20))
+        if (lastPosition.X <= (ActualNote.Annotation.Margin.Left + ActualNote.Annotation.Width) &&
+          lastPosition.X >= (ActualNote.Annotation.Margin.Left + ActualNote.Annotation.Width - 20) &&
+          lastPosition.Y <= (ActualNote.Annotation.Margin.Top + ActualNote.Annotation.Height) &&
+          lastPosition.Y >= (ActualNote.Annotation.Margin.Top + ActualNote.Annotation.Height - 20))
           isAnnotationResized = true;
-        else if (lastPosition.X <= (ActualNote.annotation.Margin.Left + ActualNote.annotation.Width) &&
-          lastPosition.X >= (ActualNote.annotation.Margin.Left + ActualNote.annotation.Width - 20) &&
-          lastPosition.Y <= (ActualNote.annotation.Margin.Top + 20) &&
-          lastPosition.Y >= ActualNote.annotation.Margin.Top)
+        else if (lastPosition.X <= (ActualNote.Annotation.Margin.Left + ActualNote.Annotation.Width) &&
+          lastPosition.X >= (ActualNote.Annotation.Margin.Left + ActualNote.Annotation.Width - 20) &&
+          lastPosition.Y <= (ActualNote.Annotation.Margin.Top + 20) &&
+          lastPosition.Y >= ActualNote.Annotation.Margin.Top)
         {
-          cHighlights.Children.Remove(ActualNote.annotation);
-          cHighlights.Children.Remove(ActualNote.icon);
-          ActualDocument.Pages[ActualPage].Annotations.Remove(ActualNote);
-          ActualNote.annotation = null;
-          ActualNote.icon = null;
+          cHighlights.Children.Remove(ActualNote.Annotation);
+          cHighlights.Children.Remove(ActualNote.Icon);
+          ActualDocument[ActualPage].Annotations.Remove(ActualNote);
+          ActualNote.Annotation = null;
+          ActualNote.Icon = null;
           tpKeyboard.Visibility = Visibility.Hidden;
         }
         else
@@ -744,15 +724,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (lineVector.Length > 3)
       {
         if (isAnnotationMoved)
-          ActualNote.annotation.Margin = new Thickness(currentPosition.X, currentPosition.Y, 0, 0);
+          ActualNote.Annotation.Margin = new Thickness(currentPosition.X, currentPosition.Y, 0, 0);
         else
         {
-          Point noteSize = new Point(currentPosition.X - ActualNote.annotation.Margin.Left,
-            currentPosition.Y - ActualNote.annotation.Margin.Top);
+          Point noteSize = new Point(currentPosition.X - ActualNote.Annotation.Margin.Left,
+            currentPosition.Y - ActualNote.Annotation.Margin.Top);
           if (noteSize.X >= defaultNoteSize.Width)
-            ActualNote.annotation.Width = noteSize.X;
+            ActualNote.Annotation.Width = noteSize.X;
           if (noteSize.Y >= defaultNoteSize.Height)
-            ActualNote.annotation.Height = noteSize.Y;
+            ActualNote.Annotation.Height = noteSize.Y;
         }
         tpKeyboard.Visibility = Visibility.Hidden;
       }
@@ -797,14 +777,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
         tpKeyboard.Visibility = Visibility.Hidden;
         Search(tpKeyboard.CurrentTextLine.ToString(), -1);
       }
-      else if (bHighlight.IsChecked.Value && ActualNote.annotation != null)
-        ActualNote.annotation.Text = tpKeyboard.CurrentText.ToString();
+      else if (bHighlight.IsChecked.Value && ActualNote.Annotation != null)
+        ActualNote.Annotation.Text = tpKeyboard.CurrentText.ToString();
     }
 
     public void tpKeyboard_AlphaNumericKeyPressed(System.Object sender, EventArgs args)
     {
-      if (bHighlight.IsChecked.Value && ActualNote.annotation != null && !bSearch.IsChecked.Value)
-        ActualNote.annotation.Text = tpKeyboard.CurrentText.ToString();
+      if (bHighlight.IsChecked.Value && ActualNote.Annotation != null && !bSearch.IsChecked.Value)
+        ActualNote.Annotation.Text = tpKeyboard.CurrentText.ToString();
     }
   }
 }

@@ -19,10 +19,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
   public partial class OffScreenVisualization : UserControl, INotifyPropertyChanged
   {
 
-    public static readonly DependencyProperty ActualMarkerProperty = DependencyProperty.Register("ActualMarker", typeof(ObservableCollection<ITPadMarker>), typeof(OffScreenVisualization));
-    public ObservableCollection<ITPadMarker> ActualMarker
+    public static readonly DependencyProperty ActualMarkerProperty = DependencyProperty.Register("ActualMarker", typeof(ObservableCollection<IActiveReaderMarker>), typeof(OffScreenVisualization));
+    public ObservableCollection<IActiveReaderMarker> ActualMarker
     {
-      get { return (ObservableCollection<ITPadMarker>)GetValue(ActualMarkerProperty); }
+      get { return (ObservableCollection<IActiveReaderMarker>)GetValue(ActualMarkerProperty); }
       set { SetValue(ActualMarkerProperty, value); }
     }
 

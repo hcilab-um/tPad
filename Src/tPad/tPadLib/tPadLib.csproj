@@ -56,9 +56,6 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ContextAwarenessFramework">
-      <HintPath>..\Lib\ContextAwarenessFramework.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <HintPath>..\Lib\log4net.dll</HintPath>
     </Reference>
@@ -79,6 +76,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TPadPage.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
     <Compile Include="Converters\ConditionalTypeConverter.cs" />
     <Compile Include="Converters\LayerRotationCenterConverter.cs" />
@@ -109,7 +107,6 @@
     <Compile Include="TPadDevice.cs" />
     <Compile Include="TPadDocument.cs" />
     <Compile Include="TPadLocation.cs" />
-    <Compile Include="ITPadMarker.cs" />
     <Compile Include="TPadProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -177,6 +174,10 @@
     <ProjectReference Include="..\..\Registration\managedTest\managedTest.vcxproj">
       <Project>{5C197F32-C069-4AB3-A6AF-1FF3FF27668B}</Project>
       <Name>managedReg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ContextAwarenessFramework\ContextAwarenessFramework.csproj">
+      <Project>{8EAA1C78-0574-4F6F-A996-75277BE82665}</Project>
+      <Name>ContextAwarenessFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

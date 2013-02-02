@@ -224,9 +224,7 @@ namespace UofM.HCI.tPab
     {
       try
       {
-        ITPadApp instance = Launcher.GetAppInstance(null, null);
-
-        SimulatorDevice simDevice = new SimulatorDevice();
+        SimulatorDevice simDevice = new SimulatorDevice(this);
         simDevice.VerticalAlignment = System.Windows.VerticalAlignment.Top;
         simDevice.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
         BindingOperations.SetBinding(simDevice, SimulatorDevice.InitialXProperty, new Binding("StartPageX") { Source = this });
@@ -236,13 +234,18 @@ namespace UofM.HCI.tPab
         BindingOperations.SetBinding(simDevice, SimulatorDevice.AppHeightProperty, new Binding("AppHeight") { Source = this });
         BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameWidthProperty, new Binding("FrameWidth") { Source = this });
         BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameHeightProperty, new Binding("FrameHeight") { Source = this });
-        simDevice.LoadTPadApp(new MockApp(instance.Core, simDevice, simDevice));
+        simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice));
         gTop.Children.Add(simDevice);
 
-        //TPadWindow deviceWindow = new TPadWindow(instance.Core, Launcher);
-        //deviceWindow.Closed += new EventHandler(deviceWindow_Closed);
-        //instance.Container = deviceWindow;
-        //instance.Controller = simDevice;
+        TPadWindow deviceWindow = new TPadWindow(Profile, Launcher);
+        deviceWindow.Closed += new EventHandler(deviceWindow_Closed);
+        deviceWindow.InstanceNumber = appInstances.Count;
+
+        ITPadApp instance = Launcher.GetAppInstance(deviceWindow, simDevice, null, null);
+        deviceWindow.LoadTPadApp(instance);
+        deviceWindow.Show();
+
+        appInstances.Add(instance);
       }
       catch (Exception exception)
       {
@@ -296,6 +299,8 @@ namespace UofM.HCI.tPab
     void deviceWindow_Closed(object sender, EventArgs e)
     {
       ITPadApp instanceClosed = appInstances.FirstOrDefault(tmp => tmp.Container == sender);
+      appInstances.Remove(instanceClosed);
+      gTop.Children.Remove(instanceClosed.Controller as UserControl);
     }
 
     public void GetCoordinatesForScreenCapture(out int zeroX, out int zeroY)

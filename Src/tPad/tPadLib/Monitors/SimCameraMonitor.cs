@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CAF.ContextAdapter;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -10,6 +9,7 @@ using System.IO;
 using System.Drawing;
 using UofM.HCI.tPab.Util;
 using System.Drawing.Imaging;
+using Ubicomp.Utils.NET.CAF.ContextAdapter;
 
 namespace UofM.HCI.tPab.Monitors
 {
@@ -27,7 +27,7 @@ namespace UofM.HCI.tPab.Monitors
 
     protected override void CustomRun()
     {
-      if (Pause)
+      if (Pause || CameraSource == null)
         return;
 
       float angle = 0;
@@ -37,7 +37,7 @@ namespace UofM.HCI.tPab.Monitors
 
       //EUREKA!!!
       Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as SimulatorDevice).TPadAppBounds);
-      NotifyContextServices(this, new CAF.ContextAdapter.NotifyContextMonitorListenersEventArgs(typeof(Bitmap), rotatedView));
+      NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(Bitmap), rotatedView));
 
       //using (FileStream storage = CreateFileStream(angle))
       //  rotatedView.Save(storage, ImageFormat.Bmp);

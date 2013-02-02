@@ -82,20 +82,19 @@ namespace UofM.HCI.tPab
       }
     }
 
-    private Window parentWindow { get; set; }
+    private Simulator sWindow { get; set; }
     private ITPadApp TPadApp { get; set; }
     public Rect TPadAppBounds { get; set; }
     private Size BorderDiff { get; set; }
 
-    public SimulatorDevice()
+    public SimulatorDevice(Simulator simulator)
     {
+      sWindow = simulator;
       InitializeComponent();
     }
 
     private void sDevice_Loaded(object sender, RoutedEventArgs e)
     {
-      parentWindow = Window.GetWindow(this);
-
       if (TPadAppBounds == Rect.Empty)
         TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp as UserControl);
       Rect ttPadBounds = (TPadApp as UserControl).TransformToAncestor(this).TransformBounds(TPadAppBounds);
@@ -139,7 +138,7 @@ namespace UofM.HCI.tPab
     private MemoryStream SafeGetDeviceView()
     {
       int zeroX = 0, zeroY = 0;
-      (Parent as Simulator).GetCoordinatesForScreenCapture(out zeroX, out zeroY);
+      sWindow.GetCoordinatesForScreenCapture(out zeroX, out zeroY);
 
       if (TPadAppBounds == Rect.Empty)
         TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp as UserControl);
@@ -168,12 +167,12 @@ namespace UofM.HCI.tPab
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
         isTraslating = true;
-        lastPosition = Mouse.GetPosition(parentWindow);
+        lastPosition = Mouse.GetPosition(sWindow);
       }
       else if (e.LeftButton == MouseButtonState.Released && e.RightButton == MouseButtonState.Pressed)
       {
         isRotating = true;
-        lastPosition = Mouse.GetPosition(parentWindow);
+        lastPosition = Mouse.GetPosition(sWindow);
       }
     }
 
@@ -182,7 +181,7 @@ namespace UofM.HCI.tPab
       if (isTraslating)
       {
         //Gets the new position and checks whether there has been any movement since last time
-        Point newPosition = Mouse.GetPosition(parentWindow);
+        Point newPosition = Mouse.GetPosition(sWindow);
         if (newPosition == lastPosition)
           return;
 
@@ -206,7 +205,7 @@ namespace UofM.HCI.tPab
       else if (isRotating)
       {
         //Gets the new position and checks whether there has been any movement since last time
-        Point newPosition = Mouse.GetPosition(parentWindow);
+        Point newPosition = Mouse.GetPosition(sWindow);
         if (newPosition == lastPosition)
           return;
 
@@ -238,27 +237,27 @@ namespace UofM.HCI.tPab
 
     public int ActualPage
     {
-      get { throw new NotImplementedException(); }
+      get { return sWindow.ActualPage; }
     }
 
     public TPadDocument ActualDocument
     {
-      get { throw new NotImplementedException(); }
+      get { return sWindow.ActualDocument; }
     }
 
     public float WidthFactor
     {
-      get { throw new NotImplementedException(); }
+      get { return sWindow.WidthFactor; }
     }
 
     public float HeightFactor
     {
-      get { throw new NotImplementedException(); }
+      get { return sWindow.HeightFactor; }
     }
 
     public float SimCaptureToSourceImageRatio
     {
-      get { throw new NotImplementedException(); }
+      get { return sWindow.SimCaptureToSourceImageRatio; }
     }
 
     #endregion

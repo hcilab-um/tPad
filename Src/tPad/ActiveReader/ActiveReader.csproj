@@ -57,10 +57,6 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ContextAwarenessFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\ContextAwarenessFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -90,6 +86,8 @@
     <Compile Include="ActiveReaderApp.xaml.cs">
       <DependentUpon>ActiveReaderApp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ActiveReaderDocument.cs" />
+    <Compile Include="ActiveReaderPage.cs" />
     <Compile Include="Figures.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -118,6 +116,7 @@
     <Compile Include="FigureViewer.xaml.cs">
       <DependentUpon>FigureViewer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IActiveReaderMarker.cs" />
     <Compile Include="OffScreenVisualization.xaml.cs">
       <DependentUpon>OffScreenVisualization.xaml</DependentUpon>
     </Compile>
@@ -147,6 +146,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ContextAwarenessFramework\ContextAwarenessFramework.csproj">
+      <Project>{8EAA1C78-0574-4F6F-A996-75277BE82665}</Project>
+      <Name>ContextAwarenessFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\tPadLib\tPadLib.csproj">
       <Project>{947CBE92-467E-4E57-8877-CE5AF530D5D7}</Project>
       <Name>tPadLib</Name>

@@ -21,16 +21,18 @@ namespace UofM.HCI.tPab
   public partial class MockApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
 
-    public TPadCore Core { get; set; }
+    public TPadCore Core { get; set; } // <-- this is never set or used at all!
+
+    public TPadProfile Profile { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
     public double WidthScalingFactor { get; set; }
     public double HeightScalingFactor { get; set; }
 
-    public MockApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
+    public MockApp(TPadProfile profile, ITPadAppContainer container, ITPadAppController controller)
     {
-      Core = core;
+      Profile = profile;
       Container = container;
       Controller = controller;
 
@@ -42,8 +44,8 @@ namespace UofM.HCI.tPab
 
     private void mockApp_Loaded(object sender, RoutedEventArgs e)
     {
-      WidthScalingFactor = ActualWidth / Core.Profile.Resolution.Width;
-      HeightScalingFactor = ActualHeight / Core.Profile.Resolution.Height;
+      WidthScalingFactor = ActualWidth / Profile.Resolution.Width;
+      HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
       OnPropertyChanged("WidthScalingFactor");
       OnPropertyChanged("HeightScalingFactor");
     }

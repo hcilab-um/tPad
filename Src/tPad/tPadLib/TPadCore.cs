@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CAF.ContextAdapter;
 using UofM.HCI.tPab.Monitors;
-using CAF.ContextService;
 using System.Windows;
 using UofM.HCI.tPab.Services;
 using System.ComponentModel;
+using Ubicomp.Utils.NET.CAF.ContextService;
+using Ubicomp.Utils.NET.CAF.ContextAdapter;
 
 namespace UofM.HCI.tPab
 {
@@ -29,8 +29,17 @@ namespace UofM.HCI.tPab
     private CameraMonitor Camera { get; set; }
     private SimCameraMonitor SimCamera { get; set; }
 
+    public String BoardCOM { get; set; }
+    public String CameraCOM { get; set; }
+
+    private ContextMonitorContainer monitorsContainer = null;
+    private ContextServiceContainer servicesContainer = null;
+
     public TPadCore()
     {
+      monitorsContainer = new ContextMonitorContainer();
+      servicesContainer = new ContextServiceContainer();
+
       Registration = new RegistrationService();
     }
 
@@ -63,21 +72,21 @@ namespace UofM.HCI.tPab
       Registration.OnNotifyContextServiceListeners += this.ContextChanged;
 
       //Register the monitors to the container
-      ContextMonitorContainer.AddMonitor(Board);
-      ContextMonitorContainer.AddMonitor(Camera);
-      ContextMonitorContainer.AddMonitor(SimBoard);
-      ContextMonitorContainer.AddMonitor(SimCamera);
-      ContextMonitorContainer.AddMonitor(flippingMonitor);
-      ContextMonitorContainer.AddMonitor(stackingMonitor);
+      monitorsContainer.AddMonitor(Board);
+      monitorsContainer.AddMonitor(Camera);
+      monitorsContainer.AddMonitor(SimBoard);
+      monitorsContainer.AddMonitor(SimCamera);
+      monitorsContainer.AddMonitor(flippingMonitor);
+      monitorsContainer.AddMonitor(stackingMonitor);
 
       //Register the services to the container
-      ContextServiceContainer.AddContextService(this);
-      ContextServiceContainer.AddContextService(Registration);
+      servicesContainer.AddContextService(this);
+      servicesContainer.AddContextService(Registration);
     }
 
-    public void CoreStart(ITPadAppContainer appContainer, ITPadAppController appController, String boardPort, String cameraPort)
+    public void CoreStart(ITPadAppContainer appContainer, ITPadAppController appController)
     {
-      ConfigurePeripherals(boardPort, cameraPort);
+      ConfigurePeripherals();
 
       //By default the system works with the simulated sources (camera, board)
       SimCamera.CameraSource = appController;
@@ -85,12 +94,12 @@ namespace UofM.HCI.tPab
       Registration.Controller = appController;
 
       logger.Info("Starting Up Services and Monitors");
-      ContextServiceContainer.StartServices();
-      ContextMonitorContainer.StartMonitors();
+      servicesContainer.StartServices();
+      monitorsContainer.StartMonitors();
       logger.Info("Monitors Started");
     }
 
-    public void ConfigurePeripherals(String boardPort, String cameraPort)
+    private void ConfigurePeripherals()
     {
       //Stops everything
       Board.COMPort = null;
@@ -99,8 +108,8 @@ namespace UofM.HCI.tPab
       SimCamera.Pause = true;
 
       //Sets the COM port for the board and camera monitors
-      Board.COMPort = boardPort;
-      Camera.COMPort = cameraPort;
+      Board.COMPort = BoardCOM;
+      Camera.COMPort = CameraCOM;
 
       if (!Board.TryPort())
         throw new ArgumentException(String.Format("Board COM port {0} could not be opened", Board.COMPort));
