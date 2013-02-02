@@ -17,7 +17,7 @@ namespace UofM.HCI.tPab
 
   public class Note : ITPadMarker
   {
-    public TextBox annotation { get; set; }
+    public StickyNote annotation { get; set; }
     public Image icon { get; set; }
 
     public double X
@@ -85,7 +85,7 @@ namespace UofM.HCI.tPab
     public ObservableCollection<ITPadMarker> Annotations { get; set; }
     public ObservableCollection<ITPadMarker> SearchResults { get; set; }
     public ObservableCollection<ITPadMarker> Scribblings { get; set; }
-
+    
     public TPadPage(String fileName = null)
     {
       FileName = fileName;

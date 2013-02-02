@@ -89,7 +89,7 @@
                    Width="{Binding ElementName=cHighlights, Path=ActualWidth}" Height="{Binding ElementName=cHighlights, Path=ActualHeight}"
                    MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
       </Canvas>
-
+      
       <!-- This layer is for the search results -->
       <Canvas x:Name="cSearchResults" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
