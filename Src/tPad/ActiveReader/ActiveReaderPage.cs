@@ -71,7 +71,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
   public class Note : IActiveReaderMarker
   {
-    public TextBox Annotation { get; set; }
+    public StickyNote Annotation { get; set; }
     public Image Icon { get; set; }
 
     public double X
@@ -96,7 +96,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       string annotationXaml = XamlWriter.Save(Annotation);
       StringReader stringReader = new StringReader(annotationXaml);
       XmlReader xmlReader = XmlReader.Create(stringReader);
-      clone.Annotation = (TextBox)XamlReader.Load(xmlReader);
+      clone.Annotation = (StickyNote)XamlReader.Load(xmlReader);
 
       string iconXaml = XamlWriter.Save(Icon);
       stringReader = new StringReader(iconXaml);

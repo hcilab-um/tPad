@@ -407,16 +407,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private bool isHighlighting = false;
     private Point lastPosition;
     private Highlight newHighlight = new Highlight();
-    private Highlight currentHighlight = new Highlight();
+    private Line currentHighlight;
     private bool isSomething2Hide = false;
-    private bool isSenderLine = false;
+    private bool isSenderHighlight = false;
     private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
         isHighlighting = true;
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
-        Console.WriteLine(lastPosition);
+
         newHighlight = new Highlight();
         newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 };
         newHighlight.Line.MouseDown += cHighlights_MouseDown;
@@ -451,18 +451,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
         }
 
         if (sender is Line)
-        {
-          isHighlighting = false;
-          Line line = (Line)sender;
+        {          
+          Line line = (Line) sender;
           if (line.Tag != null)
+          {
+            isHighlighting = false; //to avoid highlighting in Figure-Mode
             GetFigure((line.Tag as Figure));
+          }
           else
           {
-            isSenderLine = true;
-            currentHighlight.Line = line;
+            isSenderHighlight = true;
+            currentHighlight = line;
           }
         }
-        else isSenderLine = false;
+        else isSenderHighlight = false;
       }
     }
 
@@ -511,6 +513,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void cHighlights_MouseMove(object sender, MouseEventArgs e)
     {
+      if (ActualNote.Annotation != null)
+        StickyNoteButton_MouseMove(sender, e);
+
       if (!isHighlighting)
         return;
 
@@ -556,18 +561,25 @@ namespace UofM.HCI.tPab.App.ActiveReader
         contextMenu.IsOpen = false;
         //open context menu at new position
         contextMenu.IsOpen = true;
-        contextMenu.Visibility = Visibility.Visible;
         cm_deleteItem.Visibility = Visibility.Collapsed;
+        contextMenu.Visibility = Visibility.Visible;        
 
-        if (isSenderLine)
+        if (isSenderHighlight)
           cm_deleteItem.Visibility = Visibility.Visible;
       }
     }
 
     private void CMDelete_Click(object sender, RoutedEventArgs e)
     {
-      cHighlights.Children.Remove(currentHighlight.Line);
-      ActualDocument[ActualPage].Highlights.Remove(currentHighlight);
+      cHighlights.Children.Remove(currentHighlight);
+      foreach (Highlight line in ActualDocument[ActualPage].Highlights)
+      {
+        if (currentHighlight == line.Line)
+        {
+          ActualDocument[ActualPage].Highlights.Remove(line);
+          break;
+        }
+      }      
     }
 
     private void CMSearch_Click(object sender, RoutedEventArgs e)
@@ -584,23 +596,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
       tpKeyboard.ResultClear();
 
       Note newNote = new Note();
-      newNote.Annotation = new TextBox
-      {
-        BorderBrush = Brushes.Goldenrod,
-        Background = Brushes.LemonChiffon,
-        Width = (int)iDocument.Width / 7,
-        Height = (int)iDocument.Width / 7,
-        TextWrapping = TextWrapping.Wrap
-      };
-
+      newNote.Annotation = new StickyNote(lastPosition.X, lastPosition.Y);
+      newNote.Annotation.BClose.Click += bStickyNoteClose_Click;
+      newNote.Annotation.GNote.MouseMove += StickyNoteButton_MouseMove;
+      newNote.Annotation.GNote.MouseDown += StickyNoteButton_MouseDown;
+      newNote.Annotation.TextField.PreviewMouseDown += StickyNoteTextBox_PreviewMouseDown;
+      newNote.Annotation.TextField.PreviewMouseMove += StickyNoteTextBox_PreviewMouseMove;
       //rotate sticky note
       //RotateTransform rotation = new RotateTransform(Device.Location.RotationAngle, newNote.annotation.Width * 0.5, newNote.annotation.Height * 0.5);
       //newNote.annotation.RenderTransform = rotation;
 
-      newNote.Annotation.Margin = new Thickness(lastPosition.X, lastPosition.Y + 10, 0, 0);
-      newNote.Annotation.PreviewMouseDown += Note_PreviewMouseDown;
-      newNote.Annotation.PreviewMouseUp += Note_PreviewMouseUp;
-      newNote.Annotation.PreviewMouseMove += Note_PreviewMouseMove;
 
       newNote.Icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
       string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
@@ -614,6 +619,21 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       //Update current note
       ActualNote = newNote;
+    }
+        
+    private void bStickyNoteClose_Click(object sender, RoutedEventArgs e)
+    {
+      foreach (Note element in ActualDocument[ActualPage].Annotations)
+      {
+        if (element.Annotation.BClose == (Button)sender)
+          ActualNote = element;
+      }
+      cHighlights.Children.Remove(ActualNote.Annotation);
+      cHighlights.Children.Remove(ActualNote.Icon);
+      ActualDocument[ActualPage].Annotations.Remove(ActualNote);
+      ActualNote.Annotation = null;
+      ActualNote.Icon = null;
+      tpKeyboard.Visibility = Visibility.Hidden;
     }
 
     private void CMScribble_Click(object sender, RoutedEventArgs e)
@@ -676,75 +696,63 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private bool isAnnotationMoved = false;
-    private bool isAnnotationResized = false;
-    static Size defaultNoteSize = new Size(20, 20);
-    private void Note_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    private void StickyNoteTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
-        ActualNote.Annotation = (TextBox)sender;
+        foreach (Note element in ActualDocument[ActualPage].Annotations)
+        {
+          if (element.Annotation.TextField == (TextBox)sender)
+            ActualNote = element;
+        }
 
         lastPosition = Mouse.GetPosition(gAnchoredLayers);
         tpKeyboard.Visibility = Visibility.Visible;
         tpKeyboard.ResultClear();
-        tpKeyboard.CurrentText.Append(ActualNote.Annotation.Text);
-
-        //check if there is a click on bottom right corner of note
-        if (lastPosition.X <= (ActualNote.Annotation.Margin.Left + ActualNote.Annotation.Width) &&
-          lastPosition.X >= (ActualNote.Annotation.Margin.Left + ActualNote.Annotation.Width - 20) &&
-          lastPosition.Y <= (ActualNote.Annotation.Margin.Top + ActualNote.Annotation.Height) &&
-          lastPosition.Y >= (ActualNote.Annotation.Margin.Top + ActualNote.Annotation.Height - 20))
-          isAnnotationResized = true;
-        else if (lastPosition.X <= (ActualNote.Annotation.Margin.Left + ActualNote.Annotation.Width) &&
-          lastPosition.X >= (ActualNote.Annotation.Margin.Left + ActualNote.Annotation.Width - 20) &&
-          lastPosition.Y <= (ActualNote.Annotation.Margin.Top + 20) &&
-          lastPosition.Y >= ActualNote.Annotation.Margin.Top)
-        {
-          cHighlights.Children.Remove(ActualNote.Annotation);
-          cHighlights.Children.Remove(ActualNote.Icon);
-          ActualDocument[ActualPage].Annotations.Remove(ActualNote);
-          ActualNote.Annotation = null;
-          ActualNote.Icon = null;
-          tpKeyboard.Visibility = Visibility.Hidden;
-        }
-        else
-          isAnnotationMoved = true;
+        tpKeyboard.CurrentText.Append(ActualNote.Annotation.TextField.Text);
       }
     }
 
-    private void Note_PreviewMouseMove(object sender, MouseEventArgs e)
-    {
-      if (!isAnnotationMoved && !isAnnotationResized)
-        return;
 
-      Point currentPosition = Mouse.GetPosition(gAnchoredLayers);
-      Vector lineVector = new Vector(currentPosition.X - lastPosition.X,
-        currentPosition.Y - lastPosition.Y);
-      if (lineVector.Length > 3)
+    private void StickyNoteTextBox_PreviewMouseMove(object sender, MouseEventArgs e)
+    {
+      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
-        if (isAnnotationMoved)
+        Point currentPosition = Mouse.GetPosition(gAnchoredLayers);
+        Vector lineVector = new Vector(currentPosition.X - lastPosition.X,
+          currentPosition.Y - lastPosition.Y);
+        if (lineVector.Length > 10)
           ActualNote.Annotation.Margin = new Thickness(currentPosition.X, currentPosition.Y, 0, 0);
-        else
-        {
-          Point noteSize = new Point(currentPosition.X - ActualNote.Annotation.Margin.Left,
-            currentPosition.Y - ActualNote.Annotation.Margin.Top);
-          if (noteSize.X >= defaultNoteSize.Width)
-            ActualNote.Annotation.Width = noteSize.X;
-          if (noteSize.Y >= defaultNoteSize.Height)
-            ActualNote.Annotation.Height = noteSize.Y;
-        }
-        tpKeyboard.Visibility = Visibility.Hidden;
+      }      
+    }
+
+    private void StickyNoteButton_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+      foreach (Note element in ActualDocument[ActualPage].Annotations)
+      {
+        if (element.Annotation.GNote == (Grid)sender)
+          ActualNote = element;
       }
     }
 
-    private void Note_PreviewMouseUp(object sender, MouseEventArgs e)
+    static Size defaultNoteSize = new Size(20, 40);
+    private void StickyNoteButton_MouseMove(object sender, MouseEventArgs e)
     {
-      if (!isAnnotationMoved && !isAnnotationResized)
-        return;
-
-      isAnnotationMoved = false;
-      isAnnotationResized = false;
+      if (ActualNote.Annotation != null && ActualNote.Annotation.IsBResizeClicked)
+      {        
+        Point currentPosition = Mouse.GetPosition(gAnchoredLayers);
+        Vector lineVector = new Vector(currentPosition.X - lastPosition.X,
+          currentPosition.Y - lastPosition.Y);
+        if (lineVector.Length > 5)
+        {
+            Point noteSize = new Point(currentPosition.X - ActualNote.Annotation.Margin.Left, currentPosition.Y - ActualNote.Annotation.Margin.Top);
+            if (noteSize.X >= defaultNoteSize.Width)
+              ActualNote.Annotation.GNote.Width = noteSize.X;
+            if (noteSize.Y >= defaultNoteSize.Height)
+              ActualNote.Annotation.GNote.Height = noteSize.Y;
+        }
+          tpKeyboard.Visibility = Visibility.Hidden;
+      }       
     }
 
     private void bSearch_Click(object sender, RoutedEventArgs e)
@@ -770,6 +778,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         Core.Registration.Continue();
     }
 
+
     public void tpKeyboard_EnterKeyPressed(System.Object sender, EventArgs args)
     {
       if (bSearch.IsChecked.Value)
@@ -778,13 +787,32 @@ namespace UofM.HCI.tPab.App.ActiveReader
         Search(tpKeyboard.CurrentTextLine.ToString(), -1);
       }
       else if (bHighlight.IsChecked.Value && ActualNote.Annotation != null)
-        ActualNote.Annotation.Text = tpKeyboard.CurrentText.ToString();
+        ActualNote.Annotation.TextField.Text = tpKeyboard.CurrentText.ToString();
     }
 
     public void tpKeyboard_AlphaNumericKeyPressed(System.Object sender, EventArgs args)
     {
       if (bHighlight.IsChecked.Value && ActualNote.Annotation != null && !bSearch.IsChecked.Value)
-        ActualNote.Annotation.Text = tpKeyboard.CurrentText.ToString();
+        ActualNote.Annotation.TextField.Text = tpKeyboard.CurrentText.ToString();
     }
+
+    //static public void SerializeToXML(List<ContentLocation> locations, string path)
+    //{
+    //  XmlSerializer serializer = new XmlSerializer(typeof(List<ContentLocation>));
+    //  TextWriter textWriter = new StreamWriter(@path);
+    //  serializer.Serialize(textWriter, locations);
+    //  textWriter.Close();
+    //}
+
+    //static List<ContentLocation> DeserializeFromXML(string path)
+    //{
+    //  XmlSerializer deserializer = new XmlSerializer(typeof(List<ContentLocation>));
+    //  TextReader textReader = new StreamReader(@path);
+    //  List<ContentLocation> locations;
+    //  locations = (List<ContentLocation>)deserializer.Deserialize(textReader);
+    //  textReader.Close();
+
+    //  return locations;
+    //}
   }
 }

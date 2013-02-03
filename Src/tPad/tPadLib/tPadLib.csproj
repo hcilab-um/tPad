@@ -103,6 +103,9 @@
     <Compile Include="SimulatorDevice.xaml.cs">
       <DependentUpon>SimulatorDevice.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StickyNote.xaml.cs">
+      <DependentUpon>StickyNote.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TPadCore.cs" />
     <Compile Include="TPadDevice.cs" />
     <Compile Include="TPadDocument.cs" />
@@ -154,6 +157,10 @@
     <Page Include="SimulatorDevice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StickyNote.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TPadWindow.xaml">
       <SubType>Designer</SubType>
