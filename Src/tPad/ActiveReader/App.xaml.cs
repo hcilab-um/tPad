@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -18,7 +19,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
   /// </summary>
   public partial class App : Application, ITPadAppLauncher
   {
-
+    private SplashScreen splash = null;
     private Simulator simulatorWindow = null;
 
     private ActiveReaderDocument document = null;
@@ -28,6 +29,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
     protected override void OnStartup(StartupEventArgs e)
     {
       base.OnStartup(e);
+
+      //Launch the splash animation
+      splash = new SplashScreen();
+      splash.Show();
 
       //Document over which the tPad is located
       document = LoadDocument("Document/", @"Document/FXPAL-PR-10-550.pdf");
@@ -53,10 +58,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       listOfFigures.Add(new Figure(8, 7, new Int32Rect(501, 551, 331, 135), new string[] { "Fig 8", "Figure 8", "Fig. 8" })); //figure 8
       listOfFigures.Add(new Figure(9, 8, new Int32Rect(106, 210, 320, 123), new string[] { "Fig 9", "Figure 9", "Fig. 9" })); //figure 9    
       CalculateFigurePositions();
-
-      //*** Code to run on the deviceWindow ***//
-      simulatorWindow = new Simulator(this, profile, document);
-      simulatorWindow.Show();
     }
 
     private void CalculateFigurePositions()
@@ -66,6 +67,18 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (document.HasFigureLinks)
         return;
 
+      index = 0;
+      BackgroundWorker worker = new BackgroundWorker() { WorkerReportsProgress = true };
+      worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+      worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+      worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+      worker.RunWorkerAsync();
+    }
+
+    private int index = 0;
+    void worker_DoWork(object sender, DoWorkEventArgs e)
+    {
+      BackgroundWorker worker = sender as BackgroundWorker;
 
       double pageWidth = (profile.Resolution.Width / profile.ScreenSize.Width) * profile.DocumentSize.Width;
       double pageHeight = (profile.Resolution.Height / profile.ScreenSize.Height) * profile.DocumentSize.Height;
@@ -78,17 +91,36 @@ namespace UofM.HCI.tPab.App.ActiveReader
       foreach (Figure figure in listOfFigures)
       {
         List<ContentLocation> linksForFigure = pdfHelper.ContentToPixel(figure.TriggerText[1], -1, pageWidth, pageHeight);
-        foreach (ContentLocation figureLink in linksForFigure)
-        {
-          Highlight link = new Highlight();
-          link.Line = new Line() { Stroke = Brushes.Yellow, Opacity = 0.7, StrokeThickness = figureLink.ContentBounds.Height };
-          link.Line.X1 = figureLink.ContentBounds.Left;
-          link.Line.Y1 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
-          link.Line.X2 = figureLink.ContentBounds.Right;
-          link.Line.Y2 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
-          document[figureLink.PageIndex].FigureLinks.Add(link);
-        }
+        worker.ReportProgress(++index * 100 / listOfFigures.Count, linksForFigure);
       }
+    }
+
+    void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    {
+      splash.LoadingProgress = e.ProgressPercentage;
+
+      //This code is executed here because it needs to be on an UI thread
+      List<ContentLocation> linksForFigure = e.UserState as List<ContentLocation>;
+      foreach (ContentLocation figureLink in linksForFigure)
+      {
+        Highlight link = new Highlight();
+        link.Line = new Line() { Stroke = Brushes.Yellow, Opacity = 0.7, StrokeThickness = figureLink.ContentBounds.Height };
+        link.Line.X1 = figureLink.ContentBounds.Left;
+        link.Line.Y1 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
+        link.Line.X2 = figureLink.ContentBounds.Right;
+        link.Line.Y2 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
+        document[figureLink.PageIndex].FigureLinks.Add(link);
+      }
+    }
+
+    void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      //Opens the simulator
+      simulatorWindow = new Simulator(this, profile, document);
+      simulatorWindow.Show();
+
+      //Closes the splash
+      splash.Close();
     }
 
     public ActiveReaderDocument LoadDocument(string documentFolder, string pdfFile)
