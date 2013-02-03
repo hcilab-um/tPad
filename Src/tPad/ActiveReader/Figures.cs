@@ -9,10 +9,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
 {
   public class Figure
   {
-    public int PageIndex {get; set; }
+    public int PageIndex { get; set; }
     public int FigureIndex { get; set; }
     public Int32Rect FigureRect { get; set; }
     public string[] TriggerText { get; set; }
+
+    public Figure()
+    { 
+    }
 
     public Figure(int figureIdx, int pageIdx, Int32Rect figRect, string[] triggerTxt)
     {

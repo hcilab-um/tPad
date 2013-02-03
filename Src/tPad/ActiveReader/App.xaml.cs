@@ -91,20 +91,22 @@ namespace UofM.HCI.tPab.App.ActiveReader
       foreach (Figure figure in listOfFigures)
       {
         List<ContentLocation> linksForFigure = pdfHelper.ContentToPixel(figure.TriggerText[1], -1, pageWidth, pageHeight);
-        worker.ReportProgress(++index * 100 / listOfFigures.Count, linksForFigure);
+        worker.ReportProgress(++index * 100 / listOfFigures.Count, new Object[] { figure, linksForFigure });
       }
     }
 
     void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
       splash.LoadingProgress = e.ProgressPercentage;
+      Object[] userState = (Object[])e.UserState;
 
       //This code is executed here because it needs to be on an UI thread
-      List<ContentLocation> linksForFigure = e.UserState as List<ContentLocation>;
+      Figure figure = (Figure)userState[0];
+      List<ContentLocation> linksForFigure = (List<ContentLocation>)userState[1];
       foreach (ContentLocation figureLink in linksForFigure)
       {
         Highlight link = new Highlight();
-        link.Line = new Line() { Stroke = Brushes.Yellow, Opacity = 0.7, StrokeThickness = figureLink.ContentBounds.Height };
+        link.Line = new Line() { Stroke = Brushes.Yellow, Opacity = 0.7, StrokeThickness = figureLink.ContentBounds.Height, Tag = figure };
         link.Line.X1 = figureLink.ContentBounds.Left;
         link.Line.Y1 = figureLink.ContentBounds.Top + figureLink.ContentBounds.Height / 2;
         link.Line.X2 = figureLink.ContentBounds.Right;
