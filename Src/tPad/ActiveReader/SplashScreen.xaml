@@ -6,7 +6,7 @@
   <Grid MaxWidth="500">
     <StackPanel Margin="5">
       <Grid>
-        <Image Name="image1" Source="Splash.png" />
+        <Image Name="image1" Source="Images/Splash.png" />
         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="20" FontWeight="Bold" Margin="5">Loading...</TextBlock>
       </Grid>
       <ProgressBar Height="20" Name="progressBar" Minimum="0" Maximum="100" Value="{Binding ElementName=wSplash, Path=LoadingProgress}"/>

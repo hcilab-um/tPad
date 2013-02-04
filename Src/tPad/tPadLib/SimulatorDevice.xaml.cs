@@ -19,11 +19,14 @@ using System.Drawing.Imaging;
 
 namespace UofM.HCI.tPab
 {
+
   /// <summary>
   /// Interaction logic for SimulatorDevice.xaml
   /// </summary>
   public partial class SimulatorDevice : UserControl, INotifyPropertyChanged, ITPadAppController, ITPadAppContainer
   {
+
+    public event EventHandler<StackingControlEventArgs> OnStackingControl;
 
     public static readonly DependencyProperty AppWidthProperty = DependencyProperty.Register("AppWidth", typeof(double), typeof(SimulatorDevice));
     public double AppWidth
@@ -82,14 +85,39 @@ namespace UofM.HCI.tPab
       }
     }
 
+    private Size borderDiff = Size.Empty;
+    public Size BorderDiff
+    {
+      get { return borderDiff; }
+      set
+      {
+        borderDiff = value;
+        OnPropertyChanged("BorderDiff");
+      }
+    }
+
+    private StackingControlState stackingControlState = StackingControlState.None;
+    public StackingControlState StackingControlState
+    {
+      get { return stackingControlState; }
+      set
+      {
+        stackingControlState = value;
+        OnPropertyChanged("StackingControlState");
+      }
+    }
+
     private Simulator sWindow { get; set; }
-    private ITPadApp TPadApp { get; set; }
+    public ITPadApp TPadApp { get; set; }
     public Rect TPadAppBounds { get; set; }
-    private Size BorderDiff { get; set; }
+
+    //This is the ID of the device on top, the device beloe starts the communication
+    public int DeviceOnTopID { get; set; }
 
     public SimulatorDevice(Simulator simulator)
     {
       sWindow = simulator;
+      DeviceOnTopID = -1;
       InitializeComponent();
     }
 
@@ -174,6 +202,10 @@ namespace UofM.HCI.tPab
         isRotating = true;
         lastPosition = Mouse.GetPosition(sWindow);
       }
+      else if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Pressed)
+      {
+        StackingCommand();
+      }
     }
 
     private void rFrame_MouseMove(object sender, MouseEventArgs e)
@@ -194,7 +226,7 @@ namespace UofM.HCI.tPab
         //Adds such displacement to the current position of the app control
         Point currentLocation = new Point(Margin.Left, Margin.Top);
         Point newLocation = currentLocation + displacement;
-        Margin = new Thickness(newLocation.X, newLocation.Y, 0, 0);
+        //Margin = new Thickness(newLocation.X, newLocation.Y, 0, 0);
 
         // Updates the device location
         Point point = new Point(newLocation.X + BorderDiff.Width, newLocation.Y + BorderDiff.Height);
@@ -224,6 +256,28 @@ namespace UofM.HCI.tPab
     {
       isTraslating = false;
       isRotating = false;
+    }
+
+    private void StackingCommand()
+    {
+      //it means that the device will be paired up with another, and it depends on the simulator to mediate whether this is first (on top) or second (bottom)
+      if (StackingControlState == tPab.StackingControlState.None)
+      {
+        StackingControlState = tPab.StackingControlState.Stacking;
+        OnStackingControl(this, new StackingControlEventArgs() { Device = TPadApp.Core.Device, PreviousState = tPab.StackingControlState.None, NewState = StackingControlState });
+      }
+      //it means that the device will no longer be stacked on top of another and the operation is cancelled
+      else if (StackingControlState == tPab.StackingControlState.Stacking)
+      {
+        StackingControlState = tPab.StackingControlState.None;
+        OnStackingControl(this, new StackingControlEventArgs() { Device = TPadApp.Core.Device, PreviousState = tPab.StackingControlState.Stacking, NewState = StackingControlState });
+      }
+      //it means that the current stacking finishes
+      else if (StackingControlState == tPab.StackingControlState.StackedTop)
+      {
+        StackingControlState = tPab.StackingControlState.None;
+        OnStackingControl(this, new StackingControlEventArgs() { Device = TPadApp.Core.Device, PreviousState = tPab.StackingControlState.Stacking, NewState = StackingControlState });
+      }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -263,4 +317,16 @@ namespace UofM.HCI.tPab
     #endregion
 
   }
+
+  public delegate void EventHandler<TEventArgs>(object sender, TEventArgs e);
+
+  public enum StackingControlState { None, Stacking, StackedTop, StackedBotton };
+
+  public class StackingControlEventArgs : EventArgs
+  {
+    public TPadDevice Device { get; set; }
+    public StackingControlState PreviousState { get; set; }
+    public StackingControlState NewState { get; set; }
+  }
+
 }

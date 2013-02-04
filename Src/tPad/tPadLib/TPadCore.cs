@@ -43,17 +43,16 @@ namespace UofM.HCI.tPab
       Registration = new RegistrationService();
     }
 
-    public void Configure(TPadProfile profile)
+    public void Configure(TPadProfile profile, int deviceID)
     {
       log4net.Config.XmlConfigurator.Configure();
       logger = log4net.LogManager.GetLogger(typeof(TPadCore));
 
       Profile = profile;
-      Device = new TPadDevice() { Profile = Profile };
-      Device.LoadId();
+      Device = new TPadDevice(deviceID) { Profile = Profile };
 
       Board = new BoardMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
-      SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
+      SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
       Camera = new CameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
       SimCamera = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
 
@@ -89,6 +88,7 @@ namespace UofM.HCI.tPab
       ConfigurePeripherals();
 
       //By default the system works with the simulated sources (camera, board)
+      SimBoard.SimDevice = appController;
       SimCamera.CameraSource = appController;
       Registration.Container = appContainer;
       Registration.Controller = appController;

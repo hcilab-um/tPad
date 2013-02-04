@@ -76,6 +76,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\IntToBinaryConverter.cs" />
+    <Compile Include="Converters\LocationToMargingConverter.cs" />
     <Compile Include="TPadPage.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
     <Compile Include="Converters\ConditionalTypeConverter.cs" />
@@ -102,9 +104,6 @@
     <Compile Include="Services\RegistrationService.cs" />
     <Compile Include="SimulatorDevice.xaml.cs">
       <DependentUpon>SimulatorDevice.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="StickyNote.xaml.cs">
-      <DependentUpon>StickyNote.xaml</DependentUpon>
     </Compile>
     <Compile Include="TPadCore.cs" />
     <Compile Include="TPadDevice.cs" />
@@ -157,10 +156,6 @@
     <Page Include="SimulatorDevice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="StickyNote.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="TPadWindow.xaml">
       <SubType>Designer</SubType>

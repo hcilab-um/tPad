@@ -16,7 +16,7 @@ namespace UofM.HCI.tPab
     public event StackingChangedEventHandler StackingChanged;
 
     //This id is written in the device's firmware (arduino)
-    public int DeviceId { get; set; }
+    public int ID { get; private set; }
     public TPadProfile Profile { get; set; }
 
     private TPadLocation location;
@@ -32,12 +32,11 @@ namespace UofM.HCI.tPab
       }
     }
 
-    // Loads the device ID from the arduino firmware
-    internal void LoadId()
+    public TPadDevice(int deviceID)
     {
-      DeviceId = -1;
+      ID = deviceID;
     }
-    
+
     public void OnPropertyChanged(String name)
     {
       if (PropertyChanged != null)

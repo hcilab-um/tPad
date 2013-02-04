@@ -20,6 +20,7 @@ using System.Windows.Threading;
 
 namespace UofM.HCI.tPab
 {
+
   /// <summary>
   /// Interaction logic for Simulatorç.xaml
   /// </summary>
@@ -33,6 +34,8 @@ namespace UofM.HCI.tPab
     private double startPageX = 0;
     private float widthFactor, heightFactor;
     private float simCaptureToSourceImageRatio;
+
+    private int deviceCount = 1;
 
     private TPadProfile Profile { get; set; }
     private ITPadAppLauncher Launcher { get; set; }
@@ -222,9 +225,17 @@ namespace UofM.HCI.tPab
     private List<ITPadApp> appInstances = new List<ITPadApp>();
     private void tbRunCore_Click(object sender, RoutedEventArgs e)
     {
+      if (deviceCount == 4)
+      {
+        MessageBox.Show("The current implementation only supports 3 devices.");
+        return;
+      }
+
       try
       {
         SimulatorDevice simDevice = new SimulatorDevice(this);
+        simDevice.OnStackingControl += simDevice_OnStackingControl;
+        simDevice.PropertyChanged += simDevice_PropertyChanged;
         simDevice.VerticalAlignment = System.Windows.VerticalAlignment.Top;
         simDevice.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
         BindingOperations.SetBinding(simDevice, SimulatorDevice.InitialXProperty, new Binding("StartPageX") { Source = this });
@@ -238,10 +249,11 @@ namespace UofM.HCI.tPab
         gTop.Children.Add(simDevice);
 
         TPadWindow deviceWindow = new TPadWindow(Profile, Launcher);
-        deviceWindow.Closed += new EventHandler(deviceWindow_Closed);
+        deviceWindow.Closed += deviceWindow_Closed;
         deviceWindow.InstanceNumber = appInstances.Count;
 
-        ITPadApp instance = Launcher.GetAppInstance(deviceWindow, simDevice, null, null);
+        ITPadApp instance = Launcher.GetAppInstance(deviceWindow, simDevice, null, null, deviceCount++);
+        simDevice.TPadApp.Core = instance.Core; //copies the core from the actual app to the mock app
         deviceWindow.LoadTPadApp(instance);
         deviceWindow.Show();
 
@@ -292,7 +304,10 @@ namespace UofM.HCI.tPab
       foreach (ITPadApp instance in appInstances)
       {
         if (instance.Container is Window)
+        {
+          (instance.Container as Window).Closed -= deviceWindow_Closed;
           (instance.Container as Window).Close();
+        }
       }
     }
 
@@ -301,6 +316,7 @@ namespace UofM.HCI.tPab
       ITPadApp instanceClosed = appInstances.FirstOrDefault(tmp => tmp.Container == sender);
       appInstances.Remove(instanceClosed);
       gTop.Children.Remove(instanceClosed.Controller as UserControl);
+      deviceCount--;
     }
 
     public void GetCoordinatesForScreenCapture(out int zeroX, out int zeroY)
@@ -325,6 +341,55 @@ namespace UofM.HCI.tPab
         zeroX = 0;
         zeroY = (int)(Top + bordertop);
       }
+    }
+
+    private SimulatorDevice topDevice = null;
+    private SimulatorDevice bottomDevice = null;
+    void simDevice_OnStackingControl(object sender, StackingControlEventArgs e)
+    {
+      SimulatorDevice source = (SimulatorDevice)sender;
+      if (e.NewState == StackingControlState.Stacking)
+      {
+        if (topDevice == null)
+          topDevice = source;
+        else
+        {
+          bottomDevice = source;
+
+          topDevice.StackingControlState = StackingControlState.StackedTop;
+          bottomDevice.StackingControlState = StackingControlState.StackedBotton;
+
+          topDevice.Location = bottomDevice.Location;
+          topDevice.RotationAngle = bottomDevice.RotationAngle;
+          topDevice.SetValue(Grid.ZIndexProperty, 1);
+          bottomDevice.SetValue(Grid.ZIndexProperty, 0);
+          bottomDevice.DeviceOnTopID = topDevice.TPadApp.Core.Device.ID;
+        }
+      }
+      else if (e.NewState == StackingControlState.None)
+      {
+        topDevice.StackingControlState = StackingControlState.None;
+        bottomDevice.StackingControlState = StackingControlState.None;
+        bottomDevice.DeviceOnTopID = -1;
+
+        topDevice = null;
+        bottomDevice = null;
+      }
+    }
+
+    void simDevice_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      SimulatorDevice source = (SimulatorDevice)sender;
+      if (sender != topDevice || bottomDevice == null)
+        return;
+
+      if (e.PropertyName != "Location" && e.PropertyName != "RotationAngle")
+        return;
+
+      if (bottomDevice.Location != topDevice.Location)
+        bottomDevice.Location = topDevice.Location;
+      if (bottomDevice.RotationAngle != topDevice.RotationAngle)
+        bottomDevice.RotationAngle = topDevice.RotationAngle;
     }
 
   }

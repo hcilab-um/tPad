@@ -96,6 +96,9 @@
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StickyNote.xaml.cs">
+      <DependentUpon>StickyNote.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnnotationBar.xaml.cs">
@@ -179,15 +182,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="StickyNote.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ArrowHighlight.png">
+    <Content Include="Images\ArrowHighlight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ArrowAnnotation.png">
+    <Content Include="Images\ArrowAnnotation.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ArrowSearchResults.png">
+    <Content Include="Images\ArrowSearchResults.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <AppDesigner Include="Properties\" />
@@ -224,10 +231,12 @@
     <Content Include="Document\FXPAL-PR-10-550.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Splash.png" />
-    <EmbeddedResource Include="ICON.png">
+    <Content Include="Images\Splash.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </Content>
+    <Content Include="Images\ICON.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\tPadLib\tPadLib.csproj">

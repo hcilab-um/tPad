@@ -71,7 +71,7 @@
               <Rectangle.Margin>
                 <MultiBinding Converter="{StaticResource ResourceKey=cBarItemLocation}">
                   <Binding ElementName="annoBar" Path="PageHeight"/>
-                  <Binding Path="icon.Margin.Top"/>
+                  <Binding Path="Icon.Margin.Top"/>
                   <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualHeight" />
                   <Binding RelativeSource="{RelativeSource Self}"  Path="ActualHeight" />
                 </MultiBinding>

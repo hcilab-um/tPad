@@ -9,7 +9,15 @@
   
   <UserControl.Resources>
     <converters:MultiplierConverter x:Key="cMultiplier" />
+    <converters:LocationToMargingConverter x:Key="cLocationToMargin"/>
   </UserControl.Resources>
+  
+  <UserControl.Margin>
+    <MultiBinding Converter="{StaticResource ResourceKey=cLocationToMargin}">
+      <Binding ElementName="sDevice" Path="Location" />
+      <Binding ElementName="sDevice" Path="BorderDiff" />
+    </MultiBinding>
+  </UserControl.Margin>
   
   <!-- This is the place holder for the TPadApp -->
   <Grid x:Name="gTPadApp" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -23,6 +31,8 @@
                Height="{Binding ElementName=sDevice, Path=FrameHeight}"/>
 
     <Image x:Name="iCameraIcon" Source="camera.png" VerticalAlignment="Top" HorizontalAlignment="Center" Width="30" Margin="0,10,0,0"/>
+
+    <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="15" FontWeight="Bold" Foreground="White" Margin="15,15,0,0">Stacking Control: <TextBlock Text="{Binding ElementName=sDevice, Path=StackingControlState}" /></TextBlock>
   </Grid>
 
   <UserControl.RenderTransform>

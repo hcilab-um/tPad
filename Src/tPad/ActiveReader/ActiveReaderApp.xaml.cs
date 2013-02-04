@@ -608,7 +608,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
 
       newNote.Icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
-      string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
+      string strUri2 = (Environment.CurrentDirectory + "\\Images\\ICON.png");
       newNote.Icon.Source = new BitmapImage(new Uri(strUri2));
       newNote.Icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newNote.Icon.Height, 0, 0);
       newNote.Icon.MouseDown += Icon_MouseDown;
@@ -649,7 +649,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newScribble.Scribbling.Margin = new Thickness(lastPosition.X, lastPosition.Y + 10, 0, 0);
 
       newScribble.Icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
-      string strUri2 = (Environment.CurrentDirectory + "\\ICON.png");
+      string strUri2 = (Environment.CurrentDirectory + "\\Images\\ICON.png");
       newScribble.Icon.Source = new BitmapImage(new Uri(strUri2));
       newScribble.Icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newScribble.Icon.Height, 0, 0);
       newScribble.Icon.MouseDown += ScribbleIcon_MouseDown;

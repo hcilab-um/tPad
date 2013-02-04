@@ -20,8 +20,16 @@ namespace UofM.HCI.tPab
   /// </summary>
   public partial class MockApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
-
-    public TPadCore Core { get; set; } // <-- this is never set or used at all!
+    private TPadCore core;
+    public TPadCore Core
+    {
+      get { return core; }
+      set 
+      {
+        core = value;
+        OnPropertyChanged("Core");
+      }
+    }
 
     public TPadProfile Profile { get; set; }
     public ITPadAppContainer Container { get; set; }
