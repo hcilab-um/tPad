@@ -323,8 +323,9 @@ namespace UofM.HCI.tPab
     {
       zeroX = -1;
       zeroY = -1;
-      if (!IsActive)
-        return;
+
+      //if (!IsActive)
+      //  return;
 
       int bordersize, bordertop;
       if (WindowState != System.Windows.WindowState.Maximized)

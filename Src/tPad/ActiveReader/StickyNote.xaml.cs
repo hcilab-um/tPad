@@ -48,7 +48,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     }
 
     public Button BClose { get { return bClose; } }
-    public Rectangle BResize { get { return bResize; } }
+    public Image BResize { get { return bResize; } }
     public Grid GNote { get { return gNote; } }
    
     public event PropertyChangedEventHandler PropertyChanged;
