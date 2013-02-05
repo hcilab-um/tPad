@@ -13,7 +13,11 @@
   <Grid x:Name="gNote" Background="LightYellow" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
     <TextBox x:Name="tNote" Margin="0 0 20 0" Background="LightYellow" BorderThickness="0" Grid.Column="0"
              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-    <Button x:Name="bClose" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" Grid.Column="1"> X </Button>
+    <Button x:Name="bClose" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" Grid.Column="1" Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
+      <DockPanel>
+        <Image Source="Images/delete.png"/>
+      </DockPanel>
+    </Button>
     <Rectangle x:Name="bResize" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="20" Height="20" Grid.Column="1" Fill="Goldenrod"
                MouseDown="bResize_MouseDown" MouseUp="bResize_MouseUp"/>    
   </Grid>

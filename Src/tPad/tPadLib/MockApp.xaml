@@ -13,7 +13,7 @@
   <Grid Width="{Binding ElementName=mockApp, Path=ActualWidth}" Height="{Binding ElementName=mockApp, Path=ActualHeight}">
     
     <!-- This rectangle guarantees a correct placement of the layers - do not delete -->
-    <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stroke="Green" StrokeThickness="1" Fill="Red" Opacity="0.5"/>
+    <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stroke="Green" StrokeThickness="1" Fill="Transparent" Opacity="0.5"/>
 
     <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15">Mock TPad Application</Label>
     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" Margin="0,30,0,0">Device ID: <TextBlock Text="{Binding ElementName=mockApp, Path=Core.Device.ID, Mode=OneWay, Converter={StaticResource ResourceKey=cIntToBinary}}"/></TextBlock>

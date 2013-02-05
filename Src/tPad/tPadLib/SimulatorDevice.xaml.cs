@@ -176,7 +176,10 @@ namespace UofM.HCI.tPab
         return null;
       }
 
-      Rect ttPadBounds = (TPadApp as UserControl).TransformToAncestor(this).TransformBounds(TPadAppBounds);
+      Rect ttPadBounds = new Rect();
+      if (this.Parent as Visual != null)
+        ttPadBounds = (TPadApp as UserControl).TransformToAncestor(this.Parent as Visual).TransformBounds(TPadAppBounds);
+      else return null;
       System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds);
       MemoryStream result = new MemoryStream();
       try
