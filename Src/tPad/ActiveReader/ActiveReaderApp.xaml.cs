@@ -206,10 +206,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (ActualDocument == null)
       {
         //First time it comes to this document and first document
-        if (e.NewLocation.DocumentID != -1)
-          LoadDocument(e.NewLocation);
-        else
-          throw new Exception("Document cannot be null");
+        LoadDocument(e.NewLocation);
       }
       else
       {
@@ -252,6 +249,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void LoadDocument(TPadLocation newLocation)
     {
+      if (newLocation.DocumentID == -1)
+        throw new Exception("Document cannot be null");
+      if (DbDocuments.ContainsKey(newLocation.DocumentID))
+        throw new Exception("Unknown document");
+
       //1- Loads the layers should they exist in disk
       ActualDocument = DbDocuments[newLocation.DocumentID];
       PdfHelper = new PDFContentHelper(ActualDocument.FileName);
@@ -451,8 +453,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
         }
 
         if (sender is Line)
-        {          
-          Line line = (Line) sender;
+        {
+          Line line = (Line)sender;
           if (line.Tag != null)
           {
             isHighlighting = false; //to avoid highlighting in Figure-Mode
@@ -562,7 +564,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         //open context menu at new position
         contextMenu.IsOpen = true;
         cm_deleteItem.Visibility = Visibility.Collapsed;
-        contextMenu.Visibility = Visibility.Visible;        
+        contextMenu.Visibility = Visibility.Visible;
 
         if (isSenderHighlight)
           cm_deleteItem.Visibility = Visibility.Visible;
@@ -579,7 +581,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           ActualDocument[ActualPage].Highlights.Remove(line);
           break;
         }
-      }      
+      }
     }
 
     private void CMSearch_Click(object sender, RoutedEventArgs e)
@@ -623,7 +625,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       //Update current note
       ActualNote = newNote;
     }
-        
+
     private void bStickyNoteClose_Click(object sender, RoutedEventArgs e)
     {
       foreach (Note element in ActualDocument[ActualPage].Annotations)
@@ -727,7 +729,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           currentPosition.Y - lastPosition.Y);
         if (lineVector.Length > 10)
           ActualNote.Annotation.Margin = new Thickness(currentPosition.X, currentPosition.Y, 0, 0);
-      }      
+      }
     }
 
     private void StickyNoteButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -743,20 +745,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void StickyNoteButton_MouseMove(object sender, MouseEventArgs e)
     {
       if (ActualNote.Annotation != null && ActualNote.Annotation.IsBResizeClicked)
-      {        
+      {
         Point currentPosition = GetMousePositionInDocument();
         Vector lineVector = new Vector(currentPosition.X - lastPosition.X,
           currentPosition.Y - lastPosition.Y);
         if (lineVector.Length > 5)
         {
-            Point noteSize = new Point(currentPosition.X - ActualNote.Annotation.Margin.Left, currentPosition.Y - ActualNote.Annotation.Margin.Top);
-            if (noteSize.X >= defaultNoteSize.Width)
-              ActualNote.Annotation.GNote.Width = noteSize.X;
-            if (noteSize.Y >= defaultNoteSize.Height)
-              ActualNote.Annotation.GNote.Height = noteSize.Y;
+          Point noteSize = new Point(currentPosition.X - ActualNote.Annotation.Margin.Left, currentPosition.Y - ActualNote.Annotation.Margin.Top);
+          if (noteSize.X >= defaultNoteSize.Width)
+            ActualNote.Annotation.GNote.Width = noteSize.X;
+          if (noteSize.Y >= defaultNoteSize.Height)
+            ActualNote.Annotation.GNote.Height = noteSize.Y;
         }
-          tpKeyboard.Visibility = Visibility.Hidden;
-      }       
+        tpKeyboard.Visibility = Visibility.Hidden;
+      }
     }
 
     private void bSearch_Click(object sender, RoutedEventArgs e)
