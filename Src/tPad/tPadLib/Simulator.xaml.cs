@@ -314,6 +314,8 @@ namespace UofM.HCI.tPab
     void deviceWindow_Closed(object sender, EventArgs e)
     {
       ITPadApp instanceClosed = appInstances.FirstOrDefault(tmp => tmp.Container == sender);
+      instanceClosed.Core.CoreStop();
+
       appInstances.Remove(instanceClosed);
       gTop.Children.Remove(instanceClosed.Controller as UserControl);
       deviceCount--;

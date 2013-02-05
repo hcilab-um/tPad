@@ -63,9 +63,18 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void CalculateFigurePositions()
     {
       if (listOfFigures.Count == 0)
+      {
+        worker_RunWorkerCompleted(null, null);
         return;
+      }
+
+      PDFContentHelper pdfHelper = new PDFContentHelper(document.FileName);
+      pdfHelper.LoadLayersFromDisk(document, -1);
       if (document.HasFigureLinks)
+      {
+        worker_RunWorkerCompleted(null, null);
         return;
+      }
 
       index = 0;
       BackgroundWorker worker = new BackgroundWorker() { WorkerReportsProgress = true };
@@ -79,13 +88,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
     void worker_DoWork(object sender, DoWorkEventArgs e)
     {
       BackgroundWorker worker = sender as BackgroundWorker;
-      PDFContentHelper pdfHelper = new PDFContentHelper(document.FileName);
 
+      PDFContentHelper pdfHelper = new PDFContentHelper(document.FileName);
       //Search for the term "figure" in document
       foreach (Figure figure in listOfFigures)
       {
         List<ContentLocation> linksForFigure = pdfHelper.ContentToPixel(figure.TriggerText[1], -1, profile.DocumentSize.Width,  profile.DocumentSize.Height);
         worker.ReportProgress(++index * 100 / listOfFigures.Count, new Object[] { figure, linksForFigure });
+        //worker.ReportProgress(++index * 100 / listOfFigures.Count, new Object[] { figure, new List<ContentLocation>() });
       }
     }
 
@@ -111,6 +121,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
+      //Saves the calculated figures
+      PDFContentHelper pdfHelper = new PDFContentHelper(document.FileName);
+      pdfHelper.SaveLayersToDisk(document, -1);
+
       //Opens the simulator
       simulatorWindow = new Simulator(this, profile, document);
       simulatorWindow.Show();

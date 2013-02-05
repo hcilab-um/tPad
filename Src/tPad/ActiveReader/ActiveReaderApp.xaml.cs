@@ -214,7 +214,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (ActualDocument.ID != e.NewLocation.DocumentID)
         {
           //1- Saves current layers to disk
-          SaveLayersToDisk(ActualDocument);
+          PdfHelper.SaveLayersToDisk(ActualDocument, Core.Device.ID);
 
           //2- Loads the layers (for current page)
           LoadDocument(e.NewLocation);
@@ -223,7 +223,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         else if (ActualPage != e.NewLocation.PageIndex)
         {
           //1- Saves current layers to disk
-          SaveLayersToDisk(ActualDocument);
+          PdfHelper.SaveLayersToDisk(ActualDocument, Core.Device.ID);
 
           //2- Load layers for current page
           ActualPage = e.NewLocation.PageIndex;
@@ -251,46 +251,17 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (newLocation.DocumentID == -1)
         throw new Exception("Document cannot be null");
-      if (DbDocuments.ContainsKey(newLocation.DocumentID))
+      if (!DbDocuments.ContainsKey(newLocation.DocumentID))
         throw new Exception("Unknown document");
 
       //1- Loads the layers should they exist in disk
       ActualDocument = DbDocuments[newLocation.DocumentID];
       PdfHelper = new PDFContentHelper(ActualDocument.FileName);
-      LoadLayersFromDisk(ActualDocument);
+      PdfHelper.LoadLayersFromDisk(ActualDocument, Core.Device.ID);
 
       //3- Load layers for current page
       ActualPage = newLocation.PageIndex;
       LoadLayersToPage(ActualDocument, ActualPage);
-    }
-
-    private void SaveLayersToDisk(TPadDocument document)
-    {
-      return;
-
-      XmlSerializer serializer = new XmlSerializer(typeof(TPadDocument));
-      TextWriter textWriter = new StreamWriter(document.Folder + "cache.xml");
-      serializer.Serialize(textWriter, document);
-      textWriter.Close();
-    }
-
-    private void LoadLayersFromDisk(ActiveReaderDocument document)
-    {
-      return;
-
-      XmlSerializer deserializer = new XmlSerializer(typeof(TPadDocument));
-      TextReader textReader = new StreamReader(document.Folder + "cache.xml");
-      ActiveReaderDocument newDoc = (ActiveReaderDocument)deserializer.Deserialize(textReader);
-      textReader.Close();
-
-      for (int index = 0; index < document.Pages.Length; index++)
-      {
-        document[index].Annotations = newDoc[index].Annotations;
-        document[index].Highlights = newDoc[index].Highlights;
-        document[index].Scribblings = newDoc[index].Scribblings;
-        document[index].SearchResults = newDoc[index].SearchResults;
-        document[index].FigureLinks = newDoc[index].FigureLinks;
-      }
     }
 
     private void LoadLayersToPage(ActiveReaderDocument document, int pageIndex)
