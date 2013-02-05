@@ -368,9 +368,14 @@ namespace UofM.HCI.tPab
       }
       else if (e.NewState == StackingControlState.None)
       {
-        topDevice.StackingControlState = StackingControlState.None;
-        bottomDevice.StackingControlState = StackingControlState.None;
-        bottomDevice.DeviceOnTopID = -1;
+        if (topDevice != null)
+          topDevice.StackingControlState = StackingControlState.None;
+
+        if (bottomDevice != null)
+        {
+          bottomDevice.StackingControlState = StackingControlState.None;
+          bottomDevice.DeviceOnTopID = -1;
+        }
 
         topDevice = null;
         bottomDevice = null;

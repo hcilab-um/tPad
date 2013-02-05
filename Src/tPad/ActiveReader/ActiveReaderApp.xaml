@@ -77,6 +77,9 @@
 
       <!-- The first layer is for the highlights -->
       <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Canvas.RenderTransform>
+          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Container.WidthFactor}" ScaleY="{Binding ElementName=arApp, Path=Container.HeightFactor}" />
+        </Canvas.RenderTransform>
         <Canvas.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
@@ -86,12 +89,16 @@
         <!-- This rectange covering the whole area and almost transparent is necessary to detect the mouse events -->
         <!-- We cannot have the cHighlights canvas handle this events because it would need to opacity to be that low and then the highlight themselves would be almost transparent too -->
         <Rectangle Fill="White" Opacity="0.1" Canvas.Left="0" Canvas.Top="0" 
-                   Width="{Binding ElementName=cHighlights, Path=ActualWidth}" Height="{Binding ElementName=cHighlights, Path=ActualHeight}"
+                   Width="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
                    MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
       </Canvas>
       
       <!-- This layer is for the search results -->
-      <Canvas x:Name="cSearchResults" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+      <Canvas x:Name="cSearchResults" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Canvas.RenderTransform>
+          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Container.WidthFactor}" ScaleY="{Binding ElementName=arApp, Path=Container.HeightFactor}" />
+        </Canvas.RenderTransform>
+      </Canvas>
 
       <!-- This is the context menu for handling annotations -->
       <Grid.ContextMenu>
@@ -163,6 +170,27 @@
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.SearchResults}"
                                       ActualIcon="Images/ArrowSearchResults.png"
+                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
+                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
+                                      PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
+        <menuBar:OffScreenVisualization.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
+            <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.Visibility>
+      </menuBar:OffScreenVisualization>
+
+      <!--The off-screen visualization for scribblings -->
+      <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
+                                      Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+                                      Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
+                                      ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.Scribblings}"
+                                      ActualIcon="Images/ArrowAnnotation.png"
                                       PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
                                       PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
                                       DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"

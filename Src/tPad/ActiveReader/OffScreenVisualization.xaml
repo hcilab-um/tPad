@@ -9,7 +9,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
   <UserControl.Resources>
-    <convertersApp:OffScreenPageVisibilityConverter x:Key="cOffScreenPageVisibility" />
     <convertersApp:OffScreenItemLocationConverter x:Key="cOffScreenItemLocation" />
     <convertersApp:OffScreenItemRotationConverter x:Key="cOffScreenItemRotation" />
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />

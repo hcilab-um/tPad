@@ -79,18 +79,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
     void worker_DoWork(object sender, DoWorkEventArgs e)
     {
       BackgroundWorker worker = sender as BackgroundWorker;
-
-      double pageWidth = (profile.Resolution.Width / profile.ScreenSize.Width) * profile.DocumentSize.Width;
-      double pageHeight = (profile.Resolution.Height / profile.ScreenSize.Height) * profile.DocumentSize.Height;
-      if (pageWidth == 0 || pageHeight == 0)
-        return;
-
       PDFContentHelper pdfHelper = new PDFContentHelper(document.FileName);
 
       //Search for the term "figure" in document
       foreach (Figure figure in listOfFigures)
       {
-        List<ContentLocation> linksForFigure = pdfHelper.ContentToPixel(figure.TriggerText[1], -1, pageWidth, pageHeight);
+        List<ContentLocation> linksForFigure = pdfHelper.ContentToPixel(figure.TriggerText[1], -1, profile.DocumentSize.Width,  profile.DocumentSize.Height);
         worker.ReportProgress(++index * 100 / listOfFigures.Count, new Object[] { figure, linksForFigure });
       }
     }
