@@ -14,6 +14,7 @@ namespace UofM.HCI.tPab
 
   public class StackingEventArgs : EventArgs
   {
+    public UofM.HCI.tPab.Monitors.StackingUpdate Update { get; set; }
   }
 
   public delegate void StackingChangedEventHandler(object sender, StackingEventArgs e);

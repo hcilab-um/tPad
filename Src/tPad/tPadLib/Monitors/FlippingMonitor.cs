@@ -15,7 +15,8 @@ namespace UofM.HCI.tPab.Monitors
     /// <param name="e"></param>
     public void UpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)
     {
-      throw new NotImplementedException();
+      if (e.Type != typeof(BoardUpdate))
+        return;
     }
   }
 }

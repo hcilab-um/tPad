@@ -8,6 +8,8 @@ using UofM.HCI.tPab.Services;
 using System.ComponentModel;
 using Ubicomp.Utils.NET.CAF.ContextService;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
+using UofM.HCI.tPab.Network;
+using Ubicomp.Utils.NET.MTF;
 
 namespace UofM.HCI.tPab
 {
@@ -43,7 +45,7 @@ namespace UofM.HCI.tPab
       Registration = new RegistrationService();
     }
 
-    public void Configure(TPadProfile profile, int deviceID)
+    public void Configure(TPadProfile profile, int deviceID, String groupIP, int port, int TTL)
     {
       log4net.Config.XmlConfigurator.Configure();
       logger = log4net.LogManager.GetLogger(typeof(TPadCore));
@@ -58,6 +60,7 @@ namespace UofM.HCI.tPab
 
       ContextMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
       ContextMonitor stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+      //MulticastMonitor multicastMonitor = new MulticastMonitor(groupIP, port, TTL);
 
       //Wiring up the components
       Board.OnNotifyContextServices += (flippingMonitor as FlippingMonitor).UpdateMonitorReading;
@@ -68,6 +71,7 @@ namespace UofM.HCI.tPab
       SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      //multicastMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       Registration.OnNotifyContextServiceListeners += this.ContextChanged;
 
       //Register the monitors to the container
@@ -131,6 +135,13 @@ namespace UofM.HCI.tPab
 
     protected override void CustomUpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)
     {
+      if (e.Type == typeof(StackingUpdate))
+      {
+        Device.ProcessStackingUpdate((StackingUpdate)e.NewObject);
+      }
+      else if (e.Type == typeof(TransportMessage))
+      { 
+      }
     }
 
     public void ContextChanged(object sender, NotifyContextServiceListenersEventArgs e)

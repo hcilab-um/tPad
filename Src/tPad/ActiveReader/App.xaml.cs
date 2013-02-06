@@ -155,7 +155,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       TPadCore core = new TPadCore();
       core.BoardCOM = boardPort;
       core.CameraCOM = cameraPort;
-      core.Configure(profile, deviceID);
+      core.Configure(profile, deviceID, null, -1, -1);
       core.CoreStart(container, controller);
 
       ActiveReaderApp appInstance = new ActiveReaderApp(core, container, controller, listOfFigures);

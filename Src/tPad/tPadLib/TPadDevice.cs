@@ -20,10 +20,10 @@ namespace UofM.HCI.tPab
     public TPadProfile Profile { get; set; }
 
     private TPadLocation location;
-    public TPadLocation Location 
+    public TPadLocation Location
     {
       get { return location; }
-      set 
+      set
       {
         TPadLocation lastLocation = location;
         location = value;
@@ -32,9 +32,16 @@ namespace UofM.HCI.tPab
       }
     }
 
+    private int DeviceOnTop { get; set; }
+    private int DeviceBelow { get; set; }
+
     public TPadDevice(int deviceID)
     {
       ID = deviceID;
+    }
+
+    internal void ProcessStackingUpdate(Monitors.StackingUpdate stackingUpdate)
+    {
     }
 
     public void OnPropertyChanged(String name)

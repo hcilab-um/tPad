@@ -56,6 +56,10 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Jayrock.Json, Version=0.9.11012.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Jayrock.Json.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\Lib\log4net.dll</HintPath>
     </Reference>
@@ -78,6 +82,10 @@
   <ItemGroup>
     <Compile Include="Converters\IntToBinaryConverter.cs" />
     <Compile Include="Converters\LocationToMargingConverter.cs" />
+    <Compile Include="Monitors\MulticastMonitor.cs" />
+    <Compile Include="Network\StackingMessage.cs" />
+    <Compile Include="Network\StackingMessageExporter.cs" />
+    <Compile Include="Network\StackingMessageImporter.cs" />
     <Compile Include="TPadPage.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
     <Compile Include="Converters\ConditionalTypeConverter.cs" />
@@ -181,7 +189,16 @@
       <Project>{8EAA1C78-0574-4F6F-A996-75277BE82665}</Project>
       <Name>ContextAwarenessFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MulticastSocket\MulticastSocket.csproj">
+      <Project>{A9C5CD09-AC34-47EB-811F-99F8CF31C3E0}</Project>
+      <Name>MulticastSocket</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MulticastTransportFramework\MulticastTransportFramework.csproj">
+      <Project>{4AF95A28-12C7-4D59-8F84-17EF1A60C9A6}</Project>
+      <Name>MulticastTransportFramework</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy $(SolutionDir)\x64\Release\*.dll $(TargetDir)</PreBuildEvent>
