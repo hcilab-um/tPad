@@ -150,12 +150,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
       return result;
     }
 
-    public ITPadApp GetAppInstance(ITPadAppContainer container, ITPadAppController controller, String boardPort, String cameraPort, int deviceID)
+    public ITPadApp GetAppInstance(ITPadAppContainer container, ITPadAppController controller, String boardPort, bool useCamera, int deviceID)
     {
       TPadCore core = new TPadCore();
       core.BoardCOM = boardPort;
-      core.CameraCOM = cameraPort;
-      core.Configure(profile, deviceID, null, -1, -1);
+      core.UseCamera = useCamera;
+      core.Configure(profile, deviceID);
       core.CoreStart(container, controller);
 
       ActiveReaderApp appInstance = new ActiveReaderApp(core, container, controller, listOfFigures);

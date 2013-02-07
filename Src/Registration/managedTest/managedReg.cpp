@@ -6,9 +6,9 @@
 
 namespace ManagedA
 {
-	wrapperRegistClass::wrapperRegistClass(void)
+	wrapperRegistClass::wrapperRegistClass(bool IsCameraInUse)
 	{
-		registrationObj = new paperRegistration();
+		registrationObj = new paperRegistration(IsCameraInUse);
 	}
 
 	wrapperRegistClass::~wrapperRegistClass(void)
@@ -16,10 +16,9 @@ namespace ManagedA
 		delete registrationObj;
 	}
 
-	int wrapperRegistClass::detectLocation(Bitmap^ bmp1, Bitmap^ bmp2)
+	int wrapperRegistClass::detectLocation(Bitmap^ bmp1)
 	{
 		cv::Mat currentImg(bmp1->Height, bmp1->Width, CV_8UC3);
-		cv::Mat lastImg(bmp2->Height, bmp2->Width, CV_8UC3);
 
 		System::Drawing::Imaging::BitmapData ^data1 = bmp1->LockBits(
 			*(gcnew System::Drawing::Rectangle(0, 0, bmp1->Width, bmp1->Height)),
@@ -43,7 +42,7 @@ namespace ManagedA
 		
 		bmp1->UnlockBits(data1);  	
 
-		System::Drawing::Imaging::BitmapData ^data2 = bmp2->LockBits(
+		/*System::Drawing::Imaging::BitmapData ^data2 = bmp2->LockBits(
 			*(gcnew System::Drawing::Rectangle(0, 0, bmp2->Width, bmp2->Height)),
 			System::Drawing::Imaging::ImageLockMode::ReadOnly,
 			bmp2->PixelFormat);
@@ -63,9 +62,9 @@ namespace ManagedA
 				*(pm + i * 3) = *(pm + i * 3 + 1) = *(pm + i * 3 + 2) = *(pb + i);					
 		}
 		
-		bmp2->UnlockBits(data2); 
+		bmp2->UnlockBits(data2); */
 
-		return registrationObj->detectLocation(currentImg, lastImg);
+		return registrationObj->detectLocation(currentImg);
 	}
 }
 

@@ -12,10 +12,11 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {      
       var pageHeight = double.Parse(values[0].ToString());
-      var highlightPosition = double.Parse(values[1].ToString());
-      var itemHeight = double.Parse(values[2].ToString()) - double.Parse(values[3].ToString()); //subtract height of highlight element from height of page item height
+      var heightFactor = float.Parse(values[1].ToString());
+      var highlightPosition = double.Parse(values[2].ToString());
+      var itemHeight = double.Parse(values[3].ToString()) - double.Parse(values[4].ToString()); //subtract height of highlight element from height of page item height
 
-      double relativePagePosition = highlightPosition / pageHeight;
+      double relativePagePosition = (highlightPosition * heightFactor) / pageHeight;
       return new System.Windows.Thickness(-8,(itemHeight * relativePagePosition),0,0);
     }
 

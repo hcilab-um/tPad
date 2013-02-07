@@ -231,6 +231,15 @@ namespace UofM.HCI.tPab
         return;
       }
 
+      foreach (ITPadApp appInstance in appInstances)
+      {
+        if (appInstance.Core.UseCamera)
+        {
+          MessageBox.Show("You cannot use the camera in more than one device if a simulation is running.");
+          return;
+        }
+      }
+
       try
       {
         SimulatorDevice simDevice = new SimulatorDevice(this);
@@ -252,7 +261,7 @@ namespace UofM.HCI.tPab
         deviceWindow.Closed += deviceWindow_Closed;
         deviceWindow.InstanceNumber = appInstances.Count;
 
-        ITPadApp instance = Launcher.GetAppInstance(deviceWindow, simDevice, null, null, deviceCount++);
+        ITPadApp instance = Launcher.GetAppInstance(deviceWindow, simDevice, null, cbCamera.IsSelected, deviceCount++);
         simDevice.TPadApp.Core = instance.Core; //copies the core from the actual app to the mock app
         deviceWindow.LoadTPadApp(instance);
         deviceWindow.Show();
@@ -305,6 +314,7 @@ namespace UofM.HCI.tPab
       {
         if (instance.Container is Window)
         {
+          instance.Core.CoreStop();
           (instance.Container as Window).Closed -= deviceWindow_Closed;
           (instance.Container as Window).Close();
         }

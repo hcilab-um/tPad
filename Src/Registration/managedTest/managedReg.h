@@ -18,7 +18,7 @@ namespace ManagedA
 	public ref class wrapperRegistClass
 	{
 	public:
-		wrapperRegistClass();
+		wrapperRegistClass(bool IsCameraInUse);
 
 		~wrapperRegistClass();
 		
@@ -90,29 +90,30 @@ namespace ManagedA
 				return locationPt;
 			}
 		}
-
-		property float MiliSec
-		{
-			float get()
-			{			
-				return registrationObj->getMiliSec();
-			}
-		}
-				
+								
 		void createIndex(String^ path)
 		{
 			char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(path);
 			registrationObj->createIndex(str);
 		}
 		
-		void imageWarp(float imageRatio, bool isSim)
+		void imageWarp(float imageRatio)
 		{
-			registrationObj->imageWarp(imageRatio, isSim);
+			registrationObj->imageWarp(imageRatio);
 		}
 
-		int detectLocation(Bitmap^ bmp1, Bitmap^ bmp2);
+		int detectLocation(Bitmap^ bmp1);
 
+		int connectCamera()
+		{
+			return registrationObj->connectCamera();
+		}
 		
+		int disconnectCamera()
+		{
+			return registrationObj->disconnectCamera();
+		}
+
 	private: 
 		paperRegistration *registrationObj;
 	};

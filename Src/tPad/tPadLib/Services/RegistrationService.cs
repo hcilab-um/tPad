@@ -19,33 +19,55 @@ namespace UofM.HCI.tPab.Services
     public ITPadAppController Controller { get; set; }
 
     private ManagedA.wrapperRegistClass featureTracker;
-
-    private Bitmap oldCamView;
-
+    
     private TPadLocation location;
 
     private float temp_SimCaptureToSourceImageRatio;
 
     private bool isProcessStopped = false;
 
+    private bool useCamera;
+
+    public RegistrationService(bool pUseCamera)
+    {
+      useCamera = pUseCamera;
+    }
+
     protected override void CustomStart()
     {
-      featureTracker = new ManagedA.wrapperRegistClass();
+      featureTracker = new ManagedA.wrapperRegistClass(useCamera);
       featureTracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
 
       location = new TPadLocation();
-      oldCamView = new Bitmap(10, 10);
       temp_SimCaptureToSourceImageRatio = 1;
+
+      if (useCamera && TPadCore.UseFeatureTracking)
+      {
+        if (featureTracker.connectCamera() == -1)
+          throw new ArgumentException("Connection to camera failed!");
+      }
     }
 
     public void Pause()
     {
       isProcessStopped = true;
+
+      if (useCamera && TPadCore.UseFeatureTracking)
+      {
+        if (featureTracker.disconnectCamera() == -1)
+          throw new ArgumentException("disconnect camera failed!");
+      }
     }
 
     public void Continue()
     {
       isProcessStopped = false;
+
+      if (useCamera && TPadCore.UseFeatureTracking)
+      {
+        if (featureTracker.connectCamera() == -1)
+          throw new ArgumentException("Connection to camera failed!");
+      }
     }
 
     /// <summary>
@@ -62,46 +84,44 @@ namespace UofM.HCI.tPab.Services
         return;
       if (Container == null || Controller == null)
         return;
-
+      
       if (TPadCore.UseFeatureTracking)
       {
         Bitmap camView = (Bitmap)e.NewObject;
+        camView.Save("neu.png");
         Stopwatch sw = new Stopwatch();
-        camView.Save("new.png");
-        oldCamView.Save("old.png");
         sw.Start();
+        
         // Here goes the machine vision code to find where the device is located based on the camera image
         //ToDo: correct warping with camera
-
-        //compute warping matrix
         if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
         {
           temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
-          featureTracker.imageWarp(temp_SimCaptureToSourceImageRatio, true);
+          featureTracker.imageWarp(temp_SimCaptureToSourceImageRatio);
         }
 
         //start feature tracking
-        int status = featureTracker.detectLocation(camView, oldCamView);
+        int status = featureTracker.detectLocation(camView);
         if (status == 1)
         {
           location.Status = LocationStatus.Located;
           location.RotationAngle = featureTracker.RotationAngle;
 
-          PointF locationPx = new PointF(featureTracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio, featureTracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
-          location.LocationCm = new PointF((float)(locationPx.X / Container.WidthFactor), (float)(locationPx.Y / Container.HeightFactor));
+          PointF locationPx = new PointF(featureTracker.LocationPxTL.X / Controller.SimCaptureToSourceImageRatio, 
+            featureTracker.LocationPxTL.Y / Controller.SimCaptureToSourceImageRatio);
+          location.LocationCm = new PointF((float)(locationPx.X / Controller.WidthFactor), (float)(locationPx.Y / Controller.HeightFactor));
 
           //TODO: get Document object from featureTracker
           location.DocumentID = Controller.ActualDocument.ID;
           location.PageIndex = featureTracker.PageIdx;
+          
           sw.Stop();
-          //Console.WriteLine(sw.Elapsed.TotalMilliseconds);
+          Console.WriteLine(sw.Elapsed.TotalMilliseconds);
         }
         else if (status == -1)
           location.Status = LocationStatus.NotLocated;
 
         sw.Stop();
-        //update last image of camera
-        oldCamView = camView;
       }
       else
       {
