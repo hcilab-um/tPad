@@ -318,11 +318,6 @@ namespace UofM.HCI.tPab
       get { return sWindow.SimCaptureToSourceImageRatio; }
     }
 
-    public bool IsCameraInUse
-    {
-      get { return sWindow.IsCameraInUse; }
-    }
-
     #endregion
 
   }

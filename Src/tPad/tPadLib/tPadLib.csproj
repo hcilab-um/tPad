@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Converters\IntToBinaryConverter.cs" />
     <Compile Include="Converters\LocationToMargingConverter.cs" />
+    <Compile Include="Monitors\CameraMonitor.cs" />
     <Compile Include="TPadPage.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
     <Compile Include="Converters\ConditionalTypeConverter.cs" />
@@ -96,7 +97,6 @@
       <DependentUpon>MockApp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Monitors\BoardMonitor.cs" />
-    <Compile Include="Monitors\CameraMonitor.cs" />
     <Compile Include="Monitors\FlippingMonitor.cs" />
     <Compile Include="Monitors\StackingMonitor.cs" />
     <Compile Include="Monitors\SimCameraMonitor.cs" />

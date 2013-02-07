@@ -25,33 +25,49 @@ namespace UofM.HCI.tPab.Services
     private float temp_SimCaptureToSourceImageRatio;
 
     private bool isProcessStopped = false;
-    
+
+    private bool useCamera;
+
+    public RegistrationService(bool pUseCamera)
+    {
+      useCamera = pUseCamera;
+    }
+
     protected override void CustomStart()
     {
-      featureTracker = new ManagedA.wrapperRegistClass(Controller.IsCameraInUse);
+      featureTracker = new ManagedA.wrapperRegistClass(useCamera);
       featureTracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
 
       location = new TPadLocation();
       temp_SimCaptureToSourceImageRatio = 1;
 
-      //if (Controller.IsCameraInUse && TPadCore.UseFeatureTracking)
-      //  featureTracker.connectCamera();
+      if (useCamera && TPadCore.UseFeatureTracking)
+      {
+        if (featureTracker.connectCamera() == -1)
+          throw new ArgumentException("Connection to camera failed!");
+      }
     }
 
     public void Pause()
     {
       isProcessStopped = true;
 
-      //if (Controller.IsCameraInUse && TPadCore.UseFeatureTracking)
-      //  featureTracker.disconnectCamera();
+      if (useCamera && TPadCore.UseFeatureTracking)
+      {
+        if (featureTracker.disconnectCamera() == -1)
+          throw new ArgumentException("disconnect camera failed!");
+      }
     }
 
     public void Continue()
     {
       isProcessStopped = false;
 
-      //if (Controller.IsCameraInUse && TPadCore.UseFeatureTracking)
-      //  featureTracker.connectCamera();
+      if (useCamera && TPadCore.UseFeatureTracking)
+      {
+        if (featureTracker.connectCamera() == -1)
+          throw new ArgumentException("Connection to camera failed!");
+      }
     }
 
     /// <summary>

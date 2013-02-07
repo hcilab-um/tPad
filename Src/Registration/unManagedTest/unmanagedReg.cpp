@@ -295,6 +295,8 @@ int paperRegistration::connectCamera()
 
 int paperRegistration::disconnectCamera() 
 {
+	if (!isCameraConnected)
+		return 1;
 	isCameraConnected = false;
 
 	FlyCapture2::Error error;
