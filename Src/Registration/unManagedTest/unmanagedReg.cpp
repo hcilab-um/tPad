@@ -245,7 +245,7 @@ float paperRegistration::compareImages(cv::Mat &lastImg, cv::Mat &currentImg)
 	cv::Scalar mean;
 	cv::Mat diff;
 	if (lastImg.size != currentImg.size)
-		mean = 1;
+		mean = 10;
 	else {
 		cv::subtract(lastImg, currentImg, diff);
 		mean = cv::mean(diff);
@@ -344,14 +344,16 @@ cv::Mat paperRegistration::loadCameraImage()
 }
 
 int paperRegistration::detectLocation(cv::Mat &cameraImage)
-{
+{	
+	return -1;
 	//cv::resize(cameraImage, cameraImage, cv::Size(299,428));
 	//cv::resize(lastImg, lastImg, cv::Size(299,428));
-	return 0;
+	//return 0;
 
 	if (compareImages(cameraImage, lastDeviceImage) > 1.5)
 	{
 		lastDeviceImage = cameraImage;
+		
 		//toDo: load matcher	
 		/*std::string sceneImageData = "sceneImagedatamodel.xml";
 		cv::FileStorage fs(sceneImageData, cv::FileStorage::READ);
@@ -366,6 +368,7 @@ int paperRegistration::detectLocation(cv::Mat &cameraImage)
 			warpMat = getRotationMatrix2D(cv::Point2f(cameraImage.cols/2.0, cameraImage.rows/2.0), 180, 1);
 			cv::warpAffine(cameraImage, cameraImage, warpMat, cameraImage.size());
 			cv::resize(cameraImage, cameraImage, cv::Size(cameraImage.cols*imgRatio_, cameraImage.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
+			cv::imwrite("result.png", cameraImage);
 		}
 		else 
 		{

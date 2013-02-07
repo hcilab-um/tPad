@@ -70,6 +70,7 @@ namespace UofM.HCI.tPab.Services
       if (TPadCore.UseFeatureTracking)
       {
         Bitmap camView = (Bitmap)e.NewObject;
+        camView.Save("neu.png");
         Stopwatch sw = new Stopwatch();
         sw.Start();
 
@@ -94,7 +95,7 @@ namespace UofM.HCI.tPab.Services
 
           //TODO: get Document object from featureTracker
           location.DocumentID = Controller.ActualDocument.ID;
-          location.PageIndex = featureTracker.PageIdx;
+          location.PageIndex = 0;
           
           sw.Stop();
           Console.WriteLine(sw.Elapsed.TotalMilliseconds);
