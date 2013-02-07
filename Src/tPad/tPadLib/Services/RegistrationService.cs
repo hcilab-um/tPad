@@ -36,16 +36,20 @@ namespace UofM.HCI.tPab.Services
       location = new TPadLocation();
       oldCamView = new Bitmap(10, 10);
       temp_SimCaptureToSourceImageRatio = 1;
+      
+      //featureTracker.connectCamera();
     }
 
     public void Pause()
     {
       isProcessStopped = true;
+      //featureTracker.disconnectCamera();
     }
 
     public void Continue()
     {
       isProcessStopped = false;
+      //featureTracker.connectCamera();
     }
 
     /// <summary>
@@ -62,17 +66,15 @@ namespace UofM.HCI.tPab.Services
         return;
       if (Container == null || Controller == null)
         return;
-
+      
       if (TPadCore.UseFeatureTracking)
       {
         Bitmap camView = (Bitmap)e.NewObject;
         Stopwatch sw = new Stopwatch();
-        camView.Save("new.png");
-        oldCamView.Save("old.png");
         sw.Start();
+
         // Here goes the machine vision code to find where the device is located based on the camera image
         //ToDo: correct warping with camera
-
         //compute warping matrix
         if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
         {
@@ -81,7 +83,7 @@ namespace UofM.HCI.tPab.Services
         }
 
         //start feature tracking
-        int status = featureTracker.detectLocation(camView, oldCamView);
+        int status = featureTracker.detectLocation(camView);
         if (status == 1)
         {
           location.Status = LocationStatus.Located;
@@ -93,8 +95,9 @@ namespace UofM.HCI.tPab.Services
           //TODO: get Document object from featureTracker
           location.DocumentID = Controller.ActualDocument.ID;
           location.PageIndex = featureTracker.PageIdx;
+          
           sw.Stop();
-          //Console.WriteLine(sw.Elapsed.TotalMilliseconds);
+          Console.WriteLine(sw.Elapsed.TotalMilliseconds);
         }
         else if (status == -1)
           location.Status = LocationStatus.NotLocated;

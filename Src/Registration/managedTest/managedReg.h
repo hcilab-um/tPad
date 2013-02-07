@@ -90,15 +90,7 @@ namespace ManagedA
 				return locationPt;
 			}
 		}
-
-		property float MiliSec
-		{
-			float get()
-			{			
-				return registrationObj->getMiliSec();
-			}
-		}
-				
+								
 		void createIndex(String^ path)
 		{
 			char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(path);
@@ -110,9 +102,18 @@ namespace ManagedA
 			registrationObj->imageWarp(imageRatio, isSim);
 		}
 
-		int detectLocation(Bitmap^ bmp1, Bitmap^ bmp2);
+		int detectLocation(Bitmap^ bmp1);
 
+		int connectCamera()
+		{
+			return registrationObj->connectCamera();
+		}
 		
+		int disconnectCamera()
+		{
+			return registrationObj->disconnectCamera();
+		}
+
 	private: 
 		paperRegistration *registrationObj;
 	};
