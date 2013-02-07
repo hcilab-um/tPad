@@ -150,7 +150,7 @@ namespace UofM.HCI.tPab
     private delegate MemoryStream GetDeviceViewDelegate();
     public System.Drawing.Bitmap GetDeviceView(out float angle)
     {
-      Thread.Sleep(100);
+      //Thread.Sleep(100);
       angle = RotationAngle;
       GetDeviceViewDelegate gdvDelegate = new GetDeviceViewDelegate(SafeGetDeviceView);
       Object[] args = new Object[0];
@@ -158,32 +158,33 @@ namespace UofM.HCI.tPab
 
       if (result == null)
         return null;
-
-      System.Drawing.Bitmap frame = new System.Drawing.Bitmap(result);
-      return frame;
+      try
+      {
+        System.Drawing.Bitmap frame = new System.Drawing.Bitmap(result);
+        return frame;
+      }
+      catch { return null; }
     }
 
     private MemoryStream SafeGetDeviceView()
     {
-      int zeroX = 0, zeroY = 0;
-      sWindow.GetCoordinatesForScreenCapture(out zeroX, out zeroY);
-
-      if (TPadAppBounds == Rect.Empty)
-        TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp as UserControl);
-      if (TPadAppBounds.Size.Width == 0 || TPadAppBounds.Size.Height == 0)
-      {
-        TPadAppBounds = Rect.Empty;
-        return null;
-      }
-
-      Rect ttPadBounds = new Rect();
-      if (this.Parent as Visual != null)
-        ttPadBounds = (TPadApp as UserControl).TransformToAncestor(this.Parent as Visual).TransformBounds(TPadAppBounds);
-      else return null;
-      System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds);
       MemoryStream result = new MemoryStream();
       try
       {
+        int zeroX = 0, zeroY = 0;
+        sWindow.GetCoordinatesForScreenCapture(out zeroX, out zeroY);
+
+        if (TPadAppBounds == Rect.Empty)
+          TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp as UserControl);
+        if (TPadAppBounds.Size.Width == 0 || TPadAppBounds.Size.Height == 0)
+        {
+          TPadAppBounds = Rect.Empty;
+          return null;
+        }
+
+        Rect ttPadBounds = new Rect();
+        ttPadBounds = (TPadApp as UserControl).TransformToAncestor(sWindow).TransformBounds(TPadAppBounds);
+        System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds);
         capture.Save(result, ImageFormat.Bmp);
       }
       catch { }

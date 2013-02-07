@@ -30,6 +30,10 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
       var sizeOffScreenIcon = float.Parse(values[8].ToString());
       var angle = double.Parse(values[9].ToString());
 
+      //The highlightPosition is not in cms, thus it must be converted to pixels
+      highlightPosition.X = highlightPosition.X * widthFactor;
+      highlightPosition.Y = highlightPosition.Y * heightFactor;
+
       Vector deviceLocation = new Vector(deviceLoc.X * widthFactor, deviceLoc.Y * heightFactor);
       Vector deviceCenter = new Vector(deviceLocation.X + (deviceWidthInPage / 2.0f), deviceLocation.Y + (deviceHeightInPage / 2.0f)); //center within the page
       

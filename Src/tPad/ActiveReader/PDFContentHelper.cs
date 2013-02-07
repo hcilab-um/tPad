@@ -6,6 +6,7 @@ using System.IO;
 using TallComponents.PDF;
 using System.Windows;
 using TallComponents.PDF.TextExtraction;
+using System.Xml.Serialization;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -180,5 +181,70 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       return results;
     }
+
+    public void SaveLayersToDisk(TPadDocument document, int deviceID)
+    {
+      if (deviceID != -1)
+        return;
+
+      String fileName = String.Format(@"{0}-{1}-ar.cache", document.FileName, deviceID);
+      if (File.Exists(fileName))
+        File.Delete(fileName);
+
+      XmlSerializer serializer = new XmlSerializer(typeof(ActiveReaderDocument));
+      TextWriter textWriter = new StreamWriter(fileName);
+      serializer.Serialize(textWriter, document);
+      textWriter.Close();
+    }
+
+    public void LoadLayersFromDisk(ActiveReaderDocument document, int deviceID)
+    {
+      if (deviceID != -1)
+        return;
+
+      String fileName = String.Format(@"{0}-{1}-ar.cache", document.FileName, deviceID);
+      if (!File.Exists(fileName))
+        return;
+
+      XmlSerializer deserializer = new XmlSerializer(typeof(ActiveReaderDocument));
+      deserializer.UnknownNode += new XmlNodeEventHandler(deserializer_UnknownNode);
+      deserializer.UnreferencedObject += new UnreferencedObjectEventHandler(deserializer_UnreferencedObject);
+      deserializer.UnknownElement += new XmlElementEventHandler(deserializer_UnknownElement);
+      deserializer.UnknownAttribute += new XmlAttributeEventHandler(deserializer_UnknownAttribute);
+
+      TextReader textReader = new StreamReader(fileName);
+      ActiveReaderDocument newDoc = (ActiveReaderDocument)deserializer.Deserialize(textReader);
+      textReader.Close();
+
+      for (int index = 0; index < document.Pages.Length; index++)
+      {
+        document[index].Annotations = newDoc[index].Annotations;
+        document[index].Highlights = newDoc[index].Highlights;
+        document[index].Scribblings = newDoc[index].Scribblings;
+        document[index].SearchResults = newDoc[index].SearchResults;
+        document[index].FigureLinks = newDoc[index].FigureLinks;
+      }
+    }
+
+    void deserializer_UnknownAttribute(object sender, XmlAttributeEventArgs e)
+    {
+      Console.WriteLine(String.Format("deserializer_UnknownAttribute({0})", e.Attr));
+    }
+
+    void deserializer_UnknownElement(object sender, XmlElementEventArgs e)
+    {
+      Console.WriteLine(String.Format("deserializer_UnknownElement({0})", e.Element));
+    }
+
+    void deserializer_UnreferencedObject(object sender, UnreferencedObjectEventArgs e)
+    {
+      Console.WriteLine(String.Format("deserializer_UnreferencedObject({0})", e.UnreferencedObject));
+    }
+
+    void deserializer_UnknownNode(object sender, XmlNodeEventArgs e)
+    {
+      Console.WriteLine(String.Format("deserializer_UnknownNode({0})", e.Name));
+    }
+
   }
 }

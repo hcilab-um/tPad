@@ -206,10 +206,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (ActualDocument == null)
       {
         //First time it comes to this document and first document
-        if (e.NewLocation.DocumentID != -1)
-          LoadDocument(e.NewLocation);
-        else
-          throw new Exception("Document cannot be null");
+        LoadDocument(e.NewLocation);
       }
       else
       {
@@ -217,7 +214,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (ActualDocument.ID != e.NewLocation.DocumentID)
         {
           //1- Saves current layers to disk
-          SaveLayersToDisk(ActualDocument);
+          PdfHelper.SaveLayersToDisk(ActualDocument, Core.Device.ID);
 
           //2- Loads the layers (for current page)
           LoadDocument(e.NewLocation);
@@ -226,7 +223,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         else if (ActualPage != e.NewLocation.PageIndex)
         {
           //1- Saves current layers to disk
-          SaveLayersToDisk(ActualDocument);
+          PdfHelper.SaveLayersToDisk(ActualDocument, Core.Device.ID);
 
           //2- Load layers for current page
           ActualPage = e.NewLocation.PageIndex;
@@ -252,43 +249,19 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void LoadDocument(TPadLocation newLocation)
     {
+      if (newLocation.DocumentID == -1)
+        throw new Exception("Document cannot be null");
+      if (!DbDocuments.ContainsKey(newLocation.DocumentID))
+        throw new Exception("Unknown document");
+
       //1- Loads the layers should they exist in disk
       ActualDocument = DbDocuments[newLocation.DocumentID];
       PdfHelper = new PDFContentHelper(ActualDocument.FileName);
-      LoadLayersFromDisk(ActualDocument);
+      PdfHelper.LoadLayersFromDisk(ActualDocument, Core.Device.ID);
 
       //3- Load layers for current page
       ActualPage = newLocation.PageIndex;
       LoadLayersToPage(ActualDocument, ActualPage);
-    }
-
-    private void SaveLayersToDisk(TPadDocument document)
-    {
-      return;
-
-      XmlSerializer serializer = new XmlSerializer(typeof(TPadDocument));
-      TextWriter textWriter = new StreamWriter(document.Folder + "cache.xml");
-      serializer.Serialize(textWriter, document);
-      textWriter.Close();
-    }
-
-    private void LoadLayersFromDisk(ActiveReaderDocument document)
-    {
-      return;
-
-      XmlSerializer deserializer = new XmlSerializer(typeof(TPadDocument));
-      TextReader textReader = new StreamReader(document.Folder + "cache.xml");
-      ActiveReaderDocument newDoc = (ActiveReaderDocument)deserializer.Deserialize(textReader);
-      textReader.Close();
-
-      for (int index = 0; index < document.Pages.Length; index++)
-      {
-        document[index].Annotations = newDoc[index].Annotations;
-        document[index].Highlights = newDoc[index].Highlights;
-        document[index].Scribblings = newDoc[index].Scribblings;
-        document[index].SearchResults = newDoc[index].SearchResults;
-        document[index].FigureLinks = newDoc[index].FigureLinks;
-      }
     }
 
     private void LoadLayersToPage(ActiveReaderDocument document, int pageIndex)
@@ -388,7 +361,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       ClearSearch();
 
-      List<ContentLocation> pageSearch = PdfHelper.ContentToPixel(word, page, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight);
+      List<ContentLocation> pageSearch = PdfHelper.ContentToPixel(word, page, Core.Profile.DocumentSize.Width, Core.Profile.DocumentSize.Height);
 
       foreach (ContentLocation content in pageSearch)
       {
@@ -415,10 +388,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
         isHighlighting = true;
-        lastPosition = Mouse.GetPosition(gAnchoredLayers);
+        lastPosition = GetMousePositionInDocument();
 
         newHighlight = new Highlight();
-        newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 };
+        newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 / Container.HeightFactor };
         newHighlight.Line.MouseDown += cHighlights_MouseDown;
         newHighlight.Line.MouseMove += cHighlights_MouseMove;
         newHighlight.Line.MouseUp += cHighlights_MouseUp;
@@ -451,8 +424,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
         }
 
         if (sender is Line)
-        {          
-          Line line = (Line) sender;
+        {
+          Line line = (Line)sender;
           if (line.Tag != null)
           {
             isHighlighting = false; //to avoid highlighting in Figure-Mode
@@ -479,14 +452,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
       figureViewer.Visibility = Visibility.Visible;
     }
 
-    private float minlength_Highlight = 10;
+    private float minlength_Highlight = (float)0.2; //cms
     private void cHighlights_MouseUp(object sender, MouseButtonEventArgs e)
     {
       if (!isHighlighting)
         return;
 
       isHighlighting = false;
-      Point newPosition = Mouse.GetPosition(gAnchoredLayers);
+      Point newPosition = GetMousePositionInDocument();
       newHighlight.Line.X2 = newPosition.X;
       newHighlight.Line.Y2 = newPosition.Y;
 
@@ -498,7 +471,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         cHighlights.Children.Remove(newHighlight.Line);
 
         Rect contentBounds = Rect.Empty;
-        String content = PdfHelper.PixelToContent(newPosition, ActualPage, gAnchoredLayers.ActualWidth, gAnchoredLayers.ActualHeight, out contentBounds);
+        String content = PdfHelper.PixelToContent(newPosition, ActualPage, Core.Profile.DocumentSize.Width, Core.Profile.DocumentSize.Height, out contentBounds);
 
         if (content != null)
           SearchTerm = content;
@@ -519,14 +492,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (!isHighlighting)
         return;
 
-      Point newPosition = Mouse.GetPosition(gAnchoredLayers);
+      Point newPosition = GetMousePositionInDocument();
       newHighlight.Line.X2 = newPosition.X;
       newHighlight.Line.Y2 = newPosition.Y;
     }
 
     private void gFixedLayers_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      lastPosition = Mouse.GetPosition(sender as Grid);
+      lastPosition = Mouse.GetPosition(gFixedLayers);
     }
 
     private void bHighlight_Click(object sender, RoutedEventArgs e)
@@ -562,7 +535,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         //open context menu at new position
         contextMenu.IsOpen = true;
         cm_deleteItem.Visibility = Visibility.Collapsed;
-        contextMenu.Visibility = Visibility.Visible;        
+        contextMenu.Visibility = Visibility.Visible;
 
         if (isSenderHighlight)
           cm_deleteItem.Visibility = Visibility.Visible;
@@ -579,7 +552,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           ActualDocument[ActualPage].Highlights.Remove(line);
           break;
         }
-      }      
+      }
     }
 
     private void CMSearch_Click(object sender, RoutedEventArgs e)
@@ -602,12 +575,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newNote.Annotation.GNote.MouseDown += StickyNoteButton_MouseDown;
       newNote.Annotation.TextField.PreviewMouseDown += StickyNoteTextBox_PreviewMouseDown;
       newNote.Annotation.TextField.PreviewMouseMove += StickyNoteTextBox_PreviewMouseMove;
+      newNote.Annotation.WidthFactor = Container.WidthFactor;
+      newNote.Annotation.HeightFactor = Container.HeightFactor;
+      newNote.Annotation.Width = 150;
+      newNote.Annotation.Height = 150;
       //rotate sticky note
       //RotateTransform rotation = new RotateTransform(Device.Location.RotationAngle, newNote.annotation.Width * 0.5, newNote.annotation.Height * 0.5);
       //newNote.annotation.RenderTransform = rotation;
 
-
-      newNote.Icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
+      newNote.Icon = new Image { Width = 1, Height = 0.8 };
       string strUri2 = (Environment.CurrentDirectory + "\\Images\\ICON.png");
       newNote.Icon.Source = new BitmapImage(new Uri(strUri2));
       newNote.Icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newNote.Icon.Height, 0, 0);
@@ -620,7 +596,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       //Update current note
       ActualNote = newNote;
     }
-        
+
     private void bStickyNoteClose_Click(object sender, RoutedEventArgs e)
     {
       foreach (Note element in ActualDocument[ActualPage].Annotations)
@@ -642,13 +618,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newScribble.Scribbling = new InkCanvas()
       {
         Background = Brushes.Beige,
-        Width = (int)iDocument.Width / 7,
-        Height = (int)iDocument.Width / 7,
+        Width = 5,
+        Height = 3.5,
       };
+      newScribble.Scribbling.Margin = new Thickness(lastPosition.X, lastPosition.Y, 0, 0);
+      newScribble.Scribbling.DefaultDrawingAttributes.Width = 3 / Container.WidthFactor;
+      newScribble.Scribbling.DefaultDrawingAttributes.Height = 3 / Container.HeightFactor;
 
-      newScribble.Scribbling.Margin = new Thickness(lastPosition.X, lastPosition.Y + 10, 0, 0);
-
-      newScribble.Icon = new Image { Width = (int)iDocument.Width / 30, Height = (int)iDocument.Width / 25 };
+      newScribble.Icon = new Image { Width = 1, Height = 0.8 };
       string strUri2 = (Environment.CurrentDirectory + "\\Images\\ICON.png");
       newScribble.Icon.Source = new BitmapImage(new Uri(strUri2));
       newScribble.Icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newScribble.Icon.Height, 0, 0);
@@ -706,7 +683,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
             ActualNote = element;
         }
 
-        lastPosition = Mouse.GetPosition(gAnchoredLayers);
+        lastPosition = GetMousePositionInDocument();
         tpKeyboard.Visibility = Visibility.Visible;
         tpKeyboard.ResultClear();
         tpKeyboard.CurrentText.Append(ActualNote.Annotation.TextField.Text);
@@ -718,12 +695,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
-        Point currentPosition = Mouse.GetPosition(gAnchoredLayers);
+        Point currentPosition = GetMousePositionInDocument();
         Vector lineVector = new Vector(currentPosition.X - lastPosition.X,
           currentPosition.Y - lastPosition.Y);
         if (lineVector.Length > 10)
           ActualNote.Annotation.Margin = new Thickness(currentPosition.X, currentPosition.Y, 0, 0);
-      }      
+      }
     }
 
     private void StickyNoteButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -739,20 +716,20 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void StickyNoteButton_MouseMove(object sender, MouseEventArgs e)
     {
       if (ActualNote.Annotation != null && ActualNote.Annotation.IsBResizeClicked)
-      {        
-        Point currentPosition = Mouse.GetPosition(gAnchoredLayers);
+      {
+        Point currentPosition = GetMousePositionInDocument();
         Vector lineVector = new Vector(currentPosition.X - lastPosition.X,
           currentPosition.Y - lastPosition.Y);
         if (lineVector.Length > 5)
         {
-            Point noteSize = new Point(currentPosition.X - ActualNote.Annotation.Margin.Left, currentPosition.Y - ActualNote.Annotation.Margin.Top);
-            if (noteSize.X >= defaultNoteSize.Width)
-              ActualNote.Annotation.GNote.Width = noteSize.X;
-            if (noteSize.Y >= defaultNoteSize.Height)
-              ActualNote.Annotation.GNote.Height = noteSize.Y;
+          Point noteSize = new Point(currentPosition.X - ActualNote.Annotation.Margin.Left, currentPosition.Y - ActualNote.Annotation.Margin.Top);
+          if (noteSize.X >= defaultNoteSize.Width)
+            ActualNote.Annotation.GNote.Width = noteSize.X;
+          if (noteSize.Y >= defaultNoteSize.Height)
+            ActualNote.Annotation.GNote.Height = noteSize.Y;
         }
-          tpKeyboard.Visibility = Visibility.Hidden;
-      }       
+        tpKeyboard.Visibility = Visibility.Hidden;
+      }
     }
 
     private void bSearch_Click(object sender, RoutedEventArgs e)
@@ -796,23 +773,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
         ActualNote.Annotation.TextField.Text = tpKeyboard.CurrentText.ToString();
     }
 
-    //static public void SerializeToXML(List<ContentLocation> locations, string path)
-    //{
-    //  XmlSerializer serializer = new XmlSerializer(typeof(List<ContentLocation>));
-    //  TextWriter textWriter = new StreamWriter(@path);
-    //  serializer.Serialize(textWriter, locations);
-    //  textWriter.Close();
-    //}
-
-    //static List<ContentLocation> DeserializeFromXML(string path)
-    //{
-    //  XmlSerializer deserializer = new XmlSerializer(typeof(List<ContentLocation>));
-    //  TextReader textReader = new StreamReader(@path);
-    //  List<ContentLocation> locations;
-    //  locations = (List<ContentLocation>)deserializer.Deserialize(textReader);
-    //  textReader.Close();
-
-    //  return locations;
-    //}
+    /// <summary>
+    /// Gets the click position in the underlaying document in cms
+    /// </summary>
+    private Point GetMousePositionInDocument()
+    {
+      Point mouseDocPosition = Mouse.GetPosition(gAnchoredLayers);
+      mouseDocPosition.X = mouseDocPosition.X / Container.WidthFactor;
+      mouseDocPosition.Y = mouseDocPosition.Y / Container.HeightFactor;
+      return mouseDocPosition;
+    }
   }
 }

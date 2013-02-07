@@ -314,6 +314,8 @@ namespace UofM.HCI.tPab
     void deviceWindow_Closed(object sender, EventArgs e)
     {
       ITPadApp instanceClosed = appInstances.FirstOrDefault(tmp => tmp.Container == sender);
+      instanceClosed.Core.CoreStop();
+
       appInstances.Remove(instanceClosed);
       gTop.Children.Remove(instanceClosed.Controller as UserControl);
       deviceCount--;
@@ -369,9 +371,14 @@ namespace UofM.HCI.tPab
       }
       else if (e.NewState == StackingControlState.None)
       {
-        topDevice.StackingControlState = StackingControlState.None;
-        bottomDevice.StackingControlState = StackingControlState.None;
-        bottomDevice.DeviceOnTopID = -1;
+        if (topDevice != null)
+          topDevice.StackingControlState = StackingControlState.None;
+
+        if (bottomDevice != null)
+        {
+          bottomDevice.StackingControlState = StackingControlState.None;
+          bottomDevice.DeviceOnTopID = -1;
+        }
 
         topDevice = null;
         bottomDevice = null;

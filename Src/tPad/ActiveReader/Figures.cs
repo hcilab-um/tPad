@@ -16,6 +16,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     public Figure()
     { 
+      TriggerText = new string[0];
     }
 
     public Figure(int figureIdx, int pageIdx, Int32Rect figRect, string[] triggerTxt)

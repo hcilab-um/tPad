@@ -99,6 +99,12 @@ namespace UofM.HCI.tPab
       logger.Info("Monitors Started");
     }
 
+    public void CoreStop()
+    {
+      monitorsContainer.StopMonitors();
+      servicesContainer.StopServices();
+    }
+
     private void ConfigurePeripherals()
     {
       //Stops everything

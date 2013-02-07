@@ -3,10 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="150">
+             mc:Ignorable="d" d:DesignHeight="150" d:DesignWidth="150">
 
-  <Grid x:Name="gNote" Background="LightYellow" Width="150" Height="150">
+  <UserControl.RenderTransform>
+    <ScaleTransform ScaleX="{Binding ElementName=stickyNote, Path=InvWidthFactor}" 
+                    ScaleY="{Binding ElementName=stickyNote, Path=InvHeightFactor}"/>
+  </UserControl.RenderTransform>
+  
+  <Grid x:Name="gNote" Background="LightYellow" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
     <TextBox x:Name="tNote" Margin="0 0 20 0" Background="LightYellow" BorderThickness="0" Grid.Column="0"
              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
     <Button x:Name="bClose" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" Grid.Column="1" Background="Transparent" BorderThickness="0" BorderBrush="Transparent">
@@ -14,8 +18,8 @@
         <Image Source="Images/delete.png"/>
       </DockPanel>
     </Button>
-    <Image x:Name="bResize" Source="Images/resize.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="15" Height="15" Grid.Column="1" 
-           MouseDown="bResize_MouseDown" MouseUp="bResize_MouseUp"/>
+    <Rectangle x:Name="bResize" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="20" Height="20" Grid.Column="1" Fill="Goldenrod"
+               MouseDown="bResize_MouseDown" MouseUp="bResize_MouseUp"/>    
   </Grid>
 
 </UserControl>

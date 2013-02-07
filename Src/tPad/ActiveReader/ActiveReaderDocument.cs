@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
+  [XmlInclude(typeof(ActiveReaderPage))]
   public class ActiveReaderDocument : TPadDocument
   {
+    [XmlIgnore]
     public bool HasFigureLinks
     {
       get

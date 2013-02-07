@@ -8,35 +8,36 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Xml;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
   public class ActiveReaderPage : TPadPage
   {
-    public ObservableCollection<IActiveReaderMarker> Highlights { get; set; }
-    public ObservableCollection<IActiveReaderMarker> Annotations { get; set; }
-    public ObservableCollection<IActiveReaderMarker> SearchResults { get; set; }
-    public ObservableCollection<IActiveReaderMarker> Scribblings { get; set; }
-    public ObservableCollection<IActiveReaderMarker> FigureLinks { get; set; }
+    public ObservableCollection<Highlight> Highlights { get; set; }
+    public ObservableCollection<Note> Annotations { get; set; }
+    public ObservableCollection<Highlight> SearchResults { get; set; }
+    public ObservableCollection<Scribble> Scribblings { get; set; }
+    public ObservableCollection<Highlight> FigureLinks { get; set; }
 
     public ActiveReaderPage()
     {
       FileName = String.Empty;
-      Highlights = new ObservableCollection<IActiveReaderMarker>();
-      Annotations = new ObservableCollection<IActiveReaderMarker>();
-      SearchResults = new ObservableCollection<IActiveReaderMarker>();
-      Scribblings = new ObservableCollection<IActiveReaderMarker>();
-      FigureLinks = new ObservableCollection<IActiveReaderMarker>();
+      Highlights = new ObservableCollection<Highlight>();
+      Annotations = new ObservableCollection<Note>();
+      SearchResults = new ObservableCollection<Highlight>();
+      Scribblings = new ObservableCollection<Scribble>();
+      FigureLinks = new ObservableCollection<Highlight>();
     }
 
     public ActiveReaderPage(String fileName = null)
     {
       FileName = fileName;
-      Highlights = new ObservableCollection<IActiveReaderMarker>();
-      Annotations = new ObservableCollection<IActiveReaderMarker>();
-      SearchResults = new ObservableCollection<IActiveReaderMarker>();
-      Scribblings = new ObservableCollection<IActiveReaderMarker>();
-      FigureLinks = new ObservableCollection<IActiveReaderMarker>();
+      Highlights = new ObservableCollection<Highlight>();
+      Annotations = new ObservableCollection<Note>();
+      SearchResults = new ObservableCollection<Highlight>();
+      Scribblings = new ObservableCollection<Scribble>();
+      FigureLinks = new ObservableCollection<Highlight>();
     }
 
     public override TPadPage Clone()
@@ -45,25 +46,25 @@ namespace UofM.HCI.tPab.App.ActiveReader
       clone.FileName = FileName;
       clone.PageIndex = PageIndex;
 
-      clone.Highlights = new ObservableCollection<IActiveReaderMarker>();
+      clone.Highlights = new ObservableCollection<Highlight>();
       foreach (IActiveReaderMarker highlight in Highlights)
-        clone.Highlights.Add(highlight.Clone());
+        clone.Highlights.Add(highlight.Clone() as Highlight);
 
-      clone.Annotations = new ObservableCollection<IActiveReaderMarker>();
+      clone.Annotations = new ObservableCollection<Note>();
       foreach (IActiveReaderMarker annotation in Annotations)
-        clone.Annotations.Add(annotation.Clone());
+        clone.Annotations.Add(annotation.Clone() as Note);
 
-      clone.SearchResults = new ObservableCollection<IActiveReaderMarker>();
+      clone.SearchResults = new ObservableCollection<Highlight>();
       foreach (IActiveReaderMarker result in SearchResults)
-        clone.SearchResults.Add(result.Clone());
+        clone.SearchResults.Add(result.Clone() as Highlight);
 
-      clone.Scribblings = new ObservableCollection<IActiveReaderMarker>();
+      clone.Scribblings = new ObservableCollection<Scribble>();
       foreach (IActiveReaderMarker scribbling in Scribblings)
-        clone.Scribblings.Add(scribbling.Clone());
+        clone.Scribblings.Add(scribbling.Clone() as Scribble);
 
-      clone.FigureLinks = new ObservableCollection<IActiveReaderMarker>();
+      clone.FigureLinks = new ObservableCollection<Highlight>();
       foreach (IActiveReaderMarker link in FigureLinks)
-        clone.FigureLinks.Add(link.Clone());
+        clone.FigureLinks.Add(link.Clone() as Highlight);
 
       return clone;
     }
@@ -71,8 +72,35 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
   public class Note : IActiveReaderMarker
   {
+    [XmlIgnore]
     public StickyNote Annotation { get; set; }
+
+    public String AnnotationXAML
+    {
+      get { return XamlWriter.Save(Annotation); }
+      set
+      {
+        String annotationXaml = value;
+        StringReader stringReader = new StringReader(annotationXaml);
+        XmlReader xmlReader = XmlReader.Create(stringReader);
+        Annotation = (StickyNote)XamlReader.Load(xmlReader);
+      }
+    }
+
+    [XmlIgnore]
     public Image Icon { get; set; }
+
+    public String IconXAML
+    {
+      get { return XamlWriter.Save(Icon); }
+      set
+      {
+        String iconXaml = value;
+        StringReader stringReader = new StringReader(iconXaml);
+        XmlReader xmlReader = XmlReader.Create(stringReader);
+        Icon = (Image)XamlReader.Load(xmlReader);
+      }
+    }
 
     public double X
     {
@@ -92,25 +120,43 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public IActiveReaderMarker Clone()
     {
       Note clone = new Note();
-
-      string annotationXaml = XamlWriter.Save(Annotation);
-      StringReader stringReader = new StringReader(annotationXaml);
-      XmlReader xmlReader = XmlReader.Create(stringReader);
-      clone.Annotation = (StickyNote)XamlReader.Load(xmlReader);
-
-      string iconXaml = XamlWriter.Save(Icon);
-      stringReader = new StringReader(iconXaml);
-      xmlReader = XmlReader.Create(stringReader);
-      clone.Icon = (Image)XamlReader.Load(xmlReader);
-
+      clone.AnnotationXAML = AnnotationXAML;
+      clone.IconXAML = IconXAML;
       return clone;
     }
   }
 
   public class Scribble : IActiveReaderMarker
   {
+    [XmlIgnore]
     public InkCanvas Scribbling { get; set; }
+
+    public String ScribblingXAML
+    {
+      get { return XamlWriter.Save(Scribbling); }
+      set
+      {
+        String scribblingXaml = value;
+        StringReader stringReader = new StringReader(scribblingXaml);
+        XmlReader xmlReader = XmlReader.Create(stringReader);
+        Scribbling = (InkCanvas)XamlReader.Load(xmlReader);
+      }
+    }
+
+    [XmlIgnore]
     public Image Icon { get; set; }
+
+    public String IconXAML
+    {
+      get { return XamlWriter.Save(Icon); }
+      set
+      {
+        String iconXaml = value;
+        StringReader stringReader = new StringReader(iconXaml);
+        XmlReader xmlReader = XmlReader.Create(stringReader);
+        Icon = (Image)XamlReader.Load(xmlReader);
+      }
+    }
 
     public double X
     {
@@ -130,24 +176,28 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public IActiveReaderMarker Clone()
     {
       Scribble clone = new Scribble();
-
-      string scribblingXaml = XamlWriter.Save(Scribbling);
-      StringReader stringReader = new StringReader(scribblingXaml);
-      XmlReader xmlReader = XmlReader.Create(stringReader);
-      clone.Scribbling = (InkCanvas)XamlReader.Load(xmlReader);
-
-      string iconXaml = XamlWriter.Save(Icon);
-      stringReader = new StringReader(iconXaml);
-      xmlReader = XmlReader.Create(stringReader);
-      clone.Icon = (Image)XamlReader.Load(xmlReader);
-
+      clone.ScribblingXAML = ScribblingXAML;
+      clone.IconXAML = IconXAML;
       return clone;
     }
   }
 
   public class Highlight : IActiveReaderMarker
   {
+    [XmlIgnore]
     public Line Line { get; set; }
+
+    public String LineXAML
+    {
+      get { return XamlWriter.Save(Line); }
+      set
+      {
+        String lineXaml = value;
+        StringReader stringReader = new StringReader(lineXaml);
+        XmlReader xmlReader = XmlReader.Create(stringReader);
+        Line = (Line)XamlReader.Load(xmlReader);
+      }
+    }
 
     public double X
     {
@@ -167,12 +217,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public IActiveReaderMarker Clone()
     {
       Highlight clone = new Highlight();
-
-      string lineXaml = XamlWriter.Save(Line);
-      StringReader stringReader = new StringReader(lineXaml);
-      XmlReader xmlReader = XmlReader.Create(stringReader);
-      clone.Line = (Line)XamlReader.Load(xmlReader);
-
+      clone.LineXAML = LineXAML;
       return clone;
     }
   }
