@@ -40,6 +40,7 @@
               <Rectangle.Margin>
                 <MultiBinding Converter="{StaticResource ResourceKey=cBarItemLocation}">
                   <Binding ElementName="annoBar" Path="PageHeight"/>
+                  <Binding ElementName="annoBar" Path="HeightFactor"/>
                   <Binding Path="Y"/>
                   <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualHeight" />
                   <Binding RelativeSource="{RelativeSource Self}" Path="ActualHeight" />
@@ -71,6 +72,7 @@
               <Rectangle.Margin>
                 <MultiBinding Converter="{StaticResource ResourceKey=cBarItemLocation}">
                   <Binding ElementName="annoBar" Path="PageHeight"/>
+                  <Binding ElementName="annoBar" Path="HeightFactor"/>
                   <Binding Path="Icon.Margin.Top"/>
                   <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualHeight" />
                   <Binding RelativeSource="{RelativeSource Self}"  Path="ActualHeight" />
@@ -102,6 +104,7 @@
               <Rectangle.Margin>
                 <MultiBinding Converter="{StaticResource ResourceKey=cBarItemLocation}">
                   <Binding ElementName="annoBar" Path="PageHeight"/>
+                  <Binding ElementName="annoBar" Path="HeightFactor"/>
                   <Binding Path="Y"/>
                   <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualHeight" />
                   <Binding RelativeSource="{RelativeSource Self}"  Path="ActualHeight" />

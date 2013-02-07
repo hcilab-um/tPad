@@ -18,7 +18,7 @@ namespace ManagedA
 	public ref class wrapperRegistClass
 	{
 	public:
-		wrapperRegistClass();
+		wrapperRegistClass(bool IsCameraInUse);
 
 		~wrapperRegistClass();
 		
@@ -97,9 +97,9 @@ namespace ManagedA
 			registrationObj->createIndex(str);
 		}
 		
-		void imageWarp(float imageRatio, bool isSim)
+		void imageWarp(float imageRatio)
 		{
-			registrationObj->imageWarp(imageRatio, isSim);
+			registrationObj->imageWarp(imageRatio);
 		}
 
 		int detectLocation(Bitmap^ bmp1);

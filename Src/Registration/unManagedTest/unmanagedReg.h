@@ -17,7 +17,7 @@
 class EXPORT_OR_IMPORT paperRegistration
 {
 public:
-	paperRegistration();
+	paperRegistration(bool cameraInUse);
 	~paperRegistration();
 
 	int getPageIdx();
@@ -31,7 +31,7 @@ public:
 
 	int detectLocation(cv::Mat &currentImg);
 	void createIndex(std::string dir_path);
-	void imageWarp(float imageRatio, bool isSim);
+	void imageWarp(float imageRatio);
 	int connectCamera();
 	int disconnectCamera();	
 
@@ -52,7 +52,8 @@ private:
 	cv::vector<cv::vector<cv::KeyPoint>> dbKeyPoints;
 	cv::SurfFeatureDetector* detectorCamImg;
 
-	bool isSimulation_;
+	bool isCameraInUse_;
+	bool isCameraConnected;
 	float imgRatio_;
 	cv::vector<int> votingPageIndices;
 	cv::Mat lastDeviceImage;

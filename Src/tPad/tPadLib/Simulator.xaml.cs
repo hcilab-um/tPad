@@ -102,6 +102,17 @@ namespace UofM.HCI.tPab
       set { TPadCore.UseFeatureTracking = value; }
     }
 
+    private bool isCameraInUse = false;
+    public bool IsCameraInUse
+    {
+      get { return isCameraInUse; }
+      set
+      {
+        isCameraInUse = value;
+        OnPropertyChanged("IsCameraInUse");
+      }
+    }
+
     public double StartPageX
     {
       get { return startPageX; }
@@ -231,8 +242,25 @@ namespace UofM.HCI.tPab
         return;
       }
 
+      if (cbCamera.IsSelected)
+      {
+        foreach (ITPadApp appInstance in appInstances)
+        {
+          if (appInstance.Controller.IsCameraInUse)
+          {
+            MessageBox.Show("You cannot use the camera in more than one device if a simulation is running.");
+            return;
+          }
+        }
+      }
+
       try
       {
+
+        if (cbCamera.IsSelected)
+          IsCameraInUse = true;
+        else IsCameraInUse = false;
+
         SimulatorDevice simDevice = new SimulatorDevice(this);
         simDevice.OnStackingControl += simDevice_OnStackingControl;
         simDevice.PropertyChanged += simDevice_PropertyChanged;
@@ -251,12 +279,12 @@ namespace UofM.HCI.tPab
         TPadWindow deviceWindow = new TPadWindow(Profile, Launcher);
         deviceWindow.Closed += deviceWindow_Closed;
         deviceWindow.InstanceNumber = appInstances.Count;
-
+        
         ITPadApp instance = Launcher.GetAppInstance(deviceWindow, simDevice, null, null, deviceCount++);
         simDevice.TPadApp.Core = instance.Core; //copies the core from the actual app to the mock app
         deviceWindow.LoadTPadApp(instance);
         deviceWindow.Show();
-
+        
         appInstances.Add(instance);
       }
       catch (Exception exception)
@@ -306,7 +334,7 @@ namespace UofM.HCI.tPab
         if (instance.Container is Window)
         {
           (instance.Container as Window).Closed -= deviceWindow_Closed;
-          (instance.Container as Window).Close();
+          (instance.Container as Window).Close();          
         }
       }
     }

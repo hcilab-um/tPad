@@ -6,9 +6,9 @@
 
 namespace ManagedA
 {
-	wrapperRegistClass::wrapperRegistClass(void)
+	wrapperRegistClass::wrapperRegistClass(bool IsCameraInUse)
 	{
-		registrationObj = new paperRegistration();
+		registrationObj = new paperRegistration(IsCameraInUse);
 	}
 
 	wrapperRegistClass::~wrapperRegistClass(void)

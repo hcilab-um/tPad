@@ -11,7 +11,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2\calib3d\calib3d.hpp>
 
-paperRegistration::paperRegistration()
+paperRegistration::paperRegistration(bool isCameraInUse)
 {
 	/*cv::Point2f point;
 	point.x = 2;
@@ -27,7 +27,8 @@ paperRegistration::paperRegistration()
 	LocationPxM = cv::Point2f(-1,-1);
 	RotationAngle = 0;	
 
-	isSimulation_ = true;
+	isCameraInUse_ = isCameraInUse;
+	isCameraConnected = false;
 	imgRatio_ = 1.0;
 
 	detectorCamImg = new cv::SurfFeatureDetector(600,4,1, false);
@@ -82,12 +83,11 @@ float paperRegistration::getRotationAngle()
 	return RotationAngle;
 }
 
-void paperRegistration::imageWarp(float imageRatio, bool isSim)
+void paperRegistration::imageWarp(float imageRatio)
 {
-	isSimulation_ = isSim;
 	imgRatio_ = imageRatio;
 
-	if (!isSimulation_)
+	if (!isCameraInUse_)
 	{
 		cv::Point2f srcPoint[4] = {cv::Point2f(10,10),cv::Point2f(155,10), cv::Point2f(10,292), cv::Point2f(166,292)};
 		cv::Point2f destPoint[4] = {cv::Point2f(446,666), cv::Point2f(267,666), cv::Point2f(446,316), cv::Point2f(253,316)};		
@@ -127,7 +127,7 @@ cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &deviceImage)
 		}
 
 		int max = 0;
-		int PageIdx = -1;
+		PageIdx = -1;
 		for (unsigned int i = 0; i < votingPageIndices.size(); ++i)
 		{			
 			if (votingPageIndices[i] > max)
@@ -289,11 +289,14 @@ int paperRegistration::connectCamera()
 	// Setting the window size in OpenCV
 	frame = cvCreateImage(cv::Size(rawImage.GetCols(), rawImage.GetRows()), 8, 1);
 
+	isCameraConnected = true;
 	return 1;
 }
 
 int paperRegistration::disconnectCamera() 
 {
+	isCameraConnected = false;
+
 	FlyCapture2::Error error;
 	// Stop capturing images
     error = cam.StopCapture();
@@ -316,6 +319,9 @@ int paperRegistration::disconnectCamera()
 
 cv::Mat paperRegistration::loadCameraImage()
 {
+	if (!isCameraConnected)
+		return cv::Mat();
+
 	FlyCapture2::Error error;
 
 	// Start capturing images
@@ -344,10 +350,7 @@ cv::Mat paperRegistration::loadCameraImage()
 }
 
 int paperRegistration::detectLocation(cv::Mat &cameraImage)
-{	
-	return -1;
-	//cv::resize(cameraImage, cameraImage, cv::Size(299,428));
-	//cv::resize(lastImg, lastImg, cv::Size(299,428));
+{
 	//return 0;
 
 	if (compareImages(cameraImage, lastDeviceImage) > 1.5)
@@ -361,18 +364,17 @@ int paperRegistration::detectLocation(cv::Mat &cameraImage)
 		matcher.read(fn);*/
 		
 		//ToDo size in warp image
-		if (isSimulation_)
+		if (!isCameraInUse_)
 		{
 			cvtColor(cameraImage, cameraImage, CV_BGR2GRAY);
 			//toDo: don't do rotation here
 			warpMat = getRotationMatrix2D(cv::Point2f(cameraImage.cols/2.0, cameraImage.rows/2.0), 180, 1);
 			cv::warpAffine(cameraImage, cameraImage, warpMat, cameraImage.size());
 			cv::resize(cameraImage, cameraImage, cv::Size(cameraImage.cols*imgRatio_, cameraImage.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
-			cv::imwrite("result.png", cameraImage);
 		}
 		else 
 		{
-			cameraImage = loadCameraImage();
+			//cameraImage = loadCameraImage();
 
 			std::vector<cv::Point2f> point(2);
 			point[0] = cvPoint(0,0);

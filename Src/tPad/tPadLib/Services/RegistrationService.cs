@@ -19,37 +19,39 @@ namespace UofM.HCI.tPab.Services
     public ITPadAppController Controller { get; set; }
 
     private ManagedA.wrapperRegistClass featureTracker;
-
-    private Bitmap oldCamView;
-
+    
     private TPadLocation location;
 
     private float temp_SimCaptureToSourceImageRatio;
 
     private bool isProcessStopped = false;
-
+    
     protected override void CustomStart()
     {
-      featureTracker = new ManagedA.wrapperRegistClass();
+      featureTracker = new ManagedA.wrapperRegistClass(Controller.IsCameraInUse);
       featureTracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
 
       location = new TPadLocation();
-      oldCamView = new Bitmap(10, 10);
       temp_SimCaptureToSourceImageRatio = 1;
-      
-      //featureTracker.connectCamera();
+
+      //if (Controller.IsCameraInUse && TPadCore.UseFeatureTracking)
+      //  featureTracker.connectCamera();
     }
 
     public void Pause()
     {
       isProcessStopped = true;
-      //featureTracker.disconnectCamera();
+
+      //if (Controller.IsCameraInUse && TPadCore.UseFeatureTracking)
+      //  featureTracker.disconnectCamera();
     }
 
     public void Continue()
     {
       isProcessStopped = false;
-      //featureTracker.connectCamera();
+
+      //if (Controller.IsCameraInUse && TPadCore.UseFeatureTracking)
+      //  featureTracker.connectCamera();
     }
 
     /// <summary>
@@ -73,14 +75,13 @@ namespace UofM.HCI.tPab.Services
         camView.Save("neu.png");
         Stopwatch sw = new Stopwatch();
         sw.Start();
-
+        
         // Here goes the machine vision code to find where the device is located based on the camera image
         //ToDo: correct warping with camera
-        //compute warping matrix
         if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
         {
           temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
-          featureTracker.imageWarp(temp_SimCaptureToSourceImageRatio, true);
+          featureTracker.imageWarp(temp_SimCaptureToSourceImageRatio);
         }
 
         //start feature tracking
@@ -90,12 +91,13 @@ namespace UofM.HCI.tPab.Services
           location.Status = LocationStatus.Located;
           location.RotationAngle = featureTracker.RotationAngle;
 
-          PointF locationPx = new PointF(featureTracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio, featureTracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
-          location.LocationCm = new PointF((float)(locationPx.X / Container.WidthFactor), (float)(locationPx.Y / Container.HeightFactor));
+          PointF locationPx = new PointF(featureTracker.LocationPxTL.X / Controller.SimCaptureToSourceImageRatio, 
+            featureTracker.LocationPxTL.Y / Controller.SimCaptureToSourceImageRatio);
+          location.LocationCm = new PointF((float)(locationPx.X / Controller.WidthFactor), (float)(locationPx.Y / Controller.HeightFactor));
 
           //TODO: get Document object from featureTracker
           location.DocumentID = Controller.ActualDocument.ID;
-          location.PageIndex = 0;
+          location.PageIndex = featureTracker.PageIdx;
           
           sw.Stop();
           Console.WriteLine(sw.Elapsed.TotalMilliseconds);
@@ -104,8 +106,6 @@ namespace UofM.HCI.tPab.Services
           location.Status = LocationStatus.NotLocated;
 
         sw.Stop();
-        //update last image of camera
-        oldCamView = camView;
       }
       else
       {
