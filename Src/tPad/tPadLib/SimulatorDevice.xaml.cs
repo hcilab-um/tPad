@@ -214,8 +214,9 @@ namespace UofM.HCI.tPab
       {
         isRotating = true;
         lastPosition = Mouse.GetPosition(sWindow);
-      }
-      else if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Pressed)
+      } 
+      else if ((e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Pressed)
+        || (Keyboard.IsKeyDown(Key.S) && e.RightButton == MouseButtonState.Pressed))
       {
         StackingCommand();
       }

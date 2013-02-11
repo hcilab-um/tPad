@@ -24,20 +24,27 @@ namespace UofM.HCI.tPab.Monitors
 
     protected override void CustomStart()
     {
-      //base.CustomStart();
+      base.CustomStart();
 
-      //TransportComponent.Instance.TransportListeners.Add(StackingMessage.StackingMessageID, this);
-      //TransportMessageExporter.Exporters.Add(StackingMessage.StackingMessageID, new StackingMessageExporter());
-      //TransportMessageImporter.Importers.Add(StackingMessage.StackingMessageID, new StackingMessageImporter());
+      TransportComponent.Instance.TransportListeners.Add(this);
+      if (!TransportMessageExporter.Exporters.ContainsKey(StackingMessage.StackingMessageID))
+        TransportMessageExporter.Exporters.Add(StackingMessage.StackingMessageID, new StackingMessageExporter());
+      if (!TransportMessageImporter.Importers.ContainsKey(StackingMessage.StackingMessageID))
+        TransportMessageImporter.Importers.Add(StackingMessage.StackingMessageID, new StackingMessageImporter());
 
-      //TransportComponent.Instance.Init();
+      TransportComponent.Instance.Init();
+    }
+
+    public int MessageType
+    {
+      get { return StackingMessage.StackingMessageID; }
     }
 
     public void MessageReceived(TransportMessage message, string rawMessage)
     {
       logger.Debug(String.Format("Message Received - {0} & {1}:{2}", message.MessageType, (message.MessageData as StackingMessage).MessageType, rawMessage));
 
-      //NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(bb, message));
+      NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(TransportMessage), message));
     }
   }
 }

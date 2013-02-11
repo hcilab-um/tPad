@@ -50,7 +50,7 @@ namespace Ubicomp.Utils.NET.MTF
     public TransportMessage()
     {
       messageId = Guid.NewGuid();
-      SetTimeStamp();
+      timeStamp = DateTime.Now.ToString(DATE_FORMAT_NOW);
     }
 
     public TransportMessage(EventSource es, int mt, ITransportMessageContent md) : this()
@@ -58,11 +58,6 @@ namespace Ubicomp.Utils.NET.MTF
       messageSource = es;
       messageType = mt;
       messageData = md;
-    }
-
-    private void SetTimeStamp()
-    {
-      timeStamp = DateTime.Now.ToString(DATE_FORMAT_NOW);
     }
 
   }

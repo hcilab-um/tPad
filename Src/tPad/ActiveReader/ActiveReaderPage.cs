@@ -14,30 +14,69 @@ namespace UofM.HCI.tPab.App.ActiveReader
 {
   public class ActiveReaderPage : TPadPage
   {
-    public ObservableCollection<Highlight> Highlights { get; set; }
-    public ObservableCollection<Note> Annotations { get; set; }
-    public ObservableCollection<Highlight> SearchResults { get; set; }
-    public ObservableCollection<Scribble> Scribblings { get; set; }
-    public ObservableCollection<Highlight> FigureLinks { get; set; }
+    [XmlIgnore]
+    public ObservableCollection<IActiveReaderMarker> Highlights { get; set; }
+
+    [XmlIgnore]
+    public ObservableCollection<IActiveReaderMarker> Annotations { get; set; }
+
+    [XmlIgnore]
+    public ObservableCollection<IActiveReaderMarker> SearchResults { get; set; }
+
+    [XmlIgnore]
+    public ObservableCollection<IActiveReaderMarker> Scribblings { get; set; }
+
+    [XmlIgnore]
+    public ObservableCollection<IActiveReaderMarker> FigureLinks { get; set; }
+
+    public Highlight[] HighlightsArray
+    {
+      get { return Highlights.Cast<Highlight>().ToArray(); }
+      set { Highlights = new ObservableCollection<IActiveReaderMarker>(value); }
+    }
+
+    public Note[] AnnotationsArray
+    {
+      get { return Annotations.Cast<Note>().ToArray(); }
+      set { Annotations = new ObservableCollection<IActiveReaderMarker>(value); }
+    }
+
+    public Highlight[] SearchResultsArray
+    {
+      get { return SearchResults.Cast<Highlight>().ToArray(); }
+      set { SearchResults = new ObservableCollection<IActiveReaderMarker>(value); }
+    }
+
+    public Scribble[] ScribblingsArray
+    {
+      get { return Scribblings.Cast<Scribble>().ToArray(); }
+      set { Scribblings = new ObservableCollection<IActiveReaderMarker>(value); }
+    }
+
+    public Highlight[] FigureLinksArray
+    {
+      get { return FigureLinks.Cast<Highlight>().ToArray(); }
+      set { FigureLinks = new ObservableCollection<IActiveReaderMarker>(value); }
+    }
 
     public ActiveReaderPage()
     {
       FileName = String.Empty;
-      Highlights = new ObservableCollection<Highlight>();
-      Annotations = new ObservableCollection<Note>();
-      SearchResults = new ObservableCollection<Highlight>();
-      Scribblings = new ObservableCollection<Scribble>();
-      FigureLinks = new ObservableCollection<Highlight>();
+      Highlights = new ObservableCollection<IActiveReaderMarker>();
+      Annotations = new ObservableCollection<IActiveReaderMarker>();
+      SearchResults = new ObservableCollection<IActiveReaderMarker>();
+      Scribblings = new ObservableCollection<IActiveReaderMarker>();
+      FigureLinks = new ObservableCollection<IActiveReaderMarker>();
     }
 
     public ActiveReaderPage(String fileName = null)
     {
       FileName = fileName;
-      Highlights = new ObservableCollection<Highlight>();
-      Annotations = new ObservableCollection<Note>();
-      SearchResults = new ObservableCollection<Highlight>();
-      Scribblings = new ObservableCollection<Scribble>();
-      FigureLinks = new ObservableCollection<Highlight>();
+      Highlights = new ObservableCollection<IActiveReaderMarker>();
+      Annotations = new ObservableCollection<IActiveReaderMarker>();
+      SearchResults = new ObservableCollection<IActiveReaderMarker>();
+      Scribblings = new ObservableCollection<IActiveReaderMarker>();
+      FigureLinks = new ObservableCollection<IActiveReaderMarker>();
     }
 
     public override TPadPage Clone()
@@ -46,23 +85,23 @@ namespace UofM.HCI.tPab.App.ActiveReader
       clone.FileName = FileName;
       clone.PageIndex = PageIndex;
 
-      clone.Highlights = new ObservableCollection<Highlight>();
+      clone.Highlights = new ObservableCollection<IActiveReaderMarker>();
       foreach (IActiveReaderMarker highlight in Highlights)
         clone.Highlights.Add(highlight.Clone() as Highlight);
 
-      clone.Annotations = new ObservableCollection<Note>();
+      clone.Annotations = new ObservableCollection<IActiveReaderMarker>();
       foreach (IActiveReaderMarker annotation in Annotations)
         clone.Annotations.Add(annotation.Clone() as Note);
 
-      clone.SearchResults = new ObservableCollection<Highlight>();
+      clone.SearchResults = new ObservableCollection<IActiveReaderMarker>();
       foreach (IActiveReaderMarker result in SearchResults)
         clone.SearchResults.Add(result.Clone() as Highlight);
 
-      clone.Scribblings = new ObservableCollection<Scribble>();
+      clone.Scribblings = new ObservableCollection<IActiveReaderMarker>();
       foreach (IActiveReaderMarker scribbling in Scribblings)
         clone.Scribblings.Add(scribbling.Clone() as Scribble);
 
-      clone.FigureLinks = new ObservableCollection<Highlight>();
+      clone.FigureLinks = new ObservableCollection<IActiveReaderMarker>();
       foreach (IActiveReaderMarker link in FigureLinks)
         clone.FigureLinks.Add(link.Clone() as Highlight);
 

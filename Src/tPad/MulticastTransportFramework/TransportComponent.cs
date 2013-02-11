@@ -28,7 +28,7 @@ namespace Ubicomp.Utils.NET.MTF
     private int port;
     private int udpTTL;
 
-    public Dictionary<Int32, ITransportListener> TransportListeners = new Dictionary<int, ITransportListener>();
+    public List<ITransportListener> TransportListeners = new List<ITransportListener>();
 
     public ImportContext JsonImportContext;
     public ExportContext JsonExportContext;
@@ -61,7 +61,7 @@ namespace Ubicomp.Utils.NET.MTF
       JsonImportContext = JsonConvert.CreateImportContext();
       JsonImportContext.Register(new TransportMessageImporter());
 
-      TransportListeners.Add(TransportComponent.TransportComponentID, this);
+      TransportListeners.Add(this);
     }
 
     public void Init()
@@ -130,8 +130,9 @@ namespace Ubicomp.Utils.NET.MTF
         try
         {
           Console.WriteLine("Processing message {0}", e.Consecutive);
-          ITransportListener listener = TransportListeners[tMessage.MessageType];
-          listener.MessageReceived(tMessage, sMessage);
+          var listeners = TransportListeners.Where(tmp => tmp.MessageType == tMessage.MessageType);
+          foreach (var listener in listeners)
+            listener.MessageReceived(tMessage, sMessage);
         }
         catch (Exception ex)
         {
@@ -182,6 +183,8 @@ namespace Ubicomp.Utils.NET.MTF
     }
 
     #region ITransportListener Members
+
+    public int MessageType { get { return TransportComponentID; } }
 
     public void MessageReceived(TransportMessage message, String rawMessage)
     {

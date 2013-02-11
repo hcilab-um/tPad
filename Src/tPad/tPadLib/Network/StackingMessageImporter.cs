@@ -10,12 +10,12 @@ namespace UofM.HCI.tPab.Network
   {
     public object Import(ImportContext context, Jayrock.Json.JsonReader reader)
     {
-      throw new NotImplementedException();
+      return (StackingMessage)context.Import<StackingMessage>(reader);
     }
 
     public Type OutputType
     {
-      get { throw new NotImplementedException(); }
+      get { return typeof(StackingMessage); }
     }
   }
 }

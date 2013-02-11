@@ -57,7 +57,7 @@ namespace UofM.HCI.tPab
 
       ContextMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
       ContextMonitor stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-      //MulticastMonitor multicastMonitor = new MulticastMonitor(groupIP, port, TTL);
+      MulticastMonitor multicastMonitor = new MulticastMonitor(groupIP, port, TTL);
 
       //Wiring up the components
       Board.OnNotifyContextServices += (flippingMonitor as FlippingMonitor).UpdateMonitorReading;
@@ -67,7 +67,7 @@ namespace UofM.HCI.tPab
       SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
-      //multicastMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      multicastMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       Registration.OnNotifyContextServiceListeners += this.ContextChanged;
 
       //Register the monitors to the container
@@ -76,6 +76,7 @@ namespace UofM.HCI.tPab
       monitorsContainer.AddMonitor(SimCamera);
       monitorsContainer.AddMonitor(flippingMonitor);
       monitorsContainer.AddMonitor(stackingMonitor);
+      monitorsContainer.AddMonitor(multicastMonitor);
 
       //Register the services to the container
       servicesContainer.AddContextService(this);
@@ -132,7 +133,8 @@ namespace UofM.HCI.tPab
         Device.ProcessStackingUpdate((StackingUpdate)e.NewObject);
       }
       else if (e.Type == typeof(TransportMessage))
-      { 
+      {
+        Console.WriteLine(e.Type.Name);
       }
     }
 

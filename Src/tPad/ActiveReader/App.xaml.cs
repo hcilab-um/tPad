@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using UofM.HCI.tPab.App.ActiveReader.Properties;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -155,7 +156,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       TPadCore core = new TPadCore();
       core.BoardCOM = boardPort;
       core.UseCamera = useCamera;
-      core.Configure(profile, deviceID);
+      core.Configure(profile, deviceID, Settings.Default.MulticastGroup, Settings.Default.MulticastPort, Settings.Default.MulticastTTL);
       core.CoreStart(container, controller);
 
       ActiveReaderApp appInstance = new ActiveReaderApp(core, container, controller, listOfFigures);

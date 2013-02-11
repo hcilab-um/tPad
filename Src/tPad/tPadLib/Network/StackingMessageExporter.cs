@@ -10,12 +10,12 @@ namespace UofM.HCI.tPab.Network
   {
     public void Export(ExportContext context, object value, Jayrock.Json.JsonWriter writer)
     {
-      throw new NotImplementedException();
+      context.Export(value, writer);
     }
 
     public Type InputType
     {
-      get { throw new NotImplementedException(); }
+      get { return typeof(StackingMessage); }
     }
   }
 }
