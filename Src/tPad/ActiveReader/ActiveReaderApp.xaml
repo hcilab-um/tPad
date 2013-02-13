@@ -102,6 +102,14 @@
         </Canvas.RenderTransform>
       </Canvas>
 
+      <!-- This layer is for the scribble -->
+      <InkCanvas x:Name="inkCScribble" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Visibility="Hidden"
+                 UseCustomCursor="True" Cursor="Pen" MouseUp="inkCScribble_MouseUp">
+        <InkCanvas.RenderTransform>
+          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Container.WidthFactor}" ScaleY="{Binding ElementName=arApp, Path=Container.HeightFactor}" />
+        </InkCanvas.RenderTransform>
+      </InkCanvas>
+
       <!-- This is the context menu for handling annotations -->
       <Grid.ContextMenu>
         <ContextMenu Name="contextMenu">
@@ -109,7 +117,7 @@
           <MenuItem Name="cm_searchItem" Click="CMSearch_Click"/>
           <Separator />
           <MenuItem Header="Add Annotation" Click="CMAnnotation_Click"/>
-          <MenuItem Header="Add Scribble" Click="CMScribble_Click"/>
+          <!--<MenuItem Header="Add Scribble" Click="CMScribble_Click"/>-->
         </ContextMenu>
       </Grid.ContextMenu>
     </Grid>
@@ -221,6 +229,7 @@
               </MultiBinding>
             </ToggleButton.IsEnabled>
           </ToggleButton>
+          <ToggleButton x:Name="bScribble" IsThreeState="False" Margin="20,0,0,0" Click="bScribble_Click">Scribble</ToggleButton>
           <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0" IsChecked="True">Show Page</ToggleButton>
           <ToggleButton x:Name="bSearch" IsThreeState="False" Margin="20,0,0,0" Click="bSearch_Click" >Search</ToggleButton>
           <ToggleButton x:Name="bCopyAndLock" IsThreeState="False" Margin="20,0,0,0" Click="bCopyAndLock_Click" >Copy 8 Lock</ToggleButton>
@@ -275,4 +284,5 @@
       <Binding ElementName="bCopyAndLock" Path="IsChecked"/>
     </MultiBinding>
   </UserControl.Background>
+  
 </UserControl>

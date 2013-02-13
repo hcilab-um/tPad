@@ -37,6 +37,17 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
+    private bool isNoteMoving = false;
+    public bool IsNoteMoving
+    {
+      get { return isNoteMoving; }
+      set
+      {
+        isNoteMoving = value;
+        OnPropertyChanged("IsNoteMoving");
+      }
+    }
+
     public TextBox TextField
     {
       get { return tNote; }
@@ -48,7 +59,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     }
 
     public Button BClose { get { return bClose; } }
-    public Rectangle BResize { get { return bResize; } }
+    public Image BResize { get { return bResize; } }
     public Grid GNote { get { return gNote; } }
 
 
@@ -103,16 +114,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    private Size defaultNoteSize = new Size(30, 30);
-    private void bResize_MouseDown(object sender, MouseButtonEventArgs e)
+    private void stickyNote_Loaded(object sender, RoutedEventArgs e)
     {
-      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
-        IsBResizeClicked = true;
-    }
 
-    private void bResize_MouseUp(object sender, MouseButtonEventArgs e)
-    {
-      IsBResizeClicked = false;
     }
   }
 }
