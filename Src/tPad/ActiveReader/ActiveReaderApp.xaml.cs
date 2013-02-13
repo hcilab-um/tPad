@@ -769,18 +769,56 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       inkCScribble.DefaultDrawingAttributes.Height = 3 / Container.HeightFactor;
       inkCScribble.DefaultDrawingAttributes.Width = 3 / Container.WidthFactor;
+      inkCScribble.DefaultDrawingAttributes.Color = Color.FromRgb(0, 0, 0);
+
+      bErase.IsChecked = false;
 
       if (bScribble.IsChecked.Value)
         inkCScribble.Visibility = Visibility.Visible;
-      else        
-        inkCScribble.Visibility = Visibility.Hidden;
+      else inkCScribble.Visibility = Visibility.Hidden;
+    }
+        
+    private void bErase_Click(object sender, RoutedEventArgs e)
+    {
+      bScribble.IsChecked = false;
+      inkCScribble.DefaultDrawingAttributes.Color = Color.FromRgb(255, 0, 0);
+
+      if (bErase.IsChecked.Value)
+        inkCScribble.Visibility = Visibility.Visible;
+      else inkCScribble.Visibility = Visibility.Hidden;      
     }
 
+    private Stroke currentStroke;
     private void inkCScribble_MouseUp(object sender, MouseButtonEventArgs e)
     {
-      Scribble Scribbling = new Scribble();
-      Scribbling.Scribbling = inkCScribble.Strokes[inkCScribble.Strokes.Count - 1];
-      ActualDocument[ActualPage].Scribblings.Add(Scribbling);
+      if (inkCScribble.Strokes.Count > 0)
+        currentStroke = inkCScribble.Strokes[inkCScribble.Strokes.Count - 1];
+
+      if (bScribble.IsChecked.Value)
+      {
+        Scribble Scribbling = new Scribble();
+        Scribbling.Scribbling = currentStroke;
+        ActualDocument[ActualPage].Scribblings.Add(Scribbling);
+      }
+      else if (bErase.IsChecked.Value)
+        inkCScribble.Strokes.Remove(currentStroke);
+    }
+
+    private void inkCScribble_MouseMove(object sender, MouseEventArgs e)
+    {
+      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released && bErase.IsChecked.Value)
+      {        
+        Point currentMousePosition = GetMousePositionInDocument();
+        foreach (Scribble stroke in ActualDocument[ActualPage].Scribblings)
+        {
+          if (stroke.Scribbling.HitTest(currentMousePosition))
+          {
+            inkCScribble.Strokes.Remove(stroke.Scribbling);
+            ActualDocument[ActualPage].Scribblings.Remove(stroke);
+            break;
+          }
+        }
+      }
     }
 
     private void bSearch_Click(object sender, RoutedEventArgs e)
@@ -805,7 +843,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       else
         Core.Registration.Continue();
     }
-
 
     public void tpKeyboard_EnterKeyPressed(System.Object sender, EventArgs args)
     {
@@ -834,6 +871,5 @@ namespace UofM.HCI.tPab.App.ActiveReader
       mouseDocPosition.Y = mouseDocPosition.Y / Container.HeightFactor;
       return mouseDocPosition;
     }
-
   }
 }
