@@ -37,7 +37,7 @@ namespace UofM.HCI.tPab.App.ActiveReader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5123")]
         public int MulticastPort {
             get {
                 return ((int)(this["MulticastPort"]));

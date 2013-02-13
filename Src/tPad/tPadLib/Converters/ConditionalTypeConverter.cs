@@ -79,6 +79,8 @@ namespace UofM.HCI.tPab.Converters
         return typeof(string);
       if (name == "bool" || name == "System.Boolean")
         return typeof(bool);
+      if (name == "System.Windows.Visibility")
+        return typeof(System.Windows.Visibility);
       return Type.GetType(name);
     }
 

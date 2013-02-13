@@ -70,6 +70,8 @@ namespace Ubicomp.Utils.NET.MTF
         throw new ApplicationException("Multicast group address not specified.");
       if (port == 0)
         throw new ApplicationException("Multicast group port not specified.");
+      if (socket != null)
+        return;
 
       socket = new MulticastSocket(address.ToString(), port, udpTTL);
       socket.OnNotifyMulticastSocketListener += new NotifyMulticastSocketListener(socket_OnNotifyMulticastSocketListener);

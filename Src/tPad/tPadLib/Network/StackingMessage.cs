@@ -6,7 +6,7 @@ using Ubicomp.Utils.NET.MTF;
 
 namespace UofM.HCI.tPab.Network
 {
-  public enum StackingMessageType { StackingRequest, StackingResponse, EndNotification };
+  public enum StackingMessageType { StackingRequest, StackingResponse, EndNotification, LocationUpdate };
 
   public class StackingMessage : ITransportMessageContent
   {
@@ -15,6 +15,9 @@ namespace UofM.HCI.tPab.Network
     public StackingMessageType MessageType { get; set; }
     public int SourceDeviceID { get; set; }
     public int TargetDeviceID { get; set; }
+
     public bool StakingRequestResponse { get; set; }
+
+    public TPadLocation Location { get; set; }
   }
 }

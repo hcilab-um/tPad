@@ -49,7 +49,7 @@ namespace UofM.HCI.tPab
 
       Profile = profile;
       Device = new TPadDevice(deviceID) { Profile = Profile };
-      Registration = new RegistrationService(UseCamera);
+      Registration = new RegistrationService(UseCamera, Device);
 
       Board = new BoardMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
       SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
@@ -134,7 +134,7 @@ namespace UofM.HCI.tPab
       }
       else if (e.Type == typeof(TransportMessage))
       {
-        Console.WriteLine(e.Type.Name);
+        Device.ProcessStackingUpdate((TransportMessage)e.NewObject);
       }
     }
 

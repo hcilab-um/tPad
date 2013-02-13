@@ -372,8 +372,6 @@ namespace UofM.HCI.tPab
           topDevice.StackingControlState = StackingControlState.StackedTop;
           bottomDevice.StackingControlState = StackingControlState.StackedBotton;
 
-          topDevice.Location = bottomDevice.Location;
-          topDevice.RotationAngle = bottomDevice.RotationAngle;
           topDevice.SetValue(Grid.ZIndexProperty, 1);
           bottomDevice.SetValue(Grid.ZIndexProperty, 0);
           bottomDevice.DeviceOnTopID = topDevice.TPadApp.Core.Device.ID;

@@ -17,6 +17,8 @@
     <convertersLib:LayerRotationCenterConverter x:Key="cLayerRotationCenter" />
     <convertersLib:StatusVisibilityConverter x:Key="cStatusVisibility"/>
     <convertersLib:PageLoaderConverter x:Key="cPageLoader" />
+    <convertersLib:ConditionalValueConverter x:Key="cCVOnTop" Reference="StackedOnTop" TrueValue="Visible" FalseValue="Collapsed" ValueType="System.Windows.Visibility"/>
+    <convertersLib:ConditionalValueConverter x:Key="cCVBelow" Reference="StackedBelow" TrueValue="Visible" FalseValue="Collapsed" ValueType="System.Windows.Visibility"/>
     <convertersApp:StatusAndModeVisibilityConverter x:Key="cStatusAndModeVisibility" />
     <convertersApp:StatusAndBoolVisibilityConverter x:Key="cStatusAndBoolVisibility" />
     <convertersApp:StatusAndBoolBackgroundConverter x:Key="cStatusAndBoolBackground" />
@@ -92,7 +94,7 @@
                    Width="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
                    MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
       </Canvas>
-      
+
       <!-- This layer is for the search results -->
       <Canvas x:Name="cSearchResults" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Canvas.RenderTransform>
@@ -121,7 +123,7 @@
                         ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
       </Canvas.RenderTransform>
 
-      <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->      
+      <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->
       <!--The off-screen visualization for highlightings-->
       <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
                                       Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
@@ -222,7 +224,7 @@
           <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0" IsChecked="True">Show Page</ToggleButton>
           <ToggleButton x:Name="bSearch" IsThreeState="False" Margin="20,0,0,0" Click="bSearch_Click" >Search</ToggleButton>
           <ToggleButton x:Name="bCopyAndLock" IsThreeState="False" Margin="20,0,0,0" Click="bCopyAndLock_Click" >Copy 8 Lock</ToggleButton>
-                    
+
         </StackPanel>
       </Grid>
 
@@ -240,24 +242,28 @@
                             FigureSource="{Binding ElementName=arApp, Path=CroppedImage}"
                             Visibility="Collapsed"/>
 
-
-        <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0"
+      <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
             Visibility="{Binding ElementName=arApp, Path=Core.Device.Location.Status, Converter={StaticResource ResourceKey=cStatusVisibility}, ConverterParameter=NotLocated}">
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" FontWeight="Bold">Reading Helper</Label>
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="0,70,0,0">Not Located</Label>
       </Grid>
-      
+
       <!--This is the keyboard-->
       <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" 
                                  EnterKeyPressed="tpKeyboard_EnterKeyPressed"
                                  AlphaNumericKeyPressed="tpKeyboard_AlphaNumericKeyPressed"                                 
                                  Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" Height="200"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                 Visibility="Hidden" Canvas.Top="{Binding ElementName=arApp, Path=KeyboardPosition}"  Canvas.Left="0">
-      </tpadcontrols:TPadKeyboard>
-        
+                                 Visibility="Hidden" Canvas.Top="{Binding ElementName=arApp, Path=KeyboardPosition}" Canvas.Left="0" />
+
+      <Label Content="Stacked On Top" Canvas.Top="0" Canvas.Left="0" Height="50" Width="150" Background="Red"
+             Visibility="{Binding ElementName=arApp, Path=Core.Device.State, Converter={StaticResource ResourceKey=cCVOnTop}}"/>
+
+      <Label Content="Stacked Below" Canvas.Top="100" Canvas.Left="0" Height="50" Width="150" Background="LightBlue"
+             Visibility="{Binding ElementName=arApp, Path=Core.Device.State, Converter={StaticResource ResourceKey=cCVBelow}}"/>
+
     </Canvas>
 
   </Grid>

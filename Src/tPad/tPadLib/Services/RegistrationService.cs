@@ -28,9 +28,12 @@ namespace UofM.HCI.tPab.Services
 
     private bool useCamera;
 
-    public RegistrationService(bool pUseCamera)
+    private TPadDevice Device { get; set; }
+
+    public RegistrationService(bool pUseCamera, TPadDevice device)
     {
       useCamera = pUseCamera;
+      Device = device;
     }
 
     protected override void CustomStart()
@@ -83,6 +86,8 @@ namespace UofM.HCI.tPab.Services
       if (isProcessStopped)
         return;
       if (Container == null || Controller == null)
+        return;
+      if (Device.State == StackingState.StackedOnTop)
         return;
       
       if (TPadCore.UseFeatureTracking)
