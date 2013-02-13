@@ -73,7 +73,7 @@
                 <MultiBinding Converter="{StaticResource ResourceKey=cBarItemLocation}">
                   <Binding ElementName="annoBar" Path="PageHeight"/>
                   <Binding ElementName="annoBar" Path="HeightFactor"/>
-                  <Binding Path="Icon.Margin.Top"/>
+                  <Binding Path="Y"/>
                   <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualHeight" />
                   <Binding RelativeSource="{RelativeSource Self}"  Path="ActualHeight" />
                 </MultiBinding>
@@ -143,7 +143,11 @@
               <ListBox VerticalAlignment="Stretch" Background="Transparent" BorderThickness="0"
                        ItemsSource="{Binding Path=Annotations}" 
                        Style="{StaticResource ResourceKey=AnnotationsStyle}"/>
-              
+
+              <ListBox VerticalAlignment="Stretch" Background="Transparent" BorderThickness="0"
+                       ItemsSource="{Binding Path=Scribblings}" 
+                       Style="{StaticResource ResourceKey=AnnotationsStyle}"/>
+
               <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="5" Background="Crimson">
                 <Grid.Visibility>
                   <MultiBinding Converter="{StaticResource ResourceKey=cPagePositionVisibility}">

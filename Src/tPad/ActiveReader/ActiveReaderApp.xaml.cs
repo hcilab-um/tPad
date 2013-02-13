@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
+using System.Windows.Ink;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -285,9 +286,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
             cHighlights.Children.Remove(icon);
 
           //Unload existing scribblings
-          var scribblings = cHighlights.Children.OfType<InkCanvas>().ToList();
-          foreach (InkCanvas scribble in scribblings)
-            cHighlights.Children.Remove(scribble);
+          //var scribblings = cHighlights.Children.OfType<InkCanvas>().ToList();
+          //foreach (InkCanvas scribble in scribblings)
+          //  cHighlights.Children.Remove(scribble);
+
+          //Unload existing scribblings
+          inkCScribble.Strokes.Clear();
 
           //Unload existing search results
           cSearchResults.Children.Clear();
@@ -331,11 +335,18 @@ namespace UofM.HCI.tPab.App.ActiveReader
           }
 
           //Loads scribbles for this page
+          //foreach (Scribble element in document[pageIndex].Scribblings)
+          //{
+          //  Scribble note = (Scribble)element;
+          //  cHighlights.Children.Add(note.Scribbling);
+          //  cHighlights.Children.Add(note.Icon);
+          //}
+
+          //Loads scribbles for this page
           foreach (Scribble element in document[pageIndex].Scribblings)
           {
             Scribble note = (Scribble)element;
-            cHighlights.Children.Add(note.Scribbling);
-            cHighlights.Children.Add(note.Icon);
+            inkCScribble.Strokes.Add(note.Scribbling);
           }
         });
     }
@@ -414,14 +425,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
           }
         }
 
-        foreach (Scribble element in ActualDocument[ActualPage].Scribblings)
-        {
-          if (element.Scribbling.Visibility == Visibility.Visible)
-          {
-            isSomething2Hide = true;
-            element.Scribbling.Visibility = Visibility.Hidden;
-          }
-        }
+        //foreach (Scribble element in ActualDocument[ActualPage].Scribblings)
+        //{
+        //  if (element.Scribbling.Visibility == Visibility.Visible)
+        //  {
+        //    isSomething2Hide = true;
+        //    element.Scribbling.Visibility = Visibility.Hidden;
+        //  }
+        //}
 
         if (sender is Line)
         {
@@ -573,12 +584,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newNote.Annotation.BClose.Click += bStickyNoteClose_Click;
       newNote.Annotation.GNote.MouseMove += StickyNoteButton_MouseMove;
       newNote.Annotation.GNote.MouseDown += StickyNoteButton_MouseDown;
+      newNote.Annotation.GNote.MouseUp += StickyNoteButton_MouseUp;
       newNote.Annotation.TextField.PreviewMouseDown += StickyNoteTextBox_PreviewMouseDown;
       newNote.Annotation.TextField.PreviewMouseMove += StickyNoteTextBox_PreviewMouseMove;
+      
       newNote.Annotation.WidthFactor = Container.WidthFactor;
       newNote.Annotation.HeightFactor = Container.HeightFactor;
       newNote.Annotation.Width = 150;
       newNote.Annotation.Height = 150;
+
       //rotate sticky note
       //RotateTransform rotation = new RotateTransform(Device.Location.RotationAngle, newNote.annotation.Width * 0.5, newNote.annotation.Height * 0.5);
       //newNote.annotation.RenderTransform = rotation;
@@ -612,29 +626,29 @@ namespace UofM.HCI.tPab.App.ActiveReader
       tpKeyboard.Visibility = Visibility.Hidden;
     }
 
-    private void CMScribble_Click(object sender, RoutedEventArgs e)
-    {
-      Scribble newScribble = new Scribble();
-      newScribble.Scribbling = new InkCanvas()
-      {
-        Background = Brushes.Beige,
-        Width = 5,
-        Height = 3.5,
-      };
-      newScribble.Scribbling.Margin = new Thickness(lastPosition.X, lastPosition.Y, 0, 0);
-      newScribble.Scribbling.DefaultDrawingAttributes.Width = 3 / Container.WidthFactor;
-      newScribble.Scribbling.DefaultDrawingAttributes.Height = 3 / Container.HeightFactor;
+    //private void CMScribble_Click(object sender, RoutedEventArgs e)
+    //{
+    //  Scribble newScribble = new Scribble();
+    //  newScribble.Scribbling = new InkCanvas()
+    //  {
+    //    Background = Brushes.LightYellow,        
+    //    Width = 5,
+    //    Height = 3.5,        
+    //  };
+    //  newScribble.Scribbling.Margin = new Thickness(lastPosition.X, lastPosition.Y, 0, 0);
+    //  newScribble.Scribbling.DefaultDrawingAttributes.Width = 3 / Container.WidthFactor;
+    //  newScribble.Scribbling.DefaultDrawingAttributes.Height = 3 / Container.HeightFactor;
 
-      newScribble.Icon = new Image { Width = 1, Height = 0.8 };
-      string strUri2 = (Environment.CurrentDirectory + "\\Images\\ICON.png");
-      newScribble.Icon.Source = new BitmapImage(new Uri(strUri2));
-      newScribble.Icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newScribble.Icon.Height, 0, 0);
-      newScribble.Icon.MouseDown += ScribbleIcon_MouseDown;
+    //  newScribble.Icon = new Image { Width = 1, Height = 0.8 };
+    //  string strUri2 = (Environment.CurrentDirectory + "\\Images\\ICON.png");
+    //  newScribble.Icon.Source = new BitmapImage(new Uri(strUri2));
+    //  newScribble.Icon.Margin = new Thickness(lastPosition.X, lastPosition.Y - newScribble.Icon.Height, 0, 0);
+    //  newScribble.Icon.MouseDown += ScribbleIcon_MouseDown;
 
-      cHighlights.Children.Add(newScribble.Scribbling);
-      cHighlights.Children.Add(newScribble.Icon);
-      ActualDocument[ActualPage].Scribblings.Add(newScribble);
-    }
+    //  cHighlights.Children.Add(newScribble.Scribbling);
+    //  cHighlights.Children.Add(newScribble.Icon);
+    //  ActualDocument[ActualPage].Scribblings.Add(newScribble);
+    //}
 
 
     private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
@@ -655,24 +669,24 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private Scribble ActualScribble;
-    private void ScribbleIcon_MouseDown(object sender, MouseButtonEventArgs e)
-    {
-      foreach (Scribble element in ActualDocument[ActualPage].Scribblings)
-      {
-        if (element.Icon == (Image)sender)
-          ActualScribble = element;
-      }
+    //private Scribble ActualScribble;
+    //private void ScribbleIcon_MouseDown(object sender, MouseButtonEventArgs e)
+    //{
+    //  foreach (Scribble element in ActualDocument[ActualPage].Scribblings)
+    //  {
+    //    if (element.Icon == (Image)sender)
+    //      ActualScribble = element;
+    //  }
 
-      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
-      {
-        if (ActualScribble.Scribbling.Visibility == Visibility.Hidden)
-          ActualScribble.Scribbling.Visibility = Visibility.Visible;
-        else
-          ActualScribble.Scribbling.Visibility = Visibility.Hidden;
-      }
-    }
-
+    //  if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
+    //  {
+    //    if (ActualScribble.Scribbling.Visibility == Visibility.Hidden)
+    //      ActualScribble.Scribbling.Visibility = Visibility.Visible;
+    //    else
+    //      ActualScribble.Scribbling.Visibility = Visibility.Hidden;
+    //  }
+    //}
+   
     private void StickyNoteTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
@@ -683,53 +697,90 @@ namespace UofM.HCI.tPab.App.ActiveReader
             ActualNote = element;
         }
 
+        ActualNote.Annotation.IsBResizeClicked = false;
+        ActualNote.Annotation.IsNoteMoving = true;
+
         lastPosition = GetMousePositionInDocument();
-        tpKeyboard.Visibility = Visibility.Visible;
+
         tpKeyboard.ResultClear();
         tpKeyboard.CurrentText.Append(ActualNote.Annotation.TextField.Text);
+        tpKeyboard.Visibility = Visibility.Visible;
       }
     }
-
-
+    
     private void StickyNoteTextBox_PreviewMouseMove(object sender, MouseEventArgs e)
-    {
-      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
+    {      
+      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released && ActualNote.Annotation.IsNoteMoving)
       {
         Point currentPosition = GetMousePositionInDocument();
         Vector lineVector = new Vector(currentPosition.X - lastPosition.X,
           currentPosition.Y - lastPosition.Y);
-        if (lineVector.Length > 10)
+
+        if (lineVector.Length > 1)
+        {
           ActualNote.Annotation.Margin = new Thickness(currentPosition.X, currentPosition.Y, 0, 0);
+          tpKeyboard.Visibility = Visibility.Hidden;
+        }
       }
     }
 
     private void StickyNoteButton_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      foreach (Note element in ActualDocument[ActualPage].Annotations)
+      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
-        if (element.Annotation.GNote == (Grid)sender)
-          ActualNote = element;
+        ActualNote.Annotation.IsBResizeClicked = true;
+        ActualNote.Annotation.IsNoteMoving = false;
+
+        foreach (Note element in ActualDocument[ActualPage].Annotations)
+        {
+          if (element.Annotation.GNote == (Grid)sender)
+            ActualNote = element;
+        }
       }
     }
 
-    static Size defaultNoteSize = new Size(20, 40);
+    static Size defaultNoteSize = new Size(1, 1);
     private void StickyNoteButton_MouseMove(object sender, MouseEventArgs e)
     {
-      if (ActualNote.Annotation != null && ActualNote.Annotation.IsBResizeClicked)
+      if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released && ActualNote.Annotation != null && ActualNote.Annotation.IsBResizeClicked)
       {
         Point currentPosition = GetMousePositionInDocument();
         Vector lineVector = new Vector(currentPosition.X - lastPosition.X,
           currentPosition.Y - lastPosition.Y);
-        if (lineVector.Length > 5)
+
+        if (lineVector.Length > 1)
         {
           Point noteSize = new Point(currentPosition.X - ActualNote.Annotation.Margin.Left, currentPosition.Y - ActualNote.Annotation.Margin.Top);
           if (noteSize.X >= defaultNoteSize.Width)
-            ActualNote.Annotation.GNote.Width = noteSize.X;
+            ActualNote.Annotation.Width = noteSize.X * Container.WidthFactor;
           if (noteSize.Y >= defaultNoteSize.Height)
-            ActualNote.Annotation.GNote.Height = noteSize.Y;
+            ActualNote.Annotation.Height = noteSize.Y * Container.HeightFactor;
         }
         tpKeyboard.Visibility = Visibility.Hidden;
       }
+    }
+
+    private void StickyNoteButton_MouseUp(object sender, MouseEventArgs e)
+    {
+      ActualNote.Annotation.IsBResizeClicked = false;
+    }
+
+    private void bScribble_Click(object sender, RoutedEventArgs e)
+    {
+      inkCScribble.DefaultDrawingAttributes.Height = 3 / Container.HeightFactor;
+      inkCScribble.DefaultDrawingAttributes.Width = 3 / Container.WidthFactor;
+
+      if (bScribble.IsChecked.Value)
+        inkCScribble.Visibility = Visibility.Visible;
+      else        
+        inkCScribble.Visibility = Visibility.Hidden;
+    }
+
+    private void inkCScribble_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+      Scribble Scribbling = new Scribble();
+      Scribbling.Scribbling = inkCScribble.Strokes[inkCScribble.Strokes.Count - 1];
+      ActualDocument[ActualPage].Scribblings.Add(Scribbling);
     }
 
     private void bSearch_Click(object sender, RoutedEventArgs e)
@@ -783,5 +834,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       mouseDocPosition.Y = mouseDocPosition.Y / Container.HeightFactor;
       return mouseDocPosition;
     }
+
   }
 }
