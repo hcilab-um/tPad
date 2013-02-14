@@ -207,11 +207,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
         return;
 
       XmlSerializer deserializer = new XmlSerializer(typeof(ActiveReaderDocument));
-      deserializer.UnknownNode += new XmlNodeEventHandler(deserializer_UnknownNode);
-      deserializer.UnreferencedObject += new UnreferencedObjectEventHandler(deserializer_UnreferencedObject);
-      deserializer.UnknownElement += new XmlElementEventHandler(deserializer_UnknownElement);
-      deserializer.UnknownAttribute += new XmlAttributeEventHandler(deserializer_UnknownAttribute);
-
       TextReader textReader = new StreamReader(fileName);
       ActiveReaderDocument newDoc = (ActiveReaderDocument)deserializer.Deserialize(textReader);
       textReader.Close();
@@ -226,26 +221,5 @@ namespace UofM.HCI.tPab.App.ActiveReader
         document[index].FigureLinks = newDoc[index].FigureLinks;
       }
     }
-
-    void deserializer_UnknownAttribute(object sender, XmlAttributeEventArgs e)
-    {
-      Console.WriteLine(String.Format("deserializer_UnknownAttribute({0})", e.Attr));
-    }
-
-    void deserializer_UnknownElement(object sender, XmlElementEventArgs e)
-    {
-      Console.WriteLine(String.Format("deserializer_UnknownElement({0})", e.Element));
-    }
-
-    void deserializer_UnreferencedObject(object sender, UnreferencedObjectEventArgs e)
-    {
-      Console.WriteLine(String.Format("deserializer_UnreferencedObject({0})", e.UnreferencedObject));
-    }
-
-    void deserializer_UnknownNode(object sender, XmlNodeEventArgs e)
-    {
-      Console.WriteLine(String.Format("deserializer_UnknownNode({0})", e.Name));
-    }
-
   }
 }

@@ -40,6 +40,8 @@ namespace UofM.HCI.tPab.Monitors
 
     void sDevice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
+      if (Pause)
+        return;
       if (e.PropertyName != "DeviceOnTopID")
         return;
 

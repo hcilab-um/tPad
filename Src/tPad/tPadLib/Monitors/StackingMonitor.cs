@@ -37,12 +37,13 @@ namespace UofM.HCI.tPab.Monitors
         return;
 
       BoardUpdate boardUpdate = (BoardUpdate)e.NewObject;
-      if(boardUpdate.DeviceOnTopID == -1)
+      if(boardUpdate.DeviceOnTopID == 0)
       {
         if(statusUpdate.Event == StackingEvent.PhyicalStacking)
         {
           statusUpdate.Event = StackingEvent.PhysicalSeparation;
           statusUpdate.When = DateTime.Now;
+          NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(StackingUpdate), statusUpdate));
         }
         else if(statusUpdate.Event == StackingEvent.PhysicalSeparation)  {}
       }
@@ -53,10 +54,9 @@ namespace UofM.HCI.tPab.Monitors
           statusUpdate.Event = StackingEvent.PhyicalStacking;
           statusUpdate.When = DateTime.Now;
           statusUpdate.DeviceOnTopID = boardUpdate.DeviceOnTopID;
+          NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(StackingUpdate), statusUpdate));
         }
       }
-
-      NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(StackingUpdate), statusUpdate));
     }
   }
 }

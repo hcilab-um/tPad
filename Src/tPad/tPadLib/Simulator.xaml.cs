@@ -261,7 +261,14 @@ namespace UofM.HCI.tPab
         deviceWindow.Closed += deviceWindow_Closed;
         deviceWindow.InstanceNumber = appInstances.Count;
 
-        ITPadApp instance = Launcher.GetAppInstance(deviceWindow, simDevice, null, cbCamera.IsSelected, deviceCount++);
+        String comPort = null;
+        bool camera = false;
+        if (cbSimCamera.IsSelected)
+          camera = true;
+        else if (cbJuan.IsSelected)
+          comPort = cbJuan.Tag as String;
+
+        ITPadApp instance = Launcher.GetAppInstance(deviceWindow, simDevice, comPort, camera, deviceCount++);
         simDevice.TPadApp.Core = instance.Core; //copies the core from the actual app to the mock app
         deviceWindow.LoadTPadApp(instance);
         deviceWindow.Show();
@@ -336,9 +343,6 @@ namespace UofM.HCI.tPab
       zeroX = -1;
       zeroY = -1;
 
-      //if (!IsActive)
-      //  return;
-
       int bordersize, bordertop;
       if (WindowState != System.Windows.WindowState.Maximized)
       {
@@ -372,6 +376,8 @@ namespace UofM.HCI.tPab
           topDevice.StackingControlState = StackingControlState.StackedTop;
           bottomDevice.StackingControlState = StackingControlState.StackedBotton;
 
+          topDevice.Location = bottomDevice.Location;
+          topDevice.RotationAngle = bottomDevice.RotationAngle;
           topDevice.SetValue(Grid.ZIndexProperty, 1);
           bottomDevice.SetValue(Grid.ZIndexProperty, 0);
           bottomDevice.DeviceOnTopID = topDevice.TPadApp.Core.Device.ID;
@@ -385,7 +391,7 @@ namespace UofM.HCI.tPab
         if (bottomDevice != null)
         {
           bottomDevice.StackingControlState = StackingControlState.None;
-          bottomDevice.DeviceOnTopID = -1;
+          bottomDevice.DeviceOnTopID = 0;
         }
 
         topDevice = null;

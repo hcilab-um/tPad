@@ -121,7 +121,7 @@ namespace Ubicomp.Utils.NET.MTF
         TransportMessage tMessage = null;
         lock (importLock)
         {
-          Console.WriteLine("Importing message {0}", e.Consecutive);
+          //Console.WriteLine("Importing message {0}", e.Consecutive);
           //This is a method called from different threads -- This way we make only one import at a time.
           tMessage = JsonImportContext.Import<TransportMessage>(reader);
         }
@@ -131,7 +131,7 @@ namespace Ubicomp.Utils.NET.MTF
 
         try
         {
-          Console.WriteLine("Processing message {0}", e.Consecutive);
+          //Console.WriteLine("Processing message {0}", e.Consecutive);
           var listeners = TransportListeners.Where(tmp => tmp.MessageType == tMessage.MessageType);
           foreach (var listener in listeners)
             listener.MessageReceived(tMessage, sMessage);

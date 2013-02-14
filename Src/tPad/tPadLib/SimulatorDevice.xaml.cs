@@ -112,7 +112,7 @@ namespace UofM.HCI.tPab
     public Rect TPadAppBounds { get; set; }
 
     //This is the ID of the device on top, the device beloe starts the communication
-    private int deviceOnTopID = -1;
+    private int deviceOnTopID = 0;
     public int DeviceOnTopID
     {
       get { return deviceOnTopID; }
@@ -126,7 +126,7 @@ namespace UofM.HCI.tPab
     public SimulatorDevice(Simulator simulator)
     {
       sWindow = simulator;
-      DeviceOnTopID = -1;
+      DeviceOnTopID = 0;
       InitializeComponent();
     }
 

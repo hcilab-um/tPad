@@ -85,6 +85,7 @@ void loop(){
   Serial.print(stackCode3);
   Serial.print("\"");
   Serial.println("}");
+  Serial.flush();
 
   delay(100);//just here to slow down the serial output - Easier to read
 }

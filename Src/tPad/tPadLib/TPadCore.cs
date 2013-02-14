@@ -117,11 +117,8 @@ namespace UofM.HCI.tPab
       Board.COMPort = BoardCOM;
 
       if (!Board.TryPort())
-        throw new ArgumentException(String.Format("Board COM port {0} could not be opened", Board.COMPort));
-
-      //Gets everything ready to re-start
-      if (Board.COMPort == null)
         SimBoard.Pause = false;
+
       if (!UseCamera)
         SimCamera.Pause = false;
     }
