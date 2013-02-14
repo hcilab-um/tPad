@@ -216,7 +216,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         document[index].Annotations = newDoc[index].Annotations;
         document[index].Highlights = newDoc[index].Highlights;
         //document[index].Scribblings = newDoc[index].Scribblings;
-        document[index].Scribblings = newDoc[index].Scribblings;
+        document[index].ScribblingCollections = newDoc[index].ScribblingCollections;
         document[index].SearchResults = newDoc[index].SearchResults;
         document[index].FigureLinks = newDoc[index].FigureLinks;
       }

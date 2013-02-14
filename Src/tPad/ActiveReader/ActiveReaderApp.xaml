@@ -104,7 +104,7 @@
 
       <!-- This layer is for the scribble -->
       <InkCanvas x:Name="inkCScribble" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Visibility="Hidden"
-                 UseCustomCursor="True" Cursor="Pen" MouseUp="inkCScribble_MouseUp">
+                 UseCustomCursor="True" Cursor="Pen" MouseMove="inkCScribble_MouseMove" MouseUp="inkCScribble_MouseUp">
         <InkCanvas.RenderTransform>
           <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Container.WidthFactor}" ScaleY="{Binding ElementName=arApp, Path=Container.HeightFactor}" />
         </InkCanvas.RenderTransform>
@@ -199,7 +199,7 @@
       <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
                                       Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
-                                      ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.Scribblings}"
+                                      ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.ScribblingCollections}"
                                       ActualIcon="Images/ArrowAnnotation.png"
                                       PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
                                       PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
@@ -230,6 +230,7 @@
             </ToggleButton.IsEnabled>
           </ToggleButton>
           <ToggleButton x:Name="bScribble" IsThreeState="False" Margin="20,0,0,0" Click="bScribble_Click">Scribble</ToggleButton>
+          <ToggleButton x:Name="bErase" IsThreeState="False" Margin="20,0,0,0" Click="bErase_Click">Erase</ToggleButton>
           <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0" IsChecked="True">Show Page</ToggleButton>
           <ToggleButton x:Name="bSearch" IsThreeState="False" Margin="20,0,0,0" Click="bSearch_Click" >Search</ToggleButton>
           <ToggleButton x:Name="bCopyAndLock" IsThreeState="False" Margin="20,0,0,0" Click="bCopyAndLock_Click" >Copy 8 Lock</ToggleButton>
