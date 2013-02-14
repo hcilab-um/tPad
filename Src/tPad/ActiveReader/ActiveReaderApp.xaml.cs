@@ -343,10 +343,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
           //}
 
           //Loads scribbles for this page
-          foreach (Scribble element in document[pageIndex].Scribblings)
+          foreach (ScribbleCollection element in document[pageIndex].ScribblingCollections)
           {
-            Scribble note = (Scribble)element;
-            inkCScribble.Strokes.Add(note.Scribbling);
+            ScribbleCollection note = (ScribbleCollection)element;
+            inkCScribble.Strokes.Add(note.ScribblingCollection);
           }
         });
     }
@@ -789,33 +789,60 @@ namespace UofM.HCI.tPab.App.ActiveReader
     }
 
     private Stroke currentStroke;
+    private float defaultClusterStrokeDistanceCm = 5;
     private void inkCScribble_MouseUp(object sender, MouseButtonEventArgs e)
     {
       if (inkCScribble.Strokes.Count > 0)
         currentStroke = inkCScribble.Strokes[inkCScribble.Strokes.Count - 1];
 
-      if (bScribble.IsChecked.Value)
+      if (bScribble.IsChecked.Value) //add strokes to Document (when strokes are close to each other cluster them in one strokeCollection)
       {
-        Scribble Scribbling = new Scribble();
-        Scribbling.Scribbling = currentStroke;
-        ActualDocument[ActualPage].Scribblings.Add(Scribbling);
+        foreach (ScribbleCollection scribbleCollection in ActualDocument[ActualPage].ScribblingCollections)
+        {
+          if (distance(currentStroke.GetBounds().TopLeft, new System.Windows.Point(scribbleCollection.X, scribbleCollection.Y)) < defaultClusterStrokeDistanceCm ||
+            distance(currentStroke.GetBounds().BottomRight, new System.Windows.Point(scribbleCollection.X, scribbleCollection.Y)) < defaultClusterStrokeDistanceCm)
+          {
+            scribbleCollection.ScribblingCollection.Add(currentStroke);            
+            return;
+          }
+        }
+        
+        //if stroke is not close to another one, create new collection
+        ScribbleCollection newCollection = new ScribbleCollection();
+        newCollection.ScribblingCollection = new StrokeCollection();
+        newCollection.ScribblingCollection.Add(currentStroke);
+        ActualDocument[ActualPage].ScribblingCollections.Add(newCollection);        
       }
       else if (bErase.IsChecked.Value)
-        inkCScribble.Strokes.Remove(currentStroke);
+        inkCScribble.Strokes.Remove(currentStroke); //remove red eraser stroke
+    }
+        
+    private float distance(System.Windows.Point point1, System.Windows.Point point2)
+    {
+      return (float)Math.Sqrt((point1.X - point2.X) * (point1.X - point2.X) +
+        (point1.Y - point2.Y) * (point1.Y - point2.Y));
     }
 
     private void inkCScribble_MouseMove(object sender, MouseEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released && bErase.IsChecked.Value)
-      {        
+      {
+        //delete strokes when crossing eraser
         Point currentMousePosition = GetMousePositionInDocument();
-        foreach (Scribble stroke in ActualDocument[ActualPage].Scribblings)
+
+        foreach (ScribbleCollection collection in ActualDocument[ActualPage].ScribblingCollections)
         {
-          if (stroke.Scribbling.HitTest(currentMousePosition))
+          foreach (Stroke stroke in collection.ScribblingCollection)
           {
-            inkCScribble.Strokes.Remove(stroke.Scribbling);
-            ActualDocument[ActualPage].Scribblings.Remove(stroke);
-            break;
+            if (stroke.HitTest(currentMousePosition))
+            {
+              inkCScribble.Strokes.Remove(stroke);
+              if (collection.ScribblingCollection.Count > 1)
+                collection.ScribblingCollection.Remove(stroke);
+              else ActualDocument[ActualPage].ScribblingCollections.Remove(collection);
+
+              return;
+            }
           }
         }
       }

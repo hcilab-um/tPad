@@ -28,7 +28,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     //public ObservableCollection<IActiveReaderMarker> Scribblings { get; set; }
 
     [XmlIgnore]
-    public ObservableCollection<IActiveReaderMarker> Scribblings { get; set; }
+    public ObservableCollection<IActiveReaderMarker> ScribblingCollections { get; set; }
 
     [XmlIgnore]
     public ObservableCollection<IActiveReaderMarker> FigureLinks { get; set; }
@@ -57,10 +57,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
     //  set { Scribblings = new ObservableCollection<IActiveReaderMarker>(value); }
     //}
 
-    public Scribble[] ScribbleArray
+    public ScribbleCollection[] ScribbleCollectionArray
     {
-      get { return Scribblings.Cast<Scribble>().ToArray(); }
-      set { Scribblings = new ObservableCollection<IActiveReaderMarker>(value); }
+      get { return ScribblingCollections.Cast<ScribbleCollection>().ToArray(); }
+      set { ScribblingCollections = new ObservableCollection<IActiveReaderMarker>(value); }
     }
 
     public Highlight[] FigureLinksArray
@@ -76,7 +76,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Annotations = new ObservableCollection<IActiveReaderMarker>();
       SearchResults = new ObservableCollection<IActiveReaderMarker>();
       //Scribblings = new ObservableCollection<IActiveReaderMarker>();
-      Scribblings = new ObservableCollection<IActiveReaderMarker>();
+      ScribblingCollections = new ObservableCollection<IActiveReaderMarker>();
       FigureLinks = new ObservableCollection<IActiveReaderMarker>();
     }
 
@@ -87,7 +87,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Annotations = new ObservableCollection<IActiveReaderMarker>();
       SearchResults = new ObservableCollection<IActiveReaderMarker>();
       //Scribblings = new ObservableCollection<IActiveReaderMarker>();
-      Scribblings = new ObservableCollection<IActiveReaderMarker>();
+      ScribblingCollections = new ObservableCollection<IActiveReaderMarker>();
       FigureLinks = new ObservableCollection<IActiveReaderMarker>();
     }
 
@@ -113,9 +113,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
       //foreach (IActiveReaderMarker scribbling in Scribblings)
       //  clone.Scribblings.Add(scribbling.Clone() as Scribble);
 
-      clone.Scribblings = new ObservableCollection<IActiveReaderMarker>();
-      foreach (IActiveReaderMarker scribble in Scribblings)
-        clone.Scribblings.Add(scribble.Clone() as Scribble);
+      clone.ScribblingCollections = new ObservableCollection<IActiveReaderMarker>();
+      foreach (IActiveReaderMarker scribble in ScribblingCollections)
+        clone.ScribblingCollections.Add(scribble.Clone() as ScribbleCollection);
 
       clone.FigureLinks = new ObservableCollection<IActiveReaderMarker>();
       foreach (IActiveReaderMarker link in FigureLinks)
@@ -277,31 +277,31 @@ namespace UofM.HCI.tPab.App.ActiveReader
     }
   }
 
-  public class Scribble : IActiveReaderMarker
+  public class ScribbleCollection : IActiveReaderMarker
   {
     [XmlIgnore]
-    public Stroke Scribbling { get; set; }
+    public StrokeCollection ScribblingCollection { get; set; }
 
     public String ScribblingXAML
     {
-      get { return XamlWriter.Save(Scribbling); }
+      get { return XamlWriter.Save(ScribblingCollection); }
       set
       {
         String inkCanvasXaml = value;
         StringReader stringReader = new StringReader(inkCanvasXaml);
         XmlReader xmlReader = XmlReader.Create(stringReader);
-        Scribbling = (Stroke)XamlReader.Load(xmlReader);
+        ScribblingCollection = (StrokeCollection)XamlReader.Load(xmlReader);
       }
     }
 
     public double X
     {
-      get { return Scribbling.GetBounds().BottomLeft.X + (Scribbling.GetBounds().Width / 2.0); }
+      get { return ScribblingCollection.GetBounds().BottomLeft.X + (ScribblingCollection.GetBounds().Width / 2.0); }
     }
 
     public double Y
     {
-      get { return Scribbling.GetBounds().TopLeft.Y + (Scribbling.GetBounds().Height / 2.0); }
+      get { return ScribblingCollection.GetBounds().TopLeft.Y + (ScribblingCollection.GetBounds().Height / 2.0); }
     }
 
     public System.Drawing.PointF Position
@@ -311,7 +311,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     public IActiveReaderMarker Clone()
     {
-      Scribble clone = new Scribble();
+      ScribbleCollection clone = new ScribbleCollection();
       clone.ScribblingXAML = ScribblingXAML;
       return clone;
     }
