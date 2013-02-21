@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using Ubicomp.Utils.NET.MTF;
 using UofM.HCI.tPab.Network;
+using UofM.HCI.tPab.Monitors;
 
 namespace UofM.HCI.tPab
 {
@@ -65,6 +66,20 @@ namespace UofM.HCI.tPab
       {
         deviceBelow = value;
         OnPropertyChanged("DeviceBelow");
+      }
+    }
+
+    private FlippingMode flippingSide = FlippingMode.FaceUp;
+    public FlippingMode FlippingSide 
+    {
+      get { return flippingSide; }
+      set 
+      {
+        flippingSide = value;
+        OnPropertyChanged("FlippingSide");
+
+        if (FlippingChanged != null)
+          FlippingChanged(this, new FlippingEventArgs());
       }
     }
 

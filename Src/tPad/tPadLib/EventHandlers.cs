@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UofM.HCI.tPab.Monitors;
 
 namespace UofM.HCI.tPab
 {
 
   public class FlippingEventArgs : EventArgs
-  { 
+  {
+    public FlippingMode FlippingSide { get; set; }
   }
 
   public delegate void FlippingChangedEventHandler(object sender, FlippingEventArgs e);

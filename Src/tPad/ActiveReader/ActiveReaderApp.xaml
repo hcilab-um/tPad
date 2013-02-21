@@ -17,6 +17,7 @@
     <convertersLib:LayerRotationCenterConverter x:Key="cLayerRotationCenter" />
     <convertersLib:StatusVisibilityConverter x:Key="cStatusVisibility"/>
     <convertersLib:PageLoaderConverter x:Key="cPageLoader" />
+    <convertersLib:FlippingSideToScaleConverter x:Key="fsToScale" />
     <convertersLib:ConditionalValueConverter x:Key="cCVOnTop" Reference="StackedOnTop" TrueValue="Visible" FalseValue="Collapsed" ValueType="System.Windows.Visibility"/>
     <convertersLib:ConditionalValueConverter x:Key="cCVBelow" Reference="StackedBelow" TrueValue="Visible" FalseValue="Collapsed" ValueType="System.Windows.Visibility"/>
     <convertersApp:StatusAndModeVisibilityConverter x:Key="cStatusAndModeVisibility" />
@@ -285,5 +286,11 @@
       <Binding ElementName="bCopyAndLock" Path="IsChecked"/>
     </MultiBinding>
   </UserControl.Background>
+
+  <UserControl.RenderTransform>
+    <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Core.Device.FlippingSide, Converter={StaticResource ResourceKey=fsToScale}}"
+                    CenterX="{Binding ElementName=arApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
+                    CenterY="{Binding ElementName=arApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
+  </UserControl.RenderTransform>
   
 </UserControl>

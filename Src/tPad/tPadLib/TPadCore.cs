@@ -133,6 +133,10 @@ namespace UofM.HCI.tPab
       {
         Device.ProcessStackingUpdate((TransportMessage)e.NewObject);
       }
+      else if (e.Type == typeof(FlippingMode))
+      {
+        Device.FlippingSide = (FlippingMode)e.NewObject;
+      }
     }
 
     public void ContextChanged(object sender, NotifyContextServiceListenersEventArgs e)

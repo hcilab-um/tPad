@@ -42,10 +42,10 @@ namespace UofM.HCI.tPab.Monitors
     {
       if (Pause)
         return;
-      if (e.PropertyName != "DeviceOnTopID")
+      if (e.PropertyName != "DeviceOnTopID" && e.PropertyName != "FlippingSide")
         return;
 
-      BoardUpdate update = new BoardUpdate() { DeviceOnTopID = sDevice.DeviceOnTopID, Orientation = new Point3D(0, 0, 0) };
+      BoardUpdate update = new BoardUpdate() { DeviceOnTopID = sDevice.DeviceOnTopID, FlippingSide = sDevice.FlippingSide };
       NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(BoardUpdate), update));
     }
 

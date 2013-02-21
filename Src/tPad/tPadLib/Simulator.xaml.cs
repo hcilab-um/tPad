@@ -242,6 +242,13 @@ namespace UofM.HCI.tPab
 
       try
       {
+        String comPort = null;
+        bool camera = false;
+        if (cbSimCamera.IsSelected)
+          camera = true;
+        else if (cbJuan.IsSelected)
+          comPort = cbJuan.Tag as String;
+
         SimulatorDevice simDevice = new SimulatorDevice(this);
         simDevice.OnStackingControl += simDevice_OnStackingControl;
         simDevice.PropertyChanged += simDevice_PropertyChanged;
@@ -254,6 +261,9 @@ namespace UofM.HCI.tPab
         BindingOperations.SetBinding(simDevice, SimulatorDevice.AppHeightProperty, new Binding("AppHeight") { Source = this });
         BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameWidthProperty, new Binding("FrameWidth") { Source = this });
         BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameHeightProperty, new Binding("FrameHeight") { Source = this });
+
+        //*************** TO RUN ON TPAD WINDOW *********************
+
         simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice));
         gTop.Children.Add(simDevice);
 
@@ -261,17 +271,18 @@ namespace UofM.HCI.tPab
         deviceWindow.Closed += deviceWindow_Closed;
         deviceWindow.InstanceNumber = appInstances.Count;
 
-        String comPort = null;
-        bool camera = false;
-        if (cbSimCamera.IsSelected)
-          camera = true;
-        else if (cbJuan.IsSelected)
-          comPort = cbJuan.Tag as String;
-
         ITPadApp instance = Launcher.GetAppInstance(deviceWindow, simDevice, comPort, camera, deviceCount++);
         simDevice.TPadApp.Core = instance.Core; //copies the core from the actual app to the mock app
         deviceWindow.LoadTPadApp(instance);
         deviceWindow.Show();
+
+        //*************** TO RUN ON SIMULATOR WINDOW *********************
+        
+        //ITPadApp instance = Launcher.GetAppInstance(simDevice, simDevice, comPort, camera, deviceCount++);
+        //simDevice.LoadTPadApp(instance);
+        //gTop.Children.Add(simDevice);
+
+        //*************** END ********************************************
 
         appInstances.Add(instance);
       }

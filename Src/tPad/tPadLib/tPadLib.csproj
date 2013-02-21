@@ -78,8 +78,15 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\Lib\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalculatorApp.xaml.cs">
+      <DependentUpon>CalculatorApp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\FlippingSideToScaleConverter.cs" />
     <Compile Include="Converters\IntToBinaryConverter.cs" />
     <Compile Include="Converters\LocationToMargingConverter.cs" />
     <Compile Include="Monitors\MulticastMonitor.cs" />
@@ -153,6 +160,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CalculatorApp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MockApp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

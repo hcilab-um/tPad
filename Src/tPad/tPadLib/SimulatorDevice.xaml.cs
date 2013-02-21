@@ -16,6 +16,7 @@ using System.IO;
 using System.Threading;
 using UofM.HCI.tPab.Util;
 using System.Drawing.Imaging;
+using UofM.HCI.tPab.Monitors;
 
 namespace UofM.HCI.tPab
 {
@@ -123,6 +124,17 @@ namespace UofM.HCI.tPab
       }
     }
 
+    private FlippingMode flippingSide = FlippingMode.FaceUp;
+    public FlippingMode FlippingSide
+    {
+      get { return flippingSide; }
+      set
+      {
+        flippingSide = value;
+        OnPropertyChanged("FlippingSide");
+      }
+    }
+
     public SimulatorDevice(Simulator simulator)
     {
       sWindow = simulator;
@@ -214,7 +226,7 @@ namespace UofM.HCI.tPab
       {
         isRotating = true;
         lastPosition = Mouse.GetPosition(sWindow);
-      } 
+      }
       else if ((e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Pressed)
         || (Keyboard.IsKeyDown(Key.S) && e.RightButton == MouseButtonState.Pressed))
       {
@@ -330,6 +342,19 @@ namespace UofM.HCI.tPab
 
     #endregion
 
+    private void btHorizontalFlip_Click(object sender, RoutedEventArgs e)
+    {
+      if (FlippingSide == FlippingMode.FaceUp)
+        FlippingSide = FlippingMode.FaceDown;
+      else
+        FlippingSide = FlippingMode.FaceUp;
+    }
+
+    private void btVerticalFlip_Click(object sender, RoutedEventArgs e)
+    {
+      RotationAngle += 180;
+      btHorizontalFlip_Click(sender, e);
+    }
   }
 
   public delegate void EventHandler<TEventArgs>(object sender, TEventArgs e);
