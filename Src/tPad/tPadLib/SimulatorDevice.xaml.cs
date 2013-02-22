@@ -17,6 +17,7 @@ using System.Threading;
 using UofM.HCI.tPab.Util;
 using System.Drawing.Imaging;
 using UofM.HCI.tPab.Monitors;
+using UofM.HCI.tPab.Applications;
 
 namespace UofM.HCI.tPab
 {
@@ -139,6 +140,7 @@ namespace UofM.HCI.tPab
     {
       sWindow = simulator;
       DeviceOnTopID = 0;
+      CalculatorGlyph = false;
       InitializeComponent();
     }
 
@@ -166,6 +168,18 @@ namespace UofM.HCI.tPab
       gTPadApp.Children.Add(TPadApp as UserControl);
       TPadAppBounds = Rect.Empty;
       BorderDiff = Size.Empty;
+    }
+
+    public ITPadApp GetRunningInstance(Type appType)
+    {
+      ITPadApp runningInstance = null;
+      foreach (UIElement element in gTPadApp.Children)
+      {
+        if (!element.GetType().Equals(appType))
+          continue;
+        runningInstance = element as ITPadApp;
+      }
+      return runningInstance;
     }
 
     private delegate MemoryStream GetDeviceViewDelegate();
@@ -354,6 +368,12 @@ namespace UofM.HCI.tPab
     {
       RotationAngle += 180;
       btHorizontalFlip_Click(sender, e);
+    }
+
+    public bool CalculatorGlyph { get; set; }
+    private void btLaunchCalculator_Click(object sender, RoutedEventArgs e)
+    {
+      CalculatorGlyph = btLaunchCalculator.IsChecked.Value;
     }
   }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UofM.HCI.tPab.Monitors;
+using UofM.HCI.tPab.Applications;
 
 namespace UofM.HCI.tPab
 {
@@ -39,5 +40,12 @@ namespace UofM.HCI.tPab
   }
 
   public delegate void RegistrationChangedEventHandler(object sender, RegistrationEventArgs e);
+
+  public class GlyphsEventArgs : EventArgs
+  {
+    public List<GlyphEvent> GlyphEvents { get; set; }
+  }
+
+  public delegate void GlyphsChangedEventHandler(object sender, GlyphsEventArgs e);
 
 }

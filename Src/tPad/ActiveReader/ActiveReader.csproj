@@ -189,6 +189,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\ActiveReaderIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\ArrowHighlight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

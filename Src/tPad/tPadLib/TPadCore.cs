@@ -10,6 +10,7 @@ using Ubicomp.Utils.NET.CAF.ContextService;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
 using UofM.HCI.tPab.Network;
 using Ubicomp.Utils.NET.MTF;
+using UofM.HCI.tPab.Applications;
 
 namespace UofM.HCI.tPab
 {
@@ -21,10 +22,14 @@ namespace UofM.HCI.tPab
     //This is a shared variable among all the instances of core
     public static bool UseFeatureTracking { get; set; }
 
+    public event GlyphsChangedEventHandler GlyphsChanged;
+    private List<Glyph> currentGlyphs = new List<Glyph>();
+
     public TPadDevice Device { get; set; }
     public TPadProfile Profile { get; set; }
 
     public RegistrationService Registration { get; set; }
+    public GlyphDetectionService GlyphDetection { get; set; }
 
     private BoardMonitor Board { get; set; }
     private SimBoardMonitor SimBoard { get; set; }
@@ -50,6 +55,7 @@ namespace UofM.HCI.tPab
       Profile = profile;
       Device = new TPadDevice(deviceID) { Profile = Profile };
       Registration = new RegistrationService(UseCamera, Device);
+      GlyphDetection = new GlyphDetectionService(Device);
 
       Board = new BoardMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
       SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
@@ -65,10 +71,12 @@ namespace UofM.HCI.tPab
       SimBoard.OnNotifyContextServices += (flippingMonitor as FlippingMonitor).UpdateMonitorReading;
       SimBoard.OnNotifyContextServices += (stackingMonitor as StackingMonitor).UpdateMonitorReading;
       SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
+      SimCamera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       multicastMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       Registration.OnNotifyContextServiceListeners += this.ContextChanged;
+      GlyphDetection.OnNotifyContextServiceListeners += this.ContextChanged;
 
       //Register the monitors to the container
       monitorsContainer.AddMonitor(Board);
@@ -144,6 +152,29 @@ namespace UofM.HCI.tPab
       if (sender == Registration)
       {
         Device.Location = (TPadLocation)e.NewObject;
+      }
+      if (sender == GlyphDetection)
+      {
+        List<GlyphEvent> events = new List<GlyphEvent>();
+        List<Glyph> glyphs = (List<Glyph>)e.NewObject;
+
+        foreach (Glyph glyph in glyphs)
+        {
+          if (currentGlyphs.Exists(tmp => tmp == glyph))
+            continue;
+          events.Add(new GlyphEvent() { Glyph = glyph, Status = GlyphStatus.Entered });
+        }
+
+        foreach (Glyph glyph in currentGlyphs)
+        {
+          if (glyphs.Exists(tmp => tmp == glyph))
+            continue;
+          events.Add(new GlyphEvent() { Glyph = glyph, Status = GlyphStatus.Left });
+        }
+
+        currentGlyphs = glyphs;
+        if (GlyphsChanged != null)
+          GlyphsChanged(this, new GlyphsEventArgs() { GlyphEvents = events });
       }
     }
 

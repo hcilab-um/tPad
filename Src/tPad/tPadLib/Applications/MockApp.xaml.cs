@@ -13,13 +13,16 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPab.Applications
 {
   /// <summary>
   /// Interaction logic for MockApp.xaml
   /// </summary>
   public partial class MockApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
+
+    public event EventHandler Closed;
+
     private TPadCore core;
     public TPadCore Core
     {
@@ -58,11 +61,18 @@ namespace UofM.HCI.tPab
       OnPropertyChanged("HeightScalingFactor");
     }
 
+    public void Close()
+    {
+      if (Closed != null)
+        Closed(this, EventArgs.Empty);
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged(String name)
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
+
   }
 }

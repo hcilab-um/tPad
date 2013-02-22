@@ -78,21 +78,30 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.DataGrid">
+      <HintPath>..\Lib\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.Toolkit">
       <HintPath>..\Lib\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculatorApp.xaml.cs">
+    <Compile Include="Applications\CalculatorApp.xaml.cs">
       <DependentUpon>CalculatorApp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Applications\DashboardApp.xaml.cs">
+      <DependentUpon>DashboardApp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\TPadApplicationDescriptor.cs" />
     <Compile Include="Converters\FlippingSideToScaleConverter.cs" />
     <Compile Include="Converters\IntToBinaryConverter.cs" />
     <Compile Include="Converters\LocationToMargingConverter.cs" />
+    <Compile Include="Converters\WPFBitmapConverter.cs" />
     <Compile Include="Monitors\MulticastMonitor.cs" />
     <Compile Include="Network\StackingMessage.cs" />
     <Compile Include="Network\StackingMessageExporter.cs" />
     <Compile Include="Network\StackingMessageImporter.cs" />
+    <Compile Include="Services\GlyphDetectionService.cs" />
     <Compile Include="TPadPage.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
     <Compile Include="Converters\ConditionalTypeConverter.cs" />
@@ -107,7 +116,7 @@
     <Compile Include="ITPadApp.cs" />
     <Compile Include="ITPadAppContainer.cs" />
     <Compile Include="ITPadAppLauncher.cs" />
-    <Compile Include="MockApp.xaml.cs">
+    <Compile Include="Applications\MockApp.xaml.cs">
       <DependentUpon>MockApp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Monitors\BoardMonitor.cs" />
@@ -160,11 +169,15 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="CalculatorApp.xaml">
+    <Page Include="Applications\CalculatorApp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MockApp.xaml">
+    <Page Include="Applications\DashboardApp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Applications\MockApp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,6 +200,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="camera.png" />
+    <Content Include="Applications\CalculatorAppIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="sampledoc.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

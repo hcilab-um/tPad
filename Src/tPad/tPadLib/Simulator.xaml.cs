@@ -17,6 +17,7 @@ using UofM.HCI.tPab.Services;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Windows.Threading;
+using UofM.HCI.tPab.Applications;
 
 namespace UofM.HCI.tPab
 {
@@ -24,7 +25,7 @@ namespace UofM.HCI.tPab
   /// <summary>
   /// Interaction logic for Simulatorç.xaml
   /// </summary>
-  public partial class Simulator : Window, INotifyPropertyChanged, ITPadAppContainer
+  public partial class Simulator : Window, INotifyPropertyChanged, ITPadAppLauncher
   {
 
     private double deviceWidth, deviceHeight;
@@ -173,6 +174,8 @@ namespace UofM.HCI.tPab
       }
     }
 
+    private TPadApplicationDescriptor CalculatorAppDescriptor { get; set; }
+
     public Simulator(ITPadAppLauncher launcher, TPadProfile profile, TPadDocument document)
     {
       Launcher = launcher;
@@ -184,6 +187,14 @@ namespace UofM.HCI.tPab
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
 
       ActualDocument = document;
+      CalculatorAppDescriptor = new TPadApplicationDescriptor()
+      {
+        Name = "Calculator",
+        Icon = UofM.HCI.tPab.Properties.Resources.CalculatorAppIcon,
+        AppClass = typeof(CalculatorApp),
+        Launcher = this
+      };
+      CalculatorAppDescriptor.Triggers.Add(Glyph.Square);
     }
 
     private void wSimulator_Loaded(object sender, RoutedEventArgs e)
@@ -242,12 +253,17 @@ namespace UofM.HCI.tPab
 
       try
       {
-        String comPort = null;
-        bool camera = false;
+        TPadLauncherSettings settings = new TPadLauncherSettings() { DeviceID = deviceCount++, BoardPort = null, UseCamera = false };
         if (cbSimCamera.IsSelected)
-          camera = true;
+          settings.UseCamera = true;
         else if (cbJuan.IsSelected)
-          comPort = cbJuan.Tag as String;
+          settings.BoardPort = cbJuan.Tag as String;
+        settings = Launcher.GetSettings(settings);
+
+        TPadCore core = new TPadCore();
+        core.BoardCOM = settings.BoardPort;
+        core.UseCamera = settings.UseCamera;
+        core.Configure(Profile, settings.DeviceID, settings.MulticastGroup, settings.MulticastPort, settings.MulticastTTL);
 
         SimulatorDevice simDevice = new SimulatorDevice(this);
         simDevice.OnStackingControl += simDevice_OnStackingControl;
@@ -263,28 +279,28 @@ namespace UofM.HCI.tPab
         BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameHeightProperty, new Binding("FrameHeight") { Source = this });
 
         //*************** TO RUN ON TPAD WINDOW *********************
-
-        simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice));
+        simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice) { Core = core });
         gTop.Children.Add(simDevice);
 
         TPadWindow deviceWindow = new TPadWindow(Profile, Launcher);
         deviceWindow.Closed += deviceWindow_Closed;
         deviceWindow.InstanceNumber = appInstances.Count;
 
-        ITPadApp instance = Launcher.GetAppInstance(deviceWindow, simDevice, comPort, camera, deviceCount++);
-        simDevice.TPadApp.Core = instance.Core; //copies the core from the actual app to the mock app
-        deviceWindow.LoadTPadApp(instance);
-        deviceWindow.Show();
+        core.CoreStart(deviceWindow, simDevice);
 
+        DashboardApp dashboard = new DashboardApp(core, deviceWindow, simDevice);
+        dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
+        dashboard.Applications.Add(CalculatorAppDescriptor);
+
+        deviceWindow.LoadTPadApp(dashboard);
+        deviceWindow.Show();
         //*************** TO RUN ON SIMULATOR WINDOW *********************
-        
         //ITPadApp instance = Launcher.GetAppInstance(simDevice, simDevice, comPort, camera, deviceCount++);
         //simDevice.LoadTPadApp(instance);
         //gTop.Children.Add(simDevice);
-
         //*************** END ********************************************
 
-        appInstances.Add(instance);
+        appInstances.Add(dashboard);
       }
       catch (Exception exception)
       {
@@ -425,6 +441,25 @@ namespace UofM.HCI.tPab
         bottomDevice.RotationAngle = topDevice.RotationAngle;
     }
 
+    public TPadLauncherSettings GetSettings(TPadLauncherSettings settings)
+    {
+      throw new NotImplementedException();
+    }
+
+    public TPadApplicationDescriptor GetApplicationDescriptor()
+    {
+      throw new NotImplementedException();
+    }
+
+    public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
+    {
+      if (descriptor.AppClass == typeof(CalculatorApp))
+      {
+        CalculatorApp calculator = new CalculatorApp(core.Profile, container, controller);
+        return calculator;
+      }
+      return null;
+    }
   }
 
 }

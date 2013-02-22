@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="UofM.HCI.tPab.CalculatorApp" x:Name="calculatorApp"
+﻿<UserControl x:Class="UofM.HCI.tPab.Applications.CalculatorApp" x:Name="calculatorApp"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,5 +8,6 @@
              d:DesignHeight="300" d:DesignWidth="300">
   <Grid Width="{Binding ElementName=calculatorApp, Path=ActualWidth}" Height="{Binding ElementName=calculatorApp, Path=ActualHeight}">
     <xceed:Calculator VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black"/>
+    <Button x:Name="btnClose" Content="Close" VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="45" Margin="16" Click="btnClose_Click"/>
   </Grid>
 </UserControl>

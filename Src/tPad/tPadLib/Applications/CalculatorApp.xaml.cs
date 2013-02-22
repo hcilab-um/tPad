@@ -13,13 +13,15 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPab.Applications
 {
   /// <summary>
   /// Interaction logic for Calculator.xaml
   /// </summary>
   public partial class CalculatorApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
+
+    public event EventHandler Closed;
 
     private TPadCore core;
     public TPadCore Core
@@ -41,6 +43,8 @@ namespace UofM.HCI.tPab
 
     public CalculatorApp(TPadProfile profile, ITPadAppContainer container, ITPadAppController controller)
     {
+      var tmp = new Xceed.Wpf.Toolkit.Calculator();
+
       Profile = profile;
       Container = container;
       Controller = controller;
@@ -63,6 +67,17 @@ namespace UofM.HCI.tPab
       HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
       OnPropertyChanged("WidthScalingFactor");
       OnPropertyChanged("HeightScalingFactor");
+    }
+
+    private void btnClose_Click(object sender, RoutedEventArgs e)
+    {
+      Close();
+    }
+
+    public void Close()
+    {
+      if (Closed != null)
+        Closed(this, EventArgs.Empty);
     }
   }
 }

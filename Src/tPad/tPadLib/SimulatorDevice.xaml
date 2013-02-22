@@ -39,6 +39,8 @@
             VerticalAlignment="Center" HorizontalAlignment="Right" Content=">" Height="25" Width="25" Margin="0,0,25,0"/>
     <Button x:Name="btVerticalFlip" Click="btVerticalFlip_Click"
             VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="V" Height="25" Width="25" Margin="0,0,0,25"/>
+    <ToggleButton x:Name="btLaunchCalculator" Click="btLaunchCalculator_Click"
+                  VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Calc"  Height="25" Width="50" Margin="25,0,0,25"/>
     
     <Grid.RenderTransform>
       <ScaleTransform x:Name="tScale" 

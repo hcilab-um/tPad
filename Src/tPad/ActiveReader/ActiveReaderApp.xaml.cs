@@ -30,6 +30,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
   /// </summary>
   public partial class ActiveReaderApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
+    public event EventHandler Closed;
 
     public ObservableCollection<Figure> FigurePositions { get; set; }
     public Dictionary<int, ActiveReaderDocument> DbDocuments { get; set; }
@@ -897,6 +898,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
       mouseDocPosition.X = mouseDocPosition.X / Container.WidthFactor;
       mouseDocPosition.Y = mouseDocPosition.Y / Container.HeightFactor;
       return mouseDocPosition;
+    }
+
+    public void Close()
+    {
+      if (Closed != null)
+        Closed(this, EventArgs.Empty);
     }
   }
 }

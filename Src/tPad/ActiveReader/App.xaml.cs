@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using UofM.HCI.tPab.App.ActiveReader.Properties;
+using UofM.HCI.tPab.Applications;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -151,18 +152,32 @@ namespace UofM.HCI.tPab.App.ActiveReader
       return result;
     }
 
-    public ITPadApp GetAppInstance(ITPadAppContainer container, ITPadAppController controller, String boardPort, bool useCamera, int deviceID)
+    public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      TPadCore core = new TPadCore();
-      core.BoardCOM = boardPort;
-      core.UseCamera = useCamera;
-      core.Configure(profile, deviceID, Settings.Default.MulticastGroup, Settings.Default.MulticastPort, Settings.Default.MulticastTTL);
-      core.CoreStart(container, controller);
-
       ActiveReaderApp appInstance = new ActiveReaderApp(core, container, controller, listOfFigures);
       appInstance.DbDocuments.Add(document.ID, document.Clone() as ActiveReaderDocument);
 
       return appInstance;
+    }
+
+    public TPadLauncherSettings GetSettings(TPadLauncherSettings settings)
+    {
+      settings.MulticastGroup = Settings.Default.MulticastGroup;
+      settings.MulticastPort = Settings.Default.MulticastPort;
+      settings.MulticastTTL = Settings.Default.MulticastTTL;
+
+      return settings;
+    }
+
+    public Applications.TPadApplicationDescriptor GetApplicationDescriptor()
+    {
+      return new Applications.TPadApplicationDescriptor() 
+      { 
+        Name = "ActiveReader", 
+        Icon = UofM.HCI.tPab.App.ActiveReader.Properties.Resources.ActiveReaderIcon, 
+        AppClass = typeof(ActiveReaderApp),
+        Launcher = this
+      };
     }
   }
 }

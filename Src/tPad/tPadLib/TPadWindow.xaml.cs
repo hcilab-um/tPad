@@ -23,9 +23,10 @@ namespace UofM.HCI.tPab
     public TPadProfile Profile { get; set; }
     private ITPadAppLauncher Launcher { get; set; }
 
-    private UserControl TPadApp { get; set; }
     public Rect TPadAppBounds { get; set; }
     private Size BorderDiff { get; set; }
+
+    private List<ITPadApp> currentApps = new List<ITPadApp>();
 
     /// <summary>
     /// This is the number of pixels per cm
@@ -58,12 +59,29 @@ namespace UofM.HCI.tPab
       if (tPadApp == null)
         return;
 
-      TPadApp = tPadApp as UserControl;
+      tPadApp.Closed += tPadApp_Closed;
+
+      UserControl TPadApp = tPadApp as UserControl;
       TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
       gTPadApp.Children.Add(TPadApp);
+      currentApps.Add(tPadApp);
+
       TPadAppBounds = Rect.Empty;
       BorderDiff = Size.Empty;
+    }
+
+    void tPadApp_Closed(object sender, EventArgs e)
+    {
+      ITPadApp tPadApp = (ITPadApp)sender;
+      tPadApp.Closed -= tPadApp_Closed;
+      gTPadApp.Children.Remove(tPadApp as UserControl);
+      currentApps.Remove(tPadApp);
+    }
+
+    public ITPadApp GetRunningInstance(Type appType)
+    {
+      return currentApps.SingleOrDefault(app => app.GetType().Equals(appType));
     }
 
     private void tpWindow_Loaded(object sender, RoutedEventArgs e)

@@ -59,5 +59,12 @@ namespace UofM.HCI.tPab.App.ActiveReader.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap ActiveReaderIcon {
+            get {
+                object obj = ResourceManager.GetObject("ActiveReaderIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

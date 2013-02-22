@@ -8,12 +8,16 @@ namespace UofM.HCI.tPab
 
   public interface ITPadApp
   {
+    event EventHandler Closed;
+
     TPadCore Core { get; set; }
     ITPadAppContainer Container { get; set; }
     ITPadAppController Controller { get; set; }
 
     double WidthScalingFactor { get; set; }
     double HeightScalingFactor { get; set; }
+
+    void Close();
   }
 
 }

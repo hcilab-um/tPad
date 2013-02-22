@@ -11,6 +11,8 @@ namespace UofM.HCI.tPab
   {
     float WidthFactor { get; }
     float HeightFactor { get; }
+    void LoadTPadApp(ITPadApp tPadApp);
+    ITPadApp GetRunningInstance(Type appType);
   }
 
 }
