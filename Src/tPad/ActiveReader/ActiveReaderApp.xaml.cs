@@ -301,9 +301,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
           foreach (Highlight element in document[pageIndex].Highlights)
           {
             Highlight highlight = (Highlight)element;
-            highlight.Line.MouseDown += cHighlights_MouseDown;
-            highlight.Line.MouseMove += cHighlights_MouseMove;
-            highlight.Line.MouseUp += cHighlights_MouseUp;
+            highlight.Line.MouseDown += cVirtualLayers_MouseDown;
+            highlight.Line.MouseMove += cVirtualLayers_MouseMove;
+            highlight.Line.MouseUp += cVirtualLayers_MouseUp;
             cHighlights.Children.Add(highlight.Line);
           }
 
@@ -311,9 +311,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
           foreach (Highlight element in document[pageIndex].SearchResults)
           {
             Highlight searchHighlight = (Highlight)element;
-            searchHighlight.Line.MouseDown += cHighlights_MouseDown;
-            searchHighlight.Line.MouseMove += cHighlights_MouseMove;
-            searchHighlight.Line.MouseUp += cHighlights_MouseUp;
+            searchHighlight.Line.MouseDown += cVirtualLayers_MouseDown;
+            searchHighlight.Line.MouseMove += cVirtualLayers_MouseMove;
+            searchHighlight.Line.MouseUp += cVirtualLayers_MouseUp;
             cSearchResults.Children.Add(searchHighlight.Line);
           }
 
@@ -321,9 +321,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
           foreach (Highlight element in document[pageIndex].FigureLinks)
           {
             Highlight linkHighlight = (Highlight)element;
-            linkHighlight.Line.MouseDown += cHighlights_MouseDown;
-            linkHighlight.Line.MouseMove += cHighlights_MouseMove;
-            linkHighlight.Line.MouseUp += cHighlights_MouseUp;
+            linkHighlight.Line.MouseDown += cVirtualLayers_MouseDown;
+            linkHighlight.Line.MouseMove += cVirtualLayers_MouseMove;
+            linkHighlight.Line.MouseUp += cVirtualLayers_MouseUp;
             cSearchResults.Children.Add(linkHighlight.Line);
           }
 
@@ -395,7 +395,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private Line currentHighlight;
     private bool isSomething2Hide = false;
     private bool isSenderHighlight = false;
-    private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
+    private void cVirtualLayers_MouseDown(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
@@ -404,9 +404,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
         newHighlight = new Highlight();
         newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 / Container.HeightFactor };
-        newHighlight.Line.MouseDown += cHighlights_MouseDown;
-        newHighlight.Line.MouseMove += cHighlights_MouseMove;
-        newHighlight.Line.MouseUp += cHighlights_MouseUp;
+        newHighlight.Line.MouseDown += cVirtualLayers_MouseDown;
+        newHighlight.Line.MouseMove += cVirtualLayers_MouseMove;
+        newHighlight.Line.MouseUp += cVirtualLayers_MouseUp;
         newHighlight.Line.X1 = lastPosition.X;
         newHighlight.Line.Y1 = lastPosition.Y;
         newHighlight.Line.X2 = lastPosition.X;
@@ -465,7 +465,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     }
 
     private float minlength_Highlight = (float)0.2; //cms
-    private void cHighlights_MouseUp(object sender, MouseButtonEventArgs e)
+    private void cVirtualLayers_MouseUp(object sender, MouseButtonEventArgs e)
     {
       if (!isHighlighting)
         return;
@@ -487,7 +487,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
         if (content != null)
           SearchTerm = content;
-        else SearchTerm = String.Empty;
+        else 
+          SearchTerm = String.Empty;
         RemoveWordHighlight();
         if (contentBounds != Rect.Empty)
           AddWordHighlight(contentBounds);
@@ -496,7 +497,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private void cHighlights_MouseMove(object sender, MouseEventArgs e)
+    private void cVirtualLayers_MouseMove(object sender, MouseEventArgs e)
     {
       if (ActualNote.Annotation != null)
         StickyNoteButton_MouseMove(sender, e);
@@ -588,7 +589,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newNote.Annotation.GNote.MouseUp += StickyNoteButton_MouseUp;
       newNote.Annotation.TextField.PreviewMouseDown += StickyNoteTextBox_PreviewMouseDown;
       newNote.Annotation.TextField.PreviewMouseMove += StickyNoteTextBox_PreviewMouseMove;
-      
+
       newNote.Annotation.WidthFactor = Container.WidthFactor;
       newNote.Annotation.HeightFactor = Container.HeightFactor;
       newNote.Annotation.Width = 150;
@@ -687,7 +688,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     //      ActualScribble.Scribbling.Visibility = Visibility.Hidden;
     //  }
     //}
-   
+
     private void StickyNoteTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
@@ -708,9 +709,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
         tpKeyboard.Visibility = Visibility.Visible;
       }
     }
-    
+
     private void StickyNoteTextBox_PreviewMouseMove(object sender, MouseEventArgs e)
-    {      
+    {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released && ActualNote.Annotation.IsNoteMoving)
       {
         Point currentPosition = GetMousePositionInDocument();
@@ -778,7 +779,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         inkCScribble.Visibility = Visibility.Visible;
       else inkCScribble.Visibility = Visibility.Hidden;
     }
-        
+
     private void bErase_Click(object sender, RoutedEventArgs e)
     {
       bScribble.IsChecked = false;
@@ -786,7 +787,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       if (bErase.IsChecked.Value)
         inkCScribble.Visibility = Visibility.Visible;
-      else inkCScribble.Visibility = Visibility.Hidden;      
+      else inkCScribble.Visibility = Visibility.Hidden;
     }
 
     private Stroke currentStroke;
@@ -803,21 +804,22 @@ namespace UofM.HCI.tPab.App.ActiveReader
           if (distance(currentStroke.GetBounds().TopLeft, new System.Windows.Point(scribbleCollection.X, scribbleCollection.Y)) < defaultClusterStrokeDistanceCm ||
             distance(currentStroke.GetBounds().BottomRight, new System.Windows.Point(scribbleCollection.X, scribbleCollection.Y)) < defaultClusterStrokeDistanceCm)
           {
-            scribbleCollection.ScribblingCollection.Add(currentStroke);            
+            if (!scribbleCollection.ScribblingCollection.Contains(currentStroke))
+              scribbleCollection.ScribblingCollection.Add(currentStroke);
             return;
           }
         }
-        
+
         //if stroke is not close to another one, create new collection
         ScribbleCollection newCollection = new ScribbleCollection();
         newCollection.ScribblingCollection = new StrokeCollection();
         newCollection.ScribblingCollection.Add(currentStroke);
-        ActualDocument[ActualPage].ScribblingCollections.Add(newCollection);        
+        ActualDocument[ActualPage].ScribblingCollections.Add(newCollection);
       }
       else if (bErase.IsChecked.Value)
         inkCScribble.Strokes.Remove(currentStroke); //remove red eraser stroke
     }
-        
+
     private float distance(System.Windows.Point point1, System.Windows.Point point2)
     {
       return (float)Math.Sqrt((point1.X - point2.X) * (point1.X - point2.X) +
@@ -904,6 +906,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (Closed != null)
         Closed(this, EventArgs.Empty);
+    }
+
+    private void bExit_Click(object sender, RoutedEventArgs e)
+    {
+      Close();
+    }
+
+    private void bHighlightTool_Click(object sender, RoutedEventArgs e)
+    {
+
     }
   }
 }

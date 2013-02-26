@@ -24,6 +24,29 @@
     <convertersApp:StatusAndBoolVisibilityConverter x:Key="cStatusAndBoolVisibility" />
     <convertersApp:StatusAndBoolBackgroundConverter x:Key="cStatusAndBoolBackground" />
     <convertersApp:IsButtonEnabledConverter x:Key="cIsButtonEnabled" />
+    <convertersApp:ToggleImageButtomConverter  x:Key="cToggleImageButtom" />
+    <convertersApp:BoolToVisibilityConverter x:Key="cBoolToVisibility" />
+
+    <Style x:Key="sTB" TargetType="ToggleButton">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ToggleButton">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+              <Image Width="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, Path=ActualWidth}" 
+                     Height="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, Path=ActualHeight}">
+                <Image.Source>
+                  <MultiBinding Converter="{StaticResource ResourceKey=cToggleImageButtom}">
+                    <Binding RelativeSource="{RelativeSource AncestorType=ToggleButton}" Path="IsChecked" />
+                    <Binding RelativeSource="{RelativeSource AncestorType=ToggleButton}" Path="Tag" />
+                  </MultiBinding>
+                </Image.Source>
+              </Image>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
   </UserControl.Resources>
 
   <!-- This is the outer wrapper which makes the paintable area of the application to be as big as the ducoment page -->
@@ -44,7 +67,7 @@
     <!-- This rectangle guarantees a correct placement of the layers - do not delete -->
     <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" 
                Width="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
-               Stroke="Green" StrokeThickness="1" Fill="Transparent">
+               Stroke="Green" StrokeThickness="1" Fill="White">
       <Rectangle.RenderTransform>
         <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
                         ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
@@ -93,7 +116,7 @@
         <!-- We cannot have the cHighlights canvas handle this events because it would need to opacity to be that low and then the highlight themselves would be almost transparent too -->
         <Rectangle Fill="White" Opacity="0.1" Canvas.Left="0" Canvas.Top="0" 
                    Width="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
-                   MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
+                   MouseDown="cVirtualLayers_MouseDown" MouseUp="cVirtualLayers_MouseUp" MouseMove="cVirtualLayers_MouseMove"/>
       </Canvas>
 
       <!-- This layer is for the search results -->
@@ -145,7 +168,7 @@
                                       HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
                                       WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
-                                      PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
+                                      PreviewMouseDown="cVirtualLayers_MouseDown" PreviewMouseUp="cVirtualLayers_MouseUp" PreviewMouseMove="cVirtualLayers_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
@@ -166,7 +189,7 @@
                                       HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
                                       WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
-                                      PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
+                                      PreviewMouseDown="cVirtualLayers_MouseDown" PreviewMouseUp="cVirtualLayers_MouseUp" PreviewMouseMove="cVirtualLayers_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
@@ -187,7 +210,7 @@
                                       HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
                                       WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
-                                      PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
+                                      PreviewMouseDown="cVirtualLayers_MouseDown" PreviewMouseUp="cVirtualLayers_MouseUp" PreviewMouseMove="cVirtualLayers_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
@@ -208,7 +231,7 @@
                                       HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
                                       WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
-                                      PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
+                                      PreviewMouseDown="cVirtualLayers_MouseDown" PreviewMouseUp="cVirtualLayers_MouseUp" PreviewMouseMove="cVirtualLayers_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
@@ -220,22 +243,29 @@
       <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" Margin="0,25,0,0">
-          <ToggleButton x:Name="bHighlight" IsThreeState="False" Click="bHighlight_Click" IsChecked="True">Highlight</ToggleButton>
-          <ToggleButton x:Name="bOffScreenVisualization" IsThreeState="false" Margin="20,0,0,0">Off-Screen
-            <ToggleButton.IsEnabled>
-              <MultiBinding Converter="{StaticResource ResourceKey=cIsButtonEnabled}">
-                <Binding ElementName="bHighlight" Path="IsChecked"/>
-                <Binding ElementName="bSearch" Path="IsChecked"/>
-              </MultiBinding>
-            </ToggleButton.IsEnabled>
-          </ToggleButton>
-          <ToggleButton x:Name="bScribble" IsThreeState="False" Margin="20,0,0,0" Click="bScribble_Click">Scribble</ToggleButton>
-          <ToggleButton x:Name="bErase" IsThreeState="False" Margin="20,0,0,0" Click="bErase_Click">Erase</ToggleButton>
-          <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0" IsChecked="True">Show Page</ToggleButton>
-          <ToggleButton x:Name="bSearch" IsThreeState="False" Margin="20,0,0,0" Click="bSearch_Click" >Search</ToggleButton>
-          <ToggleButton x:Name="bCopyAndLock" IsThreeState="False" Margin="20,0,0,0" Click="bCopyAndLock_Click" >Copy 8 Lock</ToggleButton>
-
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+          <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="10,10,0,0">
+            <ToggleButton x:Name="bHighlightTool" Tag="Highlight" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Click="bHighlightTool_Click" IsChecked="True" Width="55" Height="55"/>
+            <ToggleButton x:Name="bScribble" Tag="Scribble" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bScribble_Click" Width="55" Height="55"/>
+            <ToggleButton x:Name="bErase" Tag="DeleteMarker" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bErase_Click" Width="55" Height="55"/>
+            <ToggleButton x:Name="bSearch" Tag="Search" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bSearch_Click" Width="55" Height="55"/>
+            <ToggleButton x:Name="bCopyAndLock" Tag="Lock" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bCopyAndLock_Click" Width="55" Height="55"/>
+            <ToggleButton x:Name="bSettings" Tag="Settings" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Width="55" Height="55"/>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,10,90,0" HorizontalAlignment="Right"
+                      Visibility="{Binding ElementName=bSettings, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}">
+            <ToggleButton x:Name="bShowPage" Tag="ShowPage" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,10,0" IsChecked="True" Width="55" Height="55"/>
+            <ToggleButton x:Name="bHighlight" Tag="Layers" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,10,0" Click="bHighlight_Click" IsChecked="True" Width="55" Height="55"/>
+            <ToggleButton x:Name="bOffScreenVisualization" Tag="OffScreen" Style="{StaticResource ResourceKey=sTB}" IsThreeState="false" Margin="0,0,10,0" Width="55" Height="55">
+              <ToggleButton.IsEnabled>
+                <MultiBinding Converter="{StaticResource ResourceKey=cIsButtonEnabled}">
+                  <Binding ElementName="bHighlight" Path="IsChecked"/>
+                  <Binding ElementName="bSearch" Path="IsChecked"/>
+                </MultiBinding>
+              </ToggleButton.IsEnabled>
+            </ToggleButton>
+            <ToggleButton x:Name="bExit" Tag="Exit" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,10,0" Click="bExit_Click" Width="55" Height="55"/>
+          </StackPanel>
         </StackPanel>
       </Grid>
 
@@ -292,5 +322,5 @@
                     CenterX="{Binding ElementName=arApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
                     CenterY="{Binding ElementName=arApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
   </UserControl.RenderTransform>
-  
+
 </UserControl>
