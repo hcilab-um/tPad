@@ -81,6 +81,8 @@ namespace UofM.HCI.tPab.Converters
         return typeof(bool);
       if (name == "System.Windows.Visibility")
         return typeof(System.Windows.Visibility);
+      if (name == "bool?")
+        return typeof(bool?);
       return Type.GetType(name);
     }
 
@@ -147,7 +149,14 @@ namespace UofM.HCI.tPab.Converters
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      throw new NotImplementedException();
+      if (!targetType.IsEnum)
+        return null;
+
+      bool isChecked = (bool)value;
+      if (isChecked)
+        return Enum.Parse(targetType, Reference);
+      else
+        return Enum.GetValues(targetType).GetValue(0);
     }
 
     #endregion

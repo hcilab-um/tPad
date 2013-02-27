@@ -93,6 +93,9 @@
       <DependentUpon>DashboardApp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Applications\TPadApplicationDescriptor.cs" />
+    <Compile Include="Converters\ATFRotation.cs" />
+    <Compile Include="Converters\ATFSize.cs" />
+    <Compile Include="Converters\ATFTranslation.cs" />
     <Compile Include="Converters\FlippingSideToScaleConverter.cs" />
     <Compile Include="Converters\IntToBinaryConverter.cs" />
     <Compile Include="Converters\LocationToMargingConverter.cs" />

@@ -110,7 +110,7 @@ namespace UofM.HCI.tPab.Services
         if (status == 1)
         {
           location.Status = LocationStatus.Located;
-          location.RotationAngle = featureTracker.RotationAngle;
+          location.RotationAngle = ClampedAngle(featureTracker.RotationAngle);
 
           PointF locationPx = new PointF(featureTracker.LocationPxTL.X / Controller.SimCaptureToSourceImageRatio, 
             featureTracker.LocationPxTL.Y / Controller.SimCaptureToSourceImageRatio);
@@ -131,7 +131,7 @@ namespace UofM.HCI.tPab.Services
       else
       {
         location.Status = LocationStatus.Located;
-        location.RotationAngle = Controller.RotationAngle;
+        location.RotationAngle = ClampedAngle(Controller.RotationAngle);
         location.LocationCm = new PointF((float)(Controller.Location.X / Controller.WidthFactor), (float)(Controller.Location.Y / Controller.HeightFactor));
         location.DocumentID = Controller.ActualDocument.ID;
         location.PageIndex = Controller.ActualPage;
@@ -139,6 +139,12 @@ namespace UofM.HCI.tPab.Services
 
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));
     }
+
+    private float ClampedAngle(float angle)
+    { 
+      return ((angle % 360) + 360) % 360;
+    }
+
   }
 
 }
