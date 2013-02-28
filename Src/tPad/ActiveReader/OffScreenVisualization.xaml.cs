@@ -61,6 +61,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
       set { SetValue(DeviceRotationProperty, value); }
     }
 
+    public static readonly DependencyProperty UIRotationProperty = DependencyProperty.Register("UIRotation", typeof(double), typeof(OffScreenVisualization));
+    public double UIRotation
+    {
+      get { return (double)GetValue(UIRotationProperty); }
+      set { SetValue(UIRotationProperty, value); }
+    }
+
     public static readonly DependencyProperty HeightFactorProperty = DependencyProperty.Register("HeightFactor", typeof(float), typeof(OffScreenVisualization));
     public float HeightFactor
     {

@@ -25,10 +25,12 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
       var heightFactor = float.Parse(values[5].ToString());
       var deviceWidth = float.Parse(values[6].ToString());
       var deviceHeight = float.Parse(values[7].ToString());
-      var devicePageWidthFactor = deviceWidth / deviceWidthInPage;
-      var devicePageHeightFactor = deviceHeight/ deviceHeightInPage;
       var sizeOffScreenIcon = float.Parse(values[8].ToString());
-      var angle = double.Parse(values[9].ToString());
+      var deviceAngle = double.Parse(values[9].ToString());
+      var uiAngle = double.Parse(values[10].ToString());
+
+      //Corrections for the anchoring of the UI to the text flow
+      var angle = deviceAngle + uiAngle;
 
       //The highlightPosition is not in cms, thus it must be converted to pixels
       highlightPosition.X = highlightPosition.X * widthFactor;
@@ -36,16 +38,33 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
 
       Vector deviceLocation = new Vector(deviceLoc.X * widthFactor, deviceLoc.Y * heightFactor);
       Vector deviceCenter = new Vector(deviceLocation.X + (deviceWidthInPage / 2.0f), deviceLocation.Y + (deviceHeightInPage / 2.0f)); //center within the page
-      
+
       //parametric line equation: deviceCenter + s * directionHighlight
       Vector directionHighlight = new Vector(highlightPosition.X - deviceCenter.X, highlightPosition.Y - deviceCenter.Y);
-             
+
       //rotate corners of device
-      Vector lowerLeft = rotateAroundPoint(new Vector(deviceLocation.X, deviceLocation.Y + deviceHeightInPage), deviceCenter, angle);
-      Vector lowerRight = rotateAroundPoint(new Vector(deviceLocation.X + deviceWidthInPage, deviceLocation.Y + deviceHeightInPage), deviceCenter, angle);
-      Vector upperRight = rotateAroundPoint(new Vector(deviceLocation.X + deviceWidthInPage, deviceLocation.Y), deviceCenter, angle);
+      Vector lowerLeft, lowerRight, upperRight;
+      if (uiAngle != 90 && uiAngle != 270)
+      {
+        lowerLeft = rotateAroundPoint(new Vector(deviceLocation.X, deviceLocation.Y + deviceHeightInPage), deviceCenter, angle);
+        lowerRight = rotateAroundPoint(new Vector(deviceLocation.X + deviceWidthInPage, deviceLocation.Y + deviceHeightInPage), deviceCenter, angle);
+        upperRight = rotateAroundPoint(new Vector(deviceLocation.X + deviceWidthInPage, deviceLocation.Y), deviceCenter, angle);
+      }
+      else
+      {
+        var tmp = deviceWidthInPage;
+        deviceWidthInPage = deviceHeightInPage;
+        deviceHeightInPage = tmp;
+
+        lowerLeft = rotateAroundPoint(new Vector(deviceLocation.X, deviceLocation.Y + deviceWidthInPage), deviceCenter, angle);
+        lowerRight = rotateAroundPoint(new Vector(deviceLocation.X + deviceHeightInPage, deviceLocation.Y + deviceWidthInPage), deviceCenter, angle);
+        upperRight = rotateAroundPoint(new Vector(deviceLocation.X + deviceHeightInPage, deviceLocation.Y), deviceCenter, angle);
+      }
       deviceLocation = rotateAroundPoint(deviceLocation, deviceCenter, angle);
-        
+
+      var devicePageWidthFactor = deviceWidth / deviceWidthInPage;
+      var devicePageHeightFactor = deviceHeight / deviceHeightInPage;
+
       //Compute intersections:
       //intersection with left device border
       Vector directionVertBorder = new Vector(deviceLocation.X - lowerLeft.X, deviceLocation.Y - lowerLeft.Y);
@@ -85,7 +104,7 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
         lowerIntersection = rotateAroundPoint(lowerIntersection, deviceCenter, -angle);
         return new System.Windows.Thickness((lowerIntersection.X - deviceLocation.X) * devicePageWidthFactor, deviceHeight - sizeOffScreenIcon, 0, 0);
       }
-     
+
       return new System.Windows.Thickness(-50, -50, 0, 0);
     }
 
@@ -126,11 +145,11 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
 
     private bool isBetween(Vector startPoint, Vector endPoint, Vector point)
     {
-      double dotproduct = (point.X - startPoint.X) * (endPoint.X - startPoint.X) + (point.Y - startPoint.Y)*(endPoint.Y - startPoint.Y);      
+      double dotproduct = (point.X - startPoint.X) * (endPoint.X - startPoint.X) + (point.Y - startPoint.Y) * (endPoint.Y - startPoint.Y);
       if (dotproduct < 0)
         return false;
-      
-      double sqrtLength = (endPoint.X - startPoint.X)*(endPoint.X - startPoint.X) + (endPoint.Y - startPoint.Y)*(endPoint.Y - startPoint.Y);
+
+      double sqrtLength = (endPoint.X - startPoint.X) * (endPoint.X - startPoint.X) + (endPoint.Y - startPoint.Y) * (endPoint.Y - startPoint.Y);
       if (dotproduct > sqrtLength)
         return false;
 

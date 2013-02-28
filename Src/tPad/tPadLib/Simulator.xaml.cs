@@ -265,7 +265,7 @@ namespace UofM.HCI.tPab
         core.UseCamera = settings.UseCamera;
         core.Configure(Profile, settings.DeviceID, settings.MulticastGroup, settings.MulticastPort, settings.MulticastTTL);
 
-        SimulatorDevice simDevice = new SimulatorDevice(this);
+        SimulatorDevice simDevice = new SimulatorDevice(this, core);
         simDevice.OnStackingControl += simDevice_OnStackingControl;
         simDevice.PropertyChanged += simDevice_PropertyChanged;
         simDevice.VerticalAlignment = System.Windows.VerticalAlignment.Top;
@@ -279,25 +279,29 @@ namespace UofM.HCI.tPab
         BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameHeightProperty, new Binding("FrameHeight") { Source = this });
 
         //*************** TO RUN ON TPAD WINDOW *********************
-        simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice) { Core = core });
-        gTop.Children.Add(simDevice);
+        //simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice) { Core = core });
+        //gTop.Children.Add(simDevice);
 
-        TPadWindow deviceWindow = new TPadWindow(Profile, Launcher);
-        deviceWindow.Closed += deviceWindow_Closed;
-        deviceWindow.InstanceNumber = appInstances.Count;
+        //TPadWindow deviceWindow = new TPadWindow(Profile, Launcher);
+        //deviceWindow.Closed += deviceWindow_Closed;
+        //deviceWindow.InstanceNumber = appInstances.Count;
 
-        core.CoreStart(deviceWindow, simDevice);
+        //core.CoreStart(deviceWindow, simDevice);
 
-        DashboardApp dashboard = new DashboardApp(core, deviceWindow, simDevice);
+        //DashboardApp dashboard = new DashboardApp(core, deviceWindow, simDevice);
+        //dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
+        //dashboard.Applications.Add(CalculatorAppDescriptor);
+
+        //deviceWindow.LoadTPadApp(dashboard);
+        //deviceWindow.Show();
+        //*************** TO RUN ON SIMULATOR WINDOW *********************
+        core.CoreStart(simDevice, simDevice);
+
+        DashboardApp dashboard = new DashboardApp(core, simDevice, simDevice);
         dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
         dashboard.Applications.Add(CalculatorAppDescriptor);
-
-        deviceWindow.LoadTPadApp(dashboard);
-        deviceWindow.Show();
-        //*************** TO RUN ON SIMULATOR WINDOW *********************
-        //ITPadApp instance = Launcher.GetAppInstance(simDevice, simDevice, comPort, camera, deviceCount++);
-        //simDevice.LoadTPadApp(instance);
-        //gTop.Children.Add(simDevice);
+        simDevice.LoadTPadApp(dashboard);
+        gTop.Children.Add(simDevice);
         //*************** END ********************************************
 
         appInstances.Add(dashboard);
@@ -407,7 +411,7 @@ namespace UofM.HCI.tPab
           topDevice.RotationAngle = bottomDevice.RotationAngle;
           topDevice.SetValue(Grid.ZIndexProperty, 1);
           bottomDevice.SetValue(Grid.ZIndexProperty, 0);
-          bottomDevice.DeviceOnTopID = topDevice.TPadApp.Core.Device.ID;
+          bottomDevice.DeviceOnTopID = topDevice.Core.Device.ID;
         }
       }
       else if (e.NewState == StackingControlState.None)

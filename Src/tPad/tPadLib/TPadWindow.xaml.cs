@@ -23,9 +23,6 @@ namespace UofM.HCI.tPab
     public TPadProfile Profile { get; set; }
     private ITPadAppLauncher Launcher { get; set; }
 
-    public Rect TPadAppBounds { get; set; }
-    private Size BorderDiff { get; set; }
-
     private List<ITPadApp> currentApps = new List<ITPadApp>();
 
     /// <summary>
@@ -33,15 +30,24 @@ namespace UofM.HCI.tPab
     /// </summary>
     public float WidthFactor
     {
-      get { return (float)(ActualWidth / Profile.ScreenSize.Width); }
+      get { return (float)(gTPadApp.ActualWidth / Profile.ScreenSize.Width); }
     }
 
     public float HeightFactor
     {
-      get { return (float)(ActualHeight / Profile.ScreenSize.Height); }
+      get { return (float)(gTPadApp.ActualHeight / Profile.ScreenSize.Height); }
     }
 
-    public double SizeMultiplier { get; set; }
+    private double sizeMultiplier = 1;
+    public double SizeMultiplier
+    {
+      get { return sizeMultiplier; }
+      set
+      {
+        sizeMultiplier = value;
+        OnPropertyChanged("SizeMultiplier");
+      }
+    }
 
     public int InstanceNumber { get; set; }
 
@@ -66,9 +72,6 @@ namespace UofM.HCI.tPab
       TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
       gTPadApp.Children.Add(TPadApp);
       currentApps.Add(tPadApp);
-
-      TPadAppBounds = Rect.Empty;
-      BorderDiff = Size.Empty;
     }
 
     void tPadApp_Closed(object sender, EventArgs e)

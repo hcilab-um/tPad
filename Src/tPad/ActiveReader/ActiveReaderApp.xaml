@@ -165,7 +165,7 @@
       <Canvas.Width>
         <MultiBinding Converter="{StaticResource ResourceKey=cATFS}" ConverterParameter="Width">
           <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
-          <Binding ElementName="arApp" Path="Core.Device.Location.RotationAngle" />
+          <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
           <Binding ElementName="arApp" Path="Core.Profile.Resolution.Width" />
           <Binding ElementName="arApp" Path="Core.Profile.Resolution.Height" />
         </MultiBinding>
@@ -173,7 +173,7 @@
       <Canvas.Height>
         <MultiBinding Converter="{StaticResource ResourceKey=cATFS}" ConverterParameter="Height">
           <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
-          <Binding ElementName="arApp" Path="Core.Device.Location.RotationAngle" />
+          <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
           <Binding ElementName="arApp" Path="Core.Profile.Resolution.Width" />
           <Binding ElementName="arApp" Path="Core.Profile.Resolution.Height" />
         </MultiBinding>
@@ -186,7 +186,7 @@
             <RotateTransform.Angle>
               <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
                 <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
-                <Binding ElementName="arApp" Path="Core.Device.Location.RotationAngle" />
+                <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
               </MultiBinding>
             </RotateTransform.Angle>
           </RotateTransform>
@@ -194,14 +194,14 @@
             <TranslateTransform.X>
               <MultiBinding Converter="{StaticResource ResourceKey=cATFT}" ConverterParameter="X">
                 <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
-                <Binding ElementName="arApp" Path="Core.Device.Location.RotationAngle" />
+                <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
                 <Binding ElementName="arApp" Path="Core.Profile.Resolution.Width" />
               </MultiBinding>
             </TranslateTransform.X>
             <TranslateTransform.Y>
               <MultiBinding Converter="{StaticResource ResourceKey=cATFT}" ConverterParameter="Y">
                 <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
-                <Binding ElementName="arApp" Path="Core.Device.Location.RotationAngle" />
+                <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
                 <Binding ElementName="arApp" Path="Core.Profile.Resolution.Height" />
               </MultiBinding>
             </TranslateTransform.Y>
@@ -229,6 +229,12 @@
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
+        <menuBar:OffScreenVisualization.UIRotation>
+          <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+            <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+            <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.UIRotation>
       </menuBar:OffScreenVisualization>
 
       <!--The off-screen visualization for annotations-->
@@ -250,6 +256,12 @@
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
+        <menuBar:OffScreenVisualization.UIRotation>
+          <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+            <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+            <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.UIRotation>
       </menuBar:OffScreenVisualization>
 
       <!--The off-screen visualization for search results-->
@@ -271,6 +283,12 @@
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
+        <menuBar:OffScreenVisualization.UIRotation>
+          <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+            <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+            <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.UIRotation>
       </menuBar:OffScreenVisualization>
 
       <!--The off-screen visualization for scribblings -->
@@ -292,6 +310,12 @@
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
+        <menuBar:OffScreenVisualization.UIRotation>
+          <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+            <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+            <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.UIRotation>
       </menuBar:OffScreenVisualization>
 
       <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0"

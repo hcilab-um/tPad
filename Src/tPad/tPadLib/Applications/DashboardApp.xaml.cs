@@ -51,6 +51,7 @@ namespace UofM.HCI.tPab.Applications
       Core = core;
       Container = container;
       Controller = controller;
+      Profile = core.Profile;
 
       Applications = new ObservableCollection<TPadApplicationDescriptor>();
       InitializeComponent();

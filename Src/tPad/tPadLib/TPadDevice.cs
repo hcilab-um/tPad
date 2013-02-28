@@ -36,6 +36,17 @@ namespace UofM.HCI.tPab
       }
     }
 
+    private float anchorToFlowAngle = 0;
+    public float AnchorToFlowAngle
+    {
+      get { return anchorToFlowAngle; }
+      set
+      {
+        anchorToFlowAngle = value;
+        OnPropertyChanged("AnchorToFlowAngle");
+      }
+    }
+
     private StackingState state = StackingState.NotStacked;
     public StackingState State
     {
@@ -70,10 +81,10 @@ namespace UofM.HCI.tPab
     }
 
     private FlippingMode flippingSide = FlippingMode.FaceUp;
-    public FlippingMode FlippingSide 
+    public FlippingMode FlippingSide
     {
       get { return flippingSide; }
-      set 
+      set
       {
         flippingSide = value;
         OnPropertyChanged("FlippingSide");
@@ -95,6 +106,8 @@ namespace UofM.HCI.tPab
         new Guid(String.Format("00000000-0000-0000-0000-00000000000{0}", ID)),
         String.Format("{0}-{1}", System.Environment.MachineName, ID),
         String.Format("{0}-{1}", System.Environment.MachineName, ID));
+
+      PropertyChanged += TPadDevice_PropertyChanged;
     }
 
     internal void ProcessStackingUpdate(Monitors.StackingUpdate stackingUpdate)
@@ -108,7 +121,7 @@ namespace UofM.HCI.tPab
           TargetDeviceID = stackingUpdate.DeviceOnTopID
         });
       }
-      else if(stackingUpdate.Event == Monitors.StackingEvent.PhysicalSeparation)
+      else if (stackingUpdate.Event == Monitors.StackingEvent.PhysicalSeparation)
       {
         SendMessage(new StackingMessage()
         {
@@ -203,6 +216,16 @@ namespace UofM.HCI.tPab
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
+    void TPadDevice_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if (e.PropertyName == "Location")
+      {
+        if (location == null)
+          return;
+        AnchorToFlowAngle = CalculateAnchoredToFlowAngle(location.RotationAngle);
+      }
+    }
+
     public void OnRegistrationChanged(TPadLocation last, TPadLocation newL)
     {
       if (RegistrationChanged != null)
@@ -211,13 +234,28 @@ namespace UofM.HCI.tPab
       if (State != StackingState.StackedBelow)
         return;
 
-      SendMessage(new StackingMessage() 
-      { 
+      SendMessage(new StackingMessage()
+      {
         MessageType = StackingMessageType.LocationUpdate,
-        Location = newL, 
+        Location = newL,
         SourceDeviceID = ID,
         TargetDeviceID = DeviceOnTop
       });
+    }
+
+    private float CalculateAnchoredToFlowAngle(float angle)
+    {
+      angle = angle % 360;
+      float destAngle = 0;
+      if (315 < angle || angle <= 45)
+        destAngle = 0;
+      else if (45 < angle && angle <= 135)
+        destAngle = 270;
+      else if (135 < angle && angle <= 225)
+        destAngle = 180;
+      else if (225 < angle && angle <= 315)
+        destAngle = 90;
+      return destAngle;
     }
 
   }

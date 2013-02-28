@@ -21,7 +21,17 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
       var deviceLoc = (PointF)values[3];
       var widthFactor = float.Parse(values[4].ToString());
       var heightFactor = float.Parse(values[5].ToString());
-      var angle = double.Parse(values[6].ToString());
+      var deviceAngle = double.Parse(values[6].ToString());
+      var uiAngle = double.Parse(values[7].ToString());
+
+      //Corrections for the anchoring of the UI to the text flow
+      var angle = deviceAngle + uiAngle;
+      if (uiAngle == 90 || uiAngle == 270)
+      {
+        var tmp = deviceWidthInPage;
+        deviceWidthInPage = deviceHeightInPage;
+        deviceHeightInPage = tmp;
+      }
 
       //The highlightPosition is not in cms, thus it must be converted to pixels
       highlightPosition.X = highlightPosition.X * widthFactor;

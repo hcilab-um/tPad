@@ -11,12 +11,10 @@ namespace UofM.HCI.tPab.Converters
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       bool flag = (bool)values[0];
-      float angle = (float)values[1];
+      float destAngle = (float)values[1];
       double shortSide = (double)values[2];
       double longSide = (double)values[3];
       String dimension = (String)parameter;
-
-      float destAngle = ATFRotation.GetDestAngle(ref angle);
 
       if (!flag || destAngle == 0 || destAngle == 180)
       {

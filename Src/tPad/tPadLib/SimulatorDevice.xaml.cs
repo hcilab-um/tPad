@@ -110,7 +110,6 @@ namespace UofM.HCI.tPab
     }
 
     private Simulator sWindow { get; set; }
-    public ITPadApp TPadApp { get; set; }
     public Rect TPadAppBounds { get; set; }
 
     //This is the ID of the device on top, the device beloe starts the communication
@@ -136,9 +135,24 @@ namespace UofM.HCI.tPab
       }
     }
 
-    public SimulatorDevice(Simulator simulator)
+    public TPadCore Core { get; set; }
+    public TPadProfile Profile { get; set; }
+
+    public double WidthMultiplier
+    {
+      get { return AppWidth / Profile.Resolution.Width; }
+    }
+
+    public double HeightMultiplier
+    {
+      get { return AppHeight / Profile.Resolution.Height; }
+    }
+
+    public SimulatorDevice(Simulator simulator, TPadCore core)
     {
       sWindow = simulator;
+      Profile = core.Profile;
+      Core = core;
       DeviceOnTopID = 0;
       CalculatorGlyph = false;
       InitializeComponent();
@@ -147,39 +161,42 @@ namespace UofM.HCI.tPab
     private void sDevice_Loaded(object sender, RoutedEventArgs e)
     {
       if (TPadAppBounds == Rect.Empty)
-        TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp as UserControl);
-      Rect ttPadBounds = (TPadApp as UserControl).TransformToAncestor(this).TransformBounds(TPadAppBounds);
+        TPadAppBounds = VisualTreeHelper.GetDescendantBounds(gDevice);
+      Rect ttPadBounds = gDevice.TransformToAncestor(this).TransformBounds(TPadAppBounds);
       if (BorderDiff == Size.Empty)
         BorderDiff = new Size(ttPadBounds.Left, ttPadBounds.Top);
       Location = new System.Drawing.Point((int)BorderDiff.Width, (int)BorderDiff.Height);
+
+      OnPropertyChanged("WidthMultiplier");
+      OnPropertyChanged("HeightMultiplier");
     }
+
+    private List<ITPadApp> currentApps = new List<ITPadApp>();
 
     public void LoadTPadApp(ITPadApp tPadApp)
     {
       if (tPadApp == null)
         return;
 
-      TPadApp = tPadApp;
-      (TPadApp as UserControl).VerticalAlignment = System.Windows.VerticalAlignment.Center;
-      (TPadApp as UserControl).HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-      BindingOperations.SetBinding((TPadApp as UserControl), UserControl.WidthProperty, new Binding("AppWidth") { Source = this });
-      BindingOperations.SetBinding((TPadApp as UserControl), UserControl.HeightProperty, new Binding("AppHeight") { Source = this });
+      tPadApp.Closed += tPadApp_Closed;
 
-      gTPadApp.Children.Add(TPadApp as UserControl);
-      TPadAppBounds = Rect.Empty;
-      BorderDiff = Size.Empty;
+      (tPadApp as UserControl).VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
+      (tPadApp as UserControl).HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+      gTPadApp.Children.Add(tPadApp as UserControl);
+      currentApps.Add(tPadApp);
+    }
+
+    void tPadApp_Closed(object sender, EventArgs e)
+    {
+      ITPadApp tPadApp = (ITPadApp)sender;
+      tPadApp.Closed -= tPadApp_Closed;
+      gTPadApp.Children.Remove(tPadApp as UserControl);
+      currentApps.Remove(tPadApp);
     }
 
     public ITPadApp GetRunningInstance(Type appType)
     {
-      ITPadApp runningInstance = null;
-      foreach (UIElement element in gTPadApp.Children)
-      {
-        if (!element.GetType().Equals(appType))
-          continue;
-        runningInstance = element as ITPadApp;
-      }
-      return runningInstance;
+      return currentApps.SingleOrDefault(app => app.GetType().Equals(appType));
     }
 
     private delegate MemoryStream GetDeviceViewDelegate();
@@ -210,7 +227,7 @@ namespace UofM.HCI.tPab
         sWindow.GetCoordinatesForScreenCapture(out zeroX, out zeroY);
 
         if (TPadAppBounds == Rect.Empty)
-          TPadAppBounds = VisualTreeHelper.GetDescendantBounds(TPadApp as UserControl);
+          TPadAppBounds = VisualTreeHelper.GetDescendantBounds(gDevice);
         if (TPadAppBounds.Size.Width == 0 || TPadAppBounds.Size.Height == 0)
         {
           TPadAppBounds = Rect.Empty;
@@ -218,11 +235,14 @@ namespace UofM.HCI.tPab
         }
 
         Rect ttPadBounds = new Rect();
-        ttPadBounds = (TPadApp as UserControl).TransformToAncestor(sWindow).TransformBounds(TPadAppBounds);
+        ttPadBounds = gDevice.TransformToAncestor(sWindow).TransformBounds(TPadAppBounds);
         System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds);
         capture.Save(result, ImageFormat.Bmp);
       }
-      catch { }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
 
       return result;
     }
@@ -304,19 +324,19 @@ namespace UofM.HCI.tPab
       if (StackingControlState == tPab.StackingControlState.None)
       {
         StackingControlState = tPab.StackingControlState.Stacking;
-        OnStackingControl(this, new StackingControlEventArgs() { Device = TPadApp.Core.Device, PreviousState = tPab.StackingControlState.None, NewState = StackingControlState });
+        OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, PreviousState = tPab.StackingControlState.None, NewState = StackingControlState });
       }
       //it means that the device will no longer be stacked on top of another and the operation is cancelled
       else if (StackingControlState == tPab.StackingControlState.Stacking)
       {
         StackingControlState = tPab.StackingControlState.None;
-        OnStackingControl(this, new StackingControlEventArgs() { Device = TPadApp.Core.Device, PreviousState = tPab.StackingControlState.Stacking, NewState = StackingControlState });
+        OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, PreviousState = tPab.StackingControlState.Stacking, NewState = StackingControlState });
       }
       //it means that the current stacking finishes
       else if (StackingControlState == tPab.StackingControlState.StackedTop)
       {
         StackingControlState = tPab.StackingControlState.None;
-        OnStackingControl(this, new StackingControlEventArgs() { Device = TPadApp.Core.Device, PreviousState = tPab.StackingControlState.Stacking, NewState = StackingControlState });
+        OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, PreviousState = tPab.StackingControlState.Stacking, NewState = StackingControlState });
       }
     }
 
@@ -341,12 +361,12 @@ namespace UofM.HCI.tPab
 
     public float WidthFactor
     {
-      get { return sWindow.WidthFactor; }
+      get { return (float)(gTPadApp.ActualWidth / Profile.ScreenSize.Width); }
     }
 
     public float HeightFactor
     {
-      get { return sWindow.HeightFactor; }
+      get { return (float)(gTPadApp.ActualHeight / Profile.ScreenSize.Height); }
     }
 
     public float SimCaptureToSourceImageRatio

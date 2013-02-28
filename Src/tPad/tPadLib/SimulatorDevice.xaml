@@ -21,7 +21,7 @@
   </UserControl.Margin>
   
   <!-- This is the place holder for the TPadApp -->
-  <Grid x:Name="gTPadApp" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+  <Grid x:Name="gDevice" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
     <Rectangle x:Name="rFrameLeft" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Left"
                Width="{Binding ElementName=sDevice, Path=FrameWidth}"/>
     <Rectangle x:Name="rFrameTop" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Top" HorizontalAlignment="Stretch"
@@ -41,14 +41,25 @@
             VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="V" Height="25" Width="25" Margin="0,0,0,25"/>
     <ToggleButton x:Name="btLaunchCalculator" Click="btLaunchCalculator_Click"
                   VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Calc"  Height="25" Width="50" Margin="25,0,0,25"/>
-    
+
+    <Canvas x:Name="cWrapper" Width="{Binding ElementName=sDevice, Path=AppWidth}" Height="{Binding ElementName=sDevice, Path=AppHeight}"
+            VerticalAlignment="Center" HorizontalAlignment="Center">
+      <Canvas.RenderTransform>
+        <ScaleTransform ScaleX="{Binding ElementName=sDevice, Path=WidthMultiplier}" ScaleY="{Binding ElementName=sDevice, Path=HeightMultiplier}"/>
+      </Canvas.RenderTransform>
+
+      <Grid x:Name="gTPadApp" Background="Red"
+        Width="{Binding ElementName=sDevice, Path=Profile.Resolution.Width}"
+        Height="{Binding ElementName=sDevice, Path=Profile.Resolution.Height}">
+      </Grid>
+    </Canvas>
+
     <Grid.RenderTransform>
       <ScaleTransform x:Name="tScale" 
                       ScaleX="{Binding ElementName=sDevice, Path=FlippingSide, Converter={StaticResource ResourceKey=fsToScale}}"
                       CenterX="{Binding ElementName=sDevice, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
                       CenterY="{Binding ElementName=sDevice, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
-    </Grid.RenderTransform>
-    
+    </Grid.RenderTransform>    
   </Grid>
 
   <UserControl.RenderTransform>
