@@ -279,29 +279,29 @@ namespace UofM.HCI.tPab
         BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameHeightProperty, new Binding("FrameHeight") { Source = this });
 
         //*************** TO RUN ON TPAD WINDOW *********************
-        //simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice) { Core = core });
-        //gTop.Children.Add(simDevice);
+        simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice) { Core = core });
+        gTop.Children.Add(simDevice);
 
-        //TPadWindow deviceWindow = new TPadWindow(Profile, Launcher);
-        //deviceWindow.Closed += deviceWindow_Closed;
-        //deviceWindow.InstanceNumber = appInstances.Count;
+        TPadWindow deviceWindow = new TPadWindow(Profile, Launcher);
+        deviceWindow.Closed += deviceWindow_Closed;
+        deviceWindow.InstanceNumber = appInstances.Count;
 
-        //core.CoreStart(deviceWindow, simDevice);
+        core.CoreStart(deviceWindow, simDevice);
 
-        //DashboardApp dashboard = new DashboardApp(core, deviceWindow, simDevice);
-        //dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
-        //dashboard.Applications.Add(CalculatorAppDescriptor);
-
-        //deviceWindow.LoadTPadApp(dashboard);
-        //deviceWindow.Show();
-        //*************** TO RUN ON SIMULATOR WINDOW *********************
-        core.CoreStart(simDevice, simDevice);
-
-        DashboardApp dashboard = new DashboardApp(core, simDevice, simDevice);
+        DashboardApp dashboard = new DashboardApp(core, deviceWindow, simDevice);
         dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
         dashboard.Applications.Add(CalculatorAppDescriptor);
-        simDevice.LoadTPadApp(dashboard);
-        gTop.Children.Add(simDevice);
+
+        deviceWindow.LoadTPadApp(dashboard);
+        deviceWindow.Show();
+        //*************** TO RUN ON SIMULATOR WINDOW *********************
+        //core.CoreStart(simDevice, simDevice);
+
+        //DashboardApp dashboard = new DashboardApp(core, simDevice, simDevice);
+        //dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
+        //dashboard.Applications.Add(CalculatorAppDescriptor);
+        //simDevice.LoadTPadApp(dashboard);
+        //gTop.Children.Add(simDevice);
         //*************** END ********************************************
 
         appInstances.Add(dashboard);

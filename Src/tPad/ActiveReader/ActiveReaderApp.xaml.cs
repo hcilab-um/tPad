@@ -405,7 +405,22 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (sender == rHighlights)
         {
           if (CurrentTool != ActiveReadingTool.Highlighter)
+          {
+            //Hide pop-up stick notes and keyboard
+            contextMenu.Visibility = Visibility.Hidden;
+            tpKeyboard.Visibility = Visibility.Hidden;
+
+            isSomething2Hide = false;
+            foreach (Note element in ActualDocument[ActualPage].Annotations)
+            {
+              if (element.Annotation.Visibility == Visibility.Visible)
+              {
+                isSomething2Hide = true;
+                element.Annotation.Visibility = Visibility.Hidden;
+              }
+            }
             return;
+          }
 
           isHighlighting = true;
           lastPosition = GetMousePositionInDocument();
@@ -419,21 +434,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           newHighlight.Line.Y1 = lastPosition.Y;
           newHighlight.Line.X2 = lastPosition.X;
           newHighlight.Line.Y2 = lastPosition.Y;
-          cHighlights.Children.Add(newHighlight.Line);
-
-          contextMenu.Visibility = Visibility.Hidden;
-          tpKeyboard.Visibility = Visibility.Hidden;
-
-          isSomething2Hide = false;
-          foreach (Note element in ActualDocument[ActualPage].Annotations)
-          {
-            if (element.Annotation.Visibility == Visibility.Visible)
-            {
-              isSomething2Hide = true;
-              element.Annotation.Visibility = Visibility.Hidden;
-            }
-          }
-
+          cHighlights.Children.Add(newHighlight.Line);          
         }
         else if (sender is Line)
         {
@@ -469,6 +470,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void cHighlights_MouseUp(object sender, MouseButtonEventArgs e)
     {
       Point newPosition = GetMousePositionInDocument();
+      
       if (CurrentTool == ActiveReadingTool.Highlighter)
       {
         if (!isHighlighting)
@@ -482,7 +484,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (lineVector.Length > minlength_Highlight)
           ActualDocument[ActualPage].Highlights.Add(newHighlight);
         else
-          cHighlights.Children.Remove(newHighlight.Line);
+          cHighlights.Children.Remove(newHighlight.Line);        
       }
       else //It was just a click to bring up the contextual menu
       {
@@ -497,8 +499,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (contentBounds != Rect.Empty)
           AddWordHighlight(contentBounds);
 
-        ShowContextualMenu();
-      }
+        ShowContextualMenu(); 
+      }      
     }
 
     private void cHighlights_MouseMove(object sender, MouseEventArgs e)
@@ -655,8 +657,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void CMAnnotation_Click(object sender, RoutedEventArgs e)
     {
       //show keyboard and clean result
-      tpKeyboard.Visibility = Visibility.Visible;
       tpKeyboard.ResultClear();
+      tpKeyboard.Visibility = Visibility.Visible;
+      lastPosition = GetMousePositionInDocument();
 
       Note newNote = new Note();
       newNote.Annotation = new StickyNote(lastPosition.X, lastPosition.Y);
