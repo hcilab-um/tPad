@@ -9,8 +9,6 @@ namespace UofM.HCI.tPab
 
   public interface ITPadAppContainer
   {
-    float WidthFactor { get; }
-    float HeightFactor { get; }
     void LoadTPadApp(ITPadApp tPadApp);
     ITPadApp GetRunningInstance(Type appType);
   }

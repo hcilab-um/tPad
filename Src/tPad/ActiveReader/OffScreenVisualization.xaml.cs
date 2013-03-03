@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
-using System.Drawing;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -47,10 +46,24 @@ namespace UofM.HCI.tPab.App.ActiveReader
       set { SetValue(PageWidthProperty, value); }
     }
 
-    public static readonly DependencyProperty DeviceLocationProperty = DependencyProperty.Register("DeviceLocation", typeof(PointF), typeof(OffScreenVisualization));
-    public PointF DeviceLocation
+    public static readonly DependencyProperty DeviceWidthProperty = DependencyProperty.Register("DeviceWidth", typeof(float), typeof(OffScreenVisualization));
+    public float DeviceWidth
     {
-      get { return (PointF)GetValue(DeviceLocationProperty); }
+      get { return (float)GetValue(DeviceWidthProperty); }
+      set { SetValue(DeviceWidthProperty, value); }
+    }
+
+    public static readonly DependencyProperty DeviceHeightProperty = DependencyProperty.Register("DeviceHeight", typeof(float), typeof(OffScreenVisualization));
+    public float DeviceHeight
+    {
+      get { return (float)GetValue(DeviceHeightProperty); }
+      set { SetValue(DeviceHeightProperty, value); }
+    }
+
+    public static readonly DependencyProperty DeviceLocationProperty = DependencyProperty.Register("DeviceLocation", typeof(Point), typeof(OffScreenVisualization));
+    public Point DeviceLocation
+    {
+      get { return (Point)GetValue(DeviceLocationProperty); }
       set { SetValue(DeviceLocationProperty, value); }
     }
 

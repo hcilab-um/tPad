@@ -25,19 +25,6 @@ namespace UofM.HCI.tPab
 
     private List<ITPadApp> currentApps = new List<ITPadApp>();
 
-    /// <summary>
-    /// This is the number of pixels per cm
-    /// </summary>
-    public float WidthFactor
-    {
-      get { return (float)(gTPadApp.ActualWidth / Profile.ScreenSize.Width); }
-    }
-
-    public float HeightFactor
-    {
-      get { return (float)(gTPadApp.ActualHeight / Profile.ScreenSize.Height); }
-    }
-
     private double sizeMultiplier = 1;
     public double SizeMultiplier
     {

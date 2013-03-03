@@ -8,12 +8,11 @@
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters;assembly=tPadLib"
              xmlns:convertersApp="clr-namespace:UofM.HCI.tPab.App.ActiveReader.Converters"
              xmlns:menuBar="clr-namespace:UofM.HCI.tPab.App.ActiveReader"             
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded" SizeChanged="arApp_SizeChanged">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded">
 
   <UserControl.Resources>
     <convertersLib:LayerScalingConverter x:Key="cLayerScaling" />
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />
-    <convertersLib:SubstractionConverter x:Key="cSubtraction" />
     <convertersLib:LayerRotationCenterConverter x:Key="cLayerRotationCenter" />
     <convertersLib:StatusVisibilityConverter x:Key="cStatusVisibility"/>
     <convertersLib:PageLoaderConverter x:Key="cPageLoader" />
@@ -58,29 +57,12 @@
   </UserControl.Resources>
 
   <!-- This is the outer wrapper which makes the paintable area of the application to be as big as the ducoment page -->
-  <Grid x:Name="gOuterWrapper">
-    <Grid.Width>
-      <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
-        <Binding ElementName="arApp" Path="Core.Profile.DocumentSize.Width"/>
-        <Binding ElementName="arApp" Path="Container.WidthFactor"/>
-      </MultiBinding>
-    </Grid.Width>
-    <Grid.Height>
-      <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
-        <Binding ElementName="arApp" Path="Core.Profile.DocumentSize.Height"/>
-        <Binding ElementName="arApp" Path="Container.HeightFactor"/>
-      </MultiBinding>
-    </Grid.Height>
+  <Grid x:Name="gOuterWrapper" Width="{Binding ElementName=arApp, Path=Core.Profile.DocumentSizeInPixels.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.DocumentSizeInPixels.Height}">
 
     <!-- This rectangle guarantees a correct placement of the layers - do not delete -->
     <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" 
                Width="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
-               Stroke="Green" StrokeThickness="1" Fill="White">
-      <Rectangle.RenderTransform>
-        <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
-                        ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
-      </Rectangle.RenderTransform>
-    </Rectangle>
+               Stroke="Green" StrokeThickness="1" Fill="White" />
 
     <!-- This is the grid containing all the layers that are anchored to the page -->
     <!-- The transformation below are manipulated from the code behind. It could also be made through binding bu the response time is slower. -->
@@ -112,7 +94,7 @@
       <!-- The first layer is for the highlights -->
       <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Canvas.RenderTransform>
-          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Container.WidthFactor}" ScaleY="{Binding ElementName=arApp, Path=Container.HeightFactor}" />
+          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}" ScaleY="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}" />
         </Canvas.RenderTransform>
         <Canvas.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
@@ -130,7 +112,7 @@
       <!-- This layer is for the search results -->
       <Canvas x:Name="cSearchResults" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Canvas.RenderTransform>
-          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Container.WidthFactor}" ScaleY="{Binding ElementName=arApp, Path=Container.HeightFactor}" />
+          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}" ScaleY="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}" />
         </Canvas.RenderTransform>
       </Canvas>
 
@@ -138,7 +120,7 @@
       <InkCanvas x:Name="inkCScribble" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"
                  UseCustomCursor="True" Cursor="Pen" MouseMove="inkCScribble_MouseMove" MouseUp="inkCScribble_MouseUp">
         <InkCanvas.RenderTransform>
-          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Container.WidthFactor}" ScaleY="{Binding ElementName=arApp, Path=Container.HeightFactor}" />
+          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}" ScaleY="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}" />
         </InkCanvas.RenderTransform>
         <InkCanvas.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
@@ -180,8 +162,6 @@
       </Canvas.Height>
       <Canvas.RenderTransform>
         <TransformGroup>
-          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
-                          ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
           <RotateTransform>
             <RotateTransform.Angle>
               <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
@@ -216,12 +196,14 @@
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.Highlights}"
                                       ActualIcon="Images/ArrowHighlight.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
-                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
-                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
-                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
-                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
+                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                                      DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
+                                      DeviceHeight="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
@@ -243,12 +225,14 @@
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.Annotations}"
                                       ActualIcon="Images/ArrowAnnotation.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
-                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
-                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
-                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
-                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
+                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                                      DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
+                                      DeviceHeight="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
@@ -270,12 +254,14 @@
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.SearchResults}"
                                       ActualIcon="Images/ArrowSearchResults.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
-                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
-                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
-                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
-                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
+                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                                      DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
+                                      DeviceHeight="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
@@ -297,12 +283,14 @@
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.ScribblingCollections}"
                                       ActualIcon="Images/ArrowAnnotation.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
-                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
-                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
-                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
-                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
+                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                                      DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
+                                      DeviceHeight="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
@@ -360,7 +348,7 @@
                              ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
                              PageHeight="{Binding ElementName=gAnchoredLayers, Path=ActualHeight}"
                              DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
-                             HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"/>
+                             HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"/>
 
       <menuBar:FigureViewer x:Name="figureViewer"
                             Canvas.Top="0" Canvas.Left="0"

@@ -13,9 +13,7 @@ namespace UofM.HCI.tPab.Converters
       var minuend = Double.Parse(values[0].ToString());
 
       for (int i = 1; i < values.Length; i++)
-      {
-        minuend -= Double.Parse(values[1].ToString());
-      }
+        minuend -= Double.Parse(values[i].ToString());
 
       return minuend;
     }

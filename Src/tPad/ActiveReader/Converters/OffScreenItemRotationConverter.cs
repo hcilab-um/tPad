@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using System.Drawing;
 using System.Windows;
 
 namespace UofM.HCI.tPab.App.ActiveReader.Converters
@@ -17,8 +16,8 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
 
       var deviceWidthInPage = float.Parse(values[0].ToString());
       var deviceHeightInPage = float.Parse(values[1].ToString());
-      var highlightPosition = (PointF)values[2];
-      var deviceLoc = (PointF)values[3];
+      var highlightPosition = (Point)values[2];
+      var deviceLoc = (Point)values[3];
       var widthFactor = float.Parse(values[4].ToString());
       var heightFactor = float.Parse(values[5].ToString());
       var deviceAngle = double.Parse(values[6].ToString());

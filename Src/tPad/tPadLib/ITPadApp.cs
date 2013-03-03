@@ -14,9 +14,6 @@ namespace UofM.HCI.tPab
     ITPadAppContainer Container { get; set; }
     ITPadAppController Controller { get; set; }
 
-    double WidthScalingFactor { get; set; }
-    double HeightScalingFactor { get; set; }
-
     void Close();
   }
 

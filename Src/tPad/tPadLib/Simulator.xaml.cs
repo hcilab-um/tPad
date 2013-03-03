@@ -199,8 +199,6 @@ namespace UofM.HCI.tPab
 
     private void wSimulator_Loaded(object sender, RoutedEventArgs e)
     {
-      Rect docBounds = iDocument.TransformToAncestor(gTop).TransformBounds(VisualTreeHelper.GetDescendantBounds(iDocument));
-      StartPageX = docBounds.Left;
     }
 
     void iDocument_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -218,6 +216,10 @@ namespace UofM.HCI.tPab
       // These two values should be nearly the same
       if (Math.Abs(HeightFactor - WidthFactor) >= 0.5)
         throw new ArgumentException("The document image does not match the specified document profile");
+
+      //Calculates the X=0 for the device simulator 
+      Rect docBounds = iDocument.TransformToAncestor(gTop).TransformBounds(VisualTreeHelper.GetDescendantBounds(iDocument));
+      StartPageX = docBounds.Left;
 
       // The ratio between the capture and the source image is calculated.
       SimCaptureToSourceImageRatio = (float)((iDocument.Source as BitmapFrame).PixelWidth / iDocument.ActualWidth);
@@ -279,29 +281,29 @@ namespace UofM.HCI.tPab
         BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameHeightProperty, new Binding("FrameHeight") { Source = this });
 
         //*************** TO RUN ON TPAD WINDOW *********************
-        simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice) { Core = core });
-        gTop.Children.Add(simDevice);
+        //simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice) { Core = core });
+        //gTop.Children.Add(simDevice);
 
-        TPadWindow deviceWindow = new TPadWindow(Profile, Launcher);
-        deviceWindow.Closed += deviceWindow_Closed;
-        deviceWindow.InstanceNumber = appInstances.Count;
+        //TPadWindow deviceWindow = new TPadWindow(Profile, Launcher);
+        //deviceWindow.Closed += deviceWindow_Closed;
+        //deviceWindow.InstanceNumber = appInstances.Count;
 
-        core.CoreStart(deviceWindow, simDevice);
+        //core.CoreStart(deviceWindow, simDevice);
 
-        DashboardApp dashboard = new DashboardApp(core, deviceWindow, simDevice);
-        dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
-        dashboard.Applications.Add(CalculatorAppDescriptor);
-
-        deviceWindow.LoadTPadApp(dashboard);
-        deviceWindow.Show();
-        //*************** TO RUN ON SIMULATOR WINDOW *********************
-        //core.CoreStart(simDevice, simDevice);
-
-        //DashboardApp dashboard = new DashboardApp(core, simDevice, simDevice);
+        //DashboardApp dashboard = new DashboardApp(core, deviceWindow, simDevice);
         //dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
         //dashboard.Applications.Add(CalculatorAppDescriptor);
-        //simDevice.LoadTPadApp(dashboard);
-        //gTop.Children.Add(simDevice);
+
+        //deviceWindow.LoadTPadApp(dashboard);
+        //deviceWindow.Show();
+        //*************** TO RUN ON SIMULATOR WINDOW *********************
+        core.CoreStart(simDevice, simDevice);
+
+        DashboardApp dashboard = new DashboardApp(core, simDevice, simDevice);
+        dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
+        dashboard.Applications.Add(CalculatorAppDescriptor);
+        simDevice.LoadTPadApp(dashboard);
+        gTop.Children.Add(simDevice);
         //*************** END ********************************************
 
         appInstances.Add(dashboard);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
+using System.Windows;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -11,8 +11,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
     double X { get; }
 
     double Y { get; }
-
-    PointF Position { get; }
+    
+    Point Position { get; }
 
     IActiveReaderMarker Clone();
   }

@@ -65,8 +65,8 @@ namespace UofM.HCI.tPab
       set { SetValue(InitialXProperty, value); }
     }
 
-    private System.Drawing.Point location;
-    public System.Drawing.Point Location
+    private System.Windows.Point location;
+    public System.Windows.Point Location
     {
       get { return location; }
       set
@@ -155,17 +155,23 @@ namespace UofM.HCI.tPab
       Core = core;
       DeviceOnTopID = 0;
       CalculatorGlyph = false;
+      TPadAppBounds = Rect.Empty;
+
       InitializeComponent();
     }
 
     private void sDevice_Loaded(object sender, RoutedEventArgs e)
     {
       if (TPadAppBounds == Rect.Empty)
-        TPadAppBounds = VisualTreeHelper.GetDescendantBounds(gDevice);
-      Rect ttPadBounds = gDevice.TransformToAncestor(this).TransformBounds(TPadAppBounds);
+        TPadAppBounds = VisualTreeHelper.GetDescendantBounds(cWrapper);
+      Rect ttPadBounds = cWrapper.TransformToAncestor(this).TransformBounds(TPadAppBounds);
       if (BorderDiff == Size.Empty)
         BorderDiff = new Size(ttPadBounds.Left, ttPadBounds.Top);
-      Location = new System.Drawing.Point((int)BorderDiff.Width, (int)BorderDiff.Height);
+
+      RotationAngle = 0;
+
+      Point locationCms = new Point(Profile.DocumentSize.Width / 2, Profile.DocumentSize.Height / 2);
+      Location = new Point(locationCms.X * WidthFactor, locationCms.Y * HeightFactor);
 
       OnPropertyChanged("WidthMultiplier");
       OnPropertyChanged("HeightMultiplier");
@@ -284,15 +290,10 @@ namespace UofM.HCI.tPab
         lastPosition = newPosition;
 
         //Adds such displacement to the current position of the app control
-        Point currentLocation = new Point(Margin.Left, Margin.Top);
-        Point newLocation = currentLocation + displacement;
-        //Margin = new Thickness(newLocation.X, newLocation.Y, 0, 0);
+        Point newLocation = Location + displacement;
 
         // Updates the device location
-        Point point = new Point(newLocation.X + BorderDiff.Width, newLocation.Y + BorderDiff.Height);
-        Point rotatedPoint = tRotate.Transform(point);
-
-        Location = new System.Drawing.Point((int)point.X, (int)point.Y);
+        Location = newLocation;
       }
       else if (isRotating)
       {
@@ -361,12 +362,12 @@ namespace UofM.HCI.tPab
 
     public float WidthFactor
     {
-      get { return (float)(gTPadApp.ActualWidth / Profile.ScreenSize.Width); }
+      get { return sWindow.WidthFactor; }
     }
 
     public float HeightFactor
     {
-      get { return (float)(gTPadApp.ActualHeight / Profile.ScreenSize.Height); }
+      get { return sWindow.HeightFactor; }
     }
 
     public float SimCaptureToSourceImageRatio

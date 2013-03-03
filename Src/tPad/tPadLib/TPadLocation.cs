@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.ComponentModel;
+using System.Windows;
 
 namespace UofM.HCI.tPab
 {
@@ -26,8 +26,8 @@ namespace UofM.HCI.tPab
     /// <summary>
     /// This is the location of the center of the device.
     /// </summary>
-    //public PointF LocationPx { get; set; } //Pixels on the simulator window
-    public PointF LocationCm { get; set; }
+    //public Point LocationPx { get; set; } //Pixels on the simulator window
+    public Point LocationCm { get; set; }
 
     /// <summary>
     /// This angle is calculated relative to the vertical axis of the document.

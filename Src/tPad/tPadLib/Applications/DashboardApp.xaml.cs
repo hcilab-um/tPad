@@ -41,9 +41,6 @@ namespace UofM.HCI.tPab.Applications
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
-    public double WidthScalingFactor { get; set; }
-    public double HeightScalingFactor { get; set; }
-
     public ObservableCollection<TPadApplicationDescriptor> Applications { get; private set; }
 
     public DashboardApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
@@ -65,14 +62,6 @@ namespace UofM.HCI.tPab.Applications
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
-    }
-
-    private void appDashboard_Loaded(object sender, RoutedEventArgs e)
-    {
-      WidthScalingFactor = ActualWidth / Profile.Resolution.Width;
-      HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
-      OnPropertyChanged("WidthScalingFactor");
-      OnPropertyChanged("HeightScalingFactor");
     }
 
     private void Image_MouseUp(object sender, MouseButtonEventArgs e)

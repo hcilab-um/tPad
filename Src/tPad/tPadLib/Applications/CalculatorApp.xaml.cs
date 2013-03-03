@@ -38,9 +38,6 @@ namespace UofM.HCI.tPab.Applications
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
-    public double WidthScalingFactor { get; set; }
-    public double HeightScalingFactor { get; set; }
-
     public CalculatorApp(TPadProfile profile, ITPadAppContainer container, ITPadAppController controller)
     {
       var tmp = new Xceed.Wpf.Toolkit.Calculator();
@@ -49,8 +46,6 @@ namespace UofM.HCI.tPab.Applications
       Container = container;
       Controller = controller;
 
-      WidthScalingFactor = 1;
-      HeightScalingFactor = 1;
       InitializeComponent();
     }
 
@@ -59,14 +54,6 @@ namespace UofM.HCI.tPab.Applications
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
-    }
-
-    private void calculatorApp_Loaded(object sender, RoutedEventArgs e)
-    {
-      WidthScalingFactor = ActualWidth / Profile.Resolution.Width;
-      HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
-      OnPropertyChanged("WidthScalingFactor");
-      OnPropertyChanged("HeightScalingFactor");
     }
 
     private void btnClose_Click(object sender, RoutedEventArgs e)

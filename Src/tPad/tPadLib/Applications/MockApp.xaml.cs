@@ -38,27 +38,13 @@ namespace UofM.HCI.tPab.Applications
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
-    public double WidthScalingFactor { get; set; }
-    public double HeightScalingFactor { get; set; }
-
     public MockApp(TPadProfile profile, ITPadAppContainer container, ITPadAppController controller)
     {
       Profile = profile;
       Container = container;
       Controller = controller;
 
-      WidthScalingFactor = 1;
-      HeightScalingFactor = 1;
-
       InitializeComponent();
-    }
-
-    private void mockApp_Loaded(object sender, RoutedEventArgs e)
-    {
-      WidthScalingFactor = ActualWidth / Profile.Resolution.Width;
-      HeightScalingFactor = ActualHeight / Profile.Resolution.Height;
-      OnPropertyChanged("WidthScalingFactor");
-      OnPropertyChanged("HeightScalingFactor");
     }
 
     public void Close()

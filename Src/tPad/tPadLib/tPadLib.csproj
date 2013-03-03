@@ -96,6 +96,7 @@
     <Compile Include="Converters\ATFRotation.cs" />
     <Compile Include="Converters\ATFSize.cs" />
     <Compile Include="Converters\ATFTranslation.cs" />
+    <Compile Include="Converters\MultiplierMultiConverter.cs" />
     <Compile Include="Converters\FlippingSideToScaleConverter.cs" />
     <Compile Include="Converters\IntToBinaryConverter.cs" />
     <Compile Include="Converters\LocationToMargingConverter.cs" />

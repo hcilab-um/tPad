@@ -41,13 +41,15 @@
                   <Binding ElementName="offScreen" Path="PageWidth"/>
                   <Binding ElementName="offScreen" Path="PageHeight"/>
                   <Binding Path="Position"/>
+                  <Binding ElementName="offScreen" Path="DeviceWidth"/>
+                  <Binding ElementName="offScreen" Path="DeviceHeight"/>
                   <Binding ElementName="offScreen" Path="DeviceLocation"/>
+                  <Binding ElementName="offScreen" Path="DeviceRotation"/>
                   <Binding ElementName="offScreen" Path="WidthFactor"/>
                   <Binding ElementName="offScreen" Path="HeightFactor"/>
                   <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualWidth"/>
                   <Binding RelativeSource="{RelativeSource AncestorType=ListBox}" Path="ActualHeight"/>
                   <Binding ElementName="iArrow" Path="ActualWidth"/>
-                  <Binding ElementName="offScreen" Path="DeviceRotation"/>
                   <Binding ElementName="offScreen" Path="UIRotation"/>
                 </MultiBinding>
               </Grid.Margin>              

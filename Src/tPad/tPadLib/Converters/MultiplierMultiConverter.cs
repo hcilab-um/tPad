@@ -7,18 +7,18 @@ using System.Windows;
 
 namespace UofM.HCI.tPab.Converters
 {
-  public class LocationToMargingConverter : IMultiValueConverter
+  public class MultiplierMultiConverter : IMultiValueConverter
   {
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (values == null || values.Length != 4)
-        return new Thickness(0);
+      if (values.Length == 0)
+        return 1;
 
-      System.Drawing.Point location = (System.Drawing.Point)values[0];
-      Size borderDiff = (Size)values[1];
+      var multiplier = (double)1;
+      for (int i = 0; i < values.Length; i++)
+        multiplier = multiplier * Double.Parse(values[i] as String);
 
-
-      return new Thickness(location.X - borderDiff.Width, location.Y - borderDiff.Height, 0, 0);
+      return multiplier;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

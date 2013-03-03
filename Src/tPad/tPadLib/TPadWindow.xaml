@@ -29,7 +29,7 @@
       <ScaleTransform ScaleX="{Binding ElementName=tpWindow, Path=SizeMultiplier}" ScaleY="{Binding ElementName=tpWindow, Path=SizeMultiplier}"/>
     </Canvas.RenderTransform>
     
-    <Grid x:Name="gTPadApp" Background="Red"
+    <Grid x:Name="gTPadApp" Background="Transparent"
         Width="{Binding ElementName=tpWindow, Path=Profile.Resolution.Width}"
         Height="{Binding ElementName=tpWindow, Path=Profile.Resolution.Height}">
     </Grid>

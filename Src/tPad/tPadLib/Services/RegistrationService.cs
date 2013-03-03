@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.IO;
 using System.Diagnostics;
 using Ubicomp.Utils.NET.CAF.ContextService;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
+using System.Windows;
 
 namespace UofM.HCI.tPab.Services
 {
@@ -81,7 +81,7 @@ namespace UofM.HCI.tPab.Services
     /// <param name="e"></param>
     protected override void CustomUpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)
     {
-      if (e.Type != typeof(Bitmap))
+      if (e.Type != typeof(System.Drawing.Bitmap))
         return;
       if (isProcessStopped)
         return;
@@ -92,7 +92,7 @@ namespace UofM.HCI.tPab.Services
       
       if (TPadCore.UseFeatureTracking)
       {
-        Bitmap camView = (Bitmap)e.NewObject;
+        System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;
         camView.Save("neu.png");
         Stopwatch sw = new Stopwatch();
         sw.Start();
@@ -112,9 +112,9 @@ namespace UofM.HCI.tPab.Services
           location.Status = LocationStatus.Located;
           location.RotationAngle = ClampedAngle(featureTracker.RotationAngle);
 
-          PointF locationPx = new PointF(featureTracker.LocationPxTL.X / Controller.SimCaptureToSourceImageRatio, 
+          Point locationPx = new Point(featureTracker.LocationPxTL.X / Controller.SimCaptureToSourceImageRatio, 
             featureTracker.LocationPxTL.Y / Controller.SimCaptureToSourceImageRatio);
-          location.LocationCm = new PointF((float)(locationPx.X / Controller.WidthFactor), (float)(locationPx.Y / Controller.HeightFactor));
+          location.LocationCm = new Point((float)(locationPx.X / Controller.WidthFactor), (float)(locationPx.Y / Controller.HeightFactor));
 
           //TODO: get Document object from featureTracker
           location.DocumentID = Controller.ActualDocument.ID;
@@ -132,7 +132,7 @@ namespace UofM.HCI.tPab.Services
       {
         location.Status = LocationStatus.Located;
         location.RotationAngle = ClampedAngle(Controller.RotationAngle);
-        location.LocationCm = new PointF((float)(Controller.Location.X / Controller.WidthFactor), (float)(Controller.Location.Y / Controller.HeightFactor));
+        location.LocationCm = new Point(Controller.Location.X / Controller.WidthFactor, Controller.Location.Y / Controller.HeightFactor);
         location.DocumentID = Controller.ActualDocument.ID;
         location.PageIndex = Controller.ActualPage;
       }

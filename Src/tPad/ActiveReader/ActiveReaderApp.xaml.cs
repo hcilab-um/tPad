@@ -42,9 +42,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
-    public double WidthScalingFactor { get; set; }
-    public double HeightScalingFactor { get; set; }
-
     private PDFContentHelper PdfHelper { get; set; }
 
     private int actualPage = -1;
@@ -152,9 +149,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       FigurePositions = figures;
       DbDocuments = new Dictionary<int, ActiveReaderDocument>();
 
-      WidthScalingFactor = 1;
-      HeightScalingFactor = 1;
-
       PropertyChanged += new PropertyChangedEventHandler(ActiveReaderApp_PropertyChanged);
       InitializeComponent();
     }
@@ -174,11 +168,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Core.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
       Core.Device.RegistrationChanged += new RegistrationChangedEventHandler(Device_RegistrationChanged);
 
-      WidthScalingFactor = ActualWidth / Core.Profile.Resolution.Width;
-      HeightScalingFactor = ActualHeight / Core.Profile.Resolution.Height;
-      OnPropertyChanged("WidthScalingFactor");
-      OnPropertyChanged("HeightScalingFactor");
-
       BindingOperations.SetBinding(cm_searchItem, MenuItem.HeaderProperty, new Binding("SearchTerm")
       {
         Source = this,
@@ -192,18 +181,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
         Converter = new UofM.HCI.tPab.App.ActiveReader.Converters.ContextMenuVisibilityConverter(),
       });
 
-      inkCScribble.DefaultDrawingAttributes.Height = 3 / Container.HeightFactor;
-      inkCScribble.DefaultDrawingAttributes.Width = 3 / Container.WidthFactor;
+      inkCScribble.DefaultDrawingAttributes.Height = 3 / Core.Profile.PixelsPerCm.Height;
+      inkCScribble.DefaultDrawingAttributes.Width = 3 / Core.Profile.PixelsPerCm.Width;
 
       CurrentTool = ActiveReadingTool.None;
-    }
-
-    private void arApp_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-      WidthScalingFactor = ActualWidth / Core.Profile.Resolution.Width;
-      HeightScalingFactor = ActualHeight / Core.Profile.Resolution.Height;
-      OnPropertyChanged("WidthScalingFactor");
-      OnPropertyChanged("HeightScalingFactor");
     }
 
     void Device_StackingChanged(object sender, StackingEventArgs e)
@@ -258,16 +239,16 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
-          System.Drawing.PointF locationPx = new System.Drawing.PointF(
-              e.NewLocation.LocationCm.X * Container.WidthFactor,
-              e.NewLocation.LocationCm.Y * Container.HeightFactor);
+          Point locationPx = new Point(
+              e.NewLocation.LocationCm.X * Core.Profile.PixelsPerCm.Width,
+              e.NewLocation.LocationCm.Y * Core.Profile.PixelsPerCm.Height);
 
           trCanvas.Angle = e.NewLocation.RotationAngle * -1;
-          trCanvas.CenterX = locationPx.X + ActualWidth / 2;
-          trCanvas.CenterY = locationPx.Y + ActualHeight / 2;
+          trCanvas.CenterX = locationPx.X;
+          trCanvas.CenterY = locationPx.Y;
 
-          ttCanvas.X = locationPx.X * -1;
-          ttCanvas.Y = locationPx.Y * -1;
+          ttCanvas.X = locationPx.X * -1 + ActualWidth / 2;
+          ttCanvas.Y = locationPx.Y * -1 + ActualHeight / 2;
         });
     }
 
@@ -426,7 +407,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           lastPosition = GetMousePositionInDocument();
 
           newHighlight = new Highlight();
-          newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 / Container.HeightFactor };
+          newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 / Core.Profile.PixelsPerCm.Height };
           newHighlight.Line.MouseDown += cHighlights_MouseDown;
           newHighlight.Line.MouseMove += cHighlights_MouseMove;
           newHighlight.Line.MouseUp += cHighlights_MouseUp;
@@ -670,8 +651,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newNote.Annotation.TextField.PreviewMouseDown += StickyNoteTextBox_PreviewMouseDown;
       newNote.Annotation.TextField.PreviewMouseMove += StickyNoteTextBox_PreviewMouseMove;
 
-      newNote.Annotation.WidthFactor = Container.WidthFactor;
-      newNote.Annotation.HeightFactor = Container.HeightFactor;
+      newNote.Annotation.WidthFactor = Core.Profile.PixelsPerCm.Width;
+      newNote.Annotation.HeightFactor = Core.Profile.PixelsPerCm.Height;
       newNote.Annotation.Width = 150;
       newNote.Annotation.Height = 150;
 
@@ -791,9 +772,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
         {
           Point noteSize = new Point(currentPosition.X - ActualNote.Annotation.Margin.Left, currentPosition.Y - ActualNote.Annotation.Margin.Top);
           if (noteSize.X >= defaultNoteSize.Width)
-            ActualNote.Annotation.Width = noteSize.X * Container.WidthFactor;
+            ActualNote.Annotation.Width = noteSize.X * Core.Profile.PixelsPerCm.Width;
           if (noteSize.Y >= defaultNoteSize.Height)
-            ActualNote.Annotation.Height = noteSize.Y * Container.HeightFactor;
+            ActualNote.Annotation.Height = noteSize.Y * Core.Profile.PixelsPerCm.Height;
         }
         tpKeyboard.Visibility = Visibility.Hidden;
       }
@@ -890,8 +871,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private Point GetMousePositionInDocument()
     {
       Point mouseDocPosition = Mouse.GetPosition(gAnchoredLayers);
-      mouseDocPosition.X = mouseDocPosition.X / Container.WidthFactor;
-      mouseDocPosition.Y = mouseDocPosition.Y / Container.HeightFactor;
+      mouseDocPosition.X = mouseDocPosition.X / Core.Profile.PixelsPerCm.Width;
+      mouseDocPosition.Y = mouseDocPosition.Y / Core.Profile.PixelsPerCm.Height;
       return mouseDocPosition;
     }
 

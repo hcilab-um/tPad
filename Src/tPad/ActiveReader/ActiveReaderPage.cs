@@ -10,6 +10,7 @@ using System.Xml;
 using System.IO;
 using System.Xml.Serialization;
 using System.Windows.Ink;
+using System.Windows;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -167,9 +168,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
       get { return Icon.Margin.Top; }
     }
 
-    public System.Drawing.PointF Position
+    public Point Position
     {
-      get { return new System.Drawing.PointF((float)X, (float)Y); }
+      get { return new Point(X, Y); }
     }
 
     public IActiveReaderMarker Clone()
@@ -264,9 +265,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
       get { return Line.Y1 + (Line.Y2 - Line.Y1) * 0.5; }
     }
 
-    public System.Drawing.PointF Position
+    public Point Position
     {
-      get { return new System.Drawing.PointF((float)X, (float)Y); }
+      get { return new Point(X, Y); }
     }
 
     public IActiveReaderMarker Clone()
@@ -304,9 +305,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
       get { return ScribblingCollection.GetBounds().TopLeft.Y + (ScribblingCollection.GetBounds().Height / 2.0); }
     }
 
-    public System.Drawing.PointF Position
+    public Point Position
     {
-      get { return new System.Drawing.PointF((float)X, (float)Y); }
+      get { return new Point(X, Y); }
     }
 
     public IActiveReaderMarker Clone()
