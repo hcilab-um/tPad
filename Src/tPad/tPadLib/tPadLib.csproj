@@ -99,7 +99,6 @@
     <Compile Include="Converters\MultiplierMultiConverter.cs" />
     <Compile Include="Converters\FlippingSideToScaleConverter.cs" />
     <Compile Include="Converters\IntToBinaryConverter.cs" />
-    <Compile Include="Converters\LocationToMargingConverter.cs" />
     <Compile Include="Converters\WPFBitmapConverter.cs" />
     <Compile Include="Monitors\MulticastMonitor.cs" />
     <Compile Include="Network\StackingMessage.cs" />

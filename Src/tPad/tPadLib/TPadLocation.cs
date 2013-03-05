@@ -33,6 +33,22 @@ namespace UofM.HCI.tPab
     /// This angle is calculated relative to the vertical axis of the document.
     /// </summary>
     public float RotationAngle { get; set; }
+
+    public bool Equals(TPadLocation other)
+    {
+      if (Status != other.Status)
+        return false;
+      if (PageIndex != other.PageIndex)
+        return false;
+      if (DocumentID != other.DocumentID)
+        return false;
+      if (LocationCm != other.LocationCm)
+        return false;
+      if (RotationAngle != other.RotationAngle)
+        return false;
+
+      return true;
+    }
   }
 
 }

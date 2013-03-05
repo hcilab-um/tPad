@@ -19,8 +19,6 @@ namespace UofM.HCI.tPab.Services
     public ITPadAppController Controller { get; set; }
 
     private ManagedA.wrapperRegistClass featureTracker;
-    
-    private TPadLocation location;
 
     private float temp_SimCaptureToSourceImageRatio;
 
@@ -41,7 +39,6 @@ namespace UofM.HCI.tPab.Services
       featureTracker = new ManagedA.wrapperRegistClass(useCamera);
       featureTracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
 
-      location = new TPadLocation();
       temp_SimCaptureToSourceImageRatio = 1;
 
       if (useCamera && TPadCore.UseFeatureTracking)
@@ -89,7 +86,9 @@ namespace UofM.HCI.tPab.Services
         return;
       if (Device.State == StackingState.StackedOnTop)
         return;
-      
+
+      TPadLocation location = new TPadLocation();
+
       if (TPadCore.UseFeatureTracking)
       {
         System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;

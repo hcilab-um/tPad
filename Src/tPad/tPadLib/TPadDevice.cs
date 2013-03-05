@@ -30,6 +30,9 @@ namespace UofM.HCI.tPab
       set
       {
         TPadLocation lastLocation = location;
+        if (location != null && location.Equals(value))
+          return;
+
         location = value;
         OnPropertyChanged("Location");
         OnRegistrationChanged(lastLocation, location);

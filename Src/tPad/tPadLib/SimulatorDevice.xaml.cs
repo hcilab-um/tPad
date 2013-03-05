@@ -87,16 +87,16 @@ namespace UofM.HCI.tPab
       }
     }
 
-    private Size borderDiff = Size.Empty;
-    public Size BorderDiff
-    {
-      get { return borderDiff; }
-      set
-      {
-        borderDiff = value;
-        OnPropertyChanged("BorderDiff");
-      }
-    }
+    //private Size borderDiff = Size.Empty;
+    //public Size BorderDiff
+    //{
+    //  get { return borderDiff; }
+    //  set
+    //  {
+    //    borderDiff = value;
+    //    OnPropertyChanged("BorderDiff");
+    //  }
+    //}
 
     private StackingControlState stackingControlState = StackingControlState.None;
     public StackingControlState StackingControlState
@@ -110,7 +110,8 @@ namespace UofM.HCI.tPab
     }
 
     private Simulator sWindow { get; set; }
-    public Rect TPadAppBounds { get; set; }
+    private Rect TPadAppBounds { get; set; }
+    public Rect ScreenCorrectedAppBounds { get; set; }
 
     //This is the ID of the device on top, the device beloe starts the communication
     private int deviceOnTopID = 0;
@@ -162,12 +163,6 @@ namespace UofM.HCI.tPab
 
     private void sDevice_Loaded(object sender, RoutedEventArgs e)
     {
-      if (TPadAppBounds == Rect.Empty)
-        TPadAppBounds = VisualTreeHelper.GetDescendantBounds(cWrapper);
-      Rect ttPadBounds = cWrapper.TransformToAncestor(this).TransformBounds(TPadAppBounds);
-      if (BorderDiff == Size.Empty)
-        BorderDiff = new Size(ttPadBounds.Left, ttPadBounds.Top);
-
       RotationAngle = 0;
 
       Point locationCms = new Point(Profile.DocumentSize.Width / 2, Profile.DocumentSize.Height / 2);
@@ -232,16 +227,20 @@ namespace UofM.HCI.tPab
         int zeroX = 0, zeroY = 0;
         sWindow.GetCoordinatesForScreenCapture(out zeroX, out zeroY);
 
+
         if (TPadAppBounds == Rect.Empty)
-          TPadAppBounds = VisualTreeHelper.GetDescendantBounds(gDevice);
-        if (TPadAppBounds.Size.Width == 0 || TPadAppBounds.Size.Height == 0)
+          TPadAppBounds = VisualTreeHelper.GetDescendantBounds(cWrapper);
+        if (TPadAppBounds.IsEmpty || TPadAppBounds.Size.Width == 0 || TPadAppBounds.Size.Height == 0)
         {
           TPadAppBounds = Rect.Empty;
           return null;
         }
+        else 
+        {
+          ScreenCorrectedAppBounds = new Rect(0, 0, TPadAppBounds.Width * WidthMultiplier, TPadAppBounds.Height * HeightMultiplier);
+        }
 
-        Rect ttPadBounds = new Rect();
-        ttPadBounds = gDevice.TransformToAncestor(sWindow).TransformBounds(TPadAppBounds);
+        Rect ttPadBounds = cWrapper.TransformToAncestor(sWindow).TransformBounds(TPadAppBounds);
         System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds);
         capture.Save(result, ImageFormat.Bmp);
       }

@@ -36,16 +36,16 @@ namespace UofM.HCI.tPab.Monitors
         return;
 
       //EUREKA!!!
-      Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as SimulatorDevice).TPadAppBounds);
+      Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as SimulatorDevice).ScreenCorrectedAppBounds);
       NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(Bitmap), rotatedView));
 
       //using (FileStream storage = CreateFileStream(angle))
-      //  rotatedView.Save(storage, ImageFormat.Bmp);
+      //  rotatedView.Save(storage, ImageFormat.Png);
     }
 
     private FileStream CreateFileStream(float angle)
     {
-      String fileName = String.Format("capture-{0}-{1}.BMP", (angle + 360) % 360, DateTime.Now.Ticks);
+      String fileName = String.Format("capture-{0}-{1}.PNG", (angle + 360) % 360, DateTime.Now.Ticks);
       return new FileStream(fileName, FileMode.OpenOrCreate);
     }
   }

@@ -185,6 +185,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       inkCScribble.DefaultDrawingAttributes.Width = 3 / Core.Profile.PixelsPerCm.Width;
 
       CurrentTool = ActiveReadingTool.None;
+      Device_RegistrationChanged(this, new RegistrationEventArgs() { NewLocation = Core.Device.Location });
     }
 
     void Device_StackingChanged(object sender, StackingEventArgs e)
@@ -199,6 +200,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     void Device_RegistrationChanged(object sender, RegistrationEventArgs e)
     {
+      DateTime start = DateTime.Now;
       if (e.NewLocation.Status != LocationStatus.Located)
       {
         if (ActualDocument != null)
