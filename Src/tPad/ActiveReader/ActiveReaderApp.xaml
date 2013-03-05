@@ -12,6 +12,7 @@
 
   <UserControl.Resources>
     <convertersLib:LayerScalingConverter x:Key="cLayerScaling" />
+    <convertersLib:SubstractionConverter x:Key="cSubstraction" />
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />
     <convertersLib:LayerRotationCenterConverter x:Key="cLayerRotationCenter" />
     <convertersLib:StatusVisibilityConverter x:Key="cStatusVisibility"/>
@@ -367,14 +368,22 @@
       </Grid>
 
       <!--This is the keyboard-->
-      <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" 
+            <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" 
                                  EnterKeyPressed="tpKeyboard_EnterKeyPressed"
                                  AlphaNumericKeyPressed="tpKeyboard_AlphaNumericKeyPressed"                                 
                                  Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" Height="200"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                 Visibility="Hidden" Canvas.Top="{Binding ElementName=arApp, Path=KeyboardPosition}" Canvas.Left="0" />
+                                 Visibility="Hidden" Canvas.Left="0">
+                <Canvas.Top>
+                    <MultiBinding Converter="{StaticResource ResourceKey=cSubstraction}">
+                        <Binding ElementName="arApp" Path="ActualHeight"/>
+                        <Binding ElementName="tpKeyboard" Path="ActualHeight"/>
+                    </MultiBinding>
+                </Canvas.Top>
+            </tpadcontrols:TPadKeyboard>
 
-      <Label Content="Stacked On Top" Canvas.Top="0" Canvas.Left="0" Height="50" Width="150" Background="Red"
+
+            <Label Content="Stacked On Top" Canvas.Top="0" Canvas.Left="0" Height="50" Width="150" Background="Red"
              Visibility="{Binding ElementName=arApp, Path=Core.Device.State, Converter={StaticResource ResourceKey=cCVOnTop}}"/>
 
       <Label Content="Stacked Below" Canvas.Top="100" Canvas.Left="0" Height="50" Width="150" Background="LightBlue"

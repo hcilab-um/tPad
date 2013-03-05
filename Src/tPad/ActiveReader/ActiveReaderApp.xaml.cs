@@ -77,11 +77,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    public float KeyboardPosition
-    {
-      get { return (float)(gFixedLayers.Height - tpKeyboard.Height); }
-    }
-
     private String searchTerm = String.Empty;
     public String SearchTerm
     {
@@ -285,20 +280,15 @@ namespace UofM.HCI.tPab.App.ActiveReader
             cHighlights.Children.Remove(highlight);
 
           //Unload existing notes
-          var notes = cHighlights.Children.OfType<TextBox>().ToList();
-          foreach (TextBox note in notes)
+          var notes = cHighlights.Children.OfType<StickyNote>().ToList();
+          foreach (StickyNote note in notes)
             cHighlights.Children.Remove(note);
 
           //Unload existing icons
           var icons = cHighlights.Children.OfType<Image>().ToList();
           foreach (Image icon in icons)
             cHighlights.Children.Remove(icon);
-
-          //Unload existing scribblings
-          //var scribblings = cHighlights.Children.OfType<InkCanvas>().ToList();
-          //foreach (InkCanvas scribble in scribblings)
-          //  cHighlights.Children.Remove(scribble);
-
+          
           //Unload existing scribblings
           inkCScribble.Strokes.Clear();
 
@@ -342,15 +332,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
             cHighlights.Children.Add(note.Annotation);
             cHighlights.Children.Add(note.Icon);
           }
-
-          //Loads scribbles for this page
-          //foreach (Scribble element in document[pageIndex].Scribblings)
-          //{
-          //  Scribble note = (Scribble)element;
-          //  cHighlights.Children.Add(note.Scribbling);
-          //  cHighlights.Children.Add(note.Icon);
-          //}
-
+          
           //Loads scribbles for this page
           foreach (ScribbleCollection element in document[pageIndex].ScribblingCollections)
           {
@@ -388,6 +370,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
+        lastPosition = GetMousePositionInDocument();
         if (sender == rHighlights)
         {
           if (CurrentTool != ActiveReadingTool.Highlighter)
@@ -409,7 +392,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
           }
 
           isHighlighting = true;
-          lastPosition = GetMousePositionInDocument();
 
           newHighlight = new Highlight();
           newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 / Core.Profile.PixelsPerCm.Height };
@@ -645,8 +627,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       //show keyboard and clean result
       tpKeyboard.ResultClear();
       tpKeyboard.Visibility = Visibility.Visible;
-      lastPosition = GetMousePositionInDocument();
-
+      
       Note newNote = new Note();
       newNote.Annotation = new StickyNote(lastPosition.X, lastPosition.Y);
       newNote.Annotation.BClose.Click += bStickyNoteClose_Click;
