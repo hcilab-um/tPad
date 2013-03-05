@@ -7,7 +7,7 @@
              xmlns:tpadcontrols="clr-namespace:UofM.HCI.tPab;assembly=tPadLib"
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters;assembly=tPadLib"
              xmlns:convertersApp="clr-namespace:UofM.HCI.tPab.App.ActiveReader.Converters"
-             xmlns:menuBar="clr-namespace:UofM.HCI.tPab.App.ActiveReader"             
+             xmlns:menuBar="clr-namespace:UofM.HCI.tPab.App.ActiveReader"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded">
 
   <UserControl.Resources>
@@ -323,7 +323,7 @@
               <ToggleButton x:Name="bCopyAndLock" Tag="Lock" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bCopyAndLock_Click" Width="55" Height="55"/>
             </StackPanel>
             <ToggleButton x:Name="bSettings" Tag="Settings" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,10,52,0" Width="55" Height="55"
-                          HorizontalAlignment="Right"/>
+                          HorizontalAlignment="Right" Click="bSettings_Click"/>
           </Grid>
           <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,10,52,0" HorizontalAlignment="Right"
                       Visibility="{Binding ElementName=bSettings, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}">
@@ -338,6 +338,7 @@
                 </MultiBinding>
               </ToggleButton.IsEnabled>
             </ToggleButton>
+            <ToggleButton x:Name="bContrast" Tag="Contrast" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,10,0" Click="bContrast_Click" Width="55" Height="55"/>
             <ToggleButton x:Name="bExit" Tag="Exit" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,10,0" Click="bExit_Click" Width="55" Height="55"/>
           </StackPanel>
         </StackPanel>

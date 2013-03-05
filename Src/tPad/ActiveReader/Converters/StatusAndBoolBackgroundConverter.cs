@@ -12,7 +12,7 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if (values == null || values.Length != 3 || values[0] == DependencyProperty.UnsetValue || values[1] == DependencyProperty.UnsetValue)
-        return System.Windows.Media.Brushes.Transparent;
+        return System.Windows.Media.Brushes.White;
 
       String[] parameters = (parameter as String).Split(',');
 
@@ -26,8 +26,8 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
       bool targetGate1 = Boolean.Parse(parameters[2]);
 
       if (status == targetStatus && (gate == targetGate || gate1 == targetGate1))
-        return System.Windows.Media.Brushes.Gray;
-      return System.Windows.Media.Brushes.Transparent;
+        return System.Windows.Media.Brushes.White;
+      return System.Windows.Media.Brushes.White;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

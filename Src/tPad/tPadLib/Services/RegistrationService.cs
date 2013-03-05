@@ -139,7 +139,7 @@ namespace UofM.HCI.tPab.Services
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));
     }
 
-    private float ClampedAngle(float angle)
+    public static double ClampedAngle(double angle)
     { 
       return ((angle % 360) + 360) % 360;
     }

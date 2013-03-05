@@ -11,7 +11,7 @@ namespace UofM.HCI.tPab.Converters
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       bool flag = (bool)values[0];
-      float destAngle = (float)values[1];
+      double destAngle = (double)values[1];
 
       if (!flag)
         return (double)0;

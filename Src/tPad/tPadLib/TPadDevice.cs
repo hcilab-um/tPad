@@ -39,8 +39,8 @@ namespace UofM.HCI.tPab
       }
     }
 
-    private float anchorToFlowAngle = 0;
-    public float AnchorToFlowAngle
+    private double anchorToFlowAngle = 0;
+    public double AnchorToFlowAngle
     {
       get { return anchorToFlowAngle; }
       set
@@ -246,10 +246,10 @@ namespace UofM.HCI.tPab
       });
     }
 
-    private float CalculateAnchoredToFlowAngle(float angle)
+    private double CalculateAnchoredToFlowAngle(double angle)
     {
       angle = angle % 360;
-      float destAngle = 0;
+      double destAngle = 0;
       if (315 < angle || angle <= 45)
         destAngle = 0;
       else if (45 < angle && angle <= 135)

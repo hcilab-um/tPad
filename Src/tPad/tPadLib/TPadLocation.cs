@@ -32,7 +32,7 @@ namespace UofM.HCI.tPab
     /// <summary>
     /// This angle is calculated relative to the vertical axis of the document.
     /// </summary>
-    public float RotationAngle { get; set; }
+    public double RotationAngle { get; set; }
 
     public bool Equals(TPadLocation other)
     {

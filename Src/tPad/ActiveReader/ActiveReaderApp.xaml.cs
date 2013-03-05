@@ -251,6 +251,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
           ttCanvas.X = locationPx.X * -1 + ActualWidth / 2;
           ttCanvas.Y = locationPx.Y * -1 + ActualHeight / 2;
+
+          //Rotation based functionalities
+          ProcessContrastUpdate(e);
         });
     }
 
@@ -417,7 +420,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           newHighlight.Line.Y1 = lastPosition.Y;
           newHighlight.Line.X2 = lastPosition.X;
           newHighlight.Line.Y2 = lastPosition.Y;
-          cHighlights.Children.Add(newHighlight.Line);          
+          cHighlights.Children.Add(newHighlight.Line);
         }
         else if (sender is Line)
         {
@@ -433,7 +436,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
             currentHighlight = line;
           }
         }
-        else 
+        else
           isSenderHighlight = false;
       }
     }
@@ -453,7 +456,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void cHighlights_MouseUp(object sender, MouseButtonEventArgs e)
     {
       Point newPosition = GetMousePositionInDocument();
-      
+
       if (CurrentTool == ActiveReadingTool.Highlighter)
       {
         if (!isHighlighting)
@@ -467,7 +470,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (lineVector.Length > minlength_Highlight)
           ActualDocument[ActualPage].Highlights.Add(newHighlight);
         else
-          cHighlights.Children.Remove(newHighlight.Line);        
+          cHighlights.Children.Remove(newHighlight.Line);
       }
       else //It was just a click to bring up the contextual menu
       {
@@ -482,8 +485,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (contentBounds != Rect.Empty)
           AddWordHighlight(contentBounds);
 
-        ShowContextualMenu(); 
-      }      
+        ShowContextualMenu();
+      }
     }
 
     private void cHighlights_MouseMove(object sender, MouseEventArgs e)
@@ -897,6 +900,46 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       if (name == "ActualPage" || name == "ActualDocument")
         OnPropertyChanged("ActualPageObject");
+    }
+
+    private void bContrast_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void ProcessContrastUpdate(RegistrationEventArgs e)
+    {
+      if (!bContrast.IsChecked.Value)
+        return;
+
+      var lastAngle = e.LastLocation.RotationAngle;
+      if(lastAngle > 180)
+        lastAngle = lastAngle - 360;
+
+      var newAngle = e.NewLocation.RotationAngle;
+      if (newAngle > 180)
+        newAngle = newAngle - 360;
+
+      var angle = newAngle - lastAngle;
+
+      //Opacity moves between 0 and 1 
+      // by design we think that the complete change from 0 to 1 should be accomplished in 60 degrees
+      var change = angle / 60;
+      var newOpacity = gOuterWrapper.Opacity + change;
+      if (newOpacity < 0)
+        newOpacity = 0;
+      if (newOpacity > 1)
+        newOpacity = 1;
+
+      gOuterWrapper.Opacity = newOpacity;
+    }
+
+    private void bSettings_Click(object sender, RoutedEventArgs e)
+    {
+      if (bSettings.IsChecked.Value)
+        return;
+
+      bContrast.IsChecked = false;
     }
 
   }
