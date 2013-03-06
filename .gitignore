@@ -3,6 +3,7 @@ bin
 obj
 x64
 Debug
+ipch
 
 # mstest test results
 TestResults
