@@ -16,7 +16,13 @@ namespace UofM.HCI.tPab.Converters
 
       var multiplier = (double)1;
       for (int i = 0; i < values.Length; i++)
-        multiplier = multiplier * Double.Parse(values[i] as String);
+        multiplier = multiplier * (double)values[i];
+
+      if (parameter != null)
+      {
+        var extraM = Double.Parse(parameter as String);
+        multiplier = multiplier * extraM;
+      }
 
       return multiplier;
     }

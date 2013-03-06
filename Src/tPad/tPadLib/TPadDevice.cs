@@ -17,6 +17,7 @@ namespace UofM.HCI.tPab
     public event RegistrationChangedEventHandler RegistrationChanged;
     public event FlippingChangedEventHandler FlippingChanged;
     public event StackingChangedEventHandler StackingChanged;
+    public event EventHandler DeviceShaked;
 
     //This id is written in the device's firmware (arduino)
     public int ID { get; private set; }
@@ -94,6 +95,17 @@ namespace UofM.HCI.tPab
 
         if (FlippingChanged != null)
           FlippingChanged(this, new FlippingEventArgs());
+      }
+    }
+
+    private DateTime timeLastShake = DateTime.MinValue;
+    public DateTime TimeLastShake 
+    {
+      get { return timeLastShake; }
+      set 
+      {
+        timeLastShake = value;
+        OnPropertyChanged("TimeLastShake");
       }
     }
 
@@ -261,6 +273,11 @@ namespace UofM.HCI.tPab
       return destAngle;
     }
 
+    internal void NotifyShake(DateTime dateTime)
+    {
+      if (DeviceShaked != null)
+        DeviceShaked(this, null);
+    }
   }
 
 }

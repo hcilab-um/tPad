@@ -61,19 +61,26 @@ namespace UofM.HCI.tPab
       SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
       SimCamera = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
 
-      ContextMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-      ContextMonitor stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+      FlippingMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+      StackingMonitor stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+      ShakingMonitor shakingMonitor = new ShakingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
       MulticastMonitor multicastMonitor = new MulticastMonitor(groupIP, port, TTL);
 
       //Wiring up the components
-      Board.OnNotifyContextServices += (flippingMonitor as FlippingMonitor).UpdateMonitorReading;
-      Board.OnNotifyContextServices += (stackingMonitor as StackingMonitor).UpdateMonitorReading;
-      SimBoard.OnNotifyContextServices += (flippingMonitor as FlippingMonitor).UpdateMonitorReading;
-      SimBoard.OnNotifyContextServices += (stackingMonitor as StackingMonitor).UpdateMonitorReading;
+      Board.OnNotifyContextServices += flippingMonitor.UpdateMonitorReading;
+      Board.OnNotifyContextServices += stackingMonitor.UpdateMonitorReading;
+      Board.OnNotifyContextServices += shakingMonitor.UpdateMonitorReading;
+
+      SimBoard.OnNotifyContextServices += flippingMonitor.UpdateMonitorReading;
+      SimBoard.OnNotifyContextServices += stackingMonitor.UpdateMonitorReading;
+      SimBoard.OnNotifyContextServices += shakingMonitor.UpdateMonitorReading;
+
       SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
       SimCamera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
+
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      shakingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       multicastMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       Registration.OnNotifyContextServiceListeners += this.ContextChanged;
       GlyphDetection.OnNotifyContextServiceListeners += this.ContextChanged;
@@ -144,6 +151,10 @@ namespace UofM.HCI.tPab
       else if (e.Type == typeof(FlippingMode))
       {
         Device.FlippingSide = (FlippingMode)e.NewObject;
+      }
+      else if (e.Type == typeof(ShakingMonitor))
+      {
+        Device.NotifyShake((DateTime)e.NewObject);
       }
     }
 

@@ -33,8 +33,13 @@
             VerticalAlignment="Center" HorizontalAlignment="Right" Content=">" Height="25" Width="25" Margin="0,0,25,0"/>
     <Button x:Name="btVerticalFlip" Click="btVerticalFlip_Click"
             VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="V" Height="25" Width="25" Margin="0,0,0,25"/>
-    <ToggleButton x:Name="btLaunchCalculator" Click="btLaunchCalculator_Click"
-                  VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Calc"  Height="25" Width="50" Margin="25,0,0,25"/>
+
+    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="25,0,0,25" Orientation="Horizontal">
+      <ToggleButton x:Name="btLaunchCalculator" Click="btLaunchCalculator_Click"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Calc"  Height="25" Width="70"/>
+      <ToggleButton x:Name="btShakeDevice" Click="btShakeDevice_Click"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Shake"  Height="25" Width="70"/>
+    </StackPanel>
 
     <Canvas x:Name="cWrapper" Width="{Binding ElementName=sDevice, Path=AppWidth}" Height="{Binding ElementName=sDevice, Path=AppHeight}"
             VerticalAlignment="Center" HorizontalAlignment="Center">

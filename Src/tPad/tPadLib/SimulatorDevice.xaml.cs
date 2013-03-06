@@ -149,6 +149,22 @@ namespace UofM.HCI.tPab
       get { return AppHeight / Profile.Resolution.Height; }
     }
 
+    private bool justShaked = false;
+    public bool JustShaked
+    {
+      get
+      {
+        var tmp = justShaked;
+        justShaked = false;
+        return tmp;
+      }
+      set
+      {
+        justShaked = value;
+        OnPropertyChanged("JustShaked");
+      }
+    }
+
     public SimulatorDevice(Simulator simulator, TPadCore core)
     {
       sWindow = simulator;
@@ -235,7 +251,7 @@ namespace UofM.HCI.tPab
           TPadAppBounds = Rect.Empty;
           return null;
         }
-        else 
+        else
         {
           ScreenCorrectedAppBounds = new Rect(0, 0, TPadAppBounds.Width * WidthMultiplier, TPadAppBounds.Height * HeightMultiplier);
         }
@@ -394,6 +410,11 @@ namespace UofM.HCI.tPab
     private void btLaunchCalculator_Click(object sender, RoutedEventArgs e)
     {
       CalculatorGlyph = btLaunchCalculator.IsChecked.Value;
+    }
+
+    private void btShakeDevice_Click(object sender, RoutedEventArgs e)
+    {
+      JustShaked = true;
     }
   }
 

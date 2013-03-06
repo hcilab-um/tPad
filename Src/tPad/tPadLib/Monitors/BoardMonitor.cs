@@ -28,6 +28,8 @@ namespace UofM.HCI.tPab.Monitors
     public int DeviceOnTopID { get; set; }
     [JsonIgnore]
     public FlippingMode FlippingSide { get; set; }
+    [JsonIgnore]
+    public bool Shaked { get; set; }
   }
 
   public class BoardMonitor : ContextMonitor

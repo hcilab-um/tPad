@@ -131,6 +131,25 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
+    private double zoomLevel = 1;
+    public double ZoomLevel
+    {
+      get { return zoomLevel; }
+      set
+      {
+        zoomLevel = value;
+        OnPropertyChanged("ZoomLevel");
+      }
+    }
+
+    public bool RedoAvailable
+    {
+      get { return redoStack.Count == 0 ? false : true; }
+    }
+
+    private Stack<ToolObjectPair> undoStack = new Stack<ToolObjectPair>();
+    private Stack<ToolObjectPair> redoStack = new Stack<ToolObjectPair>();
+
     public ActiveReaderApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, ObservableCollection<Figure> figures)
     {
       Core = core;
@@ -162,6 +181,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Core.Device.StackingChanged += new StackingChangedEventHandler(Device_StackingChanged);
       Core.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
       Core.Device.RegistrationChanged += new RegistrationChangedEventHandler(Device_RegistrationChanged);
+      Core.Device.DeviceShaked += new EventHandler(Device_DeviceShaked);
 
       BindingOperations.SetBinding(cm_searchItem, MenuItem.HeaderProperty, new Binding("SearchTerm")
       {
@@ -181,6 +201,18 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       CurrentTool = ActiveReadingTool.None;
       Device_RegistrationChanged(this, new RegistrationEventArgs() { NewLocation = Core.Device.Location });
+    }
+
+    void Device_DeviceShaked(object sender, EventArgs e)
+    {
+      if (figureViewer.Visibility == System.Windows.Visibility.Visible)
+      {
+        figureViewer.Visibility = System.Windows.Visibility.Collapsed;
+      }
+      else if (undoStack.Count > 0)
+      {
+        ProcessUndoRequest();
+      }
     }
 
     void Device_StackingChanged(object sender, StackingEventArgs e)
@@ -249,6 +281,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
           //Rotation based functionalities
           ProcessContrastUpdate(e);
+          ProcessZoomUpdate(e);
         });
     }
 
@@ -288,7 +321,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           var icons = cHighlights.Children.OfType<Image>().ToList();
           foreach (Image icon in icons)
             cHighlights.Children.Remove(icon);
-          
+
           //Unload existing scribblings
           inkCScribble.Strokes.Clear();
 
@@ -332,7 +365,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
             cHighlights.Children.Add(note.Annotation);
             cHighlights.Children.Add(note.Icon);
           }
-          
+
           //Loads scribbles for this page
           foreach (ScribbleCollection element in document[pageIndex].ScribblingCollections)
           {
@@ -376,8 +409,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
           if (CurrentTool != ActiveReadingTool.Highlighter)
           {
             //Hide pop-up stick notes and keyboard
-            contextMenu.Visibility = Visibility.Hidden;
-            tpKeyboard.Visibility = Visibility.Hidden;
+            contextMenu.Visibility = Visibility.Collapsed;
+            tpKeyboard.Visibility = Visibility.Collapsed;
 
             isSomething2Hide = false;
             foreach (Note element in ActualDocument[ActualPage].Annotations)
@@ -423,17 +456,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
-    private void ShowFigure(Figure figure)
-    {
-      System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(ActualDocument.Pages[figure.PageIndex].FileName);
-
-      BitmapSource source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty,
-        System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-      CroppedImage = new CroppedBitmap(source, figure.FigureRect);
-
-      figureViewer.Visibility = Visibility.Visible;
-    }
-
     private float minlength_Highlight = (float)0.2; //cms
     private void cHighlights_MouseUp(object sender, MouseButtonEventArgs e)
     {
@@ -450,7 +472,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
         Vector lineVector = new Vector(newHighlight.Line.X2 - newHighlight.Line.X1, newHighlight.Line.Y2 - newHighlight.Line.Y1);
         if (lineVector.Length > minlength_Highlight)
+        {
           ActualDocument[ActualPage].Highlights.Add(newHighlight);
+
+          //creates a point for undo for this action
+          PushToUndoStack(ActiveReadingTool.Highlighter, newHighlight);
+        }
         else
           cHighlights.Children.Remove(newHighlight.Line);
       }
@@ -487,6 +514,17 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newHighlight.Line.Y2 = newPosition.Y;
     }
 
+    private void ShowFigure(Figure figure)
+    {
+      System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(ActualDocument.Pages[figure.PageIndex].FileName);
+
+      BitmapSource source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmp.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty,
+        System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+      CroppedImage = new CroppedBitmap(source, figure.FigureRect);
+
+      figureViewer.Visibility = Visibility.Visible;
+    }
+
     private Stroke currentStroke;
     private float defaultClusterStrokeDistanceCm = 5;
     private void inkCScribble_MouseUp(object sender, MouseButtonEventArgs e)
@@ -502,15 +540,24 @@ namespace UofM.HCI.tPab.App.ActiveReader
             Distance(currentStroke.GetBounds().BottomRight, new System.Windows.Point(scribbleCollection.X, scribbleCollection.Y)) < defaultClusterStrokeDistanceCm)
           {
             if (!scribbleCollection.ScribblingCollection.Contains(currentStroke))
+            {
               scribbleCollection.ScribblingCollection.Add(currentStroke);
+
+              //creates a point for undo for this action
+              PushToUndoStack(ActiveReadingTool.Pen, scribbleCollection, currentStroke);
+            }
             return;
           }
         }
+
         //if stroke is not close to another one, create new collection
         ScribbleCollection newCollection = new ScribbleCollection();
         newCollection.ScribblingCollection = new StrokeCollection();
         newCollection.ScribblingCollection.Add(currentStroke);
         ActualDocument[ActualPage].ScribblingCollections.Add(newCollection);
+
+        //creates a point for undo for this action
+        PushToUndoStack(ActiveReadingTool.Pen, newCollection);
       }
       else if (CurrentTool == ActiveReadingTool.Eraser)
         inkCScribble.Strokes.Remove(currentStroke); //remove red eraser stroke
@@ -537,9 +584,19 @@ namespace UofM.HCI.tPab.App.ActiveReader
             {
               inkCScribble.Strokes.Remove(stroke);
               if (collection.ScribblingCollection.Count > 1)
+              {
                 collection.ScribblingCollection.Remove(stroke);
+
+                //creates a point for undo for this action
+                PushToUndoStack(ActiveReadingTool.Eraser, collection, stroke);
+              }
               else
+              {
                 ActualDocument[ActualPage].ScribblingCollections.Remove(collection);
+
+                //creates a point for undo for this action
+                PushToUndoStack(ActiveReadingTool.Eraser, collection);
+              }
               return;
             }
           }
@@ -555,6 +612,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
         cHighlights.Children.Remove(highlight.Line);
         ActualDocument[ActualPage].Highlights.Remove(highlight);
+
+        //creates a point for undo for this action
+        PushToUndoStack(ActiveReadingTool.Eraser, highlight);
       }
     }
 
@@ -627,7 +687,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       //show keyboard and clean result
       tpKeyboard.ResultClear();
       tpKeyboard.Visibility = Visibility.Visible;
-      
+
       Note newNote = new Note();
       newNote.Annotation = new StickyNote(lastPosition.X, lastPosition.Y);
       newNote.Annotation.BClose.Click += bStickyNoteClose_Click;
@@ -672,12 +732,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
       ActualDocument[ActualPage].Annotations.Remove(ActualNote);
       ActualNote.Annotation = null;
       ActualNote.Icon = null;
-      tpKeyboard.Visibility = Visibility.Hidden;
+      tpKeyboard.Visibility = Visibility.Collapsed;
     }
 
     private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      tpKeyboard.Visibility = Visibility.Hidden;
+      tpKeyboard.Visibility = Visibility.Collapsed;
       foreach (Note element in ActualDocument[ActualPage].Annotations)
       {
         if (element.Icon == (Image)sender)
@@ -725,7 +785,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         if (lineVector.Length > 1)
         {
           ActualNote.Annotation.Margin = new Thickness(currentPosition.X, currentPosition.Y, 0, 0);
-          tpKeyboard.Visibility = Visibility.Hidden;
+          tpKeyboard.Visibility = Visibility.Collapsed;
         }
       }
     }
@@ -762,7 +822,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           if (noteSize.Y >= defaultNoteSize.Height)
             ActualNote.Annotation.Height = noteSize.Y * Core.Profile.PixelsPerCm.Height;
         }
-        tpKeyboard.Visibility = Visibility.Hidden;
+        tpKeyboard.Visibility = Visibility.Collapsed;
       }
     }
 
@@ -802,7 +862,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
       else
       {
-        tpKeyboard.Visibility = Visibility.Hidden;
+        tpKeyboard.Visibility = Visibility.Collapsed;
         ClearSearch();
       }
     }
@@ -838,7 +898,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (bSearch.IsChecked.Value)
       {
-        tpKeyboard.Visibility = Visibility.Hidden;
+        tpKeyboard.Visibility = Visibility.Collapsed;
         Search(tpKeyboard.CurrentTextLine.ToString(), -1);
       }
       else if (bLayers.IsChecked.Value && ActualNote.Annotation != null)
@@ -883,9 +943,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
         OnPropertyChanged("ActualPageObject");
     }
 
+    private double initialAngle = 0, initialOpacity = 1;
     private void bContrast_Click(object sender, RoutedEventArgs e)
     {
+      if (!bContrast.IsChecked.Value)
+        return;
 
+      initialAngle = Core.Device.Location.RotationAngle;
+      initialOpacity = gOuterWrapper.Opacity;
     }
 
     private void ProcessContrastUpdate(RegistrationEventArgs e)
@@ -893,8 +958,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (!bContrast.IsChecked.Value)
         return;
 
-      var lastAngle = e.LastLocation.RotationAngle;
-      if(lastAngle > 180)
+      var lastAngle = initialAngle;
+      if (lastAngle > 180)
         lastAngle = lastAngle - 360;
 
       var newAngle = e.NewLocation.RotationAngle;
@@ -904,9 +969,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
       var angle = newAngle - lastAngle;
 
       //Opacity moves between 0 and 1 
-      // by design we think that the complete change from 0 to 1 should be accomplished in 60 degrees
-      var change = angle / 60;
-      var newOpacity = gOuterWrapper.Opacity + change;
+      // by design we think that the complete change from 0 to 1 should be accomplished in 90 degrees
+      var change = angle / 90;
+      var newOpacity = initialOpacity + change;
       if (newOpacity < 0)
         newOpacity = 0;
       if (newOpacity > 1)
@@ -915,12 +980,205 @@ namespace UofM.HCI.tPab.App.ActiveReader
       gOuterWrapper.Opacity = newOpacity;
     }
 
+    private double initialZoomLevel = 1;
+    private void bZoom_Click(object sender, RoutedEventArgs e)
+    {
+      if (!bZoom.IsChecked.Value)
+        return;
+
+      initialAngle = Core.Device.Location.RotationAngle;
+      initialZoomLevel = ZoomLevel;
+    }
+
+    private void ProcessZoomUpdate(RegistrationEventArgs e)
+    {
+      if (!bZoom.IsChecked.Value)
+        return;
+
+      var lastAngle = initialAngle;
+      if (lastAngle > 180)
+        lastAngle = lastAngle - 360;
+
+      var newAngle = e.NewLocation.RotationAngle;
+      if (newAngle > 180)
+        newAngle = newAngle - 360;
+
+      var angle = newAngle - lastAngle;
+
+      //ZoomLevel moves between 1 and 5
+      // by design we think that the complete change from 1 to 2 should be accomplished in 45 degrees
+      var change = angle / 45;
+      var newZoomLevel = initialZoomLevel + change;
+      if (newZoomLevel < 1)
+        newZoomLevel = 1;
+      if (newZoomLevel > 5)
+        newZoomLevel = 5;
+
+      ZoomLevel = newZoomLevel;
+    }
+
     private void bSettings_Click(object sender, RoutedEventArgs e)
     {
       if (bSettings.IsChecked.Value)
         return;
 
       bContrast.IsChecked = false;
+      bZoom.IsChecked = false;
+    }
+
+    private void PushToUndoStack(ActiveReadingTool tool, System.Object parameter1, System.Object parameter2 = null)
+    {
+      List<System.Object> parameters = new List<System.Object>();
+      if (parameter1 != null)
+        parameters.Add(parameter1);
+      if (parameter2 != null)
+        parameters.Add(parameter2);
+
+      PushToUndoStack(new ToolObjectPair() { Tool = tool, Parameters = parameters.ToArray() }, true);
+    }
+
+    private void PushToUndoStack(ToolObjectPair action, bool clearRedoStack)
+    {
+      undoStack.Push(action);
+      if (clearRedoStack)
+        redoStack.Clear();
+      OnPropertyChanged("RedoAvailable");
+    }
+
+    private void PushToRedoStack(ToolObjectPair action)
+    {
+      redoStack.Push(action);
+      OnPropertyChanged("RedoAvailable");
+    }
+
+    public void ProcessUndoRequest()
+    {
+      ToolObjectPair actionToUndo = undoStack.Pop();
+      switch (actionToUndo.Tool)
+      {
+        case ActiveReadingTool.Highlighter:
+          {
+            Highlight highlight = (Highlight)actionToUndo.Parameters[0];
+            cHighlights.Children.Remove(highlight.Line);
+            ActualDocument[ActualPage].Highlights.Remove(highlight);
+            PushToRedoStack(actionToUndo);
+          }
+          break;
+
+        case ActiveReadingTool.Pen:
+          if (actionToUndo.Parameters.Length == 1)
+          {
+            ScribbleCollection collection = (ScribbleCollection)actionToUndo.Parameters[0];
+            inkCScribble.Strokes.Remove(collection.ScribblingCollection[0]);
+            ActualDocument[ActualPage].ScribblingCollections.Remove(collection);
+            PushToRedoStack(actionToUndo);
+          }
+          else if (actionToUndo.Parameters.Length == 2)
+          {
+            ScribbleCollection collection = (ScribbleCollection)actionToUndo.Parameters[0];
+            Stroke stroke = (Stroke)actionToUndo.Parameters[1];
+            inkCScribble.Strokes.Remove(stroke);
+            collection.ScribblingCollection.Remove(stroke);
+            PushToRedoStack(actionToUndo);
+          }
+          break;
+
+        case ActiveReadingTool.Eraser:
+          if (actionToUndo.Parameters[0] is ScribbleCollection)
+          {
+            if (actionToUndo.Parameters.Length == 1)
+            {
+              ScribbleCollection collection = (ScribbleCollection)actionToUndo.Parameters[0];
+              inkCScribble.Strokes.Add(collection.ScribblingCollection[0]);
+              ActualDocument[ActualPage].ScribblingCollections.Add(collection);
+              PushToRedoStack(actionToUndo);
+            }
+            else
+            {
+              ScribbleCollection collection = (ScribbleCollection)actionToUndo.Parameters[0];
+              Stroke stroke = (Stroke)actionToUndo.Parameters[1];
+              inkCScribble.Strokes.Add(stroke);
+              collection.ScribblingCollection.Add(stroke);
+              PushToRedoStack(actionToUndo);
+            }
+          }
+          else if (actionToUndo.Parameters[0] is Highlight)
+          {
+            Highlight highlight = (Highlight)actionToUndo.Parameters[0];
+            cHighlights.Children.Add(highlight.Line);
+            ActualDocument[ActualPage].Highlights.Add(highlight);
+            PushToRedoStack(actionToUndo);
+          }
+          break;
+      }
+    }
+
+    private void bRedo_Click(object sender, RoutedEventArgs e)
+    {
+      bRedo.IsChecked = false;
+      ProcessRedoRequest();
+    }
+
+    private void ProcessRedoRequest()
+    {
+      ToolObjectPair actionToRedo = redoStack.Pop();
+      switch (actionToRedo.Tool)
+      {
+        case ActiveReadingTool.Highlighter:
+          {
+            Highlight highlight = (Highlight)actionToRedo.Parameters[0];
+            cHighlights.Children.Add(highlight.Line);
+            ActualDocument[ActualPage].Highlights.Add(highlight);
+            PushToUndoStack(actionToRedo, false);
+          }
+          break;
+
+        case ActiveReadingTool.Pen:
+          if (actionToRedo.Parameters.Length == 1)
+          {
+            ScribbleCollection collection = (ScribbleCollection)actionToRedo.Parameters[0];
+            inkCScribble.Strokes.Add(collection.ScribblingCollection[0]);
+            ActualDocument[ActualPage].ScribblingCollections.Add(collection);
+            PushToUndoStack(actionToRedo, false);
+          }
+          else if (actionToRedo.Parameters.Length == 2)
+          {
+            ScribbleCollection collection = (ScribbleCollection)actionToRedo.Parameters[0];
+            Stroke stroke = (Stroke)actionToRedo.Parameters[1];
+            inkCScribble.Strokes.Add(stroke);
+            collection.ScribblingCollection.Add(stroke);
+            PushToUndoStack(actionToRedo, false);
+          }
+          break;
+
+        case ActiveReadingTool.Eraser:
+          if (actionToRedo.Parameters[0] is ScribbleCollection)
+          {
+            if (actionToRedo.Parameters.Length == 1)
+            {
+              ScribbleCollection collection = (ScribbleCollection)actionToRedo.Parameters[0];
+              inkCScribble.Strokes.Remove(collection.ScribblingCollection[0]);
+              ActualDocument[ActualPage].ScribblingCollections.Remove(collection);
+              PushToUndoStack(actionToRedo, false);
+            }
+            else
+            {
+              ScribbleCollection collection = (ScribbleCollection)actionToRedo.Parameters[0];
+              Stroke stroke = (Stroke)actionToRedo.Parameters[1];
+              inkCScribble.Strokes.Remove(stroke);
+              collection.ScribblingCollection.Remove(stroke);
+              PushToUndoStack(actionToRedo, false);
+            }
+          }
+          else if (actionToRedo.Parameters[0] is Highlight)
+          {
+            Highlight highlight = (Highlight)actionToRedo.Parameters[0];
+            cHighlights.Children.Remove(highlight.Line);
+            ActualDocument[ActualPage].Highlights.Remove(highlight);
+            PushToUndoStack(actionToRedo, false);
+          }
+          break;
+      }
     }
 
   }

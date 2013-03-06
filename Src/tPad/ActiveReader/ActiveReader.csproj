@@ -100,6 +100,7 @@
     <Compile Include="StickyNote.xaml.cs">
       <DependentUpon>StickyNote.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ToolObjectPair.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnnotationBar.xaml.cs">
@@ -287,6 +288,12 @@
     <Content Include="Images\OffScreenSelected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Redo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\RedoSelected.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\resize.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -319,6 +326,12 @@
     </Content>
     <Content Include="Images\ICON.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Zoom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ZoomSelected.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
