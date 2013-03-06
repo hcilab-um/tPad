@@ -64,7 +64,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\OpenCV2.4.3\opencv\build\include\opencv2;C:\OpenCV2.4.3\opencv\build\include\opencv;C:\OpenCV2.4.3\opencv\build\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\OpenCV2.4.3\opencv\build\include\opencv2;C:\OpenCV2.4.3\opencv\build\include\opencv;C:\OpenCV2.4.3\opencv\build\include;C:\Program Files\Point Grey Research\FlyCapture2\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib;C:\OpenCV2.4.3\opencv\build\common\tbb\intel64\vc10;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -92,7 +92,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_core243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_calib3d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_flann243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_highgui243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_imgproc243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_legacy243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_ml243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_objdetect243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_video243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_nonfree243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_contrib243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_features2d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_photo243.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_core243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_calib3d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_flann243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_highgui243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_imgproc243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_legacy243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_ml243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_objdetect243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_video243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_nonfree243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_contrib243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_features2d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_photo243.lib;C:\Program Files\Point Grey Research\FlyCapture2\lib64\FlyCapture2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
