@@ -41,7 +41,7 @@ namespace UofM.HCI.tPab.Services
       temp_SimCaptureToSourceImageRatio = 1;
 
       featureTracker = new ManagedA.wrapperRegistClass(useCamera, Controller.SimCaptureToSourceImageRatio);
-      featureTracker.imageWarp("C:/Users/Sophie/Desktop/Calibration/FeatureTracking/FeatureTracking/homograpgy.xml");
+      featureTracker.imageWarp("homograpgy.xml");
       featureTracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
       
       if (useCamera && TPadCore.UseFeatureTracking)
