@@ -18,7 +18,7 @@ namespace ManagedA
 	public ref class wrapperRegistClass
 	{
 	public:
-		wrapperRegistClass(bool IsCameraInUse);
+		wrapperRegistClass(bool IsCameraInUse, float imageRatio);
 
 		~wrapperRegistClass();
 		
@@ -37,15 +37,7 @@ namespace ManagedA
 				return registrationObj->getPageIdx();
 			}
 		}
-		
-		property String^ PageName
-		{
-			String^ get()
-			{
-				return gcnew String((registrationObj->getPageName()).c_str());
-			}
-		}
-		
+						
 		property PointF LocationPxBR
 		{
 			PointF get()
@@ -102,7 +94,18 @@ namespace ManagedA
 			registrationObj->imageWarp(imageRatio);
 		}
 
+		void imageWarp(String^ Path)
+		{
+			char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(Path);
+			registrationObj->imageWarp(str);
+		}
+				
 		int detectLocation(Bitmap^ bmp1);
+
+		int detectLocation()
+		{
+			return registrationObj->detectLocation();
+		}
 
 		int connectCamera()
 		{

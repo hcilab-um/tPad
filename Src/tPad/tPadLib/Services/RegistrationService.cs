@@ -28,6 +28,8 @@ namespace UofM.HCI.tPab.Services
 
     private TPadDevice Device { get; set; }
 
+    private TPadLocation location = new TPadLocation();
+
     public RegistrationService(bool pUseCamera, TPadDevice device)
     {
       useCamera = pUseCamera;
@@ -36,11 +38,12 @@ namespace UofM.HCI.tPab.Services
 
     protected override void CustomStart()
     {
-      featureTracker = new ManagedA.wrapperRegistClass(useCamera);
-      featureTracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
-
       temp_SimCaptureToSourceImageRatio = 1;
 
+      featureTracker = new ManagedA.wrapperRegistClass(useCamera, Controller.SimCaptureToSourceImageRatio);
+      featureTracker.imageWarp("C:/Users/Sophie/Desktop/Calibration/FeatureTracking/FeatureTracking/homograpgy.xml");
+      featureTracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
+      
       if (useCamera && TPadCore.UseFeatureTracking)
       {
         if (featureTracker.connectCamera() == -1)
@@ -86,19 +89,14 @@ namespace UofM.HCI.tPab.Services
         return;
       if (Device.State == StackingState.StackedOnTop)
         return;
-
-      TPadLocation location = new TPadLocation();
-
+      
       if (TPadCore.UseFeatureTracking)
       {
         System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;
-        camView.Save("neu.png");
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
         
         // Here goes the machine vision code to find where the device is located based on the camera image
         //ToDo: correct warping with camera
-        if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
+        if (!useCamera && temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
         {
           temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
           featureTracker.imageWarp(temp_SimCaptureToSourceImageRatio);
@@ -108,27 +106,25 @@ namespace UofM.HCI.tPab.Services
         int status = featureTracker.detectLocation(camView);
         if (status == 1)
         {
+          location = new TPadLocation();
           location.Status = LocationStatus.Located;
           location.RotationAngle = ClampedAngle(featureTracker.RotationAngle);
 
-          Point locationPx = new Point(featureTracker.LocationPxTL.X / Controller.SimCaptureToSourceImageRatio, 
-            featureTracker.LocationPxTL.Y / Controller.SimCaptureToSourceImageRatio);
+          Point locationPx = new Point(featureTracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio, 
+            featureTracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
           location.LocationCm = new Point((float)(locationPx.X / Controller.WidthFactor), (float)(locationPx.Y / Controller.HeightFactor));
 
           //TODO: get Document object from featureTracker
           location.DocumentID = Controller.ActualDocument.ID;
-          location.PageIndex = featureTracker.PageIdx;
-          
-          sw.Stop();
-          Console.WriteLine(sw.Elapsed.TotalMilliseconds);
+          location.PageIndex = featureTracker.PageIdx;                    
         }
         else if (status == -1)
           location.Status = LocationStatus.NotLocated;
 
-        sw.Stop();
       }
       else
       {
+        location = new TPadLocation();
         location.Status = LocationStatus.Located;
         location.RotationAngle = ClampedAngle(Controller.RotationAngle);
         location.LocationCm = new Point(Controller.Location.X / Controller.WidthFactor, Controller.Location.Y / Controller.HeightFactor);

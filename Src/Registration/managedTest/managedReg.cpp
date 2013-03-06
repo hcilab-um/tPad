@@ -6,9 +6,9 @@
 
 namespace ManagedA
 {
-	wrapperRegistClass::wrapperRegistClass(bool IsCameraInUse)
+	wrapperRegistClass::wrapperRegistClass(bool IsCameraInUse, float imageRatio)
 	{
-		registrationObj = new paperRegistration(IsCameraInUse);
+		registrationObj = new paperRegistration(IsCameraInUse, imageRatio);
 	}
 
 	wrapperRegistClass::~wrapperRegistClass(void)
@@ -41,28 +41,6 @@ namespace ManagedA
 		}
 		
 		bmp1->UnlockBits(data1);  	
-
-		/*System::Drawing::Imaging::BitmapData ^data2 = bmp2->LockBits(
-			*(gcnew System::Drawing::Rectangle(0, 0, bmp2->Width, bmp2->Height)),
-			System::Drawing::Imaging::ImageLockMode::ReadOnly,
-			bmp2->PixelFormat);
-					
-		if (System::Drawing::Imaging::PixelFormat::Format24bppRgb == bmp2->PixelFormat)
-			memcpy(lastImg.data, data2->Scan0.ToPointer(), bmp2->Width * bmp2->Height * 3); 
-		else if (System::Drawing::Imaging::PixelFormat::Format32bppArgb == bmp2->PixelFormat) 
-		{
-			uchar *pm = lastImg.data;
-			uchar *pb = (uchar *)data2->Scan0.ToPointer();
-			for (int i = 0; i < bmp2->Width * bmp2->Height; i++) 
-				memcpy(pm + i * 3, pb + i * 4, 3);
-		} else {
-			uchar *pm = lastImg.data;
-			uchar *pb = (uchar *)data2->Scan0.ToPointer();				
-			for (int i = 0; i < bmp2->Width * bmp2->Height; i++) 
-				*(pm + i * 3) = *(pm + i * 3 + 1) = *(pm + i * 3 + 2) = *(pb + i);					
-		}
-		
-		bmp2->UnlockBits(data2); */
 
 		return registrationObj->detectLocation(currentImg);
 	}

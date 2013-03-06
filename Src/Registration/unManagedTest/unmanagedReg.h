@@ -17,7 +17,7 @@
 class EXPORT_OR_IMPORT paperRegistration
 {
 public:
-	paperRegistration(bool cameraInUse);
+	paperRegistration(bool cameraInUse, float imageRatio);
 	~paperRegistration();
 
 	int getPageIdx();
@@ -30,14 +30,16 @@ public:
 	float getRotationAngle();
 
 	int detectLocation(cv::Mat &currentImg);
+	int detectLocation();
+
 	void createIndex(std::string dir_path);
 	void imageWarp(float imageRatio);
+	void imageWarp(std::string path);
 	int connectCamera();
 	int disconnectCamera();	
 
 private:	
 	int PageIdx;
-	std::string PageName;
 	cv::Point2f LocationPxTL, LocationPxTR, LocationPxBL, LocationPxBR, LocationPxM;
 	//angle in degree
 	float RotationAngle; 
@@ -48,16 +50,19 @@ private:
 
 	cv::FlannBasedMatcher* matcher;
 	cv::FREAK* extractor;
-	cv::Mat warpMat;
 	cv::vector<cv::vector<cv::KeyPoint>> dbKeyPoints;
-	cv::SurfFeatureDetector* detectorCamImg;
+	cv::FastFeatureDetector* fastDetectorCamImg;
+	cv::FastFeatureDetector* fastDetectorPageImg;
+	cv::SurfFeatureDetector* surfDetectorPageImg;
+	cv::SurfFeatureDetector* surfDetectorCamImg;
 
 	bool isCameraInUse_;
 	bool isCameraConnected;
 	float imgRatio_;
 	cv::vector<int> votingPageIndices;
 	cv::Mat lastDeviceImage;
-		
+	cv::Mat warpMat;
+
 	cv::Mat computeLocalFeatures(cv::Mat &image);
 	float compareImages(cv::Mat &lastImg, cv::Mat &currentImg);
 
