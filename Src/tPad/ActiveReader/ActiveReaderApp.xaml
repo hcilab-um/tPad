@@ -133,6 +133,12 @@
         <Canvas.RenderTransform>
           <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}" ScaleY="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}" />
         </Canvas.RenderTransform>
+        <Canvas.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
+          </MultiBinding>
+        </Canvas.Visibility>
       </Canvas>
 
       <!-- This layer is for the scribble -->
@@ -208,6 +214,13 @@
         </TransformGroup>
       </Canvas.RenderTransform>
 
+      <menuBar:AnnotationBar x:Name="annotationBar" Canvas.Right="0" Width="42" Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}" 
+                             ActualDocument="{Binding ElementName=arApp, Path=ActualDocument}" 
+                             ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
+                             PageHeight="{Binding ElementName=gAnchoredLayers, Path=ActualHeight}"
+                             DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                             HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"/>
+
       <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->
       <!--The off-screen visualization for highlightings-->
       <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
@@ -228,6 +241,7 @@
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
         <menuBar:OffScreenVisualization.UIRotation>
@@ -257,6 +271,7 @@
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
         <menuBar:OffScreenVisualization.UIRotation>
@@ -286,6 +301,7 @@
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
         <menuBar:OffScreenVisualization.UIRotation>
@@ -315,6 +331,7 @@
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
             <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
         <menuBar:OffScreenVisualization.UIRotation>
@@ -406,13 +423,6 @@
           Zoom Level: <TextBlock Text="{Binding ElementName=arApp, Path=ZoomLevel, StringFormat=0.0}"/>X
         </TextBlock>
       </Grid>
-
-      <menuBar:AnnotationBar x:Name="annotationBar" Canvas.Right="0" Width="42" Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}" 
-                             ActualDocument="{Binding ElementName=arApp, Path=ActualDocument}" 
-                             ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
-                             PageHeight="{Binding ElementName=gAnchoredLayers, Path=ActualHeight}"
-                             DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
-                             HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"/>
 
       <menuBar:FigureViewer x:Name="figureViewer"
                             Canvas.Top="0" Canvas.Left="0"

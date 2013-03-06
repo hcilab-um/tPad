@@ -209,7 +209,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         figureViewer.Visibility = System.Windows.Visibility.Collapsed;
       }
-      else if (undoStack.Count > 0)
+      else if(CurrentTool == ActiveReadingTool.None)
+      {
+        bLayers.IsChecked = false;
+      }
+      else
       {
         ProcessUndoRequest();
       }
@@ -1053,6 +1057,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     public void ProcessUndoRequest()
     {
+      if (undoStack.Count == 0)
+        return;
+
       ToolObjectPair actionToUndo = undoStack.Pop();
       switch (actionToUndo.Tool)
       {
@@ -1121,6 +1128,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void ProcessRedoRequest()
     {
+      if (redoStack.Count == 0)
+        return;
+
       ToolObjectPair actionToRedo = redoStack.Pop();
       switch (actionToRedo.Tool)
       {
