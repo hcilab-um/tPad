@@ -28,7 +28,7 @@ namespace UofM.HCI.tPab.Services
 
     private TPadDevice Device { get; set; }
 
-    private TPadLocation location = new TPadLocation();
+    private TPadLocation location;
 
     public RegistrationService(bool pUseCamera, TPadDevice device)
     {
@@ -39,13 +39,14 @@ namespace UofM.HCI.tPab.Services
     protected override void CustomStart()
     {
       temp_SimCaptureToSourceImageRatio = 1;
+      //location = new TPadLocation();
 
       featureTracker = new ManagedA.wrapperRegistClass(useCamera, Controller.SimCaptureToSourceImageRatio);
-      featureTracker.imageWarp("homograpgy.xml");
       featureTracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
       
       if (useCamera && TPadCore.UseFeatureTracking)
       {
+        featureTracker.imageWarp("homography.xml");
         if (featureTracker.connectCamera() == -1)
           throw new ArgumentException("Connection to camera failed!");
       }
@@ -89,13 +90,10 @@ namespace UofM.HCI.tPab.Services
         return;
       if (Device.State == StackingState.StackedOnTop)
         return;
-      
+    
       if (TPadCore.UseFeatureTracking)
-      {
-        System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;
-        
+      {                
         // Here goes the machine vision code to find where the device is located based on the camera image
-        //ToDo: correct warping with camera
         if (!useCamera && temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
         {
           temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
@@ -103,7 +101,15 @@ namespace UofM.HCI.tPab.Services
         }
 
         //start feature tracking
-        int status = featureTracker.detectLocation(camView);
+        int status;
+        if (useCamera)
+          status = featureTracker.detectLocation();
+        else
+        {
+          System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;
+          status = featureTracker.detectLocation(camView);
+        }
+        
         if (status == 1)
         {
           location = new TPadLocation();
@@ -119,8 +125,10 @@ namespace UofM.HCI.tPab.Services
           location.PageIndex = featureTracker.PageIdx;                    
         }
         else if (status == -1)
+        {
+          location = new TPadLocation();
           location.Status = LocationStatus.NotLocated;
-
+        }
       }
       else
       {

@@ -395,7 +395,12 @@ int paperRegistration::detectLocation()
 			cv::perspectiveTransform(point, point, warpMat);
 		}
 		cameraImage = cv::Mat(cameraImage, cv::Rect(point[0], point[1]));
-				
+		//cv::imwrite("test.png", cameraImage);
+		cv::Mat blurrImg;
+		cv::GaussianBlur(cameraImage, blurrImg, cv::Size(5,5), 3);		
+		cv::addWeighted(cameraImage, 2.3, blurrImg, -0.5, 0, cameraImage);
+		cv::addWeighted(cameraImage, 1.5, blurrImg, -0.5, 0, cameraImage);
+
 		cv::Mat locationHM = computeLocalFeatures(cameraImage);
 		
 		//compute rotation angle (in degree)
