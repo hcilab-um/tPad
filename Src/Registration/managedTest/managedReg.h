@@ -100,11 +100,11 @@ namespace ManagedA
 			registrationObj->imageWarp(str);
 		}
 				
-		int detectLocation(Bitmap^ bmp1);
+		int detectLocation(Bitmap^ bmp1, int previousStatus);
 
-		int detectLocation()
+		int detectLocation(int previousStatus)
 		{
-			return registrationObj->detectLocation();
+			return registrationObj->detectLocation(previousStatus);
 		}
 
 		int connectCamera()

@@ -96,6 +96,27 @@ void paperRegistration::imageWarp(std::string path)
 	fw.release();
 }
 
+float paperRegistration::computeAngle( cv::Point2f pt1, cv::Point2f pt2, cv::Point2f pt0 )
+{
+	float slope1 = (pt0.y - pt2.y)/(pt0.x - pt2.x);
+	float slope2 = (pt2.y - pt1.y)/(pt2.x - pt1.x);
+
+	if (slope2*slope1 == -1)
+		return 90.0f;
+	else return (atan(fabs((slope2-slope1)/(1.0f+slope2*slope1))))*180/CV_PI;
+}
+
+float paperRegistration::computeArea(cv::Point2f pt0, cv::Point2f pt1, cv::Point2f pt2 )
+{
+	float a = sqrt((pt0.x-pt1.x)*(pt0.x-pt1.x)+(pt0.y-pt1.y)*(pt0.y-pt1.y));
+	float b = sqrt((pt1.x-pt2.x)*(pt1.x-pt2.x)+(pt1.y-pt2.y)*(pt1.y-pt2.y));
+	float c = sqrt((pt0.x-pt2.x)*(pt0.x-pt2.x)+(pt0.y-pt2.y)*(pt0.y-pt2.y));
+
+	float perimeter = a+b+c;
+
+	return sqrt(0.5*perimeter*(0.5*perimeter-a)*(0.5*perimeter-b)*(0.5*perimeter-c));
+}
+
 cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &deviceImage)
 {   
 	std::vector<cv::KeyPoint> deviceKeypoints;
@@ -377,11 +398,11 @@ cv::Mat paperRegistration::loadCameraImage()
 	return frame;
 }
 
-int paperRegistration::detectLocation()
+int paperRegistration::detectLocation(int previousStatus)
 {
 	cv::Mat cameraImage = loadCameraImage();
 	
-	if (compareImages(cameraImage, lastDeviceImage) > 1.5)
+	if (previousStatus != 1 || compareImages(cameraImage, lastDeviceImage) > 1.5)
 	{
 		lastDeviceImage = cameraImage.clone();
 				
@@ -395,7 +416,7 @@ int paperRegistration::detectLocation()
 			cv::perspectiveTransform(point, point, warpMat);
 		}
 		cameraImage = cv::Mat(cameraImage, cv::Rect(point[0], point[1]));
-		//cv::imwrite("test.png", cameraImage);
+		
 		cv::Mat blurrImg;
 		cv::GaussianBlur(cameraImage, blurrImg, cv::Size(5,5), 3);		
 		cv::addWeighted(cameraImage, 2.3, blurrImg, -0.5, 0, cameraImage);
@@ -406,59 +427,55 @@ int paperRegistration::detectLocation()
 		//compute rotation angle (in degree)
 		if (!locationHM.empty())
 		{
-			cv::Mat rotationMat, orthMat;
-			cv::Vec3d eulerAngles;
-			eulerAngles = cv::RQDecomp3x3(locationHM, rotationMat, orthMat);
-			RotationAngle = eulerAngles[2];
-			
 			//compute location
 			std::vector<cv::Point2f> device_point(5);
 			device_point[0] = cvPoint(0,0);
 			device_point[1] = cvPoint(cameraImage.cols,0);
-			device_point[2] = cvPoint(0,cameraImage.rows);
-			device_point[3] = cvPoint(cameraImage.cols,cameraImage.rows);
+			device_point[2] = cvPoint(cameraImage.cols,cameraImage.rows);
+			device_point[3] = cvPoint(0,cameraImage.rows);
 			device_point[4] = cvPoint(cameraImage.cols/2,cameraImage.rows/2);
+
+			float areaCamImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
 			
 			cv::perspectiveTransform(device_point, device_point, locationHM);
+			
+			//proof validity of result
+			//3 angles must be around 90 degree
+			for( int j = 3; j < 6; j++ )
+			{
+				float angleCorner = computeAngle(device_point[j%4], device_point[j-3], device_point[j-2]);
+				if (fabs(90-angleCorner) > 7)
+					return -1;
+			}
+			
+			float areaDetectedImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
+			//proof size of detected area
+			if (fabs(areaDetectedImg-areaCamImg) >= areaCamImg * 0.1)
+				return -1;
+
+			cv::Mat rotationMat, orthMat;
+			cv::Vec3d eulerAngles;
+			eulerAngles = cv::RQDecomp3x3(locationHM, rotationMat, orthMat);
+			RotationAngle = eulerAngles[2];
 
 			LocationPxTL = device_point[0];
 			LocationPxTR = device_point[1];
-			LocationPxBL = device_point[2];
-			LocationPxBR = device_point[3];
+			LocationPxBR = device_point[2];
+			LocationPxBL = device_point[3];
 			LocationPxM = device_point[4];
-			
-			/*
-			if (LocationPxTL.x < 0)
-				LocationPxTL.x = 0;
-			else if (LocationPxTL.x > pageImage.cols)
-				LocationPxTL.x = pageImage.cols;
-			if (LocationPxTL.y < 0)
-				LocationPxTL.y = 0;
-			else if (LocationPxTL.y > pageImage.rows)
-				LocationPxTL.y = pageImage.rows;
-			if (LocationPxBR.x < 0)
-				LocationPxBR.x = 0;
-			else if (LocationPxBR.x > pageImage.cols)
-				LocationPxBR.x = pageImage.cols;
-			if (LocationPxBR.y < 0)
-				LocationPxBR.y = 0;
-			else if (LocationPxBR.y > pageImage.rows)
-				LocationPxBR.y = pageImage.rows;
-			cv::Mat result = cv::Mat(pageImage, cv::Rect(LocationPxTL, LocationPxBR));
-			cv::imwrite("result.png", result);*/
-			
+									
 			//drawMatch(&cameraImage, locationHM);
 						
 			return 1;
 		}
 		else return -1;
 	}
-	else return 0;	
+	else return 0;	//new image is similiar to previous one
 }
 
-int paperRegistration::detectLocation(cv::Mat &cameraImg)
+int paperRegistration::detectLocation(cv::Mat &cameraImg, int previousStatus)
 {
-	if (compareImages(cameraImg, lastDeviceImage) > 1.5)
+	if (previousStatus != 1 || compareImages(cameraImg, lastDeviceImage) > 1.5)
 	{
 		lastDeviceImage = cameraImg.clone();
 		
@@ -478,31 +495,48 @@ int paperRegistration::detectLocation(cv::Mat &cameraImg)
 		//compute rotation angle (in degree)
 		if (!locationHM.empty())
 		{
-			//locationHM = locationHM * warpMat;
+			//compute location
+			std::vector<cv::Point2f> device_point(5);
+			device_point[0] = cvPoint(0,0);
+			device_point[1] = cvPoint(cameraImg.cols,0);			
+			device_point[2] = cvPoint(cameraImg.cols,cameraImg.rows);
+			device_point[3] = cvPoint(0,cameraImg.rows);
+			device_point[4] = cvPoint(cameraImg.cols/2,cameraImg.rows/2);
+
+			float areaCamImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
+			
+			cv::perspectiveTransform(device_point, device_point, locationHM);
+			cv::imwrite("test.png", cameraImg);
+			//proof validity of result
+			//3 angles must be around 90 degree
+			for( int j = 3; j < 6; j++ )
+			{
+				float angleCorner = computeAngle(device_point[j%4], device_point[j-3], device_point[j-2]);
+				if (fabs(90-angleCorner) > 7)
+					return -1;
+			}
+			
+			float areaDetectedImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
+			//proof size of detected area
+			if (fabs(areaDetectedImg-areaCamImg) > areaCamImg * 0.1)
+				return -1;
+
 			cv::Mat rotationMat, orthMat;
 			cv::Vec3d eulerAngles;
 			eulerAngles = cv::RQDecomp3x3(locationHM, rotationMat, orthMat);
 			RotationAngle = eulerAngles[2];
-			
-			//compute location
-			std::vector<cv::Point2f> device_point(5);
-			device_point[0] = cvPoint(0,0);
-			device_point[1] = cvPoint(cameraImg.cols,0);
-			device_point[2] = cvPoint(0,cameraImg.rows);
-			device_point[3] = cvPoint(cameraImg.cols,cameraImg.rows);
-			device_point[4] = cvPoint(cameraImg.cols/2,cameraImg.rows/2);
-			
-			cv::perspectiveTransform(device_point, device_point, locationHM);
 
 			LocationPxTL = device_point[0];
 			LocationPxTR = device_point[1];
-			LocationPxBL = device_point[2];
-			LocationPxBR = device_point[3];
+			LocationPxBR = device_point[2];
+			LocationPxBL = device_point[3];
 			LocationPxM = device_point[4];
-												
+									
+			//drawMatch(&cameraImage, locationHM);
+						
 			return 1;
 		}
 		else return -1;
 	}
-	else return 0;	
+	else return 0;	//new image is similiar to previous one
 }

@@ -30,6 +30,8 @@ namespace UofM.HCI.tPab.Services
 
     private TPadLocation location;
 
+    private int status = -1;
+
     public RegistrationService(bool pUseCamera, TPadDevice device)
     {
       useCamera = pUseCamera;
@@ -101,13 +103,13 @@ namespace UofM.HCI.tPab.Services
         }
 
         //start feature tracking
-        int status;
+        
         if (useCamera)
-          status = featureTracker.detectLocation();
+          status = featureTracker.detectLocation(status);
         else
         {
           System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;
-          status = featureTracker.detectLocation(camView);
+          status = featureTracker.detectLocation(camView, status);
         }
         
         if (status == 1)

@@ -29,12 +29,14 @@ public:
 	cv::Point2f getLocationPxM();
 	float getRotationAngle();
 
-	int detectLocation(cv::Mat &currentImg);
-	int detectLocation();
+	int detectLocation(cv::Mat &currentImg, int previousStatus);
+	int detectLocation(int previousStatus);
 
 	void createIndex(std::string dir_path);
+
 	void imageWarp(float imageRatio);
 	void imageWarp(std::string path);
+
 	int connectCamera();
 	int disconnectCamera();	
 
@@ -58,16 +60,25 @@ private:
 
 	bool isCameraInUse_;
 	bool isCameraConnected;
+
 	float imgRatio_;
+
 	cv::vector<int> votingPageIndices;
+
 	cv::Mat lastDeviceImage;
 	cv::Mat warpMat;
 
+	float computeArea(cv::Point2f pt0, cv::Point2f pt1, cv::Point2f pt2 );
+	float computeAngle( cv::Point2f pt1, cv::Point2f pt2, cv::Point2f pt0 );
+
 	cv::Mat computeLocalFeatures(cv::Mat &image);
+	
 	float compareImages(cv::Mat &lastImg, cv::Mat &currentImg);
 
 	void getFiles(std::wstring directory, std::vector<std::string> &fileNameList);
+	
 	void drawMatch(cv::Mat &cameraImage, cv::Mat &homography, cv::Mat &pageImage);
+	
 	cv::Mat loadCameraImage();
 };
 
