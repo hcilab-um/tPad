@@ -9,13 +9,16 @@ using UofM.HCI.tPab.Monitors;
 namespace UofM.HCI.tPab.Services
 {
   public class GlyphDetectionService : ContextService
-  {
+  {   
+
+    private ManagedA.wrapperRegistClass featureTracker;
 
     private TPadDevice Device { get; set; }
 
     public GlyphDetectionService(TPadDevice device)
     {
       Device = device;
+      featureTracker = new ManagedA.wrapperRegistClass(false, 1);
     }
 
     protected override void CustomUpdateMonitorReading(object sender, Ubicomp.Utils.NET.CAF.ContextAdapter.NotifyContextMonitorListenersEventArgs e)
@@ -27,6 +30,11 @@ namespace UofM.HCI.tPab.Services
       if (!(sender is SimCameraMonitor))
         return;
 
+      //System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;
+      //featureTracker.SetCameraImg(camView);
+      //ManagedA.Glyphs result = featureTracker.DetectFigures(25, 80, 105);
+      //Console.WriteLine(result.numberSquares + " " + result.numberTriangles);
+      
       List<Applications.Glyph> detectedGlyphs = new List<Applications.Glyph>();
       var simulatorDevice = ((sender as SimCameraMonitor).CameraSource as SimulatorDevice).CalculatorGlyph;
       if (simulatorDevice == true)

@@ -95,7 +95,7 @@ namespace UofM.HCI.tPab.Services
     
       if (TPadCore.UseFeatureTracking)
       {                
-        // Here goes the machine vision code to find where the device is located based on the camera image
+        // Simulation Mode: Update the homography matrix when the ratio of the simulator changes
         if (!useCamera && temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
         {
           temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
@@ -103,15 +103,15 @@ namespace UofM.HCI.tPab.Services
         }
 
         //start feature tracking
-        
         if (useCamera)
-          status = featureTracker.detectLocation(status);
+          featureTracker.SetCameraImg();
         else
         {
           System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;
-          status = featureTracker.detectLocation(camView, status);
+          featureTracker.SetCameraImg(camView);
         }
         
+        status = featureTracker.detectLocation(useCamera, status);
         if (status == 1)
         {
           location = new TPadLocation();

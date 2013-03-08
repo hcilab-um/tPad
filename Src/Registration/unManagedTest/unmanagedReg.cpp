@@ -42,6 +42,7 @@ paperRegistration::paperRegistration(bool isCameraInUse, float imageRatio)
 	}
 
 	lastDeviceImage = cv::Mat();
+	currentDeviceImg = cv::Mat();
 }
 
 paperRegistration::~paperRegistration()
@@ -83,6 +84,17 @@ float paperRegistration::getRotationAngle()
 	return RotationAngle;
 }
 
+void paperRegistration::setCameraImg()
+{
+	currentDeviceImg = loadCameraImage();
+}
+
+void paperRegistration::setCameraImg(cv::Mat &camImg)
+{
+	cvtColor(camImg, camImg, CV_BGR2GRAY);
+	currentDeviceImg = camImg;
+}
+
 void paperRegistration::imageWarp(float imageRatio)
 {
 	imgRatio_ = imageRatio;
@@ -106,6 +118,11 @@ float paperRegistration::computeAngle( cv::Point2f pt1, cv::Point2f pt2, cv::Poi
 	else return (atan(fabs((slope2-slope1)/(1.0f+slope2*slope1))))*180/CV_PI;
 }
 
+float paperRegistration::computeLength(cv::Point2f pt0, cv::Point2f pt1)
+{
+	return sqrt((pt0.x-pt1.x)*(pt0.x-pt1.x)+(pt0.y-pt1.y)*(pt0.y-pt1.y));
+}
+
 float paperRegistration::computeArea(cv::Point2f pt0, cv::Point2f pt1, cv::Point2f pt2 )
 {
 	float a = sqrt((pt0.x-pt1.x)*(pt0.x-pt1.x)+(pt0.y-pt1.y)*(pt0.y-pt1.y));
@@ -115,6 +132,88 @@ float paperRegistration::computeArea(cv::Point2f pt0, cv::Point2f pt1, cv::Point
 	float perimeter = a+b+c;
 
 	return sqrt(0.5*perimeter*(0.5*perimeter-a)*(0.5*perimeter-b)*(0.5*perimeter-c));
+}
+
+void paperRegistration::detectFigures(cv::vector<cv::vector<cv::Point>>& squares, cv::vector<cv::vector<cv::Point>>& triangles,
+	float minLength, float maxLength, int tresh_binary)
+{
+	if (currentDeviceImg.empty())
+		return;
+
+	cv::Mat image = currentDeviceImg;
+	//cv::Mat image = cv::imread("C:/Users/sophie/Desktop/meinz.png", CV_LOAD_IMAGE_GRAYSCALE);// cv::imread(path, CV_LOAD_IMAGE_GRAYSCALE);  
+	//resize(image, image, cv::Size(500,700));
+
+	squares.clear();  
+	triangles.clear();	
+	
+	cv::Mat gray;
+	cv::Mat element = getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(7,7));
+	cv::vector<cv::vector<cv::Point> > contours;
+
+	//compute binary image
+	//use dilatation and erosion to improve edges
+	threshold(image, gray, tresh_binary, 255, cv::THRESH_BINARY_INV);	
+	dilate(gray, gray, element, cv::Point(-1,-1));
+	erode(gray, gray, element, cv::Point(-1,-1));
+	
+	// find contours and store them all as a list
+	cv::findContours(gray, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+	
+	//test each contour
+	cv::vector<cv::Point> approx;
+	cv::vector<cv::vector<cv::Point> >::iterator iterEnd = contours.end();
+	for(cv::vector<cv::vector<cv::Point> >::iterator iter = contours.begin(); iter != iterEnd; ++iter)
+	{
+		// approximate contour with accuracy proportional
+		// to the contour perimeter
+		cv::approxPolyDP(*iter, approx, arcLength(*iter, true)*0.02, true);
+	     
+		//contours should be convex
+		if (isContourConvex(approx))
+		{
+			// square contours should have 4 vertices after approximation and 
+			// relatively large length (to filter out noisy contours)
+			if( approx.size() == 4)
+			{
+				bool rectangular = true;	 
+				for( int j = 3; j < 6; j++ )
+				{
+					// if cosines of all angles are small
+					// (all angles are ~90 degree) then write
+					// vertices to result
+					 if (fabs(90 - fabs(computeAngle(approx[j%4], approx[j-3], approx[j-2]))) > 7)
+					 {
+						rectangular = false;
+						break;
+					 }
+				}
+				
+				if (!rectangular)
+					continue;
+				
+				float side1 = computeLength(approx[0], approx[1]);
+				float side2 = computeLength(approx[1], approx[2]);
+					
+				if (side1 > minLength && side1 < maxLength && 
+					side2 > minLength && side2 < maxLength)
+					squares.push_back(approx);
+			}		
+			// triangle contours should have 3 vertices after approximation and 
+			// relatively large length (to filter out noisy contours)
+			else if ( approx.size() == 3)
+			{
+				float side1 = computeLength(approx[0], approx[1]);
+				float side2 = computeLength(approx[1], approx[2]);
+				float side3 = computeLength(approx[2], approx[0]);
+				
+				if (side1 > minLength && side1 < maxLength && 
+					side2 > minLength && side2 < maxLength &&
+					side3 > minLength && side3 < maxLength)
+					triangles.push_back(approx);
+			}
+		}
+	}
 }
 
 cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &deviceImage)
@@ -398,29 +497,40 @@ cv::Mat paperRegistration::loadCameraImage()
 	return frame;
 }
 
-int paperRegistration::detectLocation(int previousStatus)
+int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 {
-	cv::Mat cameraImage = loadCameraImage();
-	
+	cv::Mat cameraImage = currentDeviceImg;
+	if (cameraImage.empty())
+		return -1;
+
 	if (previousStatus != 1 || compareImages(cameraImage, lastDeviceImage) > 1.5)
 	{
 		lastDeviceImage = cameraImage.clone();
 				
-		std::vector<cv::Point2f> point(2);
-		point[0] = cvPoint(0,0);
-		point[1] = cvPoint(cameraImage.cols,cameraImage.rows);
-		
-		if (!warpMat.empty())
+		if (cameraInUse)
 		{
-			cv::warpPerspective(cameraImage, cameraImage, warpMat, cv::Size(1000,2000));			
-			cv::perspectiveTransform(point, point, warpMat);
-		}
-		cameraImage = cv::Mat(cameraImage, cv::Rect(point[0], point[1]));
+			std::vector<cv::Point2f> point(2);
+			point[0] = cvPoint(0,0);
+			point[1] = cvPoint(cameraImage.cols,cameraImage.rows);
 		
-		cv::Mat blurrImg;
-		cv::GaussianBlur(cameraImage, blurrImg, cv::Size(5,5), 3);		
-		cv::addWeighted(cameraImage, 2.3, blurrImg, -0.5, 0, cameraImage);
-		cv::addWeighted(cameraImage, 1.5, blurrImg, -0.5, 0, cameraImage);
+			if (!warpMat.empty())
+			{
+				cv::warpPerspective(cameraImage, cameraImage, warpMat, cv::Size(1000,2000));			
+				cv::perspectiveTransform(point, point, warpMat);
+			}
+			cameraImage = cv::Mat(cameraImage, cv::Rect(point[0], point[1]));
+		
+			cv::Mat blurrImg;
+			cv::GaussianBlur(cameraImage, blurrImg, cv::Size(5,5), 3);		
+			cv::addWeighted(cameraImage, 2.3, blurrImg, -0.5, 0, cameraImage);
+			cv::addWeighted(cameraImage, 1.5, blurrImg, -0.5, 0, cameraImage);
+		}
+		else
+		{			
+			warpMat = getRotationMatrix2D(cv::Point2f(cameraImage.cols/2.0, cameraImage.rows/2.0), 180, 1);
+			cv::warpAffine(cameraImage, cameraImage, warpMat, cameraImage.size());
+			cv::resize(cameraImage, cameraImage, cv::Size(cameraImage.cols*imgRatio_, cameraImage.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
+		}
 
 		cv::Mat locationHM = computeLocalFeatures(cameraImage);
 		
@@ -473,70 +583,70 @@ int paperRegistration::detectLocation(int previousStatus)
 	else return 0;	//new image is similiar to previous one
 }
 
-int paperRegistration::detectLocation(cv::Mat &cameraImg, int previousStatus)
-{
-	if (previousStatus != 1 || compareImages(cameraImg, lastDeviceImage) > 1.5)
-	{
-		lastDeviceImage = cameraImg.clone();
-		
-		//toDo: load matcher	
-		/*std::string sceneImageData = "sceneImagedatamodel.xml";
-		cv::FileStorage fs(sceneImageData, cv::FileStorage::READ);
-		cv::FileNode fn = fs.getFirstTopLevelNode(); 
-		matcher.read(fn);*/
-		
-		cvtColor(cameraImg, cameraImg, CV_BGR2GRAY);
-		warpMat = getRotationMatrix2D(cv::Point2f(cameraImg.cols/2.0, cameraImg.rows/2.0), 180, 1);
-		cv::warpAffine(cameraImg, cameraImg, warpMat, cameraImg.size());
-		cv::resize(cameraImg, cameraImg, cv::Size(cameraImg.cols*imgRatio_, cameraImg.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
-		
-		cv::Mat locationHM = computeLocalFeatures(cameraImg);
-		
-		//compute rotation angle (in degree)
-		if (!locationHM.empty())
-		{
-			//compute location
-			std::vector<cv::Point2f> device_point(5);
-			device_point[0] = cvPoint(0,0);
-			device_point[1] = cvPoint(cameraImg.cols,0);			
-			device_point[2] = cvPoint(cameraImg.cols,cameraImg.rows);
-			device_point[3] = cvPoint(0,cameraImg.rows);
-			device_point[4] = cvPoint(cameraImg.cols/2,cameraImg.rows/2);
-
-			float areaCamImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
-			
-			cv::perspectiveTransform(device_point, device_point, locationHM);
-			cv::imwrite("test.png", cameraImg);
-			//proof validity of result
-			//3 angles must be around 90 degree
-			for( int j = 3; j < 6; j++ )
-			{
-				float angleCorner = computeAngle(device_point[j%4], device_point[j-3], device_point[j-2]);
-				if (fabs(90-angleCorner) > 7)
-					return -1;
-			}
-			
-			float areaDetectedImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
-			//proof size of detected area
-			if (fabs(areaDetectedImg-areaCamImg) > areaCamImg * 0.1)
-				return -1;
-
-			cv::Mat rotationMat, orthMat;
-			cv::Vec3d eulerAngles;
-			eulerAngles = cv::RQDecomp3x3(locationHM, rotationMat, orthMat);
-			RotationAngle = eulerAngles[2];
-
-			LocationPxTL = device_point[0];
-			LocationPxTR = device_point[1];
-			LocationPxBR = device_point[2];
-			LocationPxBL = device_point[3];
-			LocationPxM = device_point[4];
-									
-			//drawMatch(&cameraImage, locationHM);
-						
-			return 1;
-		}
-		else return -1;
-	}
-	else return 0;	//new image is similiar to previous one
-}
+//int paperRegistration::detectLocation(cv::Mat &cameraImg, int previousStatus)
+//{
+//	if (previousStatus != 1 || compareImages(cameraImg, lastDeviceImage) > 1.5)
+//	{
+//		lastDeviceImage = cameraImg.clone();
+//		
+//		//toDo: load matcher	
+//		/*std::string sceneImageData = "sceneImagedatamodel.xml";
+//		cv::FileStorage fs(sceneImageData, cv::FileStorage::READ);
+//		cv::FileNode fn = fs.getFirstTopLevelNode(); 
+//		matcher.read(fn);*/
+//		
+//		cvtColor(cameraImg, cameraImg, CV_BGR2GRAY);
+//		warpMat = getRotationMatrix2D(cv::Point2f(cameraImg.cols/2.0, cameraImg.rows/2.0), 180, 1);
+//		cv::warpAffine(cameraImg, cameraImg, warpMat, cameraImg.size());
+//		cv::resize(cameraImg, cameraImg, cv::Size(cameraImg.cols*imgRatio_, cameraImg.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
+//		
+//		cv::Mat locationHM = computeLocalFeatures(cameraImg);
+//		
+//		//compute rotation angle (in degree)
+//		if (!locationHM.empty())
+//		{
+//			//compute location
+//			std::vector<cv::Point2f> device_point(5);
+//			device_point[0] = cvPoint(0,0);
+//			device_point[1] = cvPoint(cameraImg.cols,0);			
+//			device_point[2] = cvPoint(cameraImg.cols,cameraImg.rows);
+//			device_point[3] = cvPoint(0,cameraImg.rows);
+//			device_point[4] = cvPoint(cameraImg.cols/2,cameraImg.rows/2);
+//
+//			float areaCamImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
+//			
+//			cv::perspectiveTransform(device_point, device_point, locationHM);
+//			cv::imwrite("test.png", cameraImg);
+//			//proof validity of result
+//			//3 angles must be around 90 degree
+//			for( int j = 3; j < 6; j++ )
+//			{
+//				float angleCorner = computeAngle(device_point[j%4], device_point[j-3], device_point[j-2]);
+//				if (fabs(90-angleCorner) > 7)
+//					return -1;
+//			}
+//			
+//			float areaDetectedImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
+//			//proof size of detected area
+//			if (fabs(areaDetectedImg-areaCamImg) > areaCamImg * 0.1)
+//				return -1;
+//
+//			cv::Mat rotationMat, orthMat;
+//			cv::Vec3d eulerAngles;
+//			eulerAngles = cv::RQDecomp3x3(locationHM, rotationMat, orthMat);
+//			RotationAngle = eulerAngles[2];
+//
+//			LocationPxTL = device_point[0];
+//			LocationPxTR = device_point[1];
+//			LocationPxBR = device_point[2];
+//			LocationPxBL = device_point[3];
+//			LocationPxM = device_point[4];
+//									
+//			//drawMatch(&cameraImage, locationHM);
+//						
+//			return 1;
+//		}
+//		else return -1;
+//	}
+//	else return 0;	//new image is similiar to previous one
+//}

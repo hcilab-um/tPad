@@ -16,7 +16,7 @@ namespace ManagedA
 		delete registrationObj;
 	}
 
-	int wrapperRegistClass::detectLocation(Bitmap^ bmp1, int previousStatus)
+	void wrapperRegistClass::SetCameraImg(Bitmap^ bmp1)
 	{
 		cv::Mat currentImg(bmp1->Height, bmp1->Width, CV_8UC3);
 
@@ -42,7 +42,19 @@ namespace ManagedA
 		
 		bmp1->UnlockBits(data1);  	
 
-		return registrationObj->detectLocation(currentImg, previousStatus);
+		registrationObj->setCameraImg(currentImg);
+	}
+
+	Glyphs wrapperRegistClass::DetectFigures(float minLength, float maxLength, int tresh_binary)
+	{
+		cv::vector<cv::vector<cv::Point>> squares, triangles;
+		registrationObj->detectFigures(squares, triangles, minLength, maxLength, tresh_binary);
+
+		Glyphs ^ fig = gcnew Glyphs;
+		fig -> numberSquares = squares.size();
+		fig -> numberTriangles = triangles.size();
+		
+		return *fig;
 	}
 }
 
