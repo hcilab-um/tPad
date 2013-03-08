@@ -16,7 +16,7 @@ namespace ManagedA
 		delete registrationObj;
 	}
 
-	int wrapperRegistClass::detectLocation(Bitmap^ bmp1)
+	int wrapperRegistClass::detectLocation(Bitmap^ bmp1, int previousStatus)
 	{
 		cv::Mat currentImg(bmp1->Height, bmp1->Width, CV_8UC3);
 
@@ -42,7 +42,7 @@ namespace ManagedA
 		
 		bmp1->UnlockBits(data1);  	
 
-		return registrationObj->detectLocation(currentImg);
+		return registrationObj->detectLocation(currentImg, previousStatus);
 	}
 }
 

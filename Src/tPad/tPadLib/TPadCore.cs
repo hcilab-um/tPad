@@ -126,7 +126,7 @@ namespace UofM.HCI.tPab
       //Stops everything
       Board.COMPort = null;
       SimBoard.Pause = true;
-      SimCamera.Pause = true;
+      //SimCamera.Pause = true;
 
       //Sets the COM port for the board and camera monitors
       Board.COMPort = BoardCOM;

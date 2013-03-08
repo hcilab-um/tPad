@@ -204,6 +204,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="homography.xml" />
     <Content Include="Images\ActiveReaderIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -158,7 +158,7 @@
 
       <!-- This is the context menu for handling annotations -->
       <Grid.ContextMenu>
-        <ContextMenu Name="contextMenu">
+        <ContextMenu Name="contextMenu" Visibility="Collapsed">
           <MenuItem Name="cm_deleteItem"  Header="Delete" Click="CMDelete_Click"/>
           <MenuItem Name="cm_searchItem" Click="CMSearch_Click"/>
           <Separator />

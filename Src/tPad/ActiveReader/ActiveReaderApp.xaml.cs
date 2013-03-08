@@ -440,10 +440,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         {
           if (CurrentTool != ActiveReadingTool.Highlighter)
           {
-            //Hide pop-up stick notes and keyboard
-            contextMenu.Visibility = Visibility.Collapsed;
-            tpKeyboard.Visibility = Visibility.Collapsed;
-
+            //Hide pop-up stick notes
             isSomething2Hide = false;
             foreach (Note element in ActualDocument[ActualPage].Annotations)
             {
@@ -486,6 +483,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     }
 
     private float minlength_Highlight = (float)0.2; //cms
+    private bool isSearchHighlightActive = false;
     private void cHighlights_MouseUp(object sender, MouseButtonEventArgs e)
     {
       Point newPosition = GetMousePositionInDocument();
@@ -512,19 +510,36 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
       else //It was just a click to bring up the contextual menu
       {
+        RemoveWordHighlight();
+        
+        if (contextMenu.Visibility == Visibility.Visible || tpKeyboard.Visibility == Visibility.Visible)
+        {
+          //SearchTerm = String.Empty;
+          isSearchHighlightActive = false;     
+          contextMenu.Visibility = System.Windows.Visibility.Collapsed;
+          tpKeyboard.Visibility = Visibility.Collapsed;
+          return;
+        }
+
         Rect contentBounds = Rect.Empty;
         String content = PdfHelper.PixelToContent(newPosition, ActualPage, Core.Profile.DocumentSize.Width, Core.Profile.DocumentSize.Height, out contentBounds);
-
-        if (content != null)
+                
+        if (content != null && !isSearchHighlightActive && !isFigureViewerVisible)
+        {
           SearchTerm = content;
-        else
-          SearchTerm = String.Empty;
-        RemoveWordHighlight();
-        if (contentBounds != Rect.Empty)
           AddWordHighlight(contentBounds, content);
-
-        ShowContextualMenu();
+          ShowContextualMenu();
+          isSearchHighlightActive = true;
+        }
+        else if (content == null && !isSearchHighlightActive)
+          ShowContextualMenu();
+        else if (content == null || isSearchHighlightActive)
+        {          
+          isSearchHighlightActive = false;          
+        }        
       }
+
+      isFigureViewerVisible = false;      
     }
 
     private void cHighlights_MouseMove(object sender, MouseEventArgs e)
@@ -543,6 +558,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       newHighlight.Line.Y2 = newPosition.Y;
     }
 
+    private bool isFigureViewerVisible = false;
     private void ShowFigure(Figure figure)
     {
       System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(ActualDocument.Pages[figure.PageIndex].FileName);
@@ -551,7 +567,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
         System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
       CroppedImage = new CroppedBitmap(source, figure.FigureRect);
 
+      contextMenu.Visibility = System.Windows.Visibility.Collapsed;
       figureViewer.Visibility = Visibility.Visible;
+      isFigureViewerVisible = true;
     }
 
     private Stroke currentStroke;
@@ -664,8 +682,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void RemoveWordHighlight()
     {
+      SearchTerm = String.Empty;
+
       if (wordHighlight == null)
         return;
+            
       cHighlights.Children.Remove(wordHighlight);
     }
 
@@ -683,7 +704,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void ShowContextualMenu()
     {
-      if (!isSomething2Hide && !isHighlighting)
+      if (!isSomething2Hide && !isHighlighting && !isSearchHighlightActive && !isFigureViewerVisible && contextMenu.Visibility != Visibility.Visible)
       {
         //close contextMenu at last position (in case user didn't choose a menu item)
         contextMenu.IsOpen = false;
@@ -759,6 +780,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
     private void Icon_MouseDown(object sender, MouseButtonEventArgs e)
     {
+      RemoveWordHighlight();
+      contextMenu.Visibility = System.Windows.Visibility.Collapsed;
       tpKeyboard.Visibility = Visibility.Collapsed;
       foreach (Note element in ActualDocument[ActualPage].Annotations)
       {
