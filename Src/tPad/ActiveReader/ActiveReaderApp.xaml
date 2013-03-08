@@ -21,6 +21,7 @@
     <convertersLib:FlippingSideToScaleConverter x:Key="fsToScale" />
     <convertersLib:ConditionalValueConverter x:Key="cCVOnTop" Reference="StackedOnTop" TrueValue="Visible" FalseValue="Collapsed" ValueType="System.Windows.Visibility"/>
     <convertersLib:ConditionalValueConverter x:Key="cCVBelow" Reference="StackedBelow" TrueValue="Visible" FalseValue="Collapsed" ValueType="System.Windows.Visibility"/>
+    <convertersLib:ConditionalValueConverter x:Key="cCVNotStacked" Reference="NotStacked" TrueValue="Visible" FalseValue="Collapsed" ValueType="System.Windows.Visibility"/>
     <convertersApp:StatusAndModeVisibilityConverter x:Key="cStatusAndModeVisibility" />
     <convertersApp:StatusAndBoolVisibilityConverter x:Key="cStatusAndBoolVisibility" />
     <convertersApp:StatusAndBoolBackgroundConverter x:Key="cStatusAndBoolBackground" />
@@ -342,9 +343,10 @@
         </menuBar:OffScreenVisualization.UIRotation>
       </menuBar:OffScreenVisualization>
 
-      <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0"
+      <Grid x:Name="gNotStackedUI" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
-            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
+            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+            Visibility="{Binding ElementName=arApp, Path=Core.Device.State, Converter={StaticResource ResourceKey=cCVNotStacked}}">
 
         <StackPanel x:Name="spBottomMenu" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" >
           <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,0,52,10" HorizontalAlignment="Right"
@@ -367,11 +369,11 @@
           <Grid Margin="0,0,0,10">
             <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="10,0,0,0" HorizontalAlignment="Left">
               <ToggleButton x:Name="bHighlightTool" Tag="Highlight" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Click="bHighlightTool_Click" Width="55" Height="55"
-                          IsChecked="{Binding ElementName=arApp, Path=CurrentTool, Converter={StaticResource ResourceKey=cCVHighlighter}, Mode=TwoWay}"/>
+                            IsChecked="{Binding ElementName=arApp, Path=CurrentTool, Converter={StaticResource ResourceKey=cCVHighlighter}, Mode=TwoWay}"/>
               <ToggleButton x:Name="bScribbleTool" Tag="Scribble" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bScribbleTool_Click" Width="55" Height="55"
-                          IsChecked="{Binding ElementName=arApp, Path=CurrentTool, Converter={StaticResource ResourceKey=cCVPen}, Mode=TwoWay}"/>
+                            IsChecked="{Binding ElementName=arApp, Path=CurrentTool, Converter={StaticResource ResourceKey=cCVPen}, Mode=TwoWay}"/>
               <ToggleButton x:Name="bEraseTool" Tag="DeleteMarker" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bEraseTool_Click" Width="55" Height="55"
-                          IsChecked="{Binding ElementName=arApp, Path=CurrentTool, Converter={StaticResource ResourceKey=cCVEraser}, Mode=TwoWay}"/>
+                            IsChecked="{Binding ElementName=arApp, Path=CurrentTool, Converter={StaticResource ResourceKey=cCVEraser}, Mode=TwoWay}"/>
 
               <ToggleButton x:Name="bSearch" Tag="Search" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bSearch_Click" Width="55" Height="55"/>
               <ToggleButton x:Name="bCopyAndLock" Tag="Lock" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bCopyAndLock_Click" Width="55" Height="55"/>
@@ -382,54 +384,44 @@
 
           <!--This is the keyboard-->
           <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" 
-                                 EnterKeyPressed="tpKeyboard_EnterKeyPressed"
-                                 AlphaNumericKeyPressed="tpKeyboard_AlphaNumericKeyPressed"                                 
-                                 Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" Height="200"
-                                 HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                 Visibility="Collapsed" Canvas.Left="0">
-            <Canvas.Top>
-              <MultiBinding Converter="{StaticResource ResourceKey=cSubstraction}">
-                <Binding ElementName="arApp" Path="ActualHeight"/>
-                <Binding ElementName="tpKeyboard" Path="ActualHeight"/>
-              </MultiBinding>
-            </Canvas.Top>
-          </tpadcontrols:TPadKeyboard>
-
+                                     EnterKeyPressed="tpKeyboard_EnterKeyPressed"
+                                     AlphaNumericKeyPressed="tpKeyboard_AlphaNumericKeyPressed"                                 
+                                     Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" Height="200"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                     Visibility="Collapsed" Canvas.Left="0" />
         </StackPanel>
-        
+
         <StackPanel x:Name="spTopMenu" VerticalAlignment="Top" HorizontalAlignment="Stretch" Orientation="Horizontal" FlowDirection="LeftToRight" Margin="0,10,0,0">
           <ToggleButton x:Name="bZoom" Tag="Zoom" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bZoom_Click" Width="55" Height="55"
                         Visibility="{Binding ElementName=bShowPage, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}"/>
           <ToggleButton x:Name="bRedo" Tag="Redo" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bRedo_Click" Width="55" Height="55"
                         Visibility="{Binding ElementName=arApp, Path=RedoAvailable, Converter={StaticResource ResourceKey=cBoolToVisibility}}"/>
         </StackPanel>
-        
-      </Grid>
 
-      <Grid x:Name="gContrastFeedback" Canvas.Top="0" Canvas.Left="0"
-            Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
-            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
-            Visibility="{Binding ElementName=bContrast, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}">
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold">
+        <Grid x:Name="gContrastFeedback" Canvas.Top="0" Canvas.Left="0"
+              Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+              Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+              Visibility="{Binding ElementName=bContrast, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold">
           Opacity Level: <TextBlock Text="{Binding ElementName=gOuterWrapper, Path=Opacity, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=100, StringFormat=000}"/>%
         </TextBlock>
-      </Grid>
+        </Grid>
 
-      <Grid x:Name="gZoomLevelFeedback" Canvas.Top="0" Canvas.Left="0"
-            Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
-            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
-            Visibility="{Binding ElementName=bZoom, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}">
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold">
+        <Grid x:Name="gZoomLevelFeedback" Canvas.Top="0" Canvas.Left="0"
+              Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+              Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+              Visibility="{Binding ElementName=bZoom, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold">
           Zoom Level: <TextBlock Text="{Binding ElementName=arApp, Path=ZoomLevel, StringFormat=0.0}"/>X
         </TextBlock>
-      </Grid>
+        </Grid>
 
-      <menuBar:FigureViewer x:Name="figureViewer"
-                            Canvas.Top="0" Canvas.Left="0"
-                            Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
-                            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
-                            FigureSource="{Binding ElementName=arApp, Path=CroppedImage}"
-                            Visibility="Collapsed"/>
+        <menuBar:FigureViewer x:Name="figureViewer" Canvas.Top="0" Canvas.Left="0" Visibility="Collapsed"
+                              Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+                              Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+                              FigureSource="{Binding ElementName=arApp, Path=CroppedImage}"/>
+
+      </Grid>
 
       <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
@@ -439,11 +431,20 @@
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="0,70,0,0">Not Located</Label>
       </Grid>
 
-      <Label Content="Stacked On Top" Canvas.Top="0" Canvas.Left="0" Height="50" Width="150" Background="Red"
-             Visibility="{Binding ElementName=arApp, Path=Core.Device.State, Converter={StaticResource ResourceKey=cCVOnTop}}"/>
+      <Grid x:Name="gStackedOnTop" Canvas.Top="0" Canvas.Left="0"
+            Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+            Visibility="{Binding ElementName=arApp, Path=Core.Device.State, Converter={StaticResource ResourceKey=cCVOnTop}}">
 
-      <Label Content="Stacked Below" Canvas.Top="100" Canvas.Left="0" Height="50" Width="150" Background="LightBlue"
-             Visibility="{Binding ElementName=arApp, Path=Core.Device.State, Converter={StaticResource ResourceKey=cCVBelow}}"/>
+        <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="10,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+          <ToggleButton x:Name="bCopyAll" Tag="CopyAll" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Click="bCopyAll_Click" Width="55" Height="55"/>
+          <ToggleButton x:Name="bCopyCurrentPage" Tag="CopyCurrentPage" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bCopyCurrentPage_Click" Width="55" Height="55"/>
+          <ToggleButton x:Name="bCopySelected" Tag="CopySelected" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Width="55" Height="55"/>
+        </StackPanel>
+
+        <ToggleButton x:Name="bUnStack" Tag="UnStack" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,52,10" Width="55" Height="55"
+                      HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="bUnStack_Click"/>
+      </Grid>
 
     </Canvas>
 

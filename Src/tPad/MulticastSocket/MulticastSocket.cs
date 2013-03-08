@@ -181,7 +181,7 @@ namespace Ubicomp.Utils.NET.Sockets
 
     internal class StateObject
     {
-      public const int BufferSize = 1024;
+      public const int BufferSize = 20480;
 
       private byte[] sBuffer;
       private Socket workSocket;
@@ -202,12 +202,6 @@ namespace Ubicomp.Utils.NET.Sockets
       {
         sBuffer = new byte[BufferSize];
         workSocket = null;
-      }
-
-      internal StateObject(int size, Socket sock)
-      {
-        sBuffer = new byte[size];
-        workSocket = sock;
       }
     }
 

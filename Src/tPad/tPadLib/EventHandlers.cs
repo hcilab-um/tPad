@@ -15,7 +15,7 @@ namespace UofM.HCI.tPab
 
   public delegate void FlippingChangedEventHandler(object sender, FlippingEventArgs e);
 
-  public enum StackingState { StackedOnTop, StackedBelow, NotStacked };
+  public enum StackingState { NotStacked, StackedOnTop, StackedBelow };
 
   public class StackingEventArgs : EventArgs
   {
@@ -47,5 +47,13 @@ namespace UofM.HCI.tPab
   }
 
   public delegate void GlyphsChangedEventHandler(object sender, GlyphsEventArgs e);
+
+  public class StackingTouchEventArgs : EventArgs
+  {
+    public System.Windows.Point Location { get; set; }
+    public System.Windows.Input.TouchAction Action { get; set; }
+  }
+
+  public delegate void StackingTouchEventEventHandler(object sender, StackingTouchEventArgs e);
 
 }

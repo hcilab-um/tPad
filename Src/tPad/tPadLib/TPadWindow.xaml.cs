@@ -54,6 +54,7 @@ namespace UofM.HCI.tPab
 
       tPadApp.Closed += tPadApp_Closed;
 
+
       UserControl TPadApp = tPadApp as UserControl;
       TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;

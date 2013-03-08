@@ -36,11 +36,14 @@
 
     <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="25,0,0,25" Orientation="Horizontal">
       <ToggleButton x:Name="btLaunchCalculator" Click="btLaunchCalculator_Click"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Calc"  Height="25" Width="70"/>
-      <ToggleButton x:Name="btShakeDevice" Click="btShakeDevice_Click"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Shake"  Height="25" Width="70"/>
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Calc"  Height="25" Width="50"/>
+      <Button x:Name="btShakeDevice" Click="btShakeDevice_Click"
+              VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Shake"  Height="25" Width="50"/>
     </StackPanel>
 
+    <ToggleButton x:Name="btStack" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,25,0" Click="btStack_Click"
+                  Height="25" Width="50" Content="Stack" />
+    
     <Canvas x:Name="cWrapper" Width="{Binding ElementName=sDevice, Path=AppWidth}" Height="{Binding ElementName=sDevice, Path=AppHeight}"
             VerticalAlignment="Center" HorizontalAlignment="Center">
       <Canvas.RenderTransform>

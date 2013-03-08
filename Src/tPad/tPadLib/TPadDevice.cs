@@ -16,13 +16,15 @@ namespace UofM.HCI.tPab
     public event PropertyChangedEventHandler PropertyChanged;
     public event RegistrationChangedEventHandler RegistrationChanged;
     public event FlippingChangedEventHandler FlippingChanged;
-    public event StackingChangedEventHandler StackingChanged;
     public event EventHandler DeviceShaked;
+
+    public event StackingChangedEventHandler StackingChanged;
+    public event StackingTouchEventEventHandler StackingTouchEvent;
 
     //This id is written in the device's firmware (arduino)
     public int ID { get; private set; }
     public TPadProfile Profile { get; set; }
-    private EventSource TMessageEventSource { get; set; }
+    public EventSource TMessageEventSource { get; set; }
 
     private TPadLocation location;
     public TPadLocation Location
@@ -99,10 +101,10 @@ namespace UofM.HCI.tPab
     }
 
     private DateTime timeLastShake = DateTime.MinValue;
-    public DateTime TimeLastShake 
+    public DateTime TimeLastShake
     {
       get { return timeLastShake; }
-      set 
+      set
       {
         timeLastShake = value;
         OnPropertyChanged("TimeLastShake");
@@ -212,15 +214,28 @@ namespace UofM.HCI.tPab
 
         Location = sMessage.Location;
       }
+      else if (sMessage.MessageType == StackingMessageType.StackingTouchEvent)
+      {
+        if (State != StackingState.StackedBelow)
+          return;
+
+        if (StackingTouchEvent != null)
+          StackingTouchEvent(this, new StackingTouchEventArgs() { Location = sMessage.TouchLocation, Action = sMessage.TouchAction });
+      }
     }
 
-    private void SendMessage(StackingMessage sMessage)
+    public void UnStack()
+    {
+      ProcessStackingUpdate(new StackingUpdate() { Event = StackingEvent.PhysicalSeparation, DeviceOnTopID = DeviceBelow });
+    }
+
+    public void SendMessage(ITransportMessageContent sMessage)
     {
       TransportComponent.Instance.Send(
         new TransportMessage()
         {
           MessageSource = TMessageEventSource,
-          MessageType = StackingMessage.StackingMessageID,
+          MessageType = sMessage.MessageID,
           MessageData = sMessage
         });
     }
@@ -277,6 +292,18 @@ namespace UofM.HCI.tPab
     {
       if (DeviceShaked != null)
         DeviceShaked(this, null);
+    }
+
+    public void SendTouchEvent(System.Windows.Point point, System.Windows.Input.TouchAction action)
+    {
+      SendMessage(new StackingMessage()
+      {
+        MessageType = StackingMessageType.StackingTouchEvent,
+        SourceDeviceID = ID,
+        TargetDeviceID = DeviceBelow,
+        TouchLocation = point,
+        TouchAction = action
+      });
     }
   }
 

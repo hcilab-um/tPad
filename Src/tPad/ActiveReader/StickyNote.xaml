@@ -9,7 +9,7 @@
     <ScaleTransform ScaleX="{Binding ElementName=stickyNote, Path=InvWidthFactor}" 
                     ScaleY="{Binding ElementName=stickyNote, Path=InvHeightFactor}"/>
   </UserControl.RenderTransform>
-  
+
   <Grid x:Name="gNote" Background="LightYellow" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
     <TextBox x:Name="tNote" Margin="0 0 20 0" Background="LightYellow" BorderThickness="0" Grid.Column="0"
              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>

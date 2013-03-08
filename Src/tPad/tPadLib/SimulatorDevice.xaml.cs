@@ -87,17 +87,6 @@ namespace UofM.HCI.tPab
       }
     }
 
-    //private Size borderDiff = Size.Empty;
-    //public Size BorderDiff
-    //{
-    //  get { return borderDiff; }
-    //  set
-    //  {
-    //    borderDiff = value;
-    //    OnPropertyChanged("BorderDiff");
-    //  }
-    //}
-
     private StackingControlState stackingControlState = StackingControlState.None;
     public StackingControlState StackingControlState
     {
@@ -137,6 +126,7 @@ namespace UofM.HCI.tPab
     }
 
     public TPadCore Core { get; set; }
+
     public TPadProfile Profile { get; set; }
 
     public double WidthMultiplier
@@ -173,6 +163,8 @@ namespace UofM.HCI.tPab
       DeviceOnTopID = 0;
       CalculatorGlyph = false;
       TPadAppBounds = Rect.Empty;
+
+      Core.Device.StackingChanged += new StackingChangedEventHandler(Device_StackingChanged);
 
       InitializeComponent();
     }
@@ -356,6 +348,15 @@ namespace UofM.HCI.tPab
       }
     }
 
+    void Device_StackingChanged(object sender, StackingEventArgs e)
+    {
+      if (e.State == StackingState.NotStacked)
+      {
+        StackingControlState = tPab.StackingControlState.None;
+        OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, NewState = StackingControlState });
+      }
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged(String name)
     {
@@ -416,9 +417,12 @@ namespace UofM.HCI.tPab
     {
       JustShaked = true;
     }
-  }
 
-  public delegate void EventHandler<TEventArgs>(object sender, TEventArgs e);
+    private void btStack_Click(object sender, RoutedEventArgs e)
+    {
+      StackingCommand();
+    }
+  }
 
   public enum StackingControlState { None, Stacking, StackedTop, StackedBotton };
 

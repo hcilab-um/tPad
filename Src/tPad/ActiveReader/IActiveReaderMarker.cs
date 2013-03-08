@@ -8,6 +8,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
 {
   public interface IActiveReaderMarker
   {
+    Guid ID { get; }
+
     double X { get; }
 
     double Y { get; }

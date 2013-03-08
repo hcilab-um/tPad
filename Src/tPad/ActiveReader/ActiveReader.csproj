@@ -57,6 +57,10 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Jayrock.Json, Version=0.9.11012.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Jayrock.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -94,6 +98,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Network\ActiveReaderMessage.cs" />
+    <Compile Include="Network\ActiveReaderMessageExporter.cs" />
+    <Compile Include="Network\ActiveReaderMessageImporter.cs" />
+    <Compile Include="Network\ActiveReaderMessageType.cs" />
+    <Compile Include="Network\SynchHelper.cs" />
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
@@ -158,6 +167,10 @@
     <ProjectReference Include="..\ContextAwarenessFramework\ContextAwarenessFramework.csproj">
       <Project>{8EAA1C78-0574-4F6F-A996-75277BE82665}</Project>
       <Name>ContextAwarenessFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MulticastTransportFramework\MulticastTransportFramework.csproj">
+      <Project>{4AF95A28-12C7-4D59-8F84-17EF1A60C9A6}</Project>
+      <Name>MulticastTransportFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\tPadLib\tPadLib.csproj">
       <Project>{947CBE92-467E-4E57-8877-CE5AF530D5D7}</Project>
@@ -249,6 +262,24 @@
     <Content Include="Images\ContrastSelected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\CopyAll.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CopyAllSelected.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CopyCurrentPage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CopyCurrentPageSelected.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CopySelected.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CopySelectedSelected.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\delete.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -326,6 +357,12 @@
     </Content>
     <Content Include="Images\ICON.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\UnStack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\UnStackSelected.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Zoom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

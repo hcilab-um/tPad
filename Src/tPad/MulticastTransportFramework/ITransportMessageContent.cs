@@ -7,5 +7,6 @@ namespace Ubicomp.Utils.NET.MTF
 {
   public interface ITransportMessageContent
   {
+    int MessageID { get; }
   }
 }

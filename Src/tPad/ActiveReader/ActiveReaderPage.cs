@@ -16,21 +16,23 @@ namespace UofM.HCI.tPab.App.ActiveReader
 {
   public class ActiveReaderPage : TPadPage
   {
+    [Jayrock.Json.Conversion.JsonIgnore]
     [XmlIgnore]
     public ObservableCollection<IActiveReaderMarker> Highlights { get; set; }
 
+    [Jayrock.Json.Conversion.JsonIgnore]
     [XmlIgnore]
     public ObservableCollection<IActiveReaderMarker> Annotations { get; set; }
 
+    [Jayrock.Json.Conversion.JsonIgnore]
     [XmlIgnore]
     public ObservableCollection<IActiveReaderMarker> SearchResults { get; set; }
 
-    //[XmlIgnore]
-    //public ObservableCollection<IActiveReaderMarker> Scribblings { get; set; }
-
+    [Jayrock.Json.Conversion.JsonIgnore]
     [XmlIgnore]
     public ObservableCollection<IActiveReaderMarker> ScribblingCollections { get; set; }
 
+    [Jayrock.Json.Conversion.JsonIgnore]
     [XmlIgnore]
     public ObservableCollection<IActiveReaderMarker> FigureLinks { get; set; }
 
@@ -46,17 +48,12 @@ namespace UofM.HCI.tPab.App.ActiveReader
       set { Annotations = new ObservableCollection<IActiveReaderMarker>(value); }
     }
 
+    [Jayrock.Json.Conversion.JsonIgnore]
     public Highlight[] SearchResultsArray
     {
       get { return SearchResults.Cast<Highlight>().ToArray(); }
       set { SearchResults = new ObservableCollection<IActiveReaderMarker>(value); }
     }
-
-    //public Scribble[] ScribblingsArray
-    //{
-    //  get { return Scribblings.Cast<Scribble>().ToArray(); }
-    //  set { Scribblings = new ObservableCollection<IActiveReaderMarker>(value); }
-    //}
 
     public ScribbleCollection[] ScribbleCollectionArray
     {
@@ -64,6 +61,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       set { ScribblingCollections = new ObservableCollection<IActiveReaderMarker>(value); }
     }
 
+    [Jayrock.Json.Conversion.JsonIgnore]
     public Highlight[] FigureLinksArray
     {
       get { return FigureLinks.Cast<Highlight>().ToArray(); }
@@ -76,7 +74,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Highlights = new ObservableCollection<IActiveReaderMarker>();
       Annotations = new ObservableCollection<IActiveReaderMarker>();
       SearchResults = new ObservableCollection<IActiveReaderMarker>();
-      //Scribblings = new ObservableCollection<IActiveReaderMarker>();
       ScribblingCollections = new ObservableCollection<IActiveReaderMarker>();
       FigureLinks = new ObservableCollection<IActiveReaderMarker>();
     }
@@ -87,7 +84,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Highlights = new ObservableCollection<IActiveReaderMarker>();
       Annotations = new ObservableCollection<IActiveReaderMarker>();
       SearchResults = new ObservableCollection<IActiveReaderMarker>();
-      //Scribblings = new ObservableCollection<IActiveReaderMarker>();
       ScribblingCollections = new ObservableCollection<IActiveReaderMarker>();
       FigureLinks = new ObservableCollection<IActiveReaderMarker>();
     }
@@ -110,10 +106,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       foreach (IActiveReaderMarker result in SearchResults)
         clone.SearchResults.Add(result.Clone() as Highlight);
 
-      //clone.Scribblings = new ObservableCollection<IActiveReaderMarker>();
-      //foreach (IActiveReaderMarker scribbling in Scribblings)
-      //  clone.Scribblings.Add(scribbling.Clone() as Scribble);
-
       clone.ScribblingCollections = new ObservableCollection<IActiveReaderMarker>();
       foreach (IActiveReaderMarker scribble in ScribblingCollections)
         clone.ScribblingCollections.Add(scribble.Clone() as ScribbleCollection);
@@ -128,21 +120,40 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
   public class Note : IActiveReaderMarker
   {
+
+    public Guid ID { get; set; }
+
+    [Jayrock.Json.Conversion.JsonIgnore]
     [XmlIgnore]
     public StickyNote Annotation { get; set; }
 
-    public String AnnotationXAML
+    public StickyNoteHelper AnnotationObject
     {
-      get { return XamlWriter.Save(Annotation); }
+      get
+      {
+        StickyNoteHelper helper = new StickyNoteHelper();
+        helper.Text = Annotation.getTextField().Text;
+        helper.X = Annotation.Margin.Left;
+        helper.Y = Annotation.Margin.Top;
+        helper.Width = Annotation.Width;
+        helper.Height = Annotation.Height;
+        helper.WidthFactor = Annotation.WidthFactor;
+        helper.HeightFactor = Annotation.HeightFactor;
+        return helper;
+      }
       set
       {
-        String annotationXaml = value;
-        StringReader stringReader = new StringReader(annotationXaml);
-        XmlReader xmlReader = XmlReader.Create(stringReader);
-        Annotation = (StickyNote)XamlReader.Load(xmlReader);
+        StickyNoteHelper helper = value;
+        Annotation = new StickyNote(helper.X, helper.Y);
+        Annotation.WidthFactor = helper.WidthFactor;
+        Annotation.HeightFactor = helper.HeightFactor;
+        Annotation.Width = helper.Width;
+        Annotation.Height = helper.Height;
+        Annotation.getTextField().Text = helper.Text;
       }
     }
 
+    [Jayrock.Json.Conversion.JsonIgnore]
     [XmlIgnore]
     public Image Icon { get; set; }
 
@@ -173,73 +184,38 @@ namespace UofM.HCI.tPab.App.ActiveReader
       get { return new Point(X, Y); }
     }
 
+    public Note()
+    {
+      ID = Guid.NewGuid();
+    }
+
     public IActiveReaderMarker Clone()
     {
       Note clone = new Note();
-      clone.AnnotationXAML = AnnotationXAML;
+      clone.AnnotationObject = AnnotationObject;
       clone.IconXAML = IconXAML;
       return clone;
     }
+
+    public class StickyNoteHelper
+    {
+      public double X { get; set; }
+      public double Y { get; set; }
+      public double Width { get; set; }
+      public double Height { get; set; }
+      public double HeightFactor { get; set; }
+      public double WidthFactor { get; set; }
+      public String Text { get; set; }
+    }
+
   }
-
-  //public class Scribble : IActiveReaderMarker
-  //{
-  //  [XmlIgnore]
-  //  public InkCanvas Scribbling { get; set; }
-
-  //  public String ScribblingXAML
-  //  {
-  //    get { return XamlWriter.Save(Scribbling); }
-  //    set
-  //    {
-  //      String scribblingXaml = value;
-  //      StringReader stringReader = new StringReader(scribblingXaml);
-  //      XmlReader xmlReader = XmlReader.Create(stringReader);
-  //      Scribbling = (InkCanvas)XamlReader.Load(xmlReader);
-  //    }
-  //  }
-
-  //  [XmlIgnore]
-  //  public Image Icon { get; set; }
-
-  //  public String IconXAML
-  //  {
-  //    get { return XamlWriter.Save(Icon); }
-  //    set
-  //    {
-  //      String iconXaml = value;
-  //      StringReader stringReader = new StringReader(iconXaml);
-  //      XmlReader xmlReader = XmlReader.Create(stringReader);
-  //      Icon = (Image)XamlReader.Load(xmlReader);
-  //    }
-  //  }
-
-  //  public double X
-  //  {
-  //    get { return Icon.Margin.Left; }
-  //  }
-
-  //  public double Y
-  //  {
-  //    get { return Icon.Margin.Top; }
-  //  }
-
-  //  public System.Drawing.PointF Position
-  //  {
-  //    get { return new System.Drawing.PointF((float)X, (float)Y); }
-  //  }
-
-  //  public IActiveReaderMarker Clone()
-  //  {
-  //    Scribble clone = new Scribble();
-  //    clone.ScribblingXAML = ScribblingXAML;
-  //    clone.IconXAML = IconXAML;
-  //    return clone;
-  //  }
-  //}
 
   public class Highlight : IActiveReaderMarker
   {
+
+    public Guid ID { get; set; }
+
+    [Jayrock.Json.Conversion.JsonIgnore]
     [XmlIgnore]
     public Line Line { get; set; }
 
@@ -270,6 +246,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
       get { return new Point(X, Y); }
     }
 
+    public Highlight()
+    {
+      ID = Guid.NewGuid();
+    }
+
     public IActiveReaderMarker Clone()
     {
       Highlight clone = new Highlight();
@@ -280,34 +261,43 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
   public class ScribbleCollection : IActiveReaderMarker
   {
+
+    public Guid ID { get; set; }
+
+    [Jayrock.Json.Conversion.JsonIgnore]
     [XmlIgnore]
-    public StrokeCollection ScribblingCollection { get; set; }
+    public StrokeCollection Scribbles { get; set; }
 
     public String ScribblingXAML
     {
-      get { return XamlWriter.Save(ScribblingCollection); }
+      get { return XamlWriter.Save(Scribbles); }
       set
       {
         String inkCanvasXaml = value;
         StringReader stringReader = new StringReader(inkCanvasXaml);
         XmlReader xmlReader = XmlReader.Create(stringReader);
-        ScribblingCollection = (StrokeCollection)XamlReader.Load(xmlReader);
+        Scribbles = (StrokeCollection)XamlReader.Load(xmlReader);
       }
     }
 
     public double X
     {
-      get { return ScribblingCollection.GetBounds().BottomLeft.X + (ScribblingCollection.GetBounds().Width / 2.0); }
+      get { return Scribbles.GetBounds().BottomLeft.X + (Scribbles.GetBounds().Width / 2.0); }
     }
 
     public double Y
     {
-      get { return ScribblingCollection.GetBounds().TopLeft.Y + (ScribblingCollection.GetBounds().Height / 2.0); }
+      get { return Scribbles.GetBounds().TopLeft.Y + (Scribbles.GetBounds().Height / 2.0); }
     }
 
     public Point Position
     {
       get { return new Point(X, Y); }
+    }
+
+    public ScribbleCollection()
+    {
+      ID = Guid.NewGuid();
     }
 
     public IActiveReaderMarker Clone()
@@ -317,5 +307,4 @@ namespace UofM.HCI.tPab.App.ActiveReader
       return clone;
     }
   }
-
 }

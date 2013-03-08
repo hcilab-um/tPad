@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -20,11 +21,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
   /// </summary>
   public partial class StickyNote : UserControl, INotifyPropertyChanged
   {
-    public StickyNote(double marginLeft, double marginRight)
-    {
-      this.Margin = new Thickness(marginLeft, marginRight, 0, 0);
-      InitializeComponent();
-    }
 
     private bool isBResizeClicked = false;
     public bool IsBResizeClicked
@@ -47,21 +43,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
         OnPropertyChanged("IsNoteMoving");
       }
     }
-
-    public TextBox TextField
-    {
-      get { return tNote; }
-      set
-      {
-        tNote = value;
-        OnPropertyChanged("TextField");
-      }
-    }
-
-    public Button BClose { get { return bClose; } }
-    public Image BResize { get { return bResize; } }
-    public Grid GNote { get { return gNote; } }
-
 
     private double widthFactor = 0;
     public double WidthFactor
@@ -107,6 +88,17 @@ namespace UofM.HCI.tPab.App.ActiveReader
       }
     }
 
+    public StickyNote(double marginLeft, double marginRight)
+    {
+      this.Margin = new Thickness(marginLeft, marginRight, 0, 0);
+      InitializeComponent();
+    }
+
+    private void stickyNote_Loaded(object sender, RoutedEventArgs e)
+    {
+
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged(String name)
     {
@@ -114,9 +106,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    private void stickyNote_Loaded(object sender, RoutedEventArgs e)
-    {
+    public TextBox getTextField() { return tNote; }
 
-    }
+    public Button getBClose() { return bClose; }
+
+    public Image getBResize() { return bResize; }
+
+    public Grid getGNote() { return gNote; }
+
   }
+
 }

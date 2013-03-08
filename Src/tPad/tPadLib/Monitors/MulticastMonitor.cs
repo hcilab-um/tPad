@@ -27,17 +27,17 @@ namespace UofM.HCI.tPab.Monitors
       base.CustomStart();
 
       TransportComponent.Instance.TransportListeners.Add(this);
-      if (!TransportMessageExporter.Exporters.ContainsKey(StackingMessage.StackingMessageID))
-        TransportMessageExporter.Exporters.Add(StackingMessage.StackingMessageID, new StackingMessageExporter());
-      if (!TransportMessageImporter.Importers.ContainsKey(StackingMessage.StackingMessageID))
-        TransportMessageImporter.Importers.Add(StackingMessage.StackingMessageID, new StackingMessageImporter());
+      if (!TransportMessageExporter.Exporters.ContainsKey(StackingMessage.MessageID))
+        TransportMessageExporter.Exporters.Add(StackingMessage.MessageID, new StackingMessageExporter());
+      if (!TransportMessageImporter.Importers.ContainsKey(StackingMessage.MessageID))
+        TransportMessageImporter.Importers.Add(StackingMessage.MessageID, new StackingMessageImporter());
 
       TransportComponent.Instance.Init();
     }
 
     public int MessageType
     {
-      get { return StackingMessage.StackingMessageID; }
+      get { return StackingMessage.MessageID; }
     }
 
     public void MessageReceived(TransportMessage message, string rawMessage)
