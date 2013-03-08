@@ -50,15 +50,34 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       //list of hardcoded figures within the paper "LensMouse: Augmenting the Mouse with an Interactive Touch Display"
       listOfFigures = new ObservableCollection<Figure>();
-      listOfFigures.Add(new Figure(1, 0, new Int32Rect(481, 741, 368, 186), new string[] { "Fig 1", "Figure 1", "Fig. 1" })); //figure 1
-      listOfFigures.Add(new Figure(2, 2, new Int32Rect(510, 209, 306, 148), new string[] { "Fig 2", "Figure 2", "Fig. 2" })); //figure 2
-      listOfFigures.Add(new Figure(3, 3, new Int32Rect(490, 593, 354, 150), new string[] { "Fig 3", "Figure 3", "Fig. 3" })); //figure 3
-      listOfFigures.Add(new Figure(4, 4, new Int32Rect(489, 669, 337, 191), new string[] { "Fig 4", "Figure 4", "Fig. 4" })); //figure 4
-      listOfFigures.Add(new Figure(5, 5, new Int32Rect(110, 543, 299, 205), new string[] { "Fig 5", "Figure 5", "Fig. 5" })); //figure 5
-      listOfFigures.Add(new Figure(6, 5, new Int32Rect(507, 557, 317, 224), new string[] { "Fig 6", "Figure 6", "Fig. 6" })); //figure 6
-      listOfFigures.Add(new Figure(7, 7, new Int32Rect(94, 73, 696, 161), new string[] { "Fig 7", "Figure 7", "Fig. 7" })); //figure 7
-      listOfFigures.Add(new Figure(8, 7, new Int32Rect(501, 551, 331, 135), new string[] { "Fig 8", "Figure 8", "Fig. 8" })); //figure 8
-      listOfFigures.Add(new Figure(9, 8, new Int32Rect(106, 210, 320, 123), new string[] { "Fig 9", "Figure 9", "Fig. 9" })); //figure 9    
+      //listOfFigures.Add(new Figure(1, 0, new Int32Rect(481, 741, 368, 186), new string[] { "Fig 1", "Figure 1", "Fig. 1" })); //figure 1
+      //listOfFigures.Add(new Figure(2, 2, new Int32Rect(510, 209, 306, 148), new string[] { "Fig 2", "Figure 2", "Fig. 2" })); //figure 2
+      //listOfFigures.Add(new Figure(3, 3, new Int32Rect(490, 593, 354, 150), new string[] { "Fig 3", "Figure 3", "Fig. 3" })); //figure 3
+      //listOfFigures.Add(new Figure(4, 4, new Int32Rect(489, 669, 337, 191), new string[] { "Fig 4", "Figure 4", "Fig. 4" })); //figure 4
+      //listOfFigures.Add(new Figure(5, 5, new Int32Rect(110, 543, 299, 205), new string[] { "Fig 5", "Figure 5", "Fig. 5" })); //figure 5
+      //listOfFigures.Add(new Figure(6, 5, new Int32Rect(507, 557, 317, 224), new string[] { "Fig 6", "Figure 6", "Fig. 6" })); //figure 6
+      //listOfFigures.Add(new Figure(7, 7, new Int32Rect(94, 73, 696, 161), new string[] { "Fig 7", "Figure 7", "Fig. 7" })); //figure 7
+      //listOfFigures.Add(new Figure(8, 7, new Int32Rect(501, 551, 331, 135), new string[] { "Fig 8", "Figure 8", "Fig. 8" })); //figure 8
+      //listOfFigures.Add(new Figure(9, 8, new Int32Rect(106, 210, 320, 123), new string[] { "Fig 9", "Figure 9", "Fig. 9" })); //figure 9  
+      listOfFigures.Add(new Figure(1, 1, new Int32Rect(93, 254, 342, 122), new string[] { "Fig 1", "Figure 1", "Fig. 1" })); //figure 9  
+      listOfFigures.Add(new Figure(2, 1, new Int32Rect(483, 570, 362, 388), new string[] { "Fig 2", "Figure 2", "Fig. 2" })); //figure 9  
+      listOfFigures.Add(new Figure(3, 2, new Int32Rect(93, 468, 357, 186), new string[] { "Fig 3", "Figure 3", "Fig. 3" })); //figure 9  
+      listOfFigures.Add(new Figure(4, 2, new Int32Rect(477, 853, 367, 237), new string[] { "Fig 4", "Figure 4", "Fig. 4" })); //figure 9  
+      listOfFigures.Add(new Figure(5, 3, new Int32Rect(92, 146, 360, 206), new string[] { "Fig 5", "Figure 5", "Fig. 5" })); //figure 9  
+      listOfFigures.Add(new Figure(6, 3, new Int32Rect(481, 423, 362, 187), new string[] { "Fig 6", "Figure 6", "Fig. 6" })); //figure 9  
+      listOfFigures.Add(new Figure(7, 4, new Int32Rect(487, 105, 348, 265), new string[] { "Fig 7", "Figure 7", "Fig. 7" })); //figure 9  
+      listOfFigures.Add(new Figure(8, 5, new Int32Rect(99, 120, 348, 250), new string[] { "Fig 8", "Figure 8", "Fig. 8" })); //figure 9  
+      listOfFigures.Add(new Figure(9, 5, new Int32Rect(87, 376, 364, 206), new string[] { "Fig 9", "Figure 9", "Fig. 9" })); //figure 9  
+      listOfFigures.Add(new Figure(10, 5, new Int32Rect(95, 584, 348, 301), new string[] { "Fig 10", "Figure 10", "Fig. 10" })); //figure 9  
+      listOfFigures.Add(new Figure(11, 6, new Int32Rect(93, 121, 356, 181), new string[] { "Fig 11", "Figure 11", "Fig. 11" })); //figure 9  
+      listOfFigures.Add(new Figure(12, 6, new Int32Rect(95, 641, 353, 245), new string[] { "Fig 12", "Figure 12", "Fig. 12" })); //figure 9  
+      listOfFigures.Add(new Figure(13, 7, new Int32Rect(98, 540, 347, 254), new string[] { "Fig 13", "Figure 13", "Fig. 13" })); //figure 9
+      listOfFigures.Add(new Figure(14, 7, new Int32Rect(478, 671, 362, 340), new string[] { "Fig 14", "Figure 14", "Fig. 14" })); //figure 9
+      listOfFigures.Add(new Figure(15, 8, new Int32Rect(95, 281, 350, 345), new string[] { "Fig 15", "Figure 15", "Fig. 15" })); //figure 9
+      listOfFigures.Add(new Figure(16, 8, new Int32Rect(87, 634, 361, 212), new string[] { "Fig 16", "Figure 16", "Fig. 16" })); //figure 9
+      listOfFigures.Add(new Figure(17, 8, new Int32Rect(481, 812, 355, 224), new string[] { "Fig 17", "Figure 17", "Fig. 17" })); //figure 9
+      listOfFigures.Add(new Figure(18, 9, new Int32Rect(483, 109, 355, 203), new string[] { "Fig 18", "Figure 18", "Fig. 18" })); //figure 9
+      listOfFigures.Add(new Figure(19, 9, new Int32Rect(482, 552, 358, 189), new string[] { "Fig 19", "Figure 19", "Fig. 19" })); //figure 9
       CalculateFigurePositions();
     }
 
