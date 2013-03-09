@@ -8,19 +8,72 @@ namespace UofM.HCI.tPab.Monitors
 {
   public class CameraMonitor : ContextMonitor
   {
-    public string COMPort { get; set; }
+
+    private bool useCamera = true;
+
+    public ManagedA.wrapperRegistClass Tracker { get; set; }
+
+    public ITPadAppController Controller { get; set; }
+
+    public CameraMonitor(bool useC)
+    {
+      useCamera = useC;
+    }
 
     protected override void CustomStart()
     {
-      if (COMPort == null || COMPort.Length == 0)
-        return;
+      if (useCamera)
+        StartFeatureTracker();
+    }
+
+    private bool isStarted = false;
+    public void StartFeatureTracker()
+    {
+      try
+      {
+        if (Tracker == null)
+          Tracker = new ManagedA.wrapperRegistClass(useCamera, Controller.SimCaptureToSourceImageRatio);
+        Tracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
+        Tracker.imageWarp("homography.xml");
+        isStarted = true;
+      }
+      catch { }
+    }
+
+    internal bool IsFeatureTrackerStarted()
+    {
+      return isStarted;
     }
 
     internal bool TryPort()
     {
-      if (COMPort == null)
-        return true;
+      if (!useCamera)
+        return false;
+
+      try
+      {
+        if (Tracker == null)
+          Tracker = new ManagedA.wrapperRegistClass(useCamera, Controller.SimCaptureToSourceImageRatio);
+        if (Tracker.connectCamera() != -1)
+          return true;
+      }
+      catch { }
+
       return false;
+    }
+
+    protected override void CustomRun()
+    {
+      NotifyContextServices(this, null);
+    }
+
+    protected override void CustomStop()
+    {
+      try
+      {
+        Tracker.disconnectCamera();
+      }
+      catch { }
     }
   }
 }

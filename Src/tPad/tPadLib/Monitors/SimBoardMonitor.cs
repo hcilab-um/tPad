@@ -32,12 +32,6 @@ namespace UofM.HCI.tPab.Monitors
       Pause = false;
     }
 
-    protected override void CustomRun()
-    {
-      if (Pause)
-        return;
-    }
-
     void sDevice_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
       if (Pause)

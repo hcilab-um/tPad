@@ -18,7 +18,16 @@ namespace UofM.HCI.tPab.Monitors
 
     public bool Pause { get; set; }
 
-    public ITPadAppController CameraSource { get; set; }
+    private ITPadAppController cameraSource = null;
+    public ITPadAppController CameraSource 
+    {
+      get { return cameraSource; }
+      set
+      {
+        cameraSource = value;
+        cameraSource.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(cameraSource_PropertyChanged);
+      }
+    }
 
     public SimCameraMonitor()
     {
@@ -48,6 +57,12 @@ namespace UofM.HCI.tPab.Monitors
       String fileName = String.Format("capture-{0}-{1}.PNG", (angle + 360) % 360, DateTime.Now.Ticks);
       return new FileStream(fileName, FileMode.OpenOrCreate);
     }
+
+    void cameraSource_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+      CustomRun();
+    }
+
   }
 }
 

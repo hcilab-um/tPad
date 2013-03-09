@@ -411,6 +411,7 @@ namespace UofM.HCI.tPab
     private void btLaunchCalculator_Click(object sender, RoutedEventArgs e)
     {
       CalculatorGlyph = btLaunchCalculator.IsChecked.Value;
+      OnPropertyChanged("CalculatorGlyph");
     }
 
     private void btShakeDevice_Click(object sender, RoutedEventArgs e)

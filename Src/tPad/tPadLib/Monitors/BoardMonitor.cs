@@ -118,6 +118,12 @@ namespace UofM.HCI.tPab.Monitors
 
     protected override void CustomRun()
     {
+      if (Port == null)
+      {
+        Stop();
+        return;
+      }
+
       lock (monitor)
       {
         if (actualUpdateJson == null || actualUpdateJson.Length == 0)

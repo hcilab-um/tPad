@@ -33,6 +33,7 @@ namespace UofM.HCI.tPab
 
     private BoardMonitor Board { get; set; }
     private SimBoardMonitor SimBoard { get; set; }
+    private CameraMonitor Camera { get; set; }
     private SimCameraMonitor SimCamera { get; set; }
 
     public String BoardCOM { get; set; }
@@ -54,17 +55,19 @@ namespace UofM.HCI.tPab
 
       Profile = profile;
       Device = new TPadDevice(deviceID) { Profile = Profile };
-      Registration = new RegistrationService(UseCamera, Device);
-      GlyphDetection = new GlyphDetectionService(Device);
 
       Board = new BoardMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
       SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
-      SimCamera = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
+      Camera = new CameraMonitor(UseCamera) { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 }; 
+      SimCamera = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
 
-      FlippingMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-      StackingMonitor stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-      ShakingMonitor shakingMonitor = new ShakingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+      FlippingMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
+      StackingMonitor stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
+      ShakingMonitor shakingMonitor = new ShakingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
       MulticastMonitor multicastMonitor = new MulticastMonitor(groupIP, port, TTL);
+
+      Registration = new RegistrationService(UseCamera, Device, Camera);
+      GlyphDetection = new GlyphDetectionService(Device);
 
       //Wiring up the components
       Board.OnNotifyContextServices += flippingMonitor.UpdateMonitorReading;
@@ -100,13 +103,14 @@ namespace UofM.HCI.tPab
 
     public void CoreStart(ITPadAppContainer appContainer, ITPadAppController appController)
     {
-      ConfigurePeripherals();
-
       //By default the system works with the simulated sources (camera, board)
       SimBoard.SimDevice = appController;
       SimCamera.CameraSource = appController;
+      Camera.Controller = appController;
       Registration.Container = appContainer;
       Registration.Controller = appController;
+
+      ConfigurePeripherals();
 
       logger.Info("Starting Up Services and Monitors");
       servicesContainer.StartServices();
@@ -126,16 +130,18 @@ namespace UofM.HCI.tPab
       //Stops everything
       Board.COMPort = null;
       SimBoard.Pause = true;
-      //SimCamera.Pause = true;
 
       //Sets the COM port for the board and camera monitors
       Board.COMPort = BoardCOM;
 
       if (!Board.TryPort())
+      {
         SimBoard.Pause = false;
+        Board.Stop();
+      }
 
-      if (!UseCamera)
-        SimCamera.Pause = false;
+      if (!Camera.TryPort())
+        Camera.Stop();
     }
 
     protected override void CustomUpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)

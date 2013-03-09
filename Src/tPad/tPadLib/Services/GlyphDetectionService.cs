@@ -11,6 +11,8 @@ namespace UofM.HCI.tPab.Services
   public class GlyphDetectionService : ContextService
   {
 
+    private ManagedA.wrapperRegistClass Tracker { get; set; }
+
     private TPadDevice Device { get; set; }
 
     public GlyphDetectionService(TPadDevice device)
@@ -24,15 +26,20 @@ namespace UofM.HCI.tPab.Services
         return;
       if (Device.State == StackingState.StackedOnTop)
         return;
-      if (!(sender is SimCameraMonitor))
-        return;
 
-      List<Applications.Glyph> detectedGlyphs = new List<Applications.Glyph>();
-      var simulatorDevice = ((sender as SimCameraMonitor).CameraSource as SimulatorDevice).CalculatorGlyph;
-      if (simulatorDevice == true)
-        detectedGlyphs.Add(Applications.Glyph.Square);
-
-      NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(GlyphDetectionService), detectedGlyphs));
+      if (sender is SimCameraMonitor)
+      {
+        List<Applications.Glyph> detectedGlyphs = new List<Applications.Glyph>();
+        var simulatorDevice = ((sender as SimCameraMonitor).CameraSource as SimulatorDevice).CalculatorGlyph;
+        if (simulatorDevice == true)
+          detectedGlyphs.Add(Applications.Glyph.Square);
+        NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(GlyphDetectionService), detectedGlyphs));
+      }
+      else if (sender is CameraMonitor)
+      {
+        if (Tracker == null)
+          Tracker = (sender as CameraMonitor).Tracker;
+      }
     }
 
   }

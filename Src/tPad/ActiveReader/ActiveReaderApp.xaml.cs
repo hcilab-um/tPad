@@ -433,9 +433,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private bool isSenderHighlight = false;
     private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
     {
+      if (Core.Device.State != StackingState.NotStacked)
+        return;
+
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
-        lastPosition = GetMousePositionInDocument();
         if (sender == rHighlights)
         {
           if (CurrentTool != ActiveReadingTool.Highlighter)
@@ -452,16 +454,19 @@ namespace UofM.HCI.tPab.App.ActiveReader
             }
             return;
           }
+          else if (CurrentTool == ActiveReadingTool.Highlighter)
+          {
+            isHighlighting = true;
+            newHighlight = new Highlight();
+            newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 / Core.Profile.PixelsPerCm.Height };
 
-          isHighlighting = true;
-
-          newHighlight = new Highlight();
-          newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 / Core.Profile.PixelsPerCm.Height };
-          newHighlight.Line.X1 = lastPosition.X;
-          newHighlight.Line.Y1 = lastPosition.Y;
-          newHighlight.Line.X2 = lastPosition.X;
-          newHighlight.Line.Y2 = lastPosition.Y;
-          AddHighlight(newHighlight.Line, cHighlights);
+            lastPosition = GetMousePositionInDocument();
+            newHighlight.Line.X1 = lastPosition.X;
+            newHighlight.Line.Y1 = lastPosition.Y;
+            newHighlight.Line.X2 = lastPosition.X;
+            newHighlight.Line.Y2 = lastPosition.Y;
+            AddHighlight(newHighlight.Line, cHighlights);
+          }
         }
         else if (sender is Line)
         {
@@ -486,8 +491,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private bool isSearchHighlightActive = false;
     private void cHighlights_MouseUp(object sender, MouseButtonEventArgs e)
     {
-      Point newPosition = GetMousePositionInDocument();
+      if (Core.Device.State != StackingState.NotStacked)
+        return;
 
+      Point newPosition = GetMousePositionInDocument();
       if (CurrentTool == ActiveReadingTool.Highlighter)
       {
         if (!isHighlighting)
@@ -511,11 +518,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
       else //It was just a click to bring up the contextual menu
       {
         RemoveWordHighlight();
-        
         if (contextMenu.Visibility == Visibility.Visible || tpKeyboard.Visibility == Visibility.Visible)
         {
           //SearchTerm = String.Empty;
-          isSearchHighlightActive = false;     
+          isSearchHighlightActive = false;
           contextMenu.Visibility = System.Windows.Visibility.Collapsed;
           tpKeyboard.Visibility = Visibility.Collapsed;
           return;
@@ -523,7 +529,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
         Rect contentBounds = Rect.Empty;
         String content = PdfHelper.PixelToContent(newPosition, ActualPage, Core.Profile.DocumentSize.Width, Core.Profile.DocumentSize.Height, out contentBounds);
-                
         if (content != null && !isSearchHighlightActive && !isFigureViewerVisible)
         {
           SearchTerm = content;
@@ -534,12 +539,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
         else if (content == null && !isSearchHighlightActive)
           ShowContextualMenu();
         else if (content == null || isSearchHighlightActive)
-        {          
-          isSearchHighlightActive = false;          
-        }        
+          isSearchHighlightActive = false;
       }
 
-      isFigureViewerVisible = false;      
+      isFigureViewerVisible = false;
     }
 
     private void cHighlights_MouseMove(object sender, MouseEventArgs e)
@@ -549,7 +552,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       if (CurrentTool != ActiveReadingTool.Highlighter)
         return;
-
       if (!isHighlighting)
         return;
 
@@ -686,7 +688,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       if (wordHighlight == null)
         return;
-            
+
       cHighlights.Children.Remove(wordHighlight);
     }
 
@@ -984,9 +986,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
-
-      if (name == "ActualPage" || name == "ActualDocument")
-        OnPropertyChanged("ActualPageObject");
     }
 
     private double initialAngle = 0, initialOpacity = 1;
@@ -1243,7 +1242,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (e.ChangedButton != MouseButton.Left)
         return;
 
-      Core.Device.SendTouchEvent(Mouse.GetPosition(this), TouchAction.Down);
+      Core.Device.SendTouchEvent(GetMousePositionInDocument(), TouchAction.Down);
     }
 
     protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
@@ -1256,7 +1255,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (e.ChangedButton != MouseButton.Left)
         return;
 
-      Core.Device.SendTouchEvent(Mouse.GetPosition(this), TouchAction.Up);
+      Core.Device.SendTouchEvent(GetMousePositionInDocument(), TouchAction.Up);
     }
 
     protected override void OnPreviewMouseMove(MouseEventArgs e)
@@ -1269,17 +1268,80 @@ namespace UofM.HCI.tPab.App.ActiveReader
       if (e.LeftButton != MouseButtonState.Pressed)
         return;
 
-      Core.Device.SendTouchEvent(Mouse.GetPosition(this), TouchAction.Move);
+      Core.Device.SendTouchEvent(GetMousePositionInDocument(), TouchAction.Move);
     }
 
     void Device_StackingChanged(object sender, StackingEventArgs e)
     {
-
+      Dispatcher.Invoke(DispatcherPriority.Background,
+      (Action)delegate()
+      {
+        UIThreadDevice_StackingChanged(sender, e);
+      });
     }
 
+    void UIThreadDevice_StackingChanged(object sender, StackingEventArgs e)
+    {
+      if (e.State == StackingState.NotStacked)
+      {
+        if (inkCScribble.Strokes.Contains(stackingSelectionStroke))
+          inkCScribble.Strokes.Remove(stackingSelectionStroke);
+        inkCScribble.DefaultDrawingAttributes.Color = previousColor;
+      }
+      else if (e.State == StackingState.StackedBelow || e.State == StackingState.StackedOnTop)
+      {
+        CurrentTool = ActiveReadingTool.None;
+        previousColor = inkCScribble.DefaultDrawingAttributes.Color;
+        inkCScribble.DefaultDrawingAttributes.Color = Color.FromRgb(0, 0, 255);
+      }
+    }
+
+    private Stroke stackingSelectionStroke = null;
+    private Color previousColor = Color.FromRgb(0, 0, 0);
     void Device_StackingTouchEvent(object sender, StackingTouchEventArgs e)
     {
-      Console.WriteLine("{0}: X:{1} - Y:{2}", e.Action, e.Location.X, e.Location.Y);
+      Dispatcher.Invoke(DispatcherPriority.Background,
+      (Action)delegate()
+      {
+        UIThreadDevice_StackingTouchEvent(sender, e);
+      });
+    }
+
+    private void UIThreadDevice_StackingTouchEvent(object sender, StackingTouchEventArgs e)
+    {
+      if (e.Action == TouchAction.Down)
+      {
+        StylusPointCollection points = new StylusPointCollection();
+        points.Add(new StylusPoint(e.Location.X, e.Location.Y));
+        stackingSelectionStroke = new Stroke(points, inkCScribble.DefaultDrawingAttributes);
+        inkCScribble.Strokes.Add(stackingSelectionStroke);
+      }
+      else if (e.Action == TouchAction.Move)
+      {
+        stackingSelectionStroke.StylusPoints.Add(new StylusPoint(e.Location.X, e.Location.Y));
+        foreach (ScribbleCollection collection in ActualDocument[ActualPage].ScribblingCollections)
+        {
+          foreach (Stroke stroke in collection.Scribbles)
+          {
+            if (!stroke.HitTest(e.Location))
+              continue;
+            Synch.SendContent(ActualDocument.ID, ActualPage, stroke);
+          }
+        }
+
+        var line = cHighlights.InputHitTest(e.Location);
+        if (line == null || !(line is Line))
+          return;
+        Highlight highlight = (Highlight)ActualDocument[ActualPage].Highlights.SingleOrDefault(tmp => (tmp as Highlight).Line == line);
+        if (highlight == null)
+          return;
+        Synch.SendContent(ActualDocument.ID, ActualPage, highlight);
+      }
+      else if (e.Action == TouchAction.Up)
+      {
+        if (inkCScribble.Strokes.Contains(stackingSelectionStroke))
+          inkCScribble.Strokes.Remove(stackingSelectionStroke);
+      }
     }
 
     private void bUnStack_Click(object sender, RoutedEventArgs e)

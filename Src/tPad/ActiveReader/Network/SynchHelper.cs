@@ -145,17 +145,20 @@ namespace UofM.HCI.tPab.Network
     internal void SendContent(int documentID, int pageIndex, App.ActiveReader.ScribbleCollection collection)
     {
       foreach (Stroke stroke in collection.Scribbles)
+        SendContent(documentID, pageIndex, stroke);
+    }
+
+    internal void SendContent(int documentID, int pageIndex, Stroke stroke)
+    {
+      Core.Device.SendMessage(new ActiveReaderMessage()
       {
-        Core.Device.SendMessage(new ActiveReaderMessage()
-        {
-          MessageType = ActiveReaderMessageType.Stroke,
-          SourceDeviceID = Core.Device.ID,
-          TargetDeviceID = Core.Device.DeviceOnTop,
-          DocumentID = documentID,
-          PageIndex = pageIndex,
-          Stroke = stroke
-        });
-      }
+        MessageType = ActiveReaderMessageType.Stroke,
+        SourceDeviceID = Core.Device.ID,
+        TargetDeviceID = Core.Device.DeviceOnTop,
+        DocumentID = documentID,
+        PageIndex = pageIndex,
+        Stroke = stroke
+      });
     }
 
     internal void SendContent(int documentID, int pageIndex, App.ActiveReader.Note note)
