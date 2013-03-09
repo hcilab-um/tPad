@@ -29,8 +29,11 @@ public:
 	cv::Point2f getLocationPxM();
 	float getRotationAngle();
 
-	int detectLocation(cv::Mat &currentImg, int previousStatus);
-	int detectLocation(int previousStatus);
+	int detectLocation(bool cameraInUse, int previousStatus);
+	//int detectLocation(int previousStatus);
+
+	void detectFigures(cv::vector<cv::vector<cv::Point> >& squares, cv::vector<cv::vector<cv::Point> >& triangles,
+		float minLength = 25, float maxLength = 80, int tresh_binary = 105);
 
 	void createIndex(std::string dir_path);
 
@@ -39,6 +42,8 @@ public:
 
 	int connectCamera();
 	int disconnectCamera();	
+	void setCameraImg();
+	void setCameraImg(cv::Mat &camImg);
 
 private:	
 	int PageIdx;
@@ -65,11 +70,12 @@ private:
 
 	cv::vector<int> votingPageIndices;
 
-	cv::Mat lastDeviceImage;
+	cv::Mat lastDeviceImage, currentDeviceImg;
 	cv::Mat warpMat;
 
 	float computeArea(cv::Point2f pt0, cv::Point2f pt1, cv::Point2f pt2 );
 	float computeAngle( cv::Point2f pt1, cv::Point2f pt2, cv::Point2f pt0 );
+	float computeLength(cv::Point2f pt0, cv::Point2f pt1);
 
 	cv::Mat computeLocalFeatures(cv::Mat &image);
 	

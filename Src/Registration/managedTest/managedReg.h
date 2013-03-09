@@ -15,6 +15,12 @@ using namespace System::Runtime::InteropServices;
 
 namespace ManagedA 
 {	
+	public value struct Glyphs
+	{		
+		int numberSquares;
+		int numberTriangles;
+	};
+
 	public ref class wrapperRegistClass
 	{
 	public:
@@ -100,12 +106,19 @@ namespace ManagedA
 			registrationObj->imageWarp(str);
 		}
 				
-		int detectLocation(Bitmap^ bmp1, int previousStatus);
+		void SetCameraImg(Bitmap^ bmp1);
 
-		int detectLocation(int previousStatus)
+		void SetCameraImg()
 		{
-			return registrationObj->detectLocation(previousStatus);
+			registrationObj->setCameraImg();
 		}
+
+		int detectLocation(bool camInUse, int previousStatus)
+		{
+			return registrationObj->detectLocation(camInUse, previousStatus);
+		}
+
+		Glyphs DetectFigures(float minLength, float maxLength, int tresh_binary);
 
 		int connectCamera()
 		{

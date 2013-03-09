@@ -87,8 +87,10 @@ namespace UofM.HCI.tPab.Services
             temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
             Tracker.imageWarp(temp_SimCaptureToSourceImageRatio);
           }
+
           System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;
-          status = Tracker.detectLocation(camView, status);
+          Tracker.SetCameraImg(camView);
+          status = Tracker.detectLocation(false, status);
           GetLocationFromTracker();
         }
         else
@@ -107,7 +109,7 @@ namespace UofM.HCI.tPab.Services
           Tracker = (sender as CameraMonitor).Tracker;
 
         //start feature tracking
-        status = Tracker.detectLocation(status);
+        status = Tracker.detectLocation(true, status);
         GetLocationFromTracker();
       }
 

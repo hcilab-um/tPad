@@ -64,6 +64,7 @@ namespace UofM.HCI.tPab.Monitors
 
     protected override void CustomRun()
     {
+      Tracker.SetCameraImg();
       NotifyContextServices(this, null);
     }
 
