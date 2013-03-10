@@ -205,6 +205,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
         Converter = new UofM.HCI.tPab.App.ActiveReader.Converters.ContextMenuVisibilityConverter(),
       });
 
+      //necessary to set binding of context menu
+      NameScope.SetNameScope(contextMenu, NameScope.GetNameScope(this));
+
       inkCScribble.DefaultDrawingAttributes.Height = 3 / Core.Profile.PixelsPerCm.Height;
       inkCScribble.DefaultDrawingAttributes.Width = 3 / Core.Profile.PixelsPerCm.Width;
 

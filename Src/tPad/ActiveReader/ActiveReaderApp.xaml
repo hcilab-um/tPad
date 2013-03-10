@@ -157,15 +157,27 @@
       </InkCanvas>
 
       <!-- This is the context menu for handling annotations -->
-      <Grid.ContextMenu>
-        <ContextMenu Name="contextMenu" Visibility="Collapsed">
-          <MenuItem Name="cm_deleteItem"  Header="Delete" Click="CMDelete_Click"/>
-          <MenuItem Name="cm_searchItem" Click="CMSearch_Click"/>
-          <Separator />
-          <MenuItem Header="Add Annotation" Click="CMAnnotation_Click"/>
-          <!--<MenuItem Header="Add Scribble" Click="CMScribble_Click"/>-->
-        </ContextMenu>
-      </Grid.ContextMenu>
+        <TreeView x:Name="tvwFolder" Background="Transparent">
+            <TreeView.ContextMenu >
+              <ContextMenu Name="contextMenu" Visibility="Collapsed">
+                  <ContextMenu.LayoutTransform>
+                      <RotateTransform>
+                          <RotateTransform.Angle>
+                                    <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+                                        <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+                                        <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+                                    </MultiBinding>
+                          </RotateTransform.Angle>
+                      </RotateTransform>
+                        </ContextMenu.LayoutTransform>
+                  <MenuItem Name="cm_deleteItem"  Header="Delete" Click="CMDelete_Click"/>
+                  <MenuItem Name="cm_searchItem" Click="CMSearch_Click"/>
+                  <Separator />
+                  <MenuItem Header="Add Annotation" Click="CMAnnotation_Click"/>
+              </ContextMenu>
+          </TreeView.ContextMenu>
+      </TreeView>
+    
     </Grid>
 
     <!-- This is the grid containing all the layers that are anchored to the device - This content remains static as you move the device -->
