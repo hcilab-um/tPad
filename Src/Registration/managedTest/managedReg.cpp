@@ -6,16 +6,30 @@
 
 namespace ManagedA
 {
-	wrapperRegistClass::wrapperRegistClass(bool IsCameraInUse, float imageRatio)
+	wrapperFeatureMatcher::wrapperFeatureMatcher(bool IsCameraInUse, String^ pathPDFImg)
+	{		
+		char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(pathPDFImg);
+		matcherObj = new FeatureMatcher(IsCameraInUse, str);
+	}
+
+	wrapperFeatureMatcher::~wrapperFeatureMatcher(void)
 	{
-		registrationObj = new paperRegistration(IsCameraInUse, imageRatio);
+		delete matcherObj;
+	}
+
+	wrapperRegistClass::wrapperRegistClass(bool IsCameraInUse, float imageRatio, wrapperFeatureMatcher^ fMatcher)
+	{		
+		FeatureMatcher* matcher = new FeatureMatcher();
+		*matcher = fMatcher->GetFeatureMatcher();
+		
+		registrationObj = new paperRegistration(IsCameraInUse, imageRatio, matcher);
 	}
 
 	wrapperRegistClass::~wrapperRegistClass(void)
 	{
 		delete registrationObj;
 	}
-
+		
 	void wrapperRegistClass::SetCameraImg(Bitmap^ bmp1)
 	{
 		cv::Mat currentImg(bmp1->Height, bmp1->Width, CV_8UC3);

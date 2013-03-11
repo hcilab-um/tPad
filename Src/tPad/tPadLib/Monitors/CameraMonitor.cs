@@ -8,11 +8,12 @@ namespace UofM.HCI.tPab.Monitors
 {
   public class CameraMonitor : ContextMonitor
   {
-
     private bool useCamera = true;
 
-    public ManagedA.wrapperRegistClass Tracker { get; set; }
+    public ManagedA.wrapperFeatureMatcher Matcher { get; set; }
 
+    public ManagedA.wrapperRegistClass Tracker { get; set; }
+    
     public ITPadAppController Controller { get; set; }
 
     public CameraMonitor(bool useC)
@@ -21,7 +22,7 @@ namespace UofM.HCI.tPab.Monitors
     }
 
     protected override void CustomStart()
-    {
+    {      
       if (useCamera)
         StartFeatureTracker();
     }
@@ -32,8 +33,11 @@ namespace UofM.HCI.tPab.Monitors
       try
       {
         if (Tracker == null)
-          Tracker = new ManagedA.wrapperRegistClass(useCamera, Controller.SimCaptureToSourceImageRatio);
-        Tracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
+        {
+          Matcher = new ManagedA.wrapperFeatureMatcher(useCamera, Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
+          Tracker = new ManagedA.wrapperRegistClass(useCamera, Controller.SimCaptureToSourceImageRatio, Matcher);
+        }
+        //Tracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
         Tracker.imageWarp("homography.xml");
         isStarted = true;
       }
@@ -53,7 +57,10 @@ namespace UofM.HCI.tPab.Monitors
       try
       {
         if (Tracker == null)
-          Tracker = new ManagedA.wrapperRegistClass(useCamera, Controller.SimCaptureToSourceImageRatio);
+        {
+          Matcher = new ManagedA.wrapperFeatureMatcher(useCamera, Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
+          Tracker = new ManagedA.wrapperRegistClass(useCamera, Controller.SimCaptureToSourceImageRatio, Matcher);
+        }
         if (Tracker.connectCamera() != -1)
           return true;
       }

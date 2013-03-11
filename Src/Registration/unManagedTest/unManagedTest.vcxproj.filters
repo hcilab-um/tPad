@@ -24,6 +24,9 @@
     <ClInclude Include="unmanagedReg.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="FeatureMatcher.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
@@ -33,6 +36,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="unmanagedReg.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="FeatureMatcher.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

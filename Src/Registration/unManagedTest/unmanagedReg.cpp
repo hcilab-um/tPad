@@ -11,7 +11,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2\calib3d\calib3d.hpp>
 
-paperRegistration::paperRegistration(bool isCameraInUse, float imageRatio)
+paperRegistration::paperRegistration(bool isCameraInUse, float imageRatio, FeatureMatcher* matcher)
 {
 	PageIdx = -1;
 	
@@ -28,19 +28,22 @@ paperRegistration::paperRegistration(bool isCameraInUse, float imageRatio)
 
 	if (isCameraInUse_)
 	{
-		fastDetectorPageImg = new cv::FastFeatureDetector(145, true);
+		//fastDetectorPageImg = new cv::FastFeatureDetector(145, true);
 		fastDetectorCamImg = new cv::FastFeatureDetector(30, true);
-		matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 21, 0));
+		//matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 21, 0));
 		extractor = new cv::FREAK(true, false, 20.0F, 2);
 	}	
 	else 
 	{
-		surfDetectorPageImg = new cv::SurfFeatureDetector(2000, 4, 1, false);
+		//surfDetectorPageImg = new cv::SurfFeatureDetector(2000, 4, 1, false);
 		surfDetectorCamImg = new cv::SurfFeatureDetector(600,4, 1, false);
-		matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 25, 0));
+		//matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 25, 0));
 		extractor = new cv::FREAK(true, false, 10.0F, 3);		
 	}
 
+	fMatcher = matcher->getFeatureMatcher();
+	dbKeyPoints = matcher->getDBKeyPoints();
+	
 	lastDeviceImage = cv::Mat();
 	currentDeviceImg = cv::Mat();
 }
@@ -229,11 +232,13 @@ cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &deviceImage)
 	if (deviceImageDescriptors.rows > 4)
 	{
 		std::vector<std::vector<cv::DMatch>> dmatches;
-		matcher->knnMatch(deviceImageDescriptors, dmatches, 2);
+		fMatcher->knnMatch(deviceImageDescriptors, dmatches, 2);
 
 		//set votingPageIndices to null
-		for (int i =0; i < votingPageIndices.size(); i++)
-			votingPageIndices[i] = 0;
+		int count = dbKeyPoints.size();
+		cv::vector<int> votingPageIndices;
+		for (int i = 0; i < count; i++)
+			votingPageIndices.push_back(0);
 
 		std::vector<cv::Point2f> mpts_1, mpts_2; // Used for homography	
 		std::vector<std::vector<cv::DMatch>>::iterator endIterator = dmatches.end();
@@ -302,68 +307,6 @@ void paperRegistration::drawMatch(cv::Mat &cameraImage, cv::Mat &homography, cv:
 	cv::imshow( "frame", cameraImage );
 
 	cv::waitKey(0);
-}
-
-void paperRegistration::getFiles(std::wstring directory, std::vector<std::string> &fileNameList)
-{
-	HANDLE handle;
-	WIN32_FIND_DATA finddata; 
-
-	handle = FindFirstFile(directory.c_str(),&finddata);
-	FindNextFile(handle,&finddata);
-	while (FindNextFile(handle,&finddata))
-	{
-		std::wstring fileName = finddata.cFileName;
-		std::string str( fileName.begin(), fileName.end() );
-		fileNameList.push_back(str);
-	}
-	FindClose(handle);
-}
-
-void paperRegistration::createIndex(std::string dir_path)
-{
-	dbKeyPoints.clear();
-	votingPageIndices.clear();
-
-	cv::vector<cv::Mat> dbDescriptors;
-
-	//load pages
-	std::string path = dir_path + "\\*";
-	std::wstring wsTmp(path.begin(), path.end());
-	std::wstring ws = wsTmp;
-	std::vector<std::string> fileNameList;
-	getFiles(ws, fileNameList);
-
-	for (unsigned int i = 0; i < fileNameList.size(); i++)
-	{		
-		std::string imagePath = dir_path + "/" + fileNameList[i];
-		cv::Mat pageImage = cv::imread(imagePath, CV_LOAD_IMAGE_GRAYSCALE);
-
-		cv::vector<cv::KeyPoint> pageKeyPoints;
-		if (isCameraInUse_)
-			fastDetectorPageImg->detect(pageImage, pageKeyPoints);
-		else surfDetectorPageImg->detect(pageImage, pageKeyPoints);
-
-		cv::Mat pageImageDescriptors;
-		extractor->compute(pageImage, pageKeyPoints, pageImageDescriptors);
-	
-		dbDescriptors.push_back(pageImageDescriptors);
-		dbKeyPoints.push_back(pageKeyPoints);
-	}
-
-	//ToDo save FlannIDX
-	/*cv::FlannBasedMatcher flannMatcher = new cv::flann::LshIndexParams(10, 30, 1);
-	std::string sceneImageData = "sceneImagedatamodel.xml";
-	cv::FileStorage fs(sceneImageData, cv::FileStorage::WRITE);
-	flannMatcher.write(fs);*/
-	
-	int count = dbKeyPoints.size();
-	for (int i = 0; i < count; i++)
-		votingPageIndices.push_back(0);
-
-	matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4,25, 0));
-	matcher->add(dbDescriptors);
-	matcher->train();	
 }
 
 float paperRegistration::compareImages(cv::Mat &lastImg, cv::Mat &currentImg)
@@ -500,6 +443,7 @@ cv::Mat paperRegistration::loadCameraImage()
 int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 {
 	cv::Mat cameraImage = currentDeviceImg;
+	cv::imwrite("hi.png", cameraImage);
 	if (cameraImage.empty())
 		return -1;
 
@@ -582,71 +526,3 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 	}
 	else return 0;	//new image is similiar to previous one
 }
-
-//int paperRegistration::detectLocation(cv::Mat &cameraImg, int previousStatus)
-//{
-//	if (previousStatus != 1 || compareImages(cameraImg, lastDeviceImage) > 1.5)
-//	{
-//		lastDeviceImage = cameraImg.clone();
-//		
-//		//toDo: load matcher	
-//		/*std::string sceneImageData = "sceneImagedatamodel.xml";
-//		cv::FileStorage fs(sceneImageData, cv::FileStorage::READ);
-//		cv::FileNode fn = fs.getFirstTopLevelNode(); 
-//		matcher.read(fn);*/
-//		
-//		cvtColor(cameraImg, cameraImg, CV_BGR2GRAY);
-//		warpMat = getRotationMatrix2D(cv::Point2f(cameraImg.cols/2.0, cameraImg.rows/2.0), 180, 1);
-//		cv::warpAffine(cameraImg, cameraImg, warpMat, cameraImg.size());
-//		cv::resize(cameraImg, cameraImg, cv::Size(cameraImg.cols*imgRatio_, cameraImg.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
-//		
-//		cv::Mat locationHM = computeLocalFeatures(cameraImg);
-//		
-//		//compute rotation angle (in degree)
-//		if (!locationHM.empty())
-//		{
-//			//compute location
-//			std::vector<cv::Point2f> device_point(5);
-//			device_point[0] = cvPoint(0,0);
-//			device_point[1] = cvPoint(cameraImg.cols,0);			
-//			device_point[2] = cvPoint(cameraImg.cols,cameraImg.rows);
-//			device_point[3] = cvPoint(0,cameraImg.rows);
-//			device_point[4] = cvPoint(cameraImg.cols/2,cameraImg.rows/2);
-//
-//			float areaCamImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
-//			
-//			cv::perspectiveTransform(device_point, device_point, locationHM);
-//			cv::imwrite("test.png", cameraImg);
-//			//proof validity of result
-//			//3 angles must be around 90 degree
-//			for( int j = 3; j < 6; j++ )
-//			{
-//				float angleCorner = computeAngle(device_point[j%4], device_point[j-3], device_point[j-2]);
-//				if (fabs(90-angleCorner) > 7)
-//					return -1;
-//			}
-//			
-//			float areaDetectedImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
-//			//proof size of detected area
-//			if (fabs(areaDetectedImg-areaCamImg) > areaCamImg * 0.1)
-//				return -1;
-//
-//			cv::Mat rotationMat, orthMat;
-//			cv::Vec3d eulerAngles;
-//			eulerAngles = cv::RQDecomp3x3(locationHM, rotationMat, orthMat);
-//			RotationAngle = eulerAngles[2];
-//
-//			LocationPxTL = device_point[0];
-//			LocationPxTR = device_point[1];
-//			LocationPxBR = device_point[2];
-//			LocationPxBL = device_point[3];
-//			LocationPxM = device_point[4];
-//									
-//			//drawMatch(&cameraImage, locationHM);
-//						
-//			return 1;
-//		}
-//		else return -1;
-//	}
-//	else return 0;	//new image is similiar to previous one
-//}
