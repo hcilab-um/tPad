@@ -249,6 +249,9 @@ namespace UofM.HCI.tPab
         }
 
         Rect ttPadBounds = cWrapper.TransformToAncestor(sWindow).TransformBounds(TPadAppBounds);
+        if(ttPadBounds.Width == 0 || ttPadBounds.Height == 0)
+          return null;
+
         System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds);
         capture.Save(result, ImageFormat.Bmp);
       }

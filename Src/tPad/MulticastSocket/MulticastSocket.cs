@@ -176,7 +176,7 @@ namespace Ubicomp.Utils.NET.Sockets
         if (OnNotifyMulticastSocketListener != null)
           OnNotifyMulticastSocketListener(this, (NotifyMulticastSocketListenerEventArgs)argsObj);
       }
-      catch { }
+      catch { return; }
     }
 
     internal class StateObject

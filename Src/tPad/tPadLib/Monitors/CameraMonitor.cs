@@ -37,7 +37,7 @@ namespace UofM.HCI.tPab.Monitors
         Tracker.imageWarp("homography.xml");
         isStarted = true;
       }
-      catch { }
+      catch { return; }
     }
 
     internal bool IsFeatureTrackerStarted()
@@ -57,7 +57,7 @@ namespace UofM.HCI.tPab.Monitors
         if (Tracker.connectCamera() != -1)
           return true;
       }
-      catch { }
+      catch { return false; }
 
       return false;
     }
@@ -73,9 +73,12 @@ namespace UofM.HCI.tPab.Monitors
     {
       try
       {
+        if (Tracker == null)
+          return;
+
         Tracker.disconnectCamera();
       }
-      catch { }
+      catch { return; }
     }
   }
 }

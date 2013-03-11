@@ -63,7 +63,7 @@ namespace UofM.HCI.tPab.Monitors
         Port.DataReceived += Port_DataReceived;
         Port.Open();
       }
-      catch { }
+      catch { return; }
     }
 
     internal bool TryPort()
