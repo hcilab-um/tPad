@@ -7,7 +7,6 @@ using namespace System::Drawing;
 using namespace System::Collections::Generic;
 using namespace System::Runtime::InteropServices;
 
-
 #include "unmanagedReg.h" //Unmanaged class INeedThisClass
 //#pragma managed(push, off)
 //#include <opencv2/highgui/highgui.hpp>
@@ -21,10 +20,26 @@ namespace ManagedA
 		int numberTriangles;
 	};
 
+	public ref class wrapperFeatureMatcher
+	{
+	public:
+		wrapperFeatureMatcher() {}
+		wrapperFeatureMatcher(bool IsCameraInUse, String^ pathPDFImg);
+		~wrapperFeatureMatcher();
+
+		FeatureMatcher GetFeatureMatcher()
+		{
+			return *matcherObj;
+		}
+
+	private:
+		FeatureMatcher *matcherObj;
+	};
+
 	public ref class wrapperRegistClass
 	{
 	public:
-		wrapperRegistClass(bool IsCameraInUse, float imageRatio);
+		wrapperRegistClass(bool IsCameraInUse, float imageRatio, wrapperFeatureMatcher^ fMatcher);
 
 		~wrapperRegistClass();
 		
@@ -87,14 +102,8 @@ namespace ManagedA
 				PointF locationPt = *new PointF((registrationObj->getLocationPxM().x),(registrationObj->getLocationPxM()).y);				
 				return locationPt;
 			}
-		}
-								
-		void createIndex(String^ path)
-		{
-			char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(path);
-			registrationObj->createIndex(str);
-		}
-		
+		}				
+				
 		void imageWarp(float imageRatio)
 		{
 			registrationObj->imageWarp(imageRatio);

@@ -12,12 +12,14 @@
 
 #include <FlyCapture2.h>
 
+#include "FeatureMatcher.h"
+
 //using namespace System;
 
 class EXPORT_OR_IMPORT paperRegistration
 {
 public:
-	paperRegistration(bool cameraInUse, float imageRatio);
+	paperRegistration(bool cameraInUse, float imageRatio, FeatureMatcher* matcher);
 	~paperRegistration();
 
 	int getPageIdx();
@@ -35,7 +37,7 @@ public:
 	void detectFigures(cv::vector<cv::vector<cv::Point> >& squares, cv::vector<cv::vector<cv::Point> >& triangles,
 		float minLength = 25, float maxLength = 80, int tresh_binary = 105);
 
-	void createIndex(std::string dir_path);
+	//void createIndex(std::string dir_path);
 
 	void imageWarp(float imageRatio);
 	void imageWarp(std::string path);
@@ -55,20 +57,19 @@ private:
 	FlyCapture2::Image rawImage;
 	IplImage *frame;
 
-	cv::FlannBasedMatcher* matcher;
+	//cv::FlannBasedMatcher* matcher;
+	cv::FlannBasedMatcher* fMatcher;
 	cv::FREAK* extractor;
 	cv::vector<cv::vector<cv::KeyPoint>> dbKeyPoints;
 	cv::FastFeatureDetector* fastDetectorCamImg;
-	cv::FastFeatureDetector* fastDetectorPageImg;
-	cv::SurfFeatureDetector* surfDetectorPageImg;
+	//cv::FastFeatureDetector* fastDetectorPageImg;
+	//cv::SurfFeatureDetector* surfDetectorPageImg;
 	cv::SurfFeatureDetector* surfDetectorCamImg;
 
 	bool isCameraInUse_;
 	bool isCameraConnected;
 
-	float imgRatio_;
-
-	cv::vector<int> votingPageIndices;
+	float imgRatio_;	
 
 	cv::Mat lastDeviceImage, currentDeviceImg;
 	cv::Mat warpMat;
@@ -81,7 +82,7 @@ private:
 	
 	float compareImages(cv::Mat &lastImg, cv::Mat &currentImg);
 
-	void getFiles(std::wstring directory, std::vector<std::string> &fileNameList);
+	//void getFiles(std::wstring directory, std::vector<std::string> &fileNameList);
 	
 	void drawMatch(cv::Mat &cameraImage, cv::Mat &homography, cv::Mat &pageImage);
 	

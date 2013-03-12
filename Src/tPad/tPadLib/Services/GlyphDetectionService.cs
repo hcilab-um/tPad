@@ -9,10 +9,7 @@ using UofM.HCI.tPab.Monitors;
 namespace UofM.HCI.tPab.Services
 {
   public class GlyphDetectionService : ContextService
-  {   
-
-    private ManagedA.wrapperRegistClass featureTracker;
-
+  {    
     private ManagedA.wrapperRegistClass Tracker { get; set; }
 
     private TPadDevice Device { get; set; }
@@ -20,7 +17,7 @@ namespace UofM.HCI.tPab.Services
     public GlyphDetectionService(TPadDevice device)
     {
       Device = device;
-      featureTracker = new ManagedA.wrapperRegistClass(false, 1);
+      //featureTracker = new ManagedA.wrapperRegistClass(false, 1);
     }
 
     protected override void CustomUpdateMonitorReading(object sender, Ubicomp.Utils.NET.CAF.ContextAdapter.NotifyContextMonitorListenersEventArgs e)

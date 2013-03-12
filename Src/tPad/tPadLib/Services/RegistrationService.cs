@@ -14,13 +14,12 @@ namespace UofM.HCI.tPab.Services
 
   public class RegistrationService : ContextService
   {
-
     public ITPadAppContainer Container { get; set; }
 
     public ITPadAppController Controller { get; set; }
 
     private ManagedA.wrapperRegistClass Tracker { get; set; }
-
+   
     private float temp_SimCaptureToSourceImageRatio;
 
     private bool isProcessStopped = false;
@@ -30,13 +29,15 @@ namespace UofM.HCI.tPab.Services
     private TPadLocation location;
 
     private CameraMonitor cameraMonitor;
+    private SimCameraMonitor simCameraMonitor;
 
     private int status = -1;
 
-    public RegistrationService(bool pUseCamera, TPadDevice device, CameraMonitor camera)
+    public RegistrationService(bool UseCamera, TPadDevice device, CameraMonitor camera, SimCameraMonitor simCamera)
     {
       Device = device;
       cameraMonitor = camera;
+      simCameraMonitor = simCamera;
     }
 
     protected override void CustomStart()
@@ -76,20 +77,14 @@ namespace UofM.HCI.tPab.Services
         if (TPadCore.UseFeatureTracking)
         {
           if (Tracker == null)
-          {
-            if (!cameraMonitor.IsFeatureTrackerStarted())
-              cameraMonitor.StartFeatureTracker();
-            Tracker = cameraMonitor.Tracker;
-          }
-
+            Tracker = (sender as SimCameraMonitor).Tracker;
+          
           if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
           {
             temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
             Tracker.imageWarp(temp_SimCaptureToSourceImageRatio);
           }
 
-          System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;
-          Tracker.SetCameraImg(camView);
           status = Tracker.detectLocation(false, status);
           GetLocationFromTracker();
         }
@@ -118,6 +113,8 @@ namespace UofM.HCI.tPab.Services
 
     private void GetLocationFromTracker()
     {
+      //status -1: not detected, status 1: location detected, 
+      //status 0: previous image and current image are the same -> no new location computation necessary
       if (status == 1)
       {
         location = new TPadLocation();
