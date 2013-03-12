@@ -174,7 +174,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
     void ActiveReaderApp_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       if (e.PropertyName == "ActualPage" || e.PropertyName == "ActualDocument")
+      {
         OnPropertyChanged("ActualPageObject");
+      }
 
       if (e.PropertyName == "CurrentTool")
         ArrangeLayersAccordingToTool();
@@ -273,6 +275,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
           //2- Load layers for current page
           ActualPage = e.NewLocation.PageIndex;
           LoadLayersToPage(ActualDocument, ActualPage);
+          undoStack.Clear();
+          redoStack.Clear();
         }
       }
 
@@ -445,6 +449,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         {
           if (CurrentTool != ActiveReadingTool.Highlighter)
           {
+            isSenderHighlight = false;
             //Hide pop-up stick notes
             isSomething2Hide = false;
             foreach (Note element in ActualDocument[ActualPage].Annotations)
@@ -479,14 +484,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
             isHighlighting = false; //to avoid highlighting in Figure-Mode
             ShowFigure((line.Tag as Figure));
           }
+          else if (line.Stroke == Brushes.Pink)
+            Console.WriteLine("Pinkr");
           else
           {
             isSenderHighlight = true;
             currentHighlight = line;
           }
-        }
-        else
-          isSenderHighlight = false;
+        }    
       }
     }
 

@@ -66,7 +66,7 @@ namespace UofM.HCI.tPab
       ShakingMonitor shakingMonitor = new ShakingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
       MulticastMonitor multicastMonitor = new MulticastMonitor(groupIP, port, TTL);
 
-      Registration = new RegistrationService(UseCamera, Device, Camera);
+      Registration = new RegistrationService(UseCamera, Device, Camera, SimCamera);
       GlyphDetection = new GlyphDetectionService(Device);
 
       //Wiring up the components

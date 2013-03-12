@@ -18,7 +18,7 @@ namespace UofM.HCI.tPab.Services
 
     public ITPadAppController Controller { get; set; }
 
-    //private ManagedA.wrapperRegistClass Tracker { get; set; }
+    private ManagedA.wrapperRegistClass Tracker { get; set; }
    
     private float temp_SimCaptureToSourceImageRatio;
 
@@ -29,13 +29,15 @@ namespace UofM.HCI.tPab.Services
     private TPadLocation location;
 
     private CameraMonitor cameraMonitor;
+    private SimCameraMonitor simCameraMonitor;
 
     private int status = -1;
 
-    public RegistrationService(bool UseCamera, TPadDevice device, CameraMonitor camera)
+    public RegistrationService(bool UseCamera, TPadDevice device, CameraMonitor camera, SimCameraMonitor simCamera)
     {
       Device = device;
       cameraMonitor = camera;
+      simCameraMonitor = simCamera;
     }
 
     protected override void CustomStart()
@@ -74,23 +76,16 @@ namespace UofM.HCI.tPab.Services
       {
         if (TPadCore.UseFeatureTracking)
         {
-          if (cameraMonitor.Tracker == null)
-          {
-            if (!cameraMonitor.IsFeatureTrackerStarted())
-              cameraMonitor.StartFeatureTracker();
-            //Tracker = cameraMonitor.Tracker;
-          }
-
-          System.Drawing.Bitmap camView = (System.Drawing.Bitmap)e.NewObject;
-          cameraMonitor.Tracker.SetCameraImg(camView);
-
+          if (Tracker == null)
+            Tracker = (sender as SimCameraMonitor).Tracker;
+          
           if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
           {
             temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
-            cameraMonitor.Tracker.imageWarp(temp_SimCaptureToSourceImageRatio);
+            Tracker.imageWarp(temp_SimCaptureToSourceImageRatio);
           }
-          
-          status = cameraMonitor.Tracker.detectLocation(false, status);
+
+          status = Tracker.detectLocation(false, status);
           GetLocationFromTracker();
         }
         else
@@ -105,11 +100,11 @@ namespace UofM.HCI.tPab.Services
       }
       else if (sender is CameraMonitor)
       {
-        if (cameraMonitor.Tracker == null)
-          cameraMonitor.Tracker = (sender as CameraMonitor).Tracker;
+        if (Tracker == null)
+          Tracker = (sender as CameraMonitor).Tracker;
 
         //start feature tracking
-        status = cameraMonitor.Tracker.detectLocation(true, status);
+        status = Tracker.detectLocation(true, status);
         GetLocationFromTracker();
       }
 
@@ -124,15 +119,15 @@ namespace UofM.HCI.tPab.Services
       {
         location = new TPadLocation();
         location.Status = LocationStatus.Located;
-        location.RotationAngle = ClampedAngle(cameraMonitor.Tracker.RotationAngle);
+        location.RotationAngle = ClampedAngle(Tracker.RotationAngle);
 
-        Point locationPx = new Point(cameraMonitor.Tracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio,
-          cameraMonitor.Tracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
+        Point locationPx = new Point(Tracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio,
+          Tracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
         location.LocationCm = new Point((float)(locationPx.X / Controller.WidthFactor), (float)(locationPx.Y / Controller.HeightFactor));
 
         //TODO: get Document object from featureTracker
         location.DocumentID = Controller.ActualDocument.ID;
-        location.PageIndex = cameraMonitor.Tracker.PageIdx;
+        location.PageIndex = Tracker.PageIdx;
       }
       else if (status == -1)
       {

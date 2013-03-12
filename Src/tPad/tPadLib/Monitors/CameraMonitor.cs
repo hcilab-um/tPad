@@ -10,7 +10,7 @@ namespace UofM.HCI.tPab.Monitors
   {
     private bool useCamera = true;
 
-    public ManagedA.wrapperFeatureMatcher Matcher { get; set; }
+    private ManagedA.wrapperFeatureMatcher Matcher;
 
     public ManagedA.wrapperRegistClass Tracker { get; set; }
     

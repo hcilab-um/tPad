@@ -15,7 +15,10 @@ namespace UofM.HCI.tPab.Monitors
 {
   public class SimCameraMonitor : ContextMonitor
   {
+    private ManagedA.wrapperFeatureMatcher Matcher;
 
+    public ManagedA.wrapperRegistClass Tracker { get; set; }
+    
     public bool Pause { get; set; }
 
     private ITPadAppController cameraSource = null;
@@ -34,6 +37,28 @@ namespace UofM.HCI.tPab.Monitors
       Pause = false;
     }
 
+    protected override void CustomStart()
+    {
+      StartFeatureTracker();
+    }
+        
+    private bool isStarted = false;
+    public void StartFeatureTracker()
+    {
+      try
+      {
+        if (Tracker == null)
+        {
+          Matcher = new ManagedA.wrapperFeatureMatcher(false, Environment.CurrentDirectory + "\\" + CameraSource.ActualDocument.Folder);
+          Tracker = new ManagedA.wrapperRegistClass(false, CameraSource.SimCaptureToSourceImageRatio, Matcher);
+        }
+        //Tracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
+        Tracker.imageWarp(CameraSource.SimCaptureToSourceImageRatio);
+        isStarted = true;
+      }
+      catch { return; }
+    }
+       
     protected override void CustomRun()
     {
       if (Pause || CameraSource == null)
@@ -48,6 +73,11 @@ namespace UofM.HCI.tPab.Monitors
       Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as SimulatorDevice).ScreenCorrectedAppBounds);
       NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(Bitmap), rotatedView));
 
+      if (TPadCore.UseFeatureTracking)
+      {
+        Tracker.SetCameraImg(rotatedView);
+        rotatedView.Save("meinz.png");
+      }
       //using (FileStream storage = CreateFileStream(angle))
       //  rotatedView.Save(storage, ImageFormat.Png);
     }
