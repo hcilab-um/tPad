@@ -435,9 +435,9 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private bool isHighlighting = false;
     private Point lastPosition;
     private Highlight newHighlight = new Highlight();
-    private Line currentHighlight;
+    //private Line currentHighlight;
     private bool isSomething2Hide = false;
-    private bool isSenderHighlight = false;
+    //private bool isSenderHighlight = false;
     private void cHighlights_MouseDown(object sender, MouseButtonEventArgs e)
     {
       if (Core.Device.State != StackingState.NotStacked)
@@ -449,7 +449,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         {
           if (CurrentTool != ActiveReadingTool.Highlighter)
           {
-            isSenderHighlight = false;
+            //isSenderHighlight = false;
             //Hide pop-up stick notes
             isSomething2Hide = false;
             foreach (Note element in ActualDocument[ActualPage].Annotations)
@@ -484,13 +484,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
             isHighlighting = false; //to avoid highlighting in Figure-Mode
             ShowFigure((line.Tag as Figure));
           }
-          else if (line.Stroke == Brushes.Pink)
-            Console.WriteLine("Pinkr");
-          else
-          {
-            isSenderHighlight = true;
-            currentHighlight = line;
-          }
+          //else
+          //{
+          //  isSenderHighlight = true;
+          //  currentHighlight = line;
+          //}
         }    
       }
     }
@@ -720,26 +718,26 @@ namespace UofM.HCI.tPab.App.ActiveReader
         contextMenu.IsOpen = false;
         //open context menu at new position
         contextMenu.IsOpen = true;
-        cm_deleteItem.Visibility = Visibility.Collapsed;
+        //cm_deleteItem.Visibility = Visibility.Collapsed;
         contextMenu.Visibility = Visibility.Visible;
 
-        if (isSenderHighlight)
-          cm_deleteItem.Visibility = Visibility.Visible;
+        //if (isSenderHighlight)
+        //  cm_deleteItem.Visibility = Visibility.Visible;
       }
     }
 
-    private void CMDelete_Click(object sender, RoutedEventArgs e)
-    {
-      cHighlights.Children.Remove(currentHighlight);
-      foreach (Highlight line in ActualDocument[ActualPage].Highlights)
-      {
-        if (currentHighlight == line.Line)
-        {
-          ActualDocument[ActualPage].Highlights.Remove(line);
-          break;
-        }
-      }
-    }
+    //private void CMDelete_Click(object sender, RoutedEventArgs e)
+    //{
+    //  cHighlights.Children.Remove(currentHighlight);
+    //  foreach (Highlight line in ActualDocument[ActualPage].Highlights)
+    //  {
+    //    if (currentHighlight == line.Line)
+    //    {
+    //      ActualDocument[ActualPage].Highlights.Remove(line);
+    //      break;
+    //    }
+    //  }
+    //}
 
     private void CMSearch_Click(object sender, RoutedEventArgs e)
     {

@@ -170,7 +170,7 @@
                           </RotateTransform.Angle>
                       </RotateTransform>
                         </ContextMenu.LayoutTransform>
-                  <MenuItem Name="cm_deleteItem"  Header="Delete" Click="CMDelete_Click"/>
+                  <!--<MenuItem Name="cm_deleteItem"  Header="Delete" Click="CMDelete_Click"/>-->
                   <MenuItem Name="cm_searchItem" Click="CMSearch_Click"/>
                   <Separator />
                   <MenuItem Header="Add Annotation" Click="CMAnnotation_Click"/>
