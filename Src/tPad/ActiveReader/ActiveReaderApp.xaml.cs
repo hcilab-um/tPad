@@ -445,6 +445,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       if (e.LeftButton == MouseButtonState.Pressed && e.RightButton == MouseButtonState.Released)
       {
+        lastPosition = GetMousePositionInDocument();
         if (sender == rHighlights)
         {
           if (CurrentTool != ActiveReadingTool.Highlighter)
@@ -467,8 +468,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
             isHighlighting = true;
             newHighlight = new Highlight();
             newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 / Core.Profile.PixelsPerCm.Height };
-
-            lastPosition = GetMousePositionInDocument();
+                        
             newHighlight.Line.X1 = lastPosition.X;
             newHighlight.Line.Y1 = lastPosition.Y;
             newHighlight.Line.X2 = lastPosition.X;
