@@ -9,6 +9,7 @@
 
 #include <string>
 #include <opencv2/nonfree/nonfree.hpp>
+#include <opencv2\highgui\highgui.hpp>
 
 #include <FlyCapture2.h>
 
@@ -53,9 +54,10 @@ private:
 	//angle in degree
 	float RotationAngle; 
 
-	FlyCapture2::Camera cam;
+	/*FlyCapture2::Camera cam;
 	FlyCapture2::Image rawImage;
-	IplImage *frame;
+	IplImage *frame;*/
+	cv::VideoCapture* cap;
 
 	//cv::FlannBasedMatcher* matcher;
 	cv::FlannBasedMatcher* fMatcher;
@@ -84,7 +86,7 @@ private:
 
 	//void getFiles(std::wstring directory, std::vector<std::string> &fileNameList);
 	
-	void drawMatch(cv::Mat &cameraImage, cv::Mat &homography, cv::Mat &pageImage);
+	void drawMatch(cv::Mat &cameraImage, cv::Mat &homography);
 	
 	cv::Mat loadCameraImage();
 };

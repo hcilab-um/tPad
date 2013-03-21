@@ -76,7 +76,7 @@ namespace UofM.HCI.tPab.Monitors
       if (TPadCore.UseFeatureTracking)
       {
         Tracker.SetCameraImg(rotatedView);
-        rotatedView.Save("meinz.png");
+        //rotatedView.Save("meinz.png");
       }
       //using (FileStream storage = CreateFileStream(angle))
       //  rotatedView.Save(storage, ImageFormat.Png);

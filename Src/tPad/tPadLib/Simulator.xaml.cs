@@ -257,11 +257,15 @@ namespace UofM.HCI.tPab
       {
         TPadLauncherSettings settings = new TPadLauncherSettings() { DeviceID = deviceCount++, BoardPort = null, UseCamera = false };
         if (cbSimCamera.IsSelected)
+        {
+          chbUseFeatureTracking.IsChecked = true;
+          chbUseFeatureTracking.IsEnabled = false;
           settings.UseCamera = true;
+        }
         else if (cbJuan.IsSelected)
           settings.BoardPort = cbJuan.Tag as String;
         settings = Launcher.GetSettings(settings);
-
+        
         TPadCore core = new TPadCore();
         core.BoardCOM = settings.BoardPort;
         core.UseCamera = settings.UseCamera;
@@ -350,6 +354,7 @@ namespace UofM.HCI.tPab
     protected override void OnClosed(EventArgs e)
     {
       base.OnClosed(e);
+      
       foreach (ITPadApp instance in appInstances)
       {
         if (instance.Container is Window)
@@ -363,12 +368,14 @@ namespace UofM.HCI.tPab
 
     void deviceWindow_Closed(object sender, EventArgs e)
     {
+      chbUseFeatureTracking.IsEnabled = true;
+      
       ITPadApp instanceClosed = appInstances.FirstOrDefault(tmp => tmp.Container == sender);
       instanceClosed.Core.CoreStop();
 
       appInstances.Remove(instanceClosed);
       gTop.Children.Remove(instanceClosed.Controller as UserControl);
-      deviceCount--;
+      deviceCount--;      
     }
 
     public void GetCoordinatesForScreenCapture(out int zeroX, out int zeroY)

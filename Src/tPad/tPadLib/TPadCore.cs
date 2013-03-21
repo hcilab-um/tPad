@@ -81,6 +81,9 @@ namespace UofM.HCI.tPab
       SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
       SimCamera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
 
+      Camera.OnNotifyContextServices += Registration.UpdateMonitorReading;
+      Camera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
+      
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       shakingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
@@ -92,6 +95,7 @@ namespace UofM.HCI.tPab
       monitorsContainer.AddMonitor(Board);
       monitorsContainer.AddMonitor(SimBoard);
       monitorsContainer.AddMonitor(SimCamera);
+      monitorsContainer.AddMonitor(Camera);
       monitorsContainer.AddMonitor(flippingMonitor);
       monitorsContainer.AddMonitor(stackingMonitor);
       monitorsContainer.AddMonitor(multicastMonitor);
@@ -99,6 +103,7 @@ namespace UofM.HCI.tPab
       //Register the services to the container
       servicesContainer.AddContextService(this);
       servicesContainer.AddContextService(Registration);
+      servicesContainer.AddContextService(GlyphDetection);
     }
 
     public void CoreStart(ITPadAppContainer appContainer, ITPadAppController appController)
@@ -125,7 +130,7 @@ namespace UofM.HCI.tPab
       servicesContainer.StopServices();
     }
 
-    private void ConfigurePeripherals()
+   private void ConfigurePeripherals()
     {
       //Stops everything
       Board.COMPort = null;
