@@ -100,12 +100,20 @@ namespace UofM.HCI.tPab.Services
       }
       else if (sender is CameraMonitor)
       {
-        if (Tracker == null)
-          Tracker = (sender as CameraMonitor).Tracker;
+        if (TPadCore.UseFeatureTracking)
+        {
+          if (Tracker == null)
+            Tracker = (sender as CameraMonitor).Tracker;
 
-        //start feature tracking
-        status = Tracker.detectLocation(true, status);
-        GetLocationFromTracker();
+          //start feature tracking
+          status = Tracker.detectLocation(true, status);
+          GetLocationFromTracker();
+        }
+        else
+        {
+          location = new TPadLocation();
+          location.Status = LocationStatus.NotLocated;
+        }
       }
 
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));

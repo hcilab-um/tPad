@@ -86,7 +86,7 @@ private:
 
 	//void getFiles(std::wstring directory, std::vector<std::string> &fileNameList);
 	
-	void drawMatch(cv::Mat &cameraImage, cv::Mat &homography, cv::Mat &pageImage);
+	void drawMatch(cv::Mat &cameraImage, cv::Mat &homography);
 	
 	cv::Mat loadCameraImage();
 };

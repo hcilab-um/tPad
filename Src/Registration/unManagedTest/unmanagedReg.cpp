@@ -274,9 +274,9 @@ cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &deviceImage)
 	return cv::Mat();
 }
 
-void paperRegistration::drawMatch(cv::Mat &cameraImage, cv::Mat &homography, cv::Mat &pageImage)
+void paperRegistration::drawMatch(cv::Mat &cameraImage, cv::Mat &homography)
 {
-	//cv::Mat pageImage = cv::imread("C:/Users/sophie/Desktop/Registration/unManagedTest/images/New folder/paper_page.png", CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat pageImage = cv::imread("C:/Users/sophie/Documents/GitHub/tPad/Src/tPad/ActiveReader/bin/x64/Release/Document/181110000030000002.png", CV_LOAD_IMAGE_GRAYSCALE);
 
 	//draw detected region
 	std::vector<cv::Point2f> device_corners(5);
@@ -303,9 +303,9 @@ void paperRegistration::drawMatch(cv::Mat &cameraImage, cv::Mat &homography, cv:
 		cv::line( pageImage, device_corners[3] , device_corners[0] , cv::Scalar( 0, 255, 0), 4 );
 	}
 
-	cv::imshow( "Original", pageImage );
-	cv::imshow( "frame", cameraImage );
-
+	//cv::imshow( "Original", pageImage );
+	//cv::imshow( "frame", cameraImage );
+	cv::imwrite("hi.png", pageImage);
 	cv::waitKey(0);
 }
 
@@ -380,6 +380,7 @@ int paperRegistration::connectCamera()
 
 	//isCameraConnected = true;
 	cap = new cv::VideoCapture(CV_CAP_ANY);
+
 	cap->set(CV_CAP_PROP_FRAME_HEIGHT, 360);
 	cap->set(CV_CAP_PROP_FRAME_WIDTH, 640);
 	cap->set(CV_CAP_PROP_BRIGHTNESS, 180);
@@ -450,9 +451,11 @@ cv::Mat paperRegistration::loadCameraImage()
 	//memcpy(frame->imageData, convertedImage.GetData(), convertedImage.GetDataSize());
 	
 	cv::Mat cameraImage;
-	*cap >> cameraImage;
-
-	cvtColor(cameraImage, cameraImage, CV_RGB2GRAY);
+	if (!cap->isOpened())
+	{
+		*cap >> cameraImage;
+		cvtColor(cameraImage, cameraImage, CV_RGB2GRAY);
+	}
 	
 	return cameraImage;
 }
@@ -460,7 +463,7 @@ cv::Mat paperRegistration::loadCameraImage()
 int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 {
 	cv::Mat cameraImage = currentDeviceImg;
-	//cv::imwrite("hi.png", cameraImage);
+	
 	if (cameraImage.empty())
 		return -1;
 
@@ -471,21 +474,22 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 		if (cameraInUse)
 		{
 			std::vector<cv::Point2f> point(2);
-			point[0] = cvPoint(0,0);
-			point[1] = cvPoint(cameraImage.cols,cameraImage.rows);
+			point[0] = cvPoint(170,0);
+			point[1] = cvPoint(522,cameraImage.rows);
 		
 			if (!warpMat.empty())
 			{
 				cv::warpPerspective(cameraImage, cameraImage, warpMat, cv::Size(1000,2000));			
-				cv::perspectiveTransform(point, point, warpMat);
+				cv::perspectiveTransform(point, point, warpMat);				
 			}
 			cameraImage = cv::Mat(cameraImage, cv::Rect(point[0], point[1]));
-		
+			
 			cv::Mat blurrImg;
 			cv::GaussianBlur(cameraImage, blurrImg, cv::Size(5,5), 3);		
 			/*cv::addWeighted(cameraImage, 2.3, blurrImg, -0.5, 0, cameraImage);
 			cv::addWeighted(cameraImage, 1.5, blurrImg, -0.5, 0, cameraImage);*/
 			cv::addWeighted(cameraImage, 1.6, blurrImg, -0.5, 0, cameraImage);
+			
 		}
 		else
 		{			
@@ -493,12 +497,14 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 			cv::warpAffine(cameraImage, cameraImage, warpMat, cameraImage.size());
 			cv::resize(cameraImage, cameraImage, cv::Size(cameraImage.cols*imgRatio_, cameraImage.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
 		}
-
+		
 		cv::Mat locationHM = computeLocalFeatures(cameraImage);
 		
 		//compute rotation angle (in degree)
 		if (!locationHM.empty())
 		{
+			//drawMatch(cameraImage, locationHM);
+
 			//compute location
 			std::vector<cv::Point2f> device_point(5);
 			device_point[0] = cvPoint(0,0);
@@ -536,8 +542,6 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 			LocationPxBL = device_point[3];
 			LocationPxM = device_point[4];
 									
-			//drawMatch(&cameraImage, locationHM);
-						
 			return 1;
 		}
 		else return -1;

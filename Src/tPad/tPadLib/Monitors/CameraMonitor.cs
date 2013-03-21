@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
+using System.Drawing;
 
 namespace UofM.HCI.tPab.Monitors
 {
@@ -71,9 +72,12 @@ namespace UofM.HCI.tPab.Monitors
 
     protected override void CustomRun()
     {
+      NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(Bitmap), null));
+      //NotifyContextServices(this, null);     
+
       if (useCamera)
         Tracker.SetCameraImg();
-      NotifyContextServices(this, null);
+      
     }
 
     protected override void CustomStop()
