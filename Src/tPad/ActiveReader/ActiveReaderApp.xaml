@@ -74,6 +74,8 @@
         <TransformGroup>
           <RotateTransform x:Name="trCanvas" />
           <TranslateTransform x:Name="ttCanvas"/>
+          <ScaleTransform CenterX="{Binding ElementName=ttCanvas, Path=X}" CenterY="{Binding ElementName=ttCanvas, Path=Y}"
+                          ScaleX="{Binding ElementName=arApp, Path=ZoomLevel}" ScaleY="{Binding ElementName=arApp, Path=ZoomLevel}" />
         </TransformGroup>
       </Grid.RenderTransform>
 
@@ -93,7 +95,7 @@
             <Binding ElementName="arApp" Path="ActualDocument"/>
           </MultiBinding>
         </Image.Source>
-        <Image.RenderTransform>
+        <!--<Image.RenderTransform>
           <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=ZoomLevel}" ScaleY="{Binding ElementName=arApp, Path=ZoomLevel}">
             <ScaleTransform.CenterX>
               <MultiBinding Converter="{StaticResource ResourceKey=cMultiplierMulti}" ConverterParameter="-1">
@@ -108,7 +110,7 @@
               </MultiBinding>
             </ScaleTransform.CenterY>
           </ScaleTransform>
-        </Image.RenderTransform>
+        </Image.RenderTransform>-->
       </Image>
 
       <!-- The first layer is for the highlights -->
