@@ -29,9 +29,9 @@ paperRegistration::paperRegistration(bool isCameraInUse, float imageRatio, Featu
 	if (isCameraInUse_)
 	{
 		//fastDetectorPageImg = new cv::FastFeatureDetector(145, true);
-		fastDetectorCamImg = new cv::FastFeatureDetector(30, true);
+		fastDetectorCamImg = new cv::FastFeatureDetector(25, true);
 		//matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 21, 0));
-		extractor = new cv::FREAK(true, false, 20.0F, 2);
+		extractor = new cv::FREAK(true, false, 13.0F, 2);
 	}	
 	else 
 	{
@@ -325,125 +325,142 @@ float paperRegistration::compareImages(cv::Mat &lastImg, cv::Mat &currentImg)
 
 int paperRegistration::connectCamera()
 {
-	FlyCapture2::Error error;
-	FlyCapture2::PGRGuid guid;
-	FlyCapture2::BusManager busMgr;
+	//FlyCapture2::Error error;
+	//FlyCapture2::PGRGuid guid;
+	//FlyCapture2::BusManager busMgr;
 
-	// Getting the GUID of the cam
-	error = busMgr.GetCameraFromIndex(0, &guid);
-	if (error != FlyCapture2::PGRERROR_OK)
-	{
-		error.PrintErrorTrace();
-		return -1;
-	}
+	//// Getting the GUID of the cam
+	//error = busMgr.GetCameraFromIndex(0, &guid);
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+	//
+	//// Connect to a camera
+	//error = cam.Connect(&guid);
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+	//
+	////set video mode
+	//error = cam.SetVideoModeAndFrameRate(FlyCapture2::VIDEOMODE_640x480Y8, FlyCapture2::FRAMERATE_30);
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+
+	////set brightness
+	//FlyCapture2::Property prop;
+	//prop.type = FlyCapture2::BRIGHTNESS;
+	//prop.valueA = 480;
+	//error = cam.SetProperty(&prop);
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+
+	//// Starting the capture
+	//error = cam.StartCapture();
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+	//
+
+	//// Get one raw image to be able to calculate the OpenCV window size
+	//cam.RetrieveBuffer(&rawImage);
+	//// Setting the window size in OpenCV
+	//frame = cvCreateImage(cv::Size(rawImage.GetCols(), rawImage.GetRows()), 8, 1);
+
+	//isCameraConnected = true;
+	cap = new cv::VideoCapture(CV_CAP_ANY);
+	cap->set(CV_CAP_PROP_FRAME_HEIGHT, 360);
+	cap->set(CV_CAP_PROP_FRAME_WIDTH, 640);
+	cap->set(CV_CAP_PROP_BRIGHTNESS, 180);
+	cap->set(CV_CAP_PROP_CONTRAST, 3);
+	cap->set(CV_CAP_PROP_FOCUS, 14);
+	cap->set(CV_CAP_PROP_SATURATION, 0);
 	
-	// Connect to a camera
-	error = cam.Connect(&guid);
-	if (error != FlyCapture2::PGRERROR_OK)
-	{
-		error.PrintErrorTrace();
-		return -1;
-	}
-	
-	//set video mode
-	error = cam.SetVideoModeAndFrameRate(FlyCapture2::VIDEOMODE_640x480Y8, FlyCapture2::FRAMERATE_30);
-	if (error != FlyCapture2::PGRERROR_OK)
-	{
-		error.PrintErrorTrace();
-		return -1;
-	}
+	if (!cap->isOpened())
+			return -1;
 
-	//set brightness
-	FlyCapture2::Property prop;
-	prop.type = FlyCapture2::BRIGHTNESS;
-	prop.valueA = 480;
-	error = cam.SetProperty(&prop);
-	if (error != FlyCapture2::PGRERROR_OK)
-	{
-		error.PrintErrorTrace();
-		return -1;
-	}
-
-	// Starting the capture
-	error = cam.StartCapture();
-	if (error != FlyCapture2::PGRERROR_OK)
-	{
-		error.PrintErrorTrace();
-		return -1;
-	}
-	
-
-	// Get one raw image to be able to calculate the OpenCV window size
-	cam.RetrieveBuffer(&rawImage);
-	// Setting the window size in OpenCV
-	frame = cvCreateImage(cv::Size(rawImage.GetCols(), rawImage.GetRows()), 8, 1);
-
-	isCameraConnected = true;
 	return 1;
 }
 
 int paperRegistration::disconnectCamera() 
 {
-	if (!isCameraConnected)
-		return 1;
-	isCameraConnected = false;
+	//if (!isCameraConnected)
+	//	return 1;
+	//isCameraConnected = false;
 
-	FlyCapture2::Error error;
-	// Stop capturing images
-    error = cam.StopCapture();
-    if (error != FlyCapture2::PGRERROR_OK)
-	{
-		error.PrintErrorTrace();
-		return -1;
-	}
-	
-	//Disconnect the camera
-    error = cam.Disconnect();
-    if (error != FlyCapture2::PGRERROR_OK)
-	{
-		error.PrintErrorTrace();
-		return -1;
-	}
+	//FlyCapture2::Error error;
+	//// Stop capturing images
+ //   error = cam.StopCapture();
+ //   if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+	//
+	////Disconnect the camera
+ //   error = cam.Disconnect();
+ //   if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+	cap->release();
 
 	return 1;
 }
 
 cv::Mat paperRegistration::loadCameraImage()
 {
-	if (!isCameraConnected)
-		return cv::Mat();
+	//if (!isCameraConnected)
+	//	return cv::Mat();
 
-	FlyCapture2::Error error;
+	//FlyCapture2::Error error;
 
-	// Start capturing images
-	cam.RetrieveBuffer(&rawImage);
-		
-	// Get the raw image dimensions
-	FlyCapture2::PixelFormat pixFormat;
-	unsigned int rows, cols, stride;
-	rawImage.GetDimensions( &rows, &cols, &stride, &pixFormat );
-		
-	// Create a converted image
-	FlyCapture2::Image convertedImage;
-		
-	//Convert the raw image
-	error = rawImage.Convert( FlyCapture2::PIXEL_FORMAT_MONO8, &convertedImage );
-	if (error != FlyCapture2::PGRERROR_OK)
-	{
-		error.PrintErrorTrace();
-		return cv::Mat();
-	}
-		
-	// Copy the image into the Mat of OpenCV
-	memcpy(frame->imageData, convertedImage.GetData(), convertedImage.GetDataSize());
-		
-	return frame;
+	//// Start capturing images
+	//cam.RetrieveBuffer(&rawImage);
+	//	
+	//// Get the raw image dimensions
+	//FlyCapture2::PixelFormat pixFormat;
+	//unsigned int rows, cols, stride;
+	//rawImage.GetDimensions( &rows, &cols, &stride, &pixFormat );
+	//	
+	//// Create a converted image
+	//FlyCapture2::Image convertedImage;
+	//	
+	////Convert the raw image
+	//error = rawImage.Convert( FlyCapture2::PIXEL_FORMAT_MONO8, &convertedImage );
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return cv::Mat();
+	//}
+	//	
+	//// Copy the image into the Mat of OpenCV
+	//memcpy(frame->imageData, convertedImage.GetData(), convertedImage.GetDataSize());
+	
+	cv::Mat cameraImage;
+	*cap >> cameraImage;
+
+	cvtColor(cameraImage, cameraImage, CV_RGB2GRAY);
+	
+	return cameraImage;
 }
 
 int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 {
 	cv::Mat cameraImage = currentDeviceImg;
-	cv::imwrite("hi.png", cameraImage);
+	//cv::imwrite("hi.png", cameraImage);
 	if (cameraImage.empty())
 		return -1;
 
@@ -466,8 +483,9 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 		
 			cv::Mat blurrImg;
 			cv::GaussianBlur(cameraImage, blurrImg, cv::Size(5,5), 3);		
-			cv::addWeighted(cameraImage, 2.3, blurrImg, -0.5, 0, cameraImage);
-			cv::addWeighted(cameraImage, 1.5, blurrImg, -0.5, 0, cameraImage);
+			/*cv::addWeighted(cameraImage, 2.3, blurrImg, -0.5, 0, cameraImage);
+			cv::addWeighted(cameraImage, 1.5, blurrImg, -0.5, 0, cameraImage);*/
+			cv::addWeighted(cameraImage, 1.6, blurrImg, -0.5, 0, cameraImage);
 		}
 		else
 		{			
