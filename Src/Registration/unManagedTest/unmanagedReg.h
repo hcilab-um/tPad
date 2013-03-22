@@ -88,6 +88,6 @@ private:
 	
 	void drawMatch(cv::Mat &cameraImage, cv::Mat &homography);
 	
-	cv::Mat loadCameraImage();
+	void loadCameraImage(cv::Mat &camImage);
 };
 

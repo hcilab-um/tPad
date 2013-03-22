@@ -88,12 +88,14 @@ float paperRegistration::getRotationAngle()
 }
 
 void paperRegistration::setCameraImg()
-{
-	currentDeviceImg = loadCameraImage();
+{		
+	lastDeviceImage = currentDeviceImg.clone();
+	loadCameraImage(currentDeviceImg);
 }
 
 void paperRegistration::setCameraImg(cv::Mat &camImg)
 {
+	lastDeviceImage = currentDeviceImg.clone();
 	cvtColor(camImg, camImg, CV_BGR2GRAY);
 	currentDeviceImg = camImg;
 }
@@ -276,7 +278,7 @@ cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &deviceImage)
 
 void paperRegistration::drawMatch(cv::Mat &cameraImage, cv::Mat &homography)
 {
-	cv::Mat pageImage = cv::imread("C:/Users/sophie/Documents/GitHub/tPad/Src/tPad/ActiveReader/bin/x64/Release/Document/181110000030000002.png", CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat pageImage = cv::imread("Document/181110000030000002.png", CV_LOAD_IMAGE_GRAYSCALE);
 
 	//draw detected region
 	std::vector<cv::Point2f> device_corners(5);
@@ -303,9 +305,9 @@ void paperRegistration::drawMatch(cv::Mat &cameraImage, cv::Mat &homography)
 		cv::line( pageImage, device_corners[3] , device_corners[0] , cv::Scalar( 0, 255, 0), 4 );
 	}
 
-	//cv::imshow( "Original", pageImage );
-	//cv::imshow( "frame", cameraImage );
-	cv::imwrite("hi.png", pageImage);
+	cv::imshow( "Original", pageImage );
+	cv::imshow( "frame", cameraImage );
+	//cv::imwrite("hi.png", pageImage);
 	cv::waitKey(0);
 }
 
@@ -421,7 +423,7 @@ int paperRegistration::disconnectCamera()
 	return 1;
 }
 
-cv::Mat paperRegistration::loadCameraImage()
+void paperRegistration::loadCameraImage(cv::Mat &cameraImage)
 {
 	//if (!isCameraConnected)
 	//	return cv::Mat();
@@ -450,27 +452,23 @@ cv::Mat paperRegistration::loadCameraImage()
 	//// Copy the image into the Mat of OpenCV
 	//memcpy(frame->imageData, convertedImage.GetData(), convertedImage.GetDataSize());
 	
-	cv::Mat cameraImage;
 	if (cap->isOpened())
 	{
 		*cap >> cameraImage;
-		cvtColor(cameraImage, cameraImage, CV_RGB2GRAY);
+		cvtColor(cameraImage, cameraImage, CV_RGB2GRAY);		
 	}
-	
-	return cameraImage;
+	else cameraImage = cv::Mat();
+		
 }
 
 int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
-{
+{	
 	cv::Mat cameraImage = currentDeviceImg;
-	//cv::imwrite("pic.png", cameraImage);
 	if (cameraImage.empty())
 		return -1;
-
-	if (previousStatus != 1 || compareImages(cameraImage, lastDeviceImage) > 1.5)
-	{
-		lastDeviceImage = cameraImage.clone();
-				
+			
+	if (previousStatus == -1 || compareImages(cameraImage, lastDeviceImage) > 1.5)
+	{			
 		if (cameraInUse)
 		{
 			std::vector<cv::Point2f> point(2);
@@ -480,7 +478,8 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 			if (!warpMat.empty())
 			{
 				cv::warpPerspective(cameraImage, cameraImage, warpMat, cv::Size(1000,2000));			
-				cv::perspectiveTransform(point, point, warpMat);				
+				cv::perspectiveTransform(point, point, warpMat);	
+				
 			}
 			cameraImage = cv::Mat(cameraImage, cv::Rect(point[0], point[1]));
 			
