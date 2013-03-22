@@ -11,7 +11,7 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
   {
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (values == null || values.Length != 4)
+      if (values == null || values.Length != 4 || values[0] == DependencyProperty.UnsetValue)
         return System.Windows.Visibility.Visible;
 
       String[] parameters = (parameter as String).Split(',');

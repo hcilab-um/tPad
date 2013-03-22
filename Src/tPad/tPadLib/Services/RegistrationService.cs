@@ -72,9 +72,9 @@ namespace UofM.HCI.tPab.Services
       if (Device.State == StackingState.StackedOnTop)
         return;
 
-      if (sender is SimCameraMonitor)
+      if (TPadCore.UseFeatureTracking)
       {
-        if (TPadCore.UseFeatureTracking)
+        if (sender is SimCameraMonitor)
         {
           if (Tracker == null)
             Tracker = (sender as SimCameraMonitor).Tracker;
@@ -88,19 +88,7 @@ namespace UofM.HCI.tPab.Services
           status = Tracker.detectLocation(false, status);
           GetLocationFromTracker();
         }
-        else
-        {
-          location = new TPadLocation();
-          location.Status = LocationStatus.Located;
-          location.RotationAngle = ClampedAngle(Controller.RotationAngle);
-          location.LocationCm = new Point(Controller.Location.X / Controller.WidthFactor, Controller.Location.Y / Controller.HeightFactor);
-          location.DocumentID = Controller.ActualDocument.ID;
-          location.PageIndex = Controller.ActualPage;
-        }
-      }
-      else if (sender is CameraMonitor)
-      {
-        if (TPadCore.UseFeatureTracking)
+        else if (sender is CameraMonitor)
         {
           if (Tracker == null)
             Tracker = (sender as CameraMonitor).Tracker;
@@ -109,13 +97,16 @@ namespace UofM.HCI.tPab.Services
           status = Tracker.detectLocation(true, status);
           GetLocationFromTracker();
         }
-        else
-        {
-          location = new TPadLocation();
-          location.Status = LocationStatus.NotLocated;
-        }
       }
-
+      else {
+        location = new TPadLocation();
+        location.Status = LocationStatus.Located;
+        location.RotationAngle = ClampedAngle(Controller.RotationAngle);
+        location.LocationCm = new Point(Controller.Location.X / Controller.WidthFactor, Controller.Location.Y / Controller.HeightFactor);
+        location.DocumentID = Controller.ActualDocument.ID;
+        location.PageIndex = Controller.ActualPage;
+      }
+      
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));
     }
 

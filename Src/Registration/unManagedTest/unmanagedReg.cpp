@@ -451,7 +451,7 @@ cv::Mat paperRegistration::loadCameraImage()
 	//memcpy(frame->imageData, convertedImage.GetData(), convertedImage.GetDataSize());
 	
 	cv::Mat cameraImage;
-	if (!cap->isOpened())
+	if (cap->isOpened())
 	{
 		*cap >> cameraImage;
 		cvtColor(cameraImage, cameraImage, CV_RGB2GRAY);
@@ -463,7 +463,7 @@ cv::Mat paperRegistration::loadCameraImage()
 int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 {
 	cv::Mat cameraImage = currentDeviceImg;
-	
+	//cv::imwrite("pic.png", cameraImage);
 	if (cameraImage.empty())
 		return -1;
 
