@@ -91,6 +91,8 @@ void paperRegistration::setCameraImg()
 {		
 	lastDeviceImage = currentDeviceImg.clone();
 	loadCameraImage(currentDeviceImg);
+	cv::imwrite("camera.png", currentDeviceImg);
+
 }
 
 void paperRegistration::setCameraImg(cv::Mat &camImg)
@@ -472,14 +474,13 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 		if (cameraInUse)
 		{
 			std::vector<cv::Point2f> point(2);
-			point[0] = cvPoint(170,0);
-			point[1] = cvPoint(522,cameraImage.rows);
+			point[0] = cvPoint(175,0);
+			point[1] = cvPoint(495, 350);
 		
 			if (!warpMat.empty())
 			{
 				cv::warpPerspective(cameraImage, cameraImage, warpMat, cv::Size(1000,2000));			
-				cv::perspectiveTransform(point, point, warpMat);	
-				
+				cv::perspectiveTransform(point, point, warpMat);				
 			}
 			cameraImage = cv::Mat(cameraImage, cv::Rect(point[0], point[1]));
 			
