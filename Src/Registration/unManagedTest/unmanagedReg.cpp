@@ -34,7 +34,7 @@ paperRegistration::paperRegistration(bool camInUse, float imageRatio, FeatureMat
 	if (isCameraInUse_)
 	{
 		//fastDetectorPageImg = new cv::FastFeatureDetector(145, true);
-		fastDetectorCamImg = new cv::FastFeatureDetector(25, true);
+		fastDetectorCamImg = new cv::FastFeatureDetector(30, true);
 		//matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 21, 0));
 		extractor = new cv::FREAK(true, false, 13.0F, 2);
 	}	
@@ -110,11 +110,11 @@ void paperRegistration::warpImage(cv::Mat &rawImage, cv::Mat &image, bool camInU
 			cv::perspectiveTransform(point, point, warpMat);				
 		}
 		image = cv::Mat(image, cv::Rect(point[0], point[1]));
-			
+		
 		cv::Mat blurrImg;
 		cv::GaussianBlur(image, blurrImg, cv::Size(5,5), 3);		
 		cv::addWeighted(image, 1.6, blurrImg, -0.5, 0, image);		
-		imwrite("cam.png", image);
+		//imwrite("cam1.png", image);
 	}
 	else
 	{			
@@ -129,11 +129,11 @@ void paperRegistration::setCameraImg()
 {
 	cv::Mat rawImage;
 	loadCameraImage(rawImage);
-	imwrite("rawImage.png", rawImage);
+	//imwrite("rawImage.png", rawImage);
 	//warp image
 	if (status == -1 || compareImages(rawImage, lastDeviceImage) > 1.6)
-	{
-		warpImage(rawImage, currentDeviceImg, true);
+	{		
+		warpImage(rawImage, currentDeviceImg, true);		
 		computeLocation = true;
 	}
 	else computeLocation = false;
@@ -202,8 +202,8 @@ void paperRegistration::detectFigures(cv::vector<cv::vector<cv::Point>>& squares
 {
 	if (currentDeviceImg.empty())
 		return;
-
-	cv::Mat image = currentDeviceImg;
+	
+	//cv::Mat image = currentDeviceImg;
 	//cv::Mat image = cv::imread("C:/Users/sophie/Desktop/meinz.png", CV_LOAD_IMAGE_GRAYSCALE);// cv::imread(path, CV_LOAD_IMAGE_GRAYSCALE);  
 	//resize(image, image, cv::Size(500,700));
 
@@ -216,7 +216,7 @@ void paperRegistration::detectFigures(cv::vector<cv::vector<cv::Point>>& squares
 
 	//compute binary image
 	//use dilatation and erosion to improve edges
-	threshold(image, gray, tresh_binary, 255, cv::THRESH_BINARY_INV);	
+	threshold(currentDeviceImg, gray, tresh_binary, 255, cv::THRESH_BINARY_INV);	
 	dilate(gray, gray, element, cv::Point(-1,-1));
 	erode(gray, gray, element, cv::Point(-1,-1));
 	
@@ -364,8 +364,8 @@ void paperRegistration::drawMatch(cv::Mat &cameraImage, cv::Mat &homography)
 	}
 
 	cv::imshow( "Original", pageImage );
-	cv::imshow( "frame", cameraImage );
-
+	//cv::imshow( "frame", cameraImage );
+	
 	cv::waitKey(0);
 }
 
@@ -575,7 +575,7 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 			float areaCamImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
 			
 			cv::perspectiveTransform(device_point, device_point, locationHM);
-
+			//drawMatch(currentDeviceImg, locationHM);
 			//proof validity of result
 			//3 angles must be around 90 degree
 			for( int j = 3; j < 6; j++ )
