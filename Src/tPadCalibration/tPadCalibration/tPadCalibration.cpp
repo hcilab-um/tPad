@@ -210,6 +210,11 @@ int _tmain(int argc, _TCHAR* argv[])
 			cv::Mat homography = cv::Mat( 3, 3, CV_32FC1 );
 			homography = cv::findHomography(cornersCamera, cornersPage);
 
+			cv::warpPerspective(imgBinary, imgBinary, homography, pageImage.size());
+
+			cv::Point2f origin[4] = {cv::Point2f(0, 0),cv::Point2f(imgBinary.cols, 0), cv::Point2f(0,imgBinary.rows), cv::Point2f(imgBinary.cols, imgBinary.rows)};
+			cv::Point2f result[4] = {cv::Point2f(imgBinary.cols, imgBinary.rows), cv::Point2f(0,imgBinary.rows), cv::Point2f(imgBinary.cols, 0), cv::Point2f(0, 0)};
+			homography = cv::getPerspectiveTransform(origin, result)*homography;
 			cv::FileStorage fs("homography.xml", cv::FileStorage::WRITE );
 			fs << "homography" << homography; 
 			fs.release();
@@ -219,9 +224,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			cv::warpPerspective(cameraImage, cameraImage, homography, pageImage.size());
 
-			cv::resize(cameraImage, imgBinary, cv::Size(cameraImage.cols * 0.5, cameraImage.rows * 0.5));			
-			imshow( "Result", imgBinary);
-			cv::resize(pageImage, pageImage, cv::Size(pageImage.cols * 0.5, pageImage.rows * 0.5));
+			//cv::resize(cameraImage, imgBinary, cv::Size(cameraImage.cols * 0.5, cameraImage.rows * 0.5));			
+			imshow( "Result", cameraImage);
+			//cv::resize(pageImage, pageImage, cv::Size(pageImage.cols * 0.5, pageImage.rows * 0.5));
 			imshow( "Original", pageImage);	
 			cvWaitKey(0);
 			cvDestroyAllWindows();

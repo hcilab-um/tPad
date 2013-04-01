@@ -104,15 +104,15 @@ namespace ManagedA
 			}
 		}				
 				
-		void imageWarp(float imageRatio)
+		void computeWarpMatrix(float imageRatio)
 		{
-			registrationObj->imageWarp(imageRatio);
+			registrationObj->computeWarpMatrix(imageRatio);
 		}
 
-		void imageWarp(String^ Path)
+		void computeWarpMatrix(String^ Path)
 		{
 			char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(Path);
-			registrationObj->imageWarp(str);
+			registrationObj->computeWarpMatrix(str);
 		}
 				
 		void SetCameraImg(Bitmap^ bmp1);

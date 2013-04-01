@@ -32,7 +32,8 @@ namespace UofM.HCI.tPab.Services
     private SimCameraMonitor simCameraMonitor;
 
     private int status = -1;
-
+    private int trigger = 0;
+    
     public RegistrationService(bool UseCamera, TPadDevice device, CameraMonitor camera, SimCameraMonitor simCamera)
     {
       Device = device;
@@ -82,7 +83,7 @@ namespace UofM.HCI.tPab.Services
           if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
           {
             temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
-            Tracker.imageWarp(temp_SimCaptureToSourceImageRatio);
+            Tracker.computeWarpMatrix(temp_SimCaptureToSourceImageRatio);
           }
 
           status = Tracker.detectLocation(false, status);
@@ -116,22 +117,29 @@ namespace UofM.HCI.tPab.Services
       //status 0: previous image and current image are the same -> no new location computation necessary
       if (status == 1)
       {
+        trigger = 0;
+
         location = new TPadLocation();
         location.Status = LocationStatus.Located;
         location.RotationAngle = ClampedAngle(Tracker.RotationAngle);
 
         Point locationPx = new Point(Tracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio,
-          Tracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
-        location.LocationCm = new Point((float)(locationPx.X / Controller.WidthFactor), (float)(locationPx.Y / Controller.HeightFactor));
+         Tracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
+        location.LocationCm = new Point((float)(locationPx.X / Controller.WidthFactor),
+          (float)(locationPx.Y / Controller.HeightFactor));
 
         //TODO: get Document object from featureTracker
         location.DocumentID = Controller.ActualDocument.ID;
         location.PageIndex = Tracker.PageIdx;
       }
-      else if (status == -1)
+      else if (status == -1 && trigger > 10)
       {
         location = new TPadLocation();
         location.Status = LocationStatus.NotLocated;
+      }
+      else if (status == -1)
+      {
+        trigger++;
       }
     }
 

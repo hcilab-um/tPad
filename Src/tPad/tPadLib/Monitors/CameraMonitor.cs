@@ -35,11 +35,13 @@ namespace UofM.HCI.tPab.Monitors
       {
         if (Tracker == null)
         {
+          //create index of features
           Matcher = new ManagedA.wrapperFeatureMatcher(useCamera, Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
+          // create tracker
           Tracker = new ManagedA.wrapperRegistClass(useCamera, Controller.SimCaptureToSourceImageRatio, Matcher);
         }
-        //Tracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
-        Tracker.imageWarp("homography.xml");
+        // compute warp matrix (once)
+        Tracker.computeWarpMatrix("homography.xml");
         isStarted = true;
       }
       catch { return; }

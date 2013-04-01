@@ -53,7 +53,7 @@ namespace UofM.HCI.tPab.Monitors
           Tracker = new ManagedA.wrapperRegistClass(false, CameraSource.SimCaptureToSourceImageRatio, Matcher);
         }
         //Tracker.createIndex(Environment.CurrentDirectory + "\\" + Controller.ActualDocument.Folder);
-        Tracker.imageWarp(CameraSource.SimCaptureToSourceImageRatio);
+        Tracker.computeWarpMatrix(CameraSource.SimCaptureToSourceImageRatio);
         isStarted = true;
       }
       catch { return; }

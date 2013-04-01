@@ -14,7 +14,7 @@ FeatureMatcher::FeatureMatcher(bool isCameraInUse, std::string pathPdfImg)
 	if (_isCameraInUse)
 	{
 		fastDetectorPageImg = new cv::FastFeatureDetector(25, true);
-		matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 22, 0));
+		matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 21, 0));
 		extractor = new cv::FREAK(true, false, 13.0F, 2);
 	}	
 	else 
