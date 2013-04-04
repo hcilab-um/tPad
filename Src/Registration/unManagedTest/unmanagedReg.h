@@ -40,8 +40,8 @@ public:
 
 	//void createIndex(std::string dir_path);
 
-	void imageWarp(float imageRatio);
-	void imageWarp(std::string path);
+	void computeWarpMatrix(float imageRatio);
+	void computeWarpMatrix(std::string path);
 
 	int connectCamera();
 	int disconnectCamera();	
@@ -70,15 +70,19 @@ private:
 
 	bool isCameraInUse_;
 	bool isCameraConnected;
+	bool computeLocation;
+	int status;
 
 	float imgRatio_;	
 
 	cv::Mat lastDeviceImage, currentDeviceImg;
 	cv::Mat warpMat;
+	//std::vector<cv::Point2f> point;
 
 	float computeArea(cv::Point2f pt0, cv::Point2f pt1, cv::Point2f pt2 );
 	float computeAngle( cv::Point2f pt1, cv::Point2f pt2, cv::Point2f pt0 );
 	float computeLength(cv::Point2f pt0, cv::Point2f pt1);
+	void warpImage(cv::Mat &camImage,cv::Mat &warpedImage, bool camInUse);
 
 	cv::Mat computeLocalFeatures(cv::Mat &image);
 	
@@ -88,6 +92,6 @@ private:
 	
 	void drawMatch(cv::Mat &cameraImage, cv::Mat &homography);
 	
-	cv::Mat loadCameraImage();
+	void loadCameraImage(cv::Mat &camImage);
 };
 

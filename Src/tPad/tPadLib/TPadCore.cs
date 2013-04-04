@@ -78,11 +78,12 @@ namespace UofM.HCI.tPab
       SimBoard.OnNotifyContextServices += stackingMonitor.UpdateMonitorReading;
       SimBoard.OnNotifyContextServices += shakingMonitor.UpdateMonitorReading;
 
-      SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
-      SimCamera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
-
       Camera.OnNotifyContextServices += Registration.UpdateMonitorReading;
       Camera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
+
+      SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
+      SimCamera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
+           
       
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;

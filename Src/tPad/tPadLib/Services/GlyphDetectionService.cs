@@ -40,7 +40,7 @@ namespace UofM.HCI.tPab.Services
         if (Tracker == null)
           Tracker = (sender as CameraMonitor).Tracker;
 
-        //ManagedA.Glyphs result = Tracker.DetectFigures(25, 80, 105);
+        ManagedA.Glyphs result = Tracker.DetectFigures(20, 80, 150);
         //Console.WriteLine(result.numberSquares + " " + result.numberTriangles);
       }
     }
