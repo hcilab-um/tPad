@@ -40,8 +40,12 @@ namespace UofM.HCI.tPab.Services
         if (Tracker == null)
           Tracker = (sender as CameraMonitor).Tracker;
 
+        List<Applications.Glyph> detectedGlyphs = new List<Applications.Glyph>();
         ManagedA.Glyphs result = Tracker.DetectFigures(20, 80, 150);
-        //Console.WriteLine(result.numberSquares + " " + result.numberTriangles);
+        for(int i = 0 ; i < result.numberSquares ; i++)
+          detectedGlyphs.Add(Applications.Glyph.Square);
+        for (int i = 0; i < result.numberTriangles; i++)
+          detectedGlyphs.Add(Applications.Glyph.Triangle);
       }
     }
 

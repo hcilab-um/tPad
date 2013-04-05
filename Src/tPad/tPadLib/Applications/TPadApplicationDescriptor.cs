@@ -23,7 +23,7 @@ namespace UofM.HCI.tPab.Applications
     }
   }
 
-  public enum Glyph { Square, Circle };
+  public enum Glyph { Square, Triangle };
 
   public enum GlyphStatus { Entered, Left };
 
