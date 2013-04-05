@@ -54,6 +54,8 @@ namespace UofM.HCI.tPab.Services
       {
         if (Tracker == null)
           Tracker = (sender as CameraMonitor).Tracker;
+        if (Tracker == null)
+          return;
 
         List<Applications.Glyph> detectedGlyphs = new List<Applications.Glyph>();
         ManagedA.Glyphs result = Tracker.DetectFigures(20, 80, 150);
@@ -61,6 +63,7 @@ namespace UofM.HCI.tPab.Services
           detectedGlyphs.Add(Applications.Glyph.Square);
         for (int i = 0; i < result.numberTriangles; i++)
           detectedGlyphs.Add(Applications.Glyph.Triangle);
+
         NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(GlyphDetectionService), detectedGlyphs));
       }
     }

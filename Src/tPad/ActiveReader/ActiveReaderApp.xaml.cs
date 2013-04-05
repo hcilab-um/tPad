@@ -297,7 +297,42 @@ namespace UofM.HCI.tPab.App.ActiveReader
           //Rotation based functionalities
           ProcessContrastUpdate(e);
           ProcessZoomUpdate(e);
+          ProcessAreaTriggers(e.NewLocation, locationPx);
         });
+    }
+
+    private bool isPlaying = false;
+    private void ProcessAreaTriggers(TPadLocation tPadLocation, Point locationPx)
+    {
+      if (tPadLocation.PageIndex != 2)
+        return;
+
+      Rect deviceCenterArea = new Rect(new Point(-100, -100), new Size(200, 200));
+      deviceCenterArea.Offset(locationPx.X, locationPx.Y);
+
+      Point areaTrigger = new Point(950, 1200);
+
+      if (deviceCenterArea.Contains(areaTrigger))
+      {
+        //if (isPlaying)
+        //  return;
+
+        System.Windows.Interop.HwndSource hwndSource = PresentationSource.FromVisual(this) as System.Windows.Interop.HwndSource;
+        System.Windows.Interop.HwndTarget hwndTarget = hwndSource.CompositionTarget;
+        hwndTarget.RenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
+
+        Console.WriteLine("meVideo.Play();");
+        meVideo.Visibility = System.Windows.Visibility.Visible;
+        meVideo.Play();
+        isPlaying = true;
+      }
+      else if (isPlaying)
+      {
+        //Console.WriteLine("meVideo.Pause();");
+        //meVideo.Visibility = System.Windows.Visibility.Collapsed;
+        //meVideo.Pause();
+        //isPlaying = false;
+      }
     }
 
     private void LoadDocument(TPadLocation newLocation)
@@ -468,7 +503,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
             isHighlighting = true;
             newHighlight = new Highlight();
             newHighlight.Line = new Line { Stroke = Brushes.YellowGreen, Opacity = 0.5, StrokeThickness = 18 / Core.Profile.PixelsPerCm.Height };
-                        
+
             newHighlight.Line.X1 = lastPosition.X;
             newHighlight.Line.Y1 = lastPosition.Y;
             newHighlight.Line.X2 = lastPosition.X;
@@ -489,7 +524,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           //  isSenderHighlight = true;
           //  currentHighlight = line;
           //}
-        }    
+        }
       }
     }
 
@@ -1460,6 +1495,21 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private void bCopyCurrentPage_Click(object sender, RoutedEventArgs e)
     {
       Synch.RequestCopyCurrentPage();
+    }
+
+    private void meVideo_MediaEnded(object sender, RoutedEventArgs e)
+    {
+      Console.WriteLine("meVideo_MediaEnded");
+    }
+
+    private void meVideo_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+    {
+      Console.WriteLine("meVideo_MediaFailed");
+    }
+
+    private void meVideo_MediaOpened(object sender, RoutedEventArgs e)
+    {
+      Console.WriteLine("meVideo_MediaOpened");
     }
 
   }
