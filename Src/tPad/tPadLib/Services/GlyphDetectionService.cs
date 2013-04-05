@@ -9,7 +9,10 @@ using UofM.HCI.tPab.Monitors;
 namespace UofM.HCI.tPab.Services
 {
   public class GlyphDetectionService : ContextService
-  {    
+  {
+
+    private bool isProcessStopped = false;
+
     private ManagedA.wrapperRegistClass Tracker { get; set; }
 
     private TPadDevice Device { get; set; }
@@ -20,11 +23,23 @@ namespace UofM.HCI.tPab.Services
       //featureTracker = new ManagedA.wrapperRegistClass(false, 1);
     }
 
+    public void Pause()
+    {
+      isProcessStopped = true;
+    }
+
+    public void Continue()
+    {
+      isProcessStopped = false;
+    }
+
     protected override void CustomUpdateMonitorReading(object sender, Ubicomp.Utils.NET.CAF.ContextAdapter.NotifyContextMonitorListenersEventArgs e)
     {
       if (e.Type != typeof(Bitmap))
         return;
       if (Device.State == StackingState.StackedOnTop)
+        return;
+      if (isProcessStopped)
         return;
 
       if (sender is SimCameraMonitor)

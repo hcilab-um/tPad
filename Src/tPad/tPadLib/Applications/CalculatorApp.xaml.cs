@@ -58,7 +58,7 @@ namespace UofM.HCI.tPab.Applications
 
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {
-      core.Registration.Continue();
+      core.GlyphDetection.Continue();
       Close();
     }
 
