@@ -97,6 +97,7 @@ namespace UofM.HCI.tPab.Applications
               ITPadApp application = Container.GetRunningInstance(descriptor.AppClass);
               if (application != null)
                 continue;
+              core.Registration.Pause();
               application = descriptor.Launcher.GetAppInstance(descriptor, Container, Controller, core, null);
               Container.LoadTPadApp(application);
             }
@@ -109,10 +110,6 @@ namespace UofM.HCI.tPab.Applications
             }
           }
         });
-    }
-
-    private void SafeGlyphsChanged(Object status) 
-    { 
     }
 
     public void Close()

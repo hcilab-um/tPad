@@ -469,6 +469,7 @@ namespace UofM.HCI.tPab
       if (descriptor.AppClass == typeof(CalculatorApp))
       {
         CalculatorApp calculator = new CalculatorApp(core.Profile, container, controller);
+        calculator.Core = core;
         return calculator;
       }
       return null;
