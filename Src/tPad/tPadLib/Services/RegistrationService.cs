@@ -95,7 +95,11 @@ namespace UofM.HCI.tPab.Services
             Tracker = (sender as CameraMonitor).Tracker;
 
           //start feature tracking
+          //Stopwatch sw = new Stopwatch();
+          //sw.Start();
           status = Tracker.detectLocation(true, status);
+          //sw.Stop();
+          //Console.WriteLine("Elapsed={0} ", sw.ElapsedMilliseconds);
           GetLocationFromTracker();
         }
       }
