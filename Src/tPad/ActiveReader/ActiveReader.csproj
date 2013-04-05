@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="ActiveReaderDocument.cs" />
     <Compile Include="ActiveReaderPage.cs" />
+    <Compile Include="Converters\FullOrHalfPageConverter.cs" />
     <Compile Include="Converters\ToggleImageButtomConverter.cs" />
     <Compile Include="Figures.cs" />
     <Compile Include="App.xaml.cs">
@@ -311,6 +312,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\ExitSelected.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\FullPage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\FullPageSelected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Highlight.png">

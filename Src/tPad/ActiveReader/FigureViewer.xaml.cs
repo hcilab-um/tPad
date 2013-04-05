@@ -27,6 +27,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
       set { SetValue(FigureSourceProperty, value); }
     }
 
+    public static readonly DependencyProperty UIRotationProperty = DependencyProperty.Register("UIRotation", typeof(double), typeof(FigureViewer));
+    public double UIRotation
+    {
+      get { return (double)GetValue(UIRotationProperty); }
+      set { SetValue(UIRotationProperty, value); }
+    }
+
     public FigureViewer()
     {
       InitializeComponent();
@@ -45,6 +52,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
       {
         figureViewer.Visibility = Visibility.Collapsed;
       }
+    }
+
+    private void bFullPage_Click(object sender, RoutedEventArgs e)
+    {
+
     }
   }
 }
