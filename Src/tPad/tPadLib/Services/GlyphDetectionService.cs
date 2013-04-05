@@ -46,6 +46,7 @@ namespace UofM.HCI.tPab.Services
           detectedGlyphs.Add(Applications.Glyph.Square);
         for (int i = 0; i < result.numberTriangles; i++)
           detectedGlyphs.Add(Applications.Glyph.Triangle);
+        NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(GlyphDetectionService), detectedGlyphs));
       }
     }
 
