@@ -1,0 +1,64 @@
+(PDFKit - author, date, title, code version, type, availibility)
+
+TallComponents BV
+released January 7, 2013
+PDFKit.NET 4.0 Class Library
+https://www.tallcomponents.com/pdfkit4.aspx
+
+(OPenCV)
+
+OpenCV Developers Team: itseez
+released October, 2012
+OpenCV 2.4.3 Library
+http://opencv.org/
+------------------------------------------------
+Roadmaps of Transparent displays
+
+(company, date of last visit of website, title, date of creation, type, website)
+Winsar (2013, April 03)
+Winstar 2012 OLED Roadmap
+from 2012, March
+Website
+retrieved from: http://www.winstar.com.tw/newspaper_ov.php?lang=en&ID=153
+
+Futaba Corporation (2013, April 03)
+Futaba's OLED road map
+from 2012, Jan. 19
+Website
+http://www.oled-info.com/futabas-oled-road-map-amoleds-2014-transparent-and-flexible-oleds-cars-2015
+
+Fujitsu (2013, April 03)
+Addressing Trends and Business Needs
+from (2012, June 14)
+Website
+http://www.fujitsu.com/be/Images/Workplace_of_the_Future.pdf
+
+Producer of Transparent displays
+
+NeoView KOLON (2013, April 03)
+NeoView KOLON Product Information
+Website
+http://www.neoviewkolon.com/english/product/240%20320%202.41inch%2016M.htm
+--------------------------------------------------
+Reference for ...This interaction is similar to the one studied in tabletop systems...
+
+SLAP widgets
+
+Malte Weiss, Julie Wagner, Yvonne Jansen, Roger Jennings, Ramsin Khoshabeh, James D. Hollan, and Jan Borchers. 2009. SLAP widgets: bridging the gap between virtual and physical controls on tabletops. In Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI '09). ACM, New York, NY, USA, 481-490. 
+
+PhotoelasticTouch
+
+Toshiki Sato, Haruko Mamiya, Hideki Koike, and Kentaro Fukuchi. 2009. PhotoelasticTouch: transparent rubbery tangible interface using an LCD and photoelasticity. In Proceedings of the 22nd annual ACM symposium on User interface software and technology (UIST '09). ACM, New York, NY, USA, 43-50.
+
+Tangible Bots
+
+Esben Warming Pedersen and Kasper Hornbæk. 2011. Tangible bots: interaction with active tangibles in tabletop interfaces. In Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI '11). ACM, New York, NY, USA, 2975-2984. 
+
+-------------------------------
+
+Elo Display
+
+elo Touch Solutions (2013, April 03)
+0700L 7-inch Display
+Website
+http://www.elotouch.com/Products/LCDs/0700L/default.asp
