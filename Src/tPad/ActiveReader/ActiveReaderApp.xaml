@@ -7,46 +7,65 @@
              xmlns:tpadcontrols="clr-namespace:UofM.HCI.tPab;assembly=tPadLib"
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPab.Converters;assembly=tPadLib"
              xmlns:convertersApp="clr-namespace:UofM.HCI.tPab.App.ActiveReader.Converters"
-             xmlns:menuBar="clr-namespace:UofM.HCI.tPab.App.ActiveReader"             
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded" SizeChanged="arApp_SizeChanged">
+             xmlns:menuBar="clr-namespace:UofM.HCI.tPab.App.ActiveReader"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Loaded="arApp_Loaded">
 
   <UserControl.Resources>
     <convertersLib:LayerScalingConverter x:Key="cLayerScaling" />
+    <convertersLib:SubstractionConverter x:Key="cSubstraction" />
     <convertersLib:MultiplierConverter x:Key="cMultiplier" />
-    <convertersLib:SubstractionConverter x:Key="cSubtraction" />
+    <convertersLib:MultiplierMultiConverter x:Key="cMultiplierMulti" />
     <convertersLib:LayerRotationCenterConverter x:Key="cLayerRotationCenter" />
     <convertersLib:StatusVisibilityConverter x:Key="cStatusVisibility"/>
     <convertersLib:PageLoaderConverter x:Key="cPageLoader" />
+    <convertersLib:FlippingSideToScaleConverter x:Key="fsToScale" />
+    <convertersLib:ConditionalValueConverter x:Key="cCVOnTop" Reference="StackedOnTop" TrueValue="Visible" FalseValue="Collapsed" ValueType="System.Windows.Visibility"/>
+    <convertersLib:ConditionalValueConverter x:Key="cCVBelow" Reference="StackedBelow" TrueValue="Visible" FalseValue="Collapsed" ValueType="System.Windows.Visibility"/>
+    <convertersLib:ConditionalValueConverter x:Key="cCVNotStacked" Reference="NotStacked" TrueValue="Visible" FalseValue="Collapsed" ValueType="System.Windows.Visibility"/>
     <convertersApp:StatusAndModeVisibilityConverter x:Key="cStatusAndModeVisibility" />
     <convertersApp:StatusAndBoolVisibilityConverter x:Key="cStatusAndBoolVisibility" />
     <convertersApp:StatusAndBoolBackgroundConverter x:Key="cStatusAndBoolBackground" />
     <convertersApp:IsButtonEnabledConverter x:Key="cIsButtonEnabled" />
+    <convertersApp:ToggleImageButtomConverter  x:Key="cToggleImageButtom" />
+    <convertersApp:BoolToVisibilityConverter x:Key="cBoolToVisibility" />
+
+    <convertersLib:ConditionalValueConverter x:Key="cCVHighlighter" Reference="Highlighter" TrueValue="true" FalseValue="false" ValueType="bool?"/>
+    <convertersLib:ConditionalValueConverter x:Key="cCVPen" Reference="Pen" TrueValue="true" FalseValue="false" ValueType="bool?"/>
+    <convertersLib:ConditionalValueConverter x:Key="cCVEraser" Reference="Eraser" TrueValue="true" FalseValue="false" ValueType="bool?"/>
+
+    <convertersLib:ATFRotation x:Key="cATFR" />
+    <convertersLib:ATFTranslation x:Key="cATFT" />
+    <convertersLib:ATFSize x:Key="cATFS" />
+
+    <Style x:Key="sTB" TargetType="ToggleButton">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ToggleButton">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" >
+              <Image Width="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, Path=ActualWidth}" 
+                     Height="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, Path=ActualHeight}">
+                <Image.Source>
+                  <MultiBinding Converter="{StaticResource ResourceKey=cToggleImageButtom}">
+                    <Binding RelativeSource="{RelativeSource AncestorType=ToggleButton}" Path="IsChecked" />
+                    <Binding RelativeSource="{RelativeSource AncestorType=ToggleButton}" Path="Tag" />
+                  </MultiBinding>
+                </Image.Source>
+              </Image>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
   </UserControl.Resources>
 
   <!-- This is the outer wrapper which makes the paintable area of the application to be as big as the ducoment page -->
-  <Grid x:Name="gOuterWrapper">
-    <Grid.Width>
-      <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
-        <Binding ElementName="arApp" Path="Profile.DocumentSize.Width"/>
-        <Binding ElementName="arApp" Path="Container.WidthFactor"/>
-      </MultiBinding>
-    </Grid.Width>
-    <Grid.Height>
-      <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
-        <Binding ElementName="arApp" Path="Profile.DocumentSize.Height"/>
-        <Binding ElementName="arApp" Path="Container.HeightFactor"/>
-      </MultiBinding>
-    </Grid.Height>
+  <Grid x:Name="gOuterWrapper" Width="{Binding ElementName=arApp, Path=Core.Profile.DocumentSizeInPixels.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.DocumentSizeInPixels.Height}">
 
     <!-- This rectangle guarantees a correct placement of the layers - do not delete -->
     <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" 
-               Width="{Binding ElementName=arApp, Path=Profile.Resolution.Width}" Height="{Binding ElementName=arApp, Path=Profile.Resolution.Height}"
-               Stroke="Green" StrokeThickness="1" Fill="Transparent">
-      <Rectangle.RenderTransform>
-        <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
-                        ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
-      </Rectangle.RenderTransform>
-    </Rectangle>
+               Width="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
+               Stroke="Green" StrokeThickness="1" Fill="White" />
 
     <!-- This is the grid containing all the layers that are anchored to the page -->
     <!-- The transformation below are manipulated from the code behind. It could also be made through binding bu the response time is slower. -->
@@ -54,15 +73,18 @@
       <Grid.RenderTransform>
         <TransformGroup>
           <RotateTransform x:Name="trCanvas" />
-          <TranslateTransform x:Name="ttCanvas" />
+          <TranslateTransform x:Name="ttCanvas"/>
+          <ScaleTransform CenterX="{Binding ElementName=ttCanvas, Path=X}" CenterY="{Binding ElementName=ttCanvas, Path=Y}"
+                          ScaleX="{Binding ElementName=arApp, Path=ZoomLevel}" ScaleY="{Binding ElementName=arApp, Path=ZoomLevel}" />
         </TransformGroup>
       </Grid.RenderTransform>
 
       <!-- Here go all the other layers for content that's anchored to the document -->
       <Image x:Name="iDocument" Stretch="Fill" Width="{Binding ElementName=gAnchoredLayers, Path=ActualWidth}">
         <Image.Visibility>
-          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolVisibility}" ConverterParameter="Located,True,True">
-            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolVisibility}" ConverterParameter="Located,False,True,True">
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
+            <Binding ElementName="bZoom" Path="IsChecked"/>
             <Binding ElementName="bShowPage" Path="IsChecked"/>
             <Binding ElementName="bCopyAndLock" Path="IsChecked"/>
           </MultiBinding>
@@ -73,67 +95,176 @@
             <Binding ElementName="arApp" Path="ActualDocument"/>
           </MultiBinding>
         </Image.Source>
+        <!--<Image.RenderTransform>
+          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=ZoomLevel}" ScaleY="{Binding ElementName=arApp, Path=ZoomLevel}">
+            <ScaleTransform.CenterX>
+              <MultiBinding Converter="{StaticResource ResourceKey=cMultiplierMulti}" ConverterParameter="-1">
+                <Binding ElementName="ttCanvas" Path="X"/>
+                <Binding ElementName="arApp" Path="ZoomLevel"/>
+              </MultiBinding>
+            </ScaleTransform.CenterX>
+            <ScaleTransform.CenterY>
+              <MultiBinding Converter="{StaticResource ResourceKey=cMultiplierMulti}" ConverterParameter="-1">
+                <Binding ElementName="ttCanvas" Path="Y"/>
+                <Binding ElementName="arApp" Path="ZoomLevel"/>
+              </MultiBinding>
+            </ScaleTransform.CenterY>
+          </ScaleTransform>
+        </Image.RenderTransform>-->
       </Image>
 
       <!-- The first layer is for the highlights -->
       <Canvas x:Name="cHighlights" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Canvas.RenderTransform>
+          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}" ScaleY="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}" />
+        </Canvas.RenderTransform>
         <Canvas.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
-            <Binding ElementName="arApp" Path="Device.Location.Status"/>
-            <Binding ElementName="bHighlight" Path="IsChecked"/>
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
           </MultiBinding>
         </Canvas.Visibility>
         <!-- This rectange covering the whole area and almost transparent is necessary to detect the mouse events -->
         <!-- We cannot have the cHighlights canvas handle this events because it would need to opacity to be that low and then the highlight themselves would be almost transparent too -->
-        <Rectangle Fill="White" Opacity="0.1" Canvas.Left="0" Canvas.Top="0" 
-                   Width="{Binding ElementName=cHighlights, Path=ActualWidth}" Height="{Binding ElementName=cHighlights, Path=ActualHeight}"
+        <Rectangle x:Name="rHighlights" Fill="White" Opacity="0.1" Canvas.Left="0" Canvas.Top="0" 
+                   Width="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
                    MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
       </Canvas>
 
       <!-- This layer is for the search results -->
-      <Canvas x:Name="cSearchResults" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+      <Canvas x:Name="cSearchResults" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Canvas.RenderTransform>
+          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}" ScaleY="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}" />
+        </Canvas.RenderTransform>
+        <Canvas.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
+          </MultiBinding>
+        </Canvas.Visibility>
+      </Canvas>
+
+      <!-- This layer is for the scribble -->
+      <InkCanvas x:Name="inkCScribble" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"
+                 UseCustomCursor="True" Cursor="Pen" MouseMove="inkCScribble_MouseMove" MouseUp="inkCScribble_MouseUp">
+        <InkCanvas.RenderTransform>
+          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}" ScaleY="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}" />
+        </InkCanvas.RenderTransform>
+        <InkCanvas.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
+          </MultiBinding>
+        </InkCanvas.Visibility>
+      </InkCanvas>
 
       <!-- This is the context menu for handling annotations -->
-      <Grid.ContextMenu>
-        <ContextMenu Name="contextMenu">
-          <MenuItem Name="cm_deleteItem"  Header="Delete" Click="CMDelete_Click"/>
-          <MenuItem Name="cm_searchItem" Click="CMSearch_Click"/>
-          <Separator />
-          <MenuItem Header="Add Annotation" Click="CMAnnotation_Click"/>
-          <MenuItem Header="Add Scribble" Click="CMScribble_Click"/>
-        </ContextMenu>
-      </Grid.ContextMenu>
+      <TreeView x:Name="tvwFolder" Background="Transparent">
+        <TreeView.ContextMenu >
+          <ContextMenu Name="contextMenu" Visibility="Collapsed">
+            <ContextMenu.LayoutTransform>
+              <RotateTransform>
+                <RotateTransform.Angle>
+                  <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+                    <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+                    <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+                  </MultiBinding>
+                </RotateTransform.Angle>
+              </RotateTransform>
+            </ContextMenu.LayoutTransform>
+            <!--<MenuItem Name="cm_deleteItem"  Header="Delete" Click="CMDelete_Click"/>-->
+            <MenuItem Name="cm_searchItem" Click="CMSearch_Click"/>
+            <Separator />
+            <MenuItem Header="Add Annotation" Click="CMAnnotation_Click"/>
+          </ContextMenu>
+        </TreeView.ContextMenu>
+      </TreeView>
+
     </Grid>
 
     <!-- This is the grid containing all the layers that are anchored to the device - This content remains static as you move the device -->
-    <Canvas x:Name="gFixedLayers" VerticalAlignment="Top" HorizontalAlignment="Left"
-          Width="{Binding ElementName=arApp, Path=Profile.Resolution.Width}" 
-          Height="{Binding ElementName=arApp, Path=Profile.Resolution.Height}" MouseDown="gFixedLayers_MouseDown">
+    <Canvas x:Name="gFixedLayers" VerticalAlignment="Top" HorizontalAlignment="Left" MouseDown="gFixedLayers_MouseDown">
+      <Canvas.Width>
+        <MultiBinding Converter="{StaticResource ResourceKey=cATFS}" ConverterParameter="Width">
+          <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+          <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+          <Binding ElementName="arApp" Path="Core.Profile.Resolution.Width" />
+          <Binding ElementName="arApp" Path="Core.Profile.Resolution.Height" />
+        </MultiBinding>
+      </Canvas.Width>
+      <Canvas.Height>
+        <MultiBinding Converter="{StaticResource ResourceKey=cATFS}" ConverterParameter="Height">
+          <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+          <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+          <Binding ElementName="arApp" Path="Core.Profile.Resolution.Width" />
+          <Binding ElementName="arApp" Path="Core.Profile.Resolution.Height" />
+        </MultiBinding>
+      </Canvas.Height>
       <Canvas.RenderTransform>
-        <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=WidthScalingFactor}"
-                        ScaleY="{Binding ElementName=arApp, Path=HeightScalingFactor}"/>
+        <TransformGroup>
+          <RotateTransform>
+            <RotateTransform.Angle>
+              <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+                <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+                <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+              </MultiBinding>
+            </RotateTransform.Angle>
+          </RotateTransform>
+          <TranslateTransform>
+            <TranslateTransform.X>
+              <MultiBinding Converter="{StaticResource ResourceKey=cATFT}" ConverterParameter="X">
+                <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+                <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+                <Binding ElementName="arApp" Path="Core.Profile.Resolution.Width" />
+              </MultiBinding>
+            </TranslateTransform.X>
+            <TranslateTransform.Y>
+              <MultiBinding Converter="{StaticResource ResourceKey=cATFT}" ConverterParameter="Y">
+                <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+                <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+                <Binding ElementName="arApp" Path="Core.Profile.Resolution.Height" />
+              </MultiBinding>
+            </TranslateTransform.Y>
+          </TranslateTransform>
+        </TransformGroup>
       </Canvas.RenderTransform>
 
-      <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->      
+      <menuBar:AnnotationBar x:Name="annotationBar" Canvas.Right="0" Width="42" Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}" 
+                             ActualDocument="{Binding ElementName=arApp, Path=ActualDocument}" 
+                             ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
+                             PageHeight="{Binding ElementName=gAnchoredLayers, Path=ActualHeight}"
+                             DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                             HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"/>
+
+      <!-- Here go all the control layers that are fixed like the menues or the start-up and loading displays -->
       <!--The off-screen visualization for highlightings-->
       <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
                                       Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.Highlights}"
-                                      ActualIcon="ArrowHighlight.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
-                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
-                                      DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
-                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
-                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
-                                      DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
+                                      ActualIcon="Images/ArrowHighlight.png"
+                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                                      DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
+                                      DeviceHeight="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
-            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
+        <menuBar:OffScreenVisualization.UIRotation>
+          <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+            <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+            <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.UIRotation>
       </menuBar:OffScreenVisualization>
 
       <!--The off-screen visualization for annotations-->
@@ -141,20 +272,29 @@
                                       Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.Annotations}"
-                                      ActualIcon="ArrowAnnotation.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
-                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
-                                      DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
-                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
-                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
-                                      DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
+                                      ActualIcon="Images/ArrowAnnotation.png"
+                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                                      DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
+                                      DeviceHeight="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
-            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
+        <menuBar:OffScreenVisualization.UIRotation>
+          <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+            <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+            <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.UIRotation>
       </menuBar:OffScreenVisualization>
 
       <!--The off-screen visualization for search results-->
@@ -162,75 +302,195 @@
                                       Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.SearchResults}"
-                                      ActualIcon="ArrowSearchResults.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=ActualHeight}"
-                                      PageWidth="{Binding ElementName=arApp, Path=ActualWidth}"
-                                      DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
-                                      HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"
-                                      WidthFactor="{Binding ElementName=arApp, Path=Container.WidthFactor}"
-                                      DeviceRotation="{Binding ElementName=arApp, Path=Device.Location.RotationAngle}"
+                                      ActualIcon="Images/ArrowSearchResults.png"
+                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                                      DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
+                                      DeviceHeight="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"
                                       PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
         <menuBar:OffScreenVisualization.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
-            <Binding ElementName="arApp" Path="Device.Location.Status"/>
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
             <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
           </MultiBinding>
         </menuBar:OffScreenVisualization.Visibility>
+        <menuBar:OffScreenVisualization.UIRotation>
+          <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+            <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+            <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.UIRotation>
       </menuBar:OffScreenVisualization>
 
-      <Grid x:Name="gMenuLayer" Canvas.Top="0" Canvas.Left="0"
-            Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
-            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}">
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Stretch" FlowDirection="LeftToRight" Margin="0,25,0,0">
-          <ToggleButton x:Name="bHighlight" IsThreeState="False" Click="bHighlight_Click" IsChecked="True">Highlight</ToggleButton>
-          <ToggleButton x:Name="bOffScreenVisualization" IsThreeState="false" Margin="20,0,0,0">Off-Screen
-            <ToggleButton.IsEnabled>
-              <MultiBinding Converter="{StaticResource ResourceKey=cIsButtonEnabled}">
-                <Binding ElementName="bHighlight" Path="IsChecked"/>
-                <Binding ElementName="bSearch" Path="IsChecked"/>
-              </MultiBinding>
-            </ToggleButton.IsEnabled>
-          </ToggleButton>
-          <ToggleButton x:Name="bShowPage" IsThreeState="False" Margin="20,0,0,0" IsChecked="True">Show Page</ToggleButton>
-          <ToggleButton x:Name="bSearch" IsThreeState="False" Margin="20,0,0,0" Click="bSearch_Click" >Search</ToggleButton>
-          <ToggleButton x:Name="bCopyAndLock" IsThreeState="False" Margin="20,0,0,0" Click="bCopyAndLock_Click" >Copy 8 Lock</ToggleButton>
-                    
-        </StackPanel>
-      </Grid>
+      <!--The off-screen visualization for scribblings -->
+      <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
+                                      Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+                                      Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
+                                      ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.ScribblingCollections}"
+                                      ActualIcon="Images/ArrowAnnotation.png"
+                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
+                                      DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
+                                      DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
+                                      DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
+                                      DeviceHeight="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Height}"
+                                      WidthFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Width}"
+                                      HeightFactor="{Binding ElementName=arApp, Path=Core.Profile.PixelsPerCm.Height}"
+                                      PreviewMouseDown="cHighlights_MouseDown" PreviewMouseUp="cHighlights_MouseUp" PreviewMouseMove="cHighlights_MouseMove">
+        <menuBar:OffScreenVisualization.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndModeVisibility}" ConverterParameter="Located">
+            <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
+            <Binding ElementName="bOffScreenVisualization" Path="IsChecked"/>
+            <Binding ElementName="bLayers" Path="IsChecked"/>
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.Visibility>
+        <menuBar:OffScreenVisualization.UIRotation>
+          <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+            <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+            <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+          </MultiBinding>
+        </menuBar:OffScreenVisualization.UIRotation>
+      </menuBar:OffScreenVisualization>
 
-      <menuBar:AnnotationBar x:Name="annotationBar" Canvas.Left="440" Width="42" Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}" 
-                             ActualDocument="{Binding ElementName=arApp, Path=ActualDocument}" 
-                             ActualPage="{Binding ElementName=arApp, Path=ActualPage}"
-                             PageHeight="{Binding ElementName=gAnchoredLayers, Path=ActualHeight}"
-                             DeviceLocation="{Binding ElementName=arApp, Path=Device.Location.LocationCm}"
-                             HeightFactor="{Binding ElementName=arApp, Path=Container.HeightFactor}"/>
+      <Grid x:Name="gNotStackedUI" Canvas.Top="0" Canvas.Left="0"
+            Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+            Visibility="{Binding ElementName=arApp, Path=Core.Device.State, Converter={StaticResource ResourceKey=cCVNotStacked}}">
+
+        <StackPanel x:Name="spBottomMenu" Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" >
+          <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,0,52,10" HorizontalAlignment="Right"
+                      Visibility="{Binding ElementName=bSettings, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}">
+            <ToggleButton x:Name="bAnchoredToFlow" Tag="AnchoredToFlow" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,10,0" IsChecked="True" Width="55" Height="55"/>
+            <ToggleButton x:Name="bShowPage" Tag="ShowPage" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,10,0" IsChecked="True" Width="55" Height="55"/>
+            <ToggleButton x:Name="bLayers" Tag="Layers" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,10,0" Click="bLayers_Click" IsChecked="True" Width="55" Height="55"/>
+            <ToggleButton x:Name="bOffScreenVisualization" Tag="OffScreen" Style="{StaticResource ResourceKey=sTB}" IsChecked="True"  IsThreeState="false" Margin="0,0,10,0" Width="55" Height="55">
+              <ToggleButton.IsEnabled>
+                <MultiBinding Converter="{StaticResource ResourceKey=cIsButtonEnabled}">
+                  <Binding ElementName="bLayers" Path="IsChecked"/>
+                  <Binding ElementName="bSearch" Path="IsChecked"/>
+                </MultiBinding>
+              </ToggleButton.IsEnabled>
+            </ToggleButton>
+            <ToggleButton x:Name="bContrast" Tag="Contrast" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,10,0" Click="bContrast_Click" Width="55" Height="55"/>
+            <ToggleButton x:Name="bExit" Tag="Exit" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,10,0" Click="bExit_Click" Width="55" Height="55"/>
+          </StackPanel>
+
+          <Grid Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="10,0,0,0" HorizontalAlignment="Left">
+              <ToggleButton x:Name="bHighlightTool" Tag="Highlight" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Click="bHighlightTool_Click" Width="55" Height="55"
+                            IsChecked="{Binding ElementName=arApp, Path=CurrentTool, Converter={StaticResource ResourceKey=cCVHighlighter}, Mode=TwoWay}"/>
+              <ToggleButton x:Name="bScribbleTool" Tag="Scribble" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bScribbleTool_Click" Width="55" Height="55"
+                            IsChecked="{Binding ElementName=arApp, Path=CurrentTool, Converter={StaticResource ResourceKey=cCVPen}, Mode=TwoWay}"/>
+              <ToggleButton x:Name="bEraseTool" Tag="DeleteMarker" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bEraseTool_Click" Width="55" Height="55"
+                            IsChecked="{Binding ElementName=arApp, Path=CurrentTool, Converter={StaticResource ResourceKey=cCVEraser}, Mode=TwoWay}"/>
+
+              <ToggleButton x:Name="bSearch" Tag="Search" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bSearch_Click" Width="55" Height="55"/>
+              <ToggleButton x:Name="bCopyAndLock" Tag="Lock" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bCopyAndLock_Click" Width="55" Height="55"/>
+            </StackPanel>
+            <ToggleButton x:Name="bSettings" Tag="Settings" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,52,0" Width="55" Height="55"
+                          HorizontalAlignment="Right" Click="bSettings_Click"/>
+          </Grid>
+
+          <!--This is the keyboard-->
+          <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" 
+                                     EnterKeyPressed="tpKeyboard_EnterKeyPressed"
+                                     AlphaNumericKeyPressed="tpKeyboard_AlphaNumericKeyPressed"                                 
+                                     Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" Height="200"
+                                     HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                     Visibility="Collapsed" Canvas.Left="0" />
+        </StackPanel>
+
+        <StackPanel x:Name="spTopMenu" VerticalAlignment="Top" HorizontalAlignment="Stretch" Orientation="Horizontal" FlowDirection="LeftToRight" Margin="0,10,0,0">
+          <ToggleButton x:Name="bZoom" Tag="Zoom" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bZoom_Click" Width="55" Height="55"
+                        Visibility="{Binding ElementName=bShowPage, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}"/>
+          <ToggleButton x:Name="bRedo" Tag="Redo" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bRedo_Click" Width="55" Height="55"
+                        Visibility="{Binding ElementName=arApp, Path=RedoAvailable, Converter={StaticResource ResourceKey=cBoolToVisibility}}"/>
+        </StackPanel>
+
+        <Grid x:Name="gContrastFeedback" Canvas.Top="0" Canvas.Left="0"
+              Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+              Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+              Visibility="{Binding ElementName=bContrast, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold">
+          Opacity Level: <TextBlock Text="{Binding ElementName=gOuterWrapper, Path=Opacity, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=100, StringFormat=000}"/>%
+        </TextBlock>
+        </Grid>
+
+        <Grid x:Name="gZoomLevelFeedback" Canvas.Top="0" Canvas.Left="0"
+              Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+              Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+              Visibility="{Binding ElementName=bZoom, Path=IsChecked, Converter={StaticResource ResourceKey=cBoolToVisibility}}">
+          <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold">
+          Zoom Level: <TextBlock Text="{Binding ElementName=arApp, Path=ZoomLevel, StringFormat=0.0}"/>X
+          </TextBlock>
+        </Grid>
+
+        <menuBar:FigureViewer x:Name="figureViewer" Visibility="Collapsed" 
+                              Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+                              Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+                              FigureSource="{Binding ElementName=arApp, Path=CroppedImage}">
+          <menuBar:FigureViewer.UIRotation>
+            <MultiBinding Converter="{StaticResource ResourceKey=cATFR}">
+              <Binding ElementName="bAnchoredToFlow" Path="IsChecked" />
+              <Binding ElementName="arApp" Path="Core.Device.AnchorToFlowAngle" />
+            </MultiBinding>
+          </menuBar:FigureViewer.UIRotation>
+        </menuBar:FigureViewer>
+
+        <MediaElement x:Name="meVideo" Visibility="Collapsed" LoadedBehavior="Manual" UnloadedBehavior="Manual"
+                      Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+                      Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+                      Source="C:\Users\jhincapie\Desktop\Dropbox\tPad\UIST 2013\video\TabletopClips\cAR_TT_Flipping.mp4"
+                      MediaEnded="meVideo_MediaEnded"
+                      MediaFailed="meVideo_MediaFailed"
+                      MediaOpened="meVideo_MediaOpened"
+                      />
+      </Grid>
 
       <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
             Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
-            Visibility="{Binding ElementName=arApp, Path=Device.Location.Status, Converter={StaticResource ResourceKey=cStatusVisibility}, ConverterParameter=NotLocated}">
+            Visibility="{Binding ElementName=arApp, Path=Core.Device.Location.Status, Converter={StaticResource ResourceKey=cStatusVisibility}, ConverterParameter=NotLocated}">
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" FontWeight="Bold">Reading Helper</Label>
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="0,70,0,0">Not Located</Label>
       </Grid>
-      
-      <!--This is the keyboard-->
-      <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" 
-                                 EnterKeyPressed="tpKeyboard_EnterKeyPressed"
-                                 AlphaNumericKeyPressed="tpKeyboard_AlphaNumericKeyPressed"                                 
-                                 Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" Height="200"
-                                 HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                 Visibility="Hidden" Canvas.Top="{Binding ElementName=arApp, Path=KeyboardPosition}"  Canvas.Left="0">
-      </tpadcontrols:TPadKeyboard>
-        
+
+      <Grid x:Name="gStackedOnTop" Canvas.Top="0" Canvas.Left="0"
+            Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
+            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
+            Visibility="{Binding ElementName=arApp, Path=Core.Device.State, Converter={StaticResource ResourceKey=cCVOnTop}}">
+
+        <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="10,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+          <ToggleButton x:Name="bCopyAll" Tag="CopyAll" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Click="bCopyAll_Click" Width="55" Height="55"/>
+          <ToggleButton x:Name="bCopyCurrentPage" Tag="CopyCurrentPage" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Click="bCopyCurrentPage_Click" Width="55" Height="55"/>
+          <ToggleButton x:Name="bCopySelected" Tag="CopySelected" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="10,0,0,0" Width="55" Height="55"/>
+        </StackPanel>
+
+        <ToggleButton x:Name="bUnStack" Tag="UnStack" Style="{StaticResource ResourceKey=sTB}" IsThreeState="False" Margin="0,0,52,10" Width="55" Height="55"
+                      HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="bUnStack_Click"/>
+      </Grid>
+
     </Canvas>
 
   </Grid>
 
   <UserControl.Background>
     <MultiBinding Converter="{StaticResource ResourceKey=cStatusAndBoolBackground}" ConverterParameter="Located,True,True">
-      <Binding ElementName="arApp" Path="Device.Location.Status"/>
+      <Binding ElementName="arApp" Path="Core.Device.Location.Status"/>
       <Binding ElementName="bShowPage" Path="IsChecked"/>
       <Binding ElementName="bCopyAndLock" Path="IsChecked"/>
     </MultiBinding>
   </UserControl.Background>
+
+  <UserControl.RenderTransform>
+    <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=Core.Device.FlippingSide, Converter={StaticResource ResourceKey=fsToScale}}"
+                    CenterX="{Binding ElementName=arApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
+                    CenterY="{Binding ElementName=arApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
+  </UserControl.RenderTransform>
+
 </UserControl>

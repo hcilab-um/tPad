@@ -22,5 +22,41 @@ namespace UofM.HCI.tPab.App.ActiveReader.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("230.30.30.30")]
+        public string MulticastGroup {
+            get {
+                return ((string)(this["MulticastGroup"]));
+            }
+            set {
+                this["MulticastGroup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5123")]
+        public int MulticastPort {
+            get {
+                return ((int)(this["MulticastPort"]));
+            }
+            set {
+                this["MulticastPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int MulticastTTL {
+            get {
+                return ((int)(this["MulticastTTL"]));
+            }
+            set {
+                this["MulticastTTL"] = value;
+            }
+        }
     }
 }

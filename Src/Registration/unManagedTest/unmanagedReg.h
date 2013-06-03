@@ -9,13 +9,18 @@
 
 #include <string>
 #include <opencv2/nonfree/nonfree.hpp>
+#include <opencv2\highgui\highgui.hpp>
+
+#include <FlyCapture2.h>
+
+#include "FeatureMatcher.h"
 
 //using namespace System;
 
 class EXPORT_OR_IMPORT paperRegistration
 {
 public:
-	paperRegistration();
+	paperRegistration(bool cameraInUse, float imageRatio, FeatureMatcher* matcher);
 	~paperRegistration();
 
 	int getPageIdx();
@@ -26,31 +31,67 @@ public:
 	cv::Point2f getLocationPxBR();
 	cv::Point2f getLocationPxM();
 	float getRotationAngle();
-	float getMiliSec();
 
-	int detectLocation(cv::Mat &currentImg, cv::Mat &lastImg);
-	void createIndex(std::string dir_path);
-	void imageWarp(float imageRatio, bool isSim);
+	int detectLocation(bool cameraInUse, int previousStatus);
+	//int detectLocation(int previousStatus);
+
+	void detectFigures(cv::vector<cv::vector<cv::Point> >& squares, cv::vector<cv::vector<cv::Point> >& triangles,
+		float minLength = 25, float maxLength = 80, int tresh_binary = 105);
+
+	//void createIndex(std::string dir_path);
+
+	void computeWarpMatrix(float imageRatio);
+	void computeWarpMatrix(std::string path);
+
+	int connectCamera();
+	int disconnectCamera();	
+	void setCameraImg();
+	void setCameraImg(cv::Mat &camImg);
 
 private:	
 	int PageIdx;
-	std::string PageName;
 	cv::Point2f LocationPxTL, LocationPxTR, LocationPxBL, LocationPxBR, LocationPxM;
 	//angle in degree
 	float RotationAngle; 
-	float miliseconds; 
 
-	cv::FlannBasedMatcher matcher;	
-	cv::Mat warpMat;
+	/*FlyCapture2::Camera cam;
+	FlyCapture2::Image rawImage;
+	IplImage *frame;*/
+	cv::VideoCapture* cap;
+
+	//cv::FlannBasedMatcher* matcher;
+	cv::FlannBasedMatcher* fMatcher;
+	cv::FREAK* extractor;
 	cv::vector<cv::vector<cv::KeyPoint>> dbKeyPoints;
+	cv::FastFeatureDetector* fastDetectorCamImg;
+	//cv::FastFeatureDetector* fastDetectorPageImg;
+	//cv::SurfFeatureDetector* surfDetectorPageImg;
+	cv::SurfFeatureDetector* surfDetectorCamImg;
 
-	bool isSimulation_;
-	float imgRatio_;
-		
-	cv::Mat computeLocalFeatures(cv::Mat &image, cv::vector<cv::vector<cv::KeyPoint>> &pageKeyPoints);
+	bool isCameraInUse_;
+	bool isCameraConnected;
+	bool computeLocation;
+	int status;
+
+	float imgRatio_;	
+
+	cv::Mat lastDeviceImage, currentDeviceImg;
+	cv::Mat warpMat;
+	//std::vector<cv::Point2f> point;
+
+	float computeArea(cv::Point2f pt0, cv::Point2f pt1, cv::Point2f pt2 );
+	float computeAngle( cv::Point2f pt1, cv::Point2f pt2, cv::Point2f pt0 );
+	float computeLength(cv::Point2f pt0, cv::Point2f pt1);
+	void warpImage(cv::Mat &camImage,cv::Mat &warpedImage, bool camInUse);
+
+	cv::Mat computeLocalFeatures(cv::Mat &image);
+	
 	float compareImages(cv::Mat &lastImg, cv::Mat &currentImg);
 
-	void getFiles(std::wstring directory, std::vector<std::string> &fileNameList);
-	void drawMatch(cv::Mat *cameraImage, cv::Mat &homography);
+	//void getFiles(std::wstring directory, std::vector<std::string> &fileNameList);
+	
+	void drawMatch(cv::Mat &cameraImage, cv::Mat &homography);
+	
+	void loadCameraImage(cv::Mat &camImage);
 };
 

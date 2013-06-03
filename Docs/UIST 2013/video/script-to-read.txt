@@ -1,0 +1,48 @@
+This is Jango, an exchange student reading academic articles for his homework.
+And this is his tPad, a transparent display mobile device Jango uses to help him.
+When placed on top of papers documents, the tPad augments them with digital functionalities.
+
+The tPad implements Contact Augmented Reality or cAR:
+ a type of augmented reality where a mobile device with a transparent display rests in direct contact on the augmented object.
+
+With cAR, the user sees the real object through the transparent display maintaining properties like lighting, texture, color, age, and wear.
+
+In our paper, we explore the interaction design of cAR devices, as well as the technical challenges for their implementation.
+
+We followed an iterative and user-centric design approach to identify interaction techniques for cAR devices.
+We used Active Reading as a potential application area and inspiration source. 
+
+We identified techniques unique to cAR devices like: placing, anchoring, orientation, extraction, area and scribble triggers and flipping. 
+
+We also adopt other general tangible interaction techniques.
+
+When placed on top of an object, the cAR device recognizes it and adapt. For example, here the tPad loads the digital version of the paper document below.
+
+Anchoring means adding virtual content to specific locations of the physical object. For example, here scribbles are anchored to particular paragraphs of the paper document
+
+A cAR application can adapt to the logical orientation of the physical object. For example, a cAR application’s user-interface can adjust to the direction of the text, switching from portrait to landscape.
+
+Users can also extract and interact with elements of the digital representation of the physical object. For example, by tapping on a word through the tPad, users perform a search and highlight all results.
+
+Area-based triggers are locations in the physical object the cAR device handles differently. For example, the top picture has an area-based trigger to play video content.
+
+Scribble-based triggers are hand-written symbols the cAR device recognizes and responds to. For example, moving the tPad to the hand-drawn square will launch the calculator application.
+
+Flipping the cAR device can also be used as an interaction. For example, by flipping the device an inversion filter can be applied in the document. Users can also select content and then flip to initiate an online search.
+
+We built two cAR prototypes to explore the application and implementation of the proposed interaction techniques.
+
+Our first prototype is tabletop-based with transparent tangibles, enabling the rapid prototyping and testing of the interaction techniques
+The tabletop renders the document to simulate real paper.
+A transparent tangible simulates the cAR device.
+The tabletop tracks the transparent tangible via fiducial markers.
+
+Our second prototype is called the t-Pad.
+The t-Pad uses a 7 inches LCD display on top of a light table.
+A touch-overlay allows the display to receive touch and pen input,..
+We use a camera attached to the display for feature matching-based registration
+A controller board contains accelerometer and magnetic sensors to support flipping and stacking
+Finally, the tPad has a array of magnets that uniquely identify it
+
+Our registration using feature matching.
+And our algorithm works at 10 FPS and is resilient to fingers interacting with the display

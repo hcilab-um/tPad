@@ -56,8 +56,9 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ContextAwarenessFramework">
-      <HintPath>..\Lib\ContextAwarenessFramework.dll</HintPath>
+    <Reference Include="Jayrock.Json, Version=0.9.11012.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Jayrock.Json.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\Lib\log4net.dll</HintPath>
@@ -77,9 +78,35 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.Toolkit, Version=1.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Applications\CalculatorApp.xaml.cs">
+      <DependentUpon>CalculatorApp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\DashboardApp.xaml.cs">
+      <DependentUpon>DashboardApp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Applications\TPadApplicationDescriptor.cs" />
+    <Compile Include="Converters\ATFRotation.cs" />
+    <Compile Include="Converters\ATFSize.cs" />
+    <Compile Include="Converters\ATFTranslation.cs" />
+    <Compile Include="Converters\MultiplierMultiConverter.cs" />
+    <Compile Include="Converters\FlippingSideToScaleConverter.cs" />
+    <Compile Include="Converters\IntToBinaryConverter.cs" />
+    <Compile Include="Converters\WPFBitmapConverter.cs" />
+    <Compile Include="Monitors\MulticastMonitor.cs" />
+    <Compile Include="Monitors\ShakingMonitor.cs" />
+    <Compile Include="Network\StackingMessage.cs" />
+    <Compile Include="Network\StackingMessageExporter.cs" />
+    <Compile Include="Network\StackingMessageImporter.cs" />
+    <Compile Include="Services\GlyphDetectionService.cs" />
+    <Compile Include="TPadPage.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
+    <Compile Include="Converters\ConditionalTypeConverter.cs" />
     <Compile Include="Converters\LayerRotationCenterConverter.cs" />
     <Compile Include="Converters\LayerScalingConverter.cs" />
     <Compile Include="Converters\MultiplierConverter.cs" />
@@ -91,22 +118,23 @@
     <Compile Include="ITPadApp.cs" />
     <Compile Include="ITPadAppContainer.cs" />
     <Compile Include="ITPadAppLauncher.cs" />
-    <Compile Include="MockApp.xaml.cs">
+    <Compile Include="Applications\MockApp.xaml.cs">
       <DependentUpon>MockApp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Monitors\ArduinoMonitor.cs" />
+    <Compile Include="Monitors\BoardMonitor.cs" />
     <Compile Include="Monitors\CameraMonitor.cs" />
     <Compile Include="Monitors\FlippingMonitor.cs" />
     <Compile Include="Monitors\StackingMonitor.cs" />
     <Compile Include="Monitors\SimCameraMonitor.cs" />
-    <Compile Include="Monitors\SimFlippingMonitor.cs" />
-    <Compile Include="Monitors\SimStackingMonitor.cs" />
+    <Compile Include="Monitors\SimBoardMonitor.cs" />
     <Compile Include="Services\RegistrationService.cs" />
+    <Compile Include="SimulatorDevice.xaml.cs">
+      <DependentUpon>SimulatorDevice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TPadCore.cs" />
     <Compile Include="TPadDevice.cs" />
     <Compile Include="TPadDocument.cs" />
     <Compile Include="TPadLocation.cs" />
-    <Compile Include="ITPadMarker.cs" />
     <Compile Include="TPadProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -134,6 +162,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -142,11 +171,23 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MockApp.xaml">
+    <Page Include="Applications\CalculatorApp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Applications\DashboardApp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Applications\MockApp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Simulator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SimulatorDevice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,6 +202,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="camera.png" />
+    <Content Include="Applications\CalculatorAppIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="sampledoc.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -170,7 +214,20 @@
       <Project>{5C197F32-C069-4AB3-A6AF-1FF3FF27668B}</Project>
       <Name>managedReg</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ContextAwarenessFramework\ContextAwarenessFramework.csproj">
+      <Project>{8EAA1C78-0574-4F6F-A996-75277BE82665}</Project>
+      <Name>ContextAwarenessFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MulticastSocket\MulticastSocket.csproj">
+      <Project>{A9C5CD09-AC34-47EB-811F-99F8CF31C3E0}</Project>
+      <Name>MulticastSocket</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MulticastTransportFramework\MulticastTransportFramework.csproj">
+      <Project>{4AF95A28-12C7-4D59-8F84-17EF1A60C9A6}</Project>
+      <Name>MulticastTransportFramework</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>copy $(SolutionDir)\x64\Release\*.dll $(TargetDir)</PreBuildEvent>

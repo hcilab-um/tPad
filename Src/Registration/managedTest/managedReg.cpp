@@ -6,20 +6,33 @@
 
 namespace ManagedA
 {
-	wrapperRegistClass::wrapperRegistClass(void)
+	wrapperFeatureMatcher::wrapperFeatureMatcher(bool IsCameraInUse, String^ pathPDFImg)
+	{		
+		char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(pathPDFImg);
+		matcherObj = new FeatureMatcher(IsCameraInUse, str);
+	}
+
+	wrapperFeatureMatcher::~wrapperFeatureMatcher(void)
 	{
-		registrationObj = new paperRegistration();
+		delete matcherObj;
+	}
+
+	wrapperRegistClass::wrapperRegistClass(bool IsCameraInUse, float imageRatio, wrapperFeatureMatcher^ fMatcher)
+	{		
+		FeatureMatcher* matcher = new FeatureMatcher();
+		*matcher = fMatcher->GetFeatureMatcher();
+		
+		registrationObj = new paperRegistration(IsCameraInUse, imageRatio, matcher);
 	}
 
 	wrapperRegistClass::~wrapperRegistClass(void)
 	{
 		delete registrationObj;
 	}
-
-	int wrapperRegistClass::detectLocation(Bitmap^ bmp1, Bitmap^ bmp2)
+		
+	void wrapperRegistClass::SetCameraImg(Bitmap^ bmp1)
 	{
 		cv::Mat currentImg(bmp1->Height, bmp1->Width, CV_8UC3);
-		cv::Mat lastImg(bmp2->Height, bmp2->Width, CV_8UC3);
 
 		System::Drawing::Imaging::BitmapData ^data1 = bmp1->LockBits(
 			*(gcnew System::Drawing::Rectangle(0, 0, bmp1->Width, bmp1->Height)),
@@ -43,29 +56,19 @@ namespace ManagedA
 		
 		bmp1->UnlockBits(data1);  	
 
-		System::Drawing::Imaging::BitmapData ^data2 = bmp2->LockBits(
-			*(gcnew System::Drawing::Rectangle(0, 0, bmp2->Width, bmp2->Height)),
-			System::Drawing::Imaging::ImageLockMode::ReadOnly,
-			bmp2->PixelFormat);
-					
-		if (System::Drawing::Imaging::PixelFormat::Format24bppRgb == bmp2->PixelFormat)
-			memcpy(lastImg.data, data2->Scan0.ToPointer(), bmp2->Width * bmp2->Height * 3); 
-		else if (System::Drawing::Imaging::PixelFormat::Format32bppArgb == bmp2->PixelFormat) 
-		{
-			uchar *pm = lastImg.data;
-			uchar *pb = (uchar *)data2->Scan0.ToPointer();
-			for (int i = 0; i < bmp2->Width * bmp2->Height; i++) 
-				memcpy(pm + i * 3, pb + i * 4, 3);
-		} else {
-			uchar *pm = lastImg.data;
-			uchar *pb = (uchar *)data2->Scan0.ToPointer();				
-			for (int i = 0; i < bmp2->Width * bmp2->Height; i++) 
-				*(pm + i * 3) = *(pm + i * 3 + 1) = *(pm + i * 3 + 2) = *(pb + i);					
-		}
-		
-		bmp2->UnlockBits(data2); 
+		registrationObj->setCameraImg(currentImg);
+	}
 
-		return registrationObj->detectLocation(currentImg, lastImg);
+	Glyphs wrapperRegistClass::DetectFigures(float minLength, float maxLength, int tresh_binary)
+	{
+		cv::vector<cv::vector<cv::Point>> squares, triangles;
+		registrationObj->detectFigures(squares, triangles, minLength, maxLength, tresh_binary);
+
+		Glyphs ^ fig = gcnew Glyphs;
+		fig -> numberSquares = squares.size();
+		fig -> numberTriangles = triangles.size();
+		
+		return *fig;
 	}
 }
 

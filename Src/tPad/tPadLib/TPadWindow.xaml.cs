@@ -20,33 +20,29 @@ namespace UofM.HCI.tPab
   public partial class TPadWindow : Window, ITPadAppContainer, INotifyPropertyChanged
   {
 
-    private ITPadAppLauncher Launcher { get; set; }
     public TPadProfile Profile { get; set; }
+    private ITPadAppLauncher Launcher { get; set; }
 
-    private UserControl TPadApp { get; set; }
-    public Rect TPadAppBounds { get; set; }
-    private Size BorderDiff { get; set; }
+    private List<ITPadApp> currentApps = new List<ITPadApp>();
 
-    /// <summary>
-    /// This is the number of pixels per cm
-    /// </summary>
-    public float WidthFactor
+    private double sizeMultiplier = 1;
+    public double SizeMultiplier
     {
-      get { return (float)(ActualWidth / Profile.ScreenSize.Width); }
+      get { return sizeMultiplier; }
+      set
+      {
+        sizeMultiplier = value;
+        OnPropertyChanged("SizeMultiplier");
+      }
     }
 
-    public float HeightFactor
-    {
-      get { return (float)(ActualHeight / Profile.ScreenSize.Height); }
-    }
+    public int InstanceNumber { get; set; }
 
-    public double SizeMultiplier { get; set; }
-
-    public TPadWindow(ITPadAppLauncher launcher)
+    public TPadWindow(TPadProfile profile, ITPadAppLauncher launcher)
     {
       SizeMultiplier = 0.75; // This makes the window smaller when using a single monitor set-up -- for development
       Launcher = launcher;
-      Profile = TPadCore.Instance.Profile;
+      Profile = profile;
 
       InitializeComponent();
     }
@@ -56,19 +52,27 @@ namespace UofM.HCI.tPab
       if (tPadApp == null)
         return;
 
-      TPadApp = tPadApp as UserControl;
+      tPadApp.Closed += tPadApp_Closed;
+
+
+      UserControl TPadApp = tPadApp as UserControl;
       TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
       gTPadApp.Children.Add(TPadApp);
-      TPadAppBounds = Rect.Empty;
-      BorderDiff = Size.Empty;
+      currentApps.Add(tPadApp);
     }
 
-    protected override void OnClosed(EventArgs e)
+    void tPadApp_Closed(object sender, EventArgs e)
     {
-      base.OnClosed(e);
-      if (Launcher != null)
-        Launcher.CloseAll(this);
+      ITPadApp tPadApp = (ITPadApp)sender;
+      tPadApp.Closed -= tPadApp_Closed;
+      gTPadApp.Children.Remove(tPadApp as UserControl);
+      currentApps.Remove(tPadApp);
+    }
+
+    public ITPadApp GetRunningInstance(Type appType)
+    {
+      return currentApps.SingleOrDefault(app => app.GetType().Equals(appType));
     }
 
     private void tpWindow_Loaded(object sender, RoutedEventArgs e)
@@ -76,7 +80,11 @@ namespace UofM.HCI.tPab
       if (System.Windows.Forms.SystemInformation.MonitorCount == 1)
         return;
 
-      var tPadDisplay = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(tmp => tmp.Bounds.Width == Profile.Resolution.Width && tmp.Bounds.Height == Profile.Resolution.Height);
+      if (InstanceNumber > 0)
+        return;
+
+      var tPadDisplay = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(
+        tmp => tmp.Bounds.Width == Profile.Resolution.Width && tmp.Bounds.Height == Profile.Resolution.Height);
       if (tPadDisplay == null)
         return;
 

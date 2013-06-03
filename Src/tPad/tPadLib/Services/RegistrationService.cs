@@ -2,54 +2,58 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CAF.ContextService;
-using System.Drawing;
 using System.IO;
 using System.Diagnostics;
+using Ubicomp.Utils.NET.CAF.ContextService;
+using Ubicomp.Utils.NET.CAF.ContextAdapter;
+using System.Windows;
+using UofM.HCI.tPab.Monitors;
 
 namespace UofM.HCI.tPab.Services
 {
 
   public class RegistrationService : ContextService
   {
-
-    public TPadDocument ActualDocument { get; set; }
-
     public ITPadAppContainer Container { get; set; }
 
     public ITPadAppController Controller { get; set; }
 
-    private ManagedA.wrapperRegistClass featureTracker;
-
-    private Bitmap oldCamView;
-
-    private TPadLocation location;
-
+    private ManagedA.wrapperRegistClass Tracker { get; set; }
+   
     private float temp_SimCaptureToSourceImageRatio;
 
     private bool isProcessStopped = false;
 
-    protected override void CustomStart()
+    private TPadDevice Device { get; set; }
+
+    private TPadLocation location;
+
+    private CameraMonitor cameraMonitor;
+    private SimCameraMonitor simCameraMonitor;
+
+    private int status = -1;
+    private int trigger = 0;
+    
+    public RegistrationService(bool UseCamera, TPadDevice device, CameraMonitor camera, SimCameraMonitor simCamera)
     {
-      base.CustomStart();
-
-      if (!isProcessStopped)
-      {
-        featureTracker = new ManagedA.wrapperRegistClass();
-        featureTracker.createIndex(Environment.CurrentDirectory + "\\" + ActualDocument.DocumentName);
-
-        location = new TPadLocation();
-        oldCamView = new Bitmap(10, 10);
-        temp_SimCaptureToSourceImageRatio = 1;
-      }
-      else isProcessStopped = false;
+      Device = device;
+      cameraMonitor = camera;
+      simCameraMonitor = simCamera;
     }
 
-    protected override void CustomStop()
+    protected override void CustomStart()
     {
-      base.CustomStop();
+      temp_SimCaptureToSourceImageRatio = 1;
+    }
 
+    public void Pause()
+    {
       isProcessStopped = true;
+    }
+
+    public void Continue()
+    {
+      isProcessStopped = false;
     }
 
     /// <summary>
@@ -58,78 +62,94 @@ namespace UofM.HCI.tPab.Services
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected override void CustomUpdateMonitorReading(object sender, CAF.ContextAdapter.NotifyContextMonitorListenersEventArgs e)
+    protected override void CustomUpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)
     {
-      if (e.Type != typeof(Bitmap))
+      if (e.Type != typeof(System.Drawing.Bitmap))
         return;
-      if (!isProcessStopped)
-      {
-        if (TPadCore.Instance.UseFeatureTracking)
-        {
-          Bitmap camView = (Bitmap)e.NewObject;
-          Stopwatch sw = new Stopwatch();
-          camView.Save("new.png");
-          oldCamView.Save("old.png");
-          sw.Start();
-          // Here goes the machine vision code to find where the device is located based on the camera image
-          //ToDo: correct warping with camera
+      if (isProcessStopped)
+        return;
+      if (Container == null || Controller == null)
+        return;
+      if (Device.State == StackingState.StackedOnTop)
+        return;
 
-          //compute warping matrix
+      if (TPadCore.UseFeatureTracking)
+      {
+        if (sender is SimCameraMonitor)
+        {
+          if (Tracker == null)
+            Tracker = (sender as SimCameraMonitor).Tracker;
+          
           if (temp_SimCaptureToSourceImageRatio != Controller.SimCaptureToSourceImageRatio)
           {
             temp_SimCaptureToSourceImageRatio = Controller.SimCaptureToSourceImageRatio;
-            featureTracker.imageWarp(temp_SimCaptureToSourceImageRatio, TPadCore.Instance.IsSimulation);
+            Tracker.computeWarpMatrix(temp_SimCaptureToSourceImageRatio);
           }
+
+          status = Tracker.detectLocation(false, status);
+          GetLocationFromTracker();
+        }
+        else if (sender is CameraMonitor)
+        {
+          if (Tracker == null)
+            Tracker = (sender as CameraMonitor).Tracker;
 
           //start feature tracking
-          int status = featureTracker.detectLocation(camView, oldCamView);
-          if (status == 1)
-          {
-            location.Status = LocationStatus.Located;
-            location.RotationAngle = featureTracker.RotationAngle;
-
-            PointF locationPx = new PointF(featureTracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio, featureTracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
-            location.LocationCm = new PointF((float)(locationPx.X / Container.WidthFactor), (float)(locationPx.Y / Container.HeightFactor));
-
-            //TODO: get Document object from featureTracker
-            location.Document = ActualDocument;
-            location.PageIndex = featureTracker.PageIdx;
-            sw.Stop();
-            //Console.WriteLine(sw.Elapsed.TotalMilliseconds);
-          }
-          else if (status == -1)
-            location.Status = LocationStatus.NotLocated;
-
-          sw.Stop();
-          //update last image of camera
-          oldCamView = camView;
-        }
-        else
-        {
-          location.Status = LocationStatus.Located;
-          location.RotationAngle = Controller.RotationAngle;
-          location.LocationCm = new PointF((float)(Controller.Location.X / Controller.WidthFactor), (float)(Controller.Location.Y / Controller.HeightFactor));
-          location.Document = Controller.ActualDocument;
-          location.PageIndex = Controller.ActualPage;
+          //Stopwatch sw = new Stopwatch();
+          //sw.Start();
+          status = Tracker.detectLocation(true, status);
+          //sw.Stop();
+          //Console.WriteLine("Elapsed={0} ", sw.ElapsedMilliseconds);
+          GetLocationFromTracker();
         }
       }
+      else {
+        location = new TPadLocation();
+        location.Status = LocationStatus.Located;
+        location.RotationAngle = ClampedAngle(Controller.RotationAngle);
+        location.LocationCm = new Point(Controller.Location.X / Controller.WidthFactor, Controller.Location.Y / Controller.HeightFactor);
+        location.DocumentID = Controller.ActualDocument.ID;
+        location.PageIndex = Controller.ActualPage;
+      }
+      
       NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(TPadLocation), location));
     }
 
-
-    public void LoadDocuments(string[] documentFolders)
+    private void GetLocationFromTracker()
     {
-      if (documentFolders == null || documentFolders.Length == 0)
-        throw new ArgumentException("Parameter 'documentFolders' cannot be empty");
-      if (!Directory.Exists(documentFolders[0]))
-        throw new ArgumentException(String.Format("Folder '{0}' does not exist!", documentFolders[0]));
+      //status -1: not detected, status 1: location detected, 
+      //status 0: previous image and current image are the same -> no new location computation necessary
+      if (status == 1)
+      {
+        trigger = 0;
 
-      ActualDocument = new TPadDocument() { DocumentName = documentFolders[0] };
-      String[] pages = Directory.GetFiles(documentFolders[0], "*.png");
-      Array.Sort<String>(pages);
-      ActualDocument.Pages = new TPadPage[pages.Length];
-      for (int index = 0; index < pages.Length; index++)
-        ActualDocument.Pages[index] = new TPadPage() { PageIndex = index, FileName = pages[index] };
+        location = new TPadLocation();
+        location.Status = LocationStatus.Located;
+        location.RotationAngle = ClampedAngle(Tracker.RotationAngle);
+
+        Point locationPx = new Point(Tracker.LocationPxM.X / Controller.SimCaptureToSourceImageRatio,
+         Tracker.LocationPxM.Y / Controller.SimCaptureToSourceImageRatio);
+        location.LocationCm = new Point((float)(locationPx.X / Controller.WidthFactor),
+          (float)(locationPx.Y / Controller.HeightFactor));
+
+        //TODO: get Document object from featureTracker
+        location.DocumentID = Controller.ActualDocument.ID;
+        location.PageIndex = Tracker.PageIdx;
+      }
+      else if (status == -1 && trigger > 10)
+      {
+        location = new TPadLocation();
+        location.Status = LocationStatus.NotLocated;
+      }
+      else if (status == -1)
+      {
+        trigger++;
+      }
+    }
+
+    public static double ClampedAngle(double angle)
+    {
+      return ((angle % 360) + 360) % 360;
     }
 
   }

@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="UofM.HCI.tPab.SimulatorDevice" x:Name="sDevice"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300"
+             MouseMove="rFrame_MouseMove" MouseUp="rFrame_MouseUp" Loaded="sDevice_Loaded">
+
+  <UserControl.Resources>
+    <converters:MultiplierConverter x:Key="cMultiplier" />
+    <converters:MultiplierMultiConverter x:Key="cMultiplierMulti" />
+    <converters:FlippingSideToScaleConverter x:Key="fsToScale" />
+    <converters:SubstractionConverter x:Key="cSubtraction" />
+  </UserControl.Resources>
+
+  <!-- This is the place holder for the TPadApp -->
+  <Grid x:Name="gDevice" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Rectangle x:Name="rFrameLeft" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Left"
+               Width="{Binding ElementName=sDevice, Path=FrameWidth}"/>
+    <Rectangle x:Name="rFrameTop" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Top" HorizontalAlignment="Stretch"
+               Height="{Binding ElementName=sDevice, Path=FrameHeight}"/>
+    <Rectangle x:Name="rFrameRight" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Stretch" HorizontalAlignment="Right"
+               Width="{Binding ElementName=sDevice, Path=FrameWidth}"/>
+    <Rectangle x:Name="rFrameBottom" RadiusX="10" RadiusY="10" Fill="Black" MouseDown="rFrame_MouseDown" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+               Height="{Binding ElementName=sDevice, Path=FrameHeight}"/>
+
+    <Image x:Name="iCameraIcon" Source="camera.png" VerticalAlignment="Top" HorizontalAlignment="Center" Width="30" Margin="0,10,0,0"/>
+
+    <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="15" FontWeight="Bold" Foreground="White" Margin="15,15,0,0">Stacking Control: <TextBlock Text="{Binding ElementName=sDevice, Path=StackingControlState}" /></TextBlock>
+
+    <Button x:Name="btHorizontalFlip" Click="btHorizontalFlip_Click"
+            VerticalAlignment="Center" HorizontalAlignment="Right" Content=">" Height="25" Width="25" Margin="0,0,25,0"/>
+    <Button x:Name="btVerticalFlip" Click="btVerticalFlip_Click"
+            VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="V" Height="25" Width="25" Margin="0,0,0,25"/>
+
+    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="25,0,0,25" Orientation="Horizontal">
+      <ToggleButton x:Name="btLaunchCalculator" Click="btLaunchCalculator_Click"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Calc"  Height="25" Width="50"/>
+      <Button x:Name="btShakeDevice" Click="btShakeDevice_Click"
+              VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Shake"  Height="25" Width="50"/>
+    </StackPanel>
+
+    <ToggleButton x:Name="btStack" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,25,0" Click="btStack_Click"
+                  Height="25" Width="50" Content="Stack" />
+    
+    <Canvas x:Name="cWrapper" Width="{Binding ElementName=sDevice, Path=AppWidth}" Height="{Binding ElementName=sDevice, Path=AppHeight}"
+            VerticalAlignment="Center" HorizontalAlignment="Center">
+      <Canvas.RenderTransform>
+        <ScaleTransform ScaleX="{Binding ElementName=sDevice, Path=WidthMultiplier}" ScaleY="{Binding ElementName=sDevice, Path=HeightMultiplier}"/>
+      </Canvas.RenderTransform>
+
+      <Grid x:Name="gTPadApp" Background="Transparent"
+            Width="{Binding ElementName=sDevice, Path=Profile.Resolution.Width}"
+            Height="{Binding ElementName=sDevice, Path=Profile.Resolution.Height}">
+      </Grid>
+    </Canvas>
+
+    <Grid.RenderTransform>
+      <ScaleTransform x:Name="tScale" 
+                      ScaleX="{Binding ElementName=sDevice, Path=FlippingSide, Converter={StaticResource ResourceKey=fsToScale}}"
+                      CenterX="{Binding ElementName=sDevice, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
+                      CenterY="{Binding ElementName=sDevice, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
+    </Grid.RenderTransform>
+  </Grid>
+
+  <UserControl.RenderTransform>
+    <TransformGroup>
+      <RotateTransform x:Name="tRotate" Angle="{Binding ElementName=sDevice, Path=RotationAngle}" 
+                       CenterX="{Binding ElementName=sDevice, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
+                       CenterY="{Binding ElementName=sDevice, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
+      <!-- This transformation aligns the initial position of the tPad to the document below it -->
+      <TranslateTransform x:Name="tAlign">
+        <TranslateTransform.X>
+          <MultiBinding Converter="{StaticResource ResourceKey=cSubtraction}">
+            <Binding ElementName="sDevice" Path="Location.X" />
+            <Binding ElementName="sDevice" Path="ActualWidth" Converter="{StaticResource ResourceKey=cMultiplier}" ConverterParameter="0.5" />
+            <Binding ElementName="sDevice" Path="InitialX" Converter="{StaticResource ResourceKey=cMultiplier}" ConverterParameter="-1" />
+          </MultiBinding>
+        </TranslateTransform.X>
+        <TranslateTransform.Y>
+          <MultiBinding Converter="{StaticResource ResourceKey=cSubtraction}">
+            <Binding ElementName="sDevice" Path="Location.Y" />
+            <Binding ElementName="sDevice" Path="ActualHeight" Converter="{StaticResource ResourceKey=cMultiplier}" ConverterParameter="0.5" />
+          </MultiBinding>
+        </TranslateTransform.Y>
+      </TranslateTransform>
+    </TransformGroup>
+  </UserControl.RenderTransform>
+
+</UserControl>

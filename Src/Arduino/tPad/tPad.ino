@@ -61,25 +61,31 @@ void loop(){
   y = RAD_TO_DEG * (atan2(-xAng, -zAng) + PI);
   z = RAD_TO_DEG * (atan2(-yAng, -xAng) + PI);
 
-  //Output the caculations
-  Serial.print("x: ");
-  Serial.print(x);
-  Serial.print(" | y: ");
-  Serial.print(y);
-  Serial.print(" | z: ");
-  Serial.println(z);
-
   //read the digital values for the staking codes
   int stackCode0 = digitalRead(stackPin0);
   int stackCode1 = digitalRead(stackPin1);
   int stackCode2 = digitalRead(stackPin2);
   int stackCode3 = digitalRead(stackPin3);
 
-  Serial.print("StackCode: ");
+  //Output the caculations
+  Serial.print("{");
+  Serial.print("\"Orientation\": { \"X\": ");
+  Serial.print(x);
+  Serial.print(", \"Y\": ");
+  Serial.print(y);
+  Serial.print(", \"Z\": ");
+  Serial.print(z);
+  Serial.print(" }");
+
+  Serial.print(", ");
+  Serial.print("\"StackCode\": \"");
   Serial.print(stackCode0);
   Serial.print(stackCode1);
   Serial.print(stackCode2);
-  Serial.println(stackCode3);
+  Serial.print(stackCode3);
+  Serial.print("\"");
+  Serial.println("}");
+  Serial.flush();
 
   delay(100);//just here to slow down the serial output - Easier to read
 }

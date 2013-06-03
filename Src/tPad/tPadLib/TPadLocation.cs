@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
+using System.ComponentModel;
+using System.Windows;
 
 namespace UofM.HCI.tPab
 {
@@ -20,18 +21,34 @@ namespace UofM.HCI.tPab
     /// These page-variables correspond to the index of the current page on the collection of pages the RegistrationService searches on.
     /// </summary>
     public int PageIndex { get; set; }
-    public TPadDocument Document { get; set; }
+    public int DocumentID { get; set; }
 
     /// <summary>
     /// This is the location of the center of the device.
     /// </summary>
-    //public PointF LocationPx { get; set; } //Pixels on the simulator window
-    public PointF LocationCm { get; set; }
+    //public Point LocationPx { get; set; } //Pixels on the simulator window
+    public Point LocationCm { get; set; }
 
     /// <summary>
     /// This angle is calculated relative to the vertical axis of the document.
     /// </summary>
-    public float RotationAngle { get; set; }
+    public double RotationAngle { get; set; }
+
+    public bool Equals(TPadLocation other)
+    {
+      if (Status != other.Status)
+        return false;
+      if (PageIndex != other.PageIndex)
+        return false;
+      if (DocumentID != other.DocumentID)
+        return false;
+      if (LocationCm != other.LocationCm)
+        return false;
+      if (RotationAngle != other.RotationAngle)
+        return false;
+
+      return true;
+    }
   }
 
 }

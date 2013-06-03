@@ -60,6 +60,13 @@ namespace UofM.HCI.tPab.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CalculatorAppIcon {
+            get {
+                object obj = ResourceManager.GetObject("CalculatorAppIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap SampleDoc {
             get {
                 object obj = ResourceManager.GetObject("SampleDoc", resourceCulture);

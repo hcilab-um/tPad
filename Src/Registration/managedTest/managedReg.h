@@ -7,7 +7,6 @@ using namespace System::Drawing;
 using namespace System::Collections::Generic;
 using namespace System::Runtime::InteropServices;
 
-
 #include "unmanagedReg.h" //Unmanaged class INeedThisClass
 //#pragma managed(push, off)
 //#include <opencv2/highgui/highgui.hpp>
@@ -15,10 +14,32 @@ using namespace System::Runtime::InteropServices;
 
 namespace ManagedA 
 {	
+	public value struct Glyphs
+	{		
+		int numberSquares;
+		int numberTriangles;
+	};
+
+	public ref class wrapperFeatureMatcher
+	{
+	public:
+		wrapperFeatureMatcher() {}
+		wrapperFeatureMatcher(bool IsCameraInUse, String^ pathPDFImg);
+		~wrapperFeatureMatcher();
+
+		FeatureMatcher GetFeatureMatcher()
+		{
+			return *matcherObj;
+		}
+
+	private:
+		FeatureMatcher *matcherObj;
+	};
+
 	public ref class wrapperRegistClass
 	{
 	public:
-		wrapperRegistClass();
+		wrapperRegistClass(bool IsCameraInUse, float imageRatio, wrapperFeatureMatcher^ fMatcher);
 
 		~wrapperRegistClass();
 		
@@ -37,15 +58,7 @@ namespace ManagedA
 				return registrationObj->getPageIdx();
 			}
 		}
-		
-		property String^ PageName
-		{
-			String^ get()
-			{
-				return gcnew String((registrationObj->getPageName()).c_str());
-			}
-		}
-		
+						
 		property PointF LocationPxBR
 		{
 			PointF get()
@@ -89,30 +102,43 @@ namespace ManagedA
 				PointF locationPt = *new PointF((registrationObj->getLocationPxM().x),(registrationObj->getLocationPxM()).y);				
 				return locationPt;
 			}
+		}				
+				
+		void computeWarpMatrix(float imageRatio)
+		{
+			registrationObj->computeWarpMatrix(imageRatio);
 		}
 
-		property float MiliSec
+		void computeWarpMatrix(String^ Path)
 		{
-			float get()
-			{			
-				return registrationObj->getMiliSec();
-			}
+			char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(Path);
+			registrationObj->computeWarpMatrix(str);
 		}
 				
-		void createIndex(String^ path)
+		void SetCameraImg(Bitmap^ bmp1);
+
+		void SetCameraImg()
 		{
-			char* str = (char*)(void*)Marshal::StringToHGlobalAnsi(path);
-			registrationObj->createIndex(str);
-		}
-		
-		void imageWarp(float imageRatio, bool isSim)
-		{
-			registrationObj->imageWarp(imageRatio, isSim);
+			registrationObj->setCameraImg();
 		}
 
-		int detectLocation(Bitmap^ bmp1, Bitmap^ bmp2);
+		int detectLocation(bool camInUse, int previousStatus)
+		{
+			return registrationObj->detectLocation(camInUse, previousStatus);
+		}
 
+		Glyphs DetectFigures(float minLength, float maxLength, int tresh_binary);
+
+		int connectCamera()
+		{
+			return registrationObj->connectCamera();
+		}
 		
+		int disconnectCamera()
+		{
+			return registrationObj->disconnectCamera();
+		}
+
 	private: 
 		paperRegistration *registrationObj;
 	};

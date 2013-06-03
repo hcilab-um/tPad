@@ -6,6 +6,7 @@ using System.IO;
 using TallComponents.PDF;
 using System.Windows;
 using TallComponents.PDF.TextExtraction;
+using System.Xml.Serialization;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -18,14 +19,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       DocumentPath = docPath;
     }
-
+       
     public string PixelToContent(Point position, int actualPage, double width, double height, out Rect wordBounds)
     {
       using (FileStream fileIn = new FileStream(DocumentPath, FileMode.Open, FileAccess.Read))
       {
         //0- Open and load the PDF
         Document PdfDocument = new Document(fileIn);
-
+        
         //1- try to find the piece of content the mouse is hovering
         TallComponents.PDF.Page page = PdfDocument.Pages[actualPage];
 
@@ -47,7 +48,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         StringBuilder currentWord = new StringBuilder();
         wordBounds = Rect.Empty;
         bool foundWord = false;
-
+        
         foreach (Glyph glyph in glyphs)
         {
           if (glyph.Characters.Length == 0 || glyph.Characters[0] == ' ')
@@ -64,8 +65,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
             wordBounds = Rect.Empty;
             currentWord.Clear();
             continue;
-          }
-
+          }         
+          
           glyphBounds = new Rect(
             glyph.TopLeft.X,
             page.Height - glyph.TopLeft.Y,
@@ -129,10 +130,11 @@ namespace UofM.HCI.tPab.App.ActiveReader
           StringBuilder currentWord = new StringBuilder();
           Rect wordBounds = Rect.Empty;
           bool foundWord = false;
+          int wordIndex = 0;
 
           foreach (Glyph glyph in glyphs)
           {
-            if (glyph.Characters.Length == 0 || glyph.Characters[0] == ' ')
+            if (glyph.Characters.Length == 0 || wordIndex == 0)
             {
               if (foundWord)
               {
@@ -141,14 +143,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
                   wordBounds = new Rect(wordBounds.Left, wordBounds.Top, wordWidth, wordBounds.Height);
 
                 foundWord = false;
-                results.Add(new ContentLocation() { Content = currentWord.ToString(), PageIndex = pageIndex, ContentBounds = wordBounds });
-                wordBounds = Rect.Empty;
-                currentWord.Clear();
+                results.Add(new ContentLocation() { Content = currentWord.ToString(), PageIndex = pageIndex, ContentBounds = wordBounds });           
               }
 
+              wordIndex = 0;
               wordBounds = Rect.Empty;
               currentWord.Clear();
-              continue;
+              //continue;
             }
 
             glyphBounds = new Rect(
@@ -164,20 +165,61 @@ namespace UofM.HCI.tPab.App.ActiveReader
             string chars = String.Empty;
             foreach (char ch in glyph.Characters)
               currentWord.Append(ch);
+            
+            if (!wordToSearch[wordIndex].ToString().Equals(glyph.Characters[0].ToString(), StringComparison.CurrentCultureIgnoreCase))
+              wordIndex = 0;             
+            else wordIndex++;
 
-            if (!wordToSearch.Equals(currentWord.ToString(), StringComparison.CurrentCultureIgnoreCase))
+            if (wordIndex == wordToSearch.Length)
             {
-              if (foundWord)
-                foundWord = false;
-              continue;
+              foundWord = true;
+              wordIndex = 0;             
             }
-
-            foundWord = true;
           }
         }
       }
 
       return results;
+    }
+
+    public void SaveLayersToDisk(TPadDocument document, int deviceID)
+    {
+      if (deviceID != -1)
+        return;
+
+      String fileName = String.Format(@"{0}-{1}-ar.cache", document.FileName, deviceID);
+      if (File.Exists(fileName))
+        File.Delete(fileName);
+
+      XmlSerializer serializer = new XmlSerializer(typeof(ActiveReaderDocument));
+      TextWriter textWriter = new StreamWriter(fileName);
+      serializer.Serialize(textWriter, document);
+      textWriter.Close();
+    }
+
+    public void LoadLayersFromDisk(ActiveReaderDocument document, int deviceID)
+    {
+      if (deviceID != -1)
+        return;
+
+      String fileName = String.Format(@"{0}-{1}-ar.cache", document.FileName, deviceID);
+      if (!File.Exists(fileName))
+        return;
+
+      XmlSerializer deserializer = new XmlSerializer(typeof(ActiveReaderDocument));
+      TextReader textReader = new StreamReader(fileName);
+      ActiveReaderDocument newDoc = (ActiveReaderDocument)deserializer.Deserialize(textReader);
+      textReader.Close();
+
+      for (int index = 0; index < document.Pages.Length; index++)
+      {
+        document[index].Annotations = newDoc[index].Annotations;
+        document[index].Highlights = newDoc[index].Highlights;
+        //document[index].Scribblings = newDoc[index].Scribblings;
+        document[index].ScribblingCollections = newDoc[index].ScribblingCollections;
+        document[index].SearchResults = newDoc[index].SearchResults;
+        document[index].FigureLinks = newDoc[index].FigureLinks;
+      }
     }
   }
 }

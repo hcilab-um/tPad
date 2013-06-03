@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CAF.ContextAdapter;
 using UofM.HCI.tPab.Monitors;
-using CAF.ContextService;
 using System.Windows;
 using UofM.HCI.tPab.Services;
 using System.ComponentModel;
+using Ubicomp.Utils.NET.CAF.ContextService;
+using Ubicomp.Utils.NET.CAF.ContextAdapter;
+using UofM.HCI.tPab.Network;
+using Ubicomp.Utils.NET.MTF;
+using UofM.HCI.tPab.Applications;
 
 namespace UofM.HCI.tPab
 {
@@ -16,98 +19,159 @@ namespace UofM.HCI.tPab
 
     private static log4net.ILog logger;
 
-    public bool IsSimulation { get; set; }
-    public bool UseFeatureTracking { get; set; }
+    //This is a shared variable among all the instances of core
+    public static bool UseFeatureTracking { get; set; }
+
+    public event GlyphsChangedEventHandler GlyphsChanged;
+    private List<Glyph> currentGlyphs = new List<Glyph>();
 
     public TPadDevice Device { get; set; }
     public TPadProfile Profile { get; set; }
 
     public RegistrationService Registration { get; set; }
+    public GlyphDetectionService GlyphDetection { get; set; }
 
-    private static TPadCore instance = null;
-    public static TPadCore Instance
+    private BoardMonitor Board { get; set; }
+    private SimBoardMonitor SimBoard { get; set; }
+    private CameraMonitor Camera { get; set; }
+    private SimCameraMonitor SimCamera { get; set; }
+
+    public String BoardCOM { get; set; }
+    public bool UseCamera { get; set; }
+
+    private ContextMonitorContainer monitorsContainer = null;
+    private ContextServiceContainer servicesContainer = null;
+
+    public TPadCore()
     {
-      get
-      {
-        if (instance == null)
-          instance = new TPadCore();
-        return instance;
-      }
+      monitorsContainer = new ContextMonitorContainer();
+      servicesContainer = new ContextServiceContainer();
     }
 
-    private TPadCore()
-    {
-      Registration = new RegistrationService();
-    }
-
-    public void Configure(TPadProfile profile, bool isSimulation = false)
+    public void Configure(TPadProfile profile, int deviceID, String groupIP, int port, int TTL)
     {
       log4net.Config.XmlConfigurator.Configure();
       logger = log4net.LogManager.GetLogger(typeof(TPadCore));
 
-      IsSimulation = isSimulation;
       Profile = profile;
-      Device = new TPadDevice() { Profile = Profile };
-      Device.LoadId();
+      Device = new TPadDevice(deviceID) { Profile = Profile };
 
-      ArduinoMonitor arduino = null;
-      ContextMonitor cameraMonitor = null, flippingMonitor = null, stackingMonitor = null;
-      if (IsSimulation)
-      {
-        // These are the fictitious monitors used in simulation mode
-        cameraMonitor = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
-        flippingMonitor = new SimFlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-        stackingMonitor = new SimStackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-      }
-      else
-      {
-        // Create here the actual monitors
-        arduino = new ArduinoMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-        cameraMonitor = new CameraMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
-        flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
-        stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.Continous };
+      Board = new BoardMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
+      SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
+      Camera = new CameraMonitor(UseCamera) { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 }; 
+      SimCamera = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
 
-        // Arduino wiring
-        arduino.OnNotifyContextServices += (flippingMonitor as FlippingMonitor).UpdateMonitorReading;
-        arduino.OnNotifyContextServices += (stackingMonitor as StackingMonitor).UpdateMonitorReading;
-        // Arduino embedding
-        ContextMonitorContainer.AddMonitor(arduino);
-      }
+      FlippingMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
+      StackingMonitor stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
+      ShakingMonitor shakingMonitor = new ShakingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
+      MulticastMonitor multicastMonitor = new MulticastMonitor(groupIP, port, TTL);
+
+      Registration = new RegistrationService(UseCamera, Device, Camera, SimCamera);
+      GlyphDetection = new GlyphDetectionService(Device);
 
       //Wiring up the components
-      cameraMonitor.OnNotifyContextServices += Registration.UpdateMonitorReading;
+      Board.OnNotifyContextServices += flippingMonitor.UpdateMonitorReading;
+      Board.OnNotifyContextServices += stackingMonitor.UpdateMonitorReading;
+      Board.OnNotifyContextServices += shakingMonitor.UpdateMonitorReading;
+
+      SimBoard.OnNotifyContextServices += flippingMonitor.UpdateMonitorReading;
+      SimBoard.OnNotifyContextServices += stackingMonitor.UpdateMonitorReading;
+      SimBoard.OnNotifyContextServices += shakingMonitor.UpdateMonitorReading;
+
+      Camera.OnNotifyContextServices += Registration.UpdateMonitorReading;
+      Camera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
+
+      SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
+      SimCamera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
+           
+      
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      shakingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      multicastMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       Registration.OnNotifyContextServiceListeners += this.ContextChanged;
+      GlyphDetection.OnNotifyContextServiceListeners += this.ContextChanged;
 
       //Register the monitors to the container
-      ContextMonitorContainer.AddMonitor(cameraMonitor);
-      ContextMonitorContainer.AddMonitor(flippingMonitor);
-      ContextMonitorContainer.AddMonitor(stackingMonitor);
+      monitorsContainer.AddMonitor(Board);
+      monitorsContainer.AddMonitor(SimBoard);
+      monitorsContainer.AddMonitor(SimCamera);
+      monitorsContainer.AddMonitor(Camera);
+      monitorsContainer.AddMonitor(flippingMonitor);
+      monitorsContainer.AddMonitor(stackingMonitor);
+      monitorsContainer.AddMonitor(multicastMonitor);
 
       //Register the services to the container
-      ContextServiceContainer.AddContextService(this);
-      ContextServiceContainer.AddContextService(Registration);
+      servicesContainer.AddContextService(this);
+      servicesContainer.AddContextService(Registration);
+      servicesContainer.AddContextService(GlyphDetection);
     }
 
     public void CoreStart(ITPadAppContainer appContainer, ITPadAppController appController)
     {
-      if (IsSimulation && appController != null)
-      {
-        SimCameraMonitor cameraMonitor = (SimCameraMonitor)ContextMonitorContainer.GetContextMonitor(typeof(SimCameraMonitor));
-        cameraMonitor.CameraSource = appController;
-        Registration.Container = appContainer;
-        Registration.Controller = appController;
-      }
+      //By default the system works with the simulated sources (camera, board)
+      SimBoard.SimDevice = appController;
+      SimCamera.CameraSource = appController;
+      Camera.Controller = appController;
+      Registration.Container = appContainer;
+      Registration.Controller = appController;
+
+      ConfigurePeripherals();
 
       logger.Info("Starting Up Services and Monitors");
-      ContextServiceContainer.StartServices();
-      ContextMonitorContainer.StartMonitors();
+      servicesContainer.StartServices();
+      monitorsContainer.StartMonitors();
       logger.Info("Monitors Started");
+    }
+
+    public void CoreStop()
+    {
+      Registration.Pause();
+      monitorsContainer.StopMonitors();
+      servicesContainer.StopServices();
+    }
+
+   private void ConfigurePeripherals()
+    {
+      //Stops everything
+      Board.COMPort = null;
+      SimBoard.Pause = true;
+      SimCamera.Pause = true;
+
+      //Sets the COM port for the board and camera monitors
+      Board.COMPort = BoardCOM;
+
+      if (!Board.TryPort())
+      {
+        SimBoard.Pause = false;
+        Board.Stop();
+      }
+
+      if (!Camera.TryPort())
+      {
+        SimCamera.Pause = false;
+        Camera.Stop();
+      }
     }
 
     protected override void CustomUpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)
     {
+      if (e.Type == typeof(StackingUpdate))
+      {
+        Device.ProcessStackingUpdate((StackingUpdate)e.NewObject);
+      }
+      else if (e.Type == typeof(TransportMessage))
+      {
+        Device.ProcessStackingUpdate((TransportMessage)e.NewObject);
+      }
+      else if (e.Type == typeof(FlippingMode))
+      {
+        Device.FlippingSide = (FlippingMode)e.NewObject;
+      }
+      else if (e.Type == typeof(ShakingMonitor))
+      {
+        Device.NotifyShake((DateTime)e.NewObject);
+      }
     }
 
     public void ContextChanged(object sender, NotifyContextServiceListenersEventArgs e)
@@ -115,6 +179,29 @@ namespace UofM.HCI.tPab
       if (sender == Registration)
       {
         Device.Location = (TPadLocation)e.NewObject;
+      }
+      if (sender == GlyphDetection)
+      {
+        List<GlyphEvent> events = new List<GlyphEvent>();
+        List<Glyph> glyphs = (List<Glyph>)e.NewObject;
+
+        foreach (Glyph glyph in glyphs)
+        {
+          if (currentGlyphs.Exists(tmp => tmp == glyph))
+            continue;
+          events.Add(new GlyphEvent() { Glyph = glyph, Status = GlyphStatus.Entered });
+        }
+
+        foreach (Glyph glyph in currentGlyphs)
+        {
+          if (glyphs.Exists(tmp => tmp == glyph))
+            continue;
+          events.Add(new GlyphEvent() { Glyph = glyph, Status = GlyphStatus.Left });
+        }
+
+        currentGlyphs = glyphs;
+        if (GlyphsChanged != null)
+          GlyphsChanged(this, new GlyphsEventArgs() { GlyphEvents = events });
       }
     }
 

@@ -11,18 +11,10 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2\calib3d\calib3d.hpp>
 
-
-#include <ctime>
-
-paperRegistration::paperRegistration()
+paperRegistration::paperRegistration(bool camInUse, float imageRatio, FeatureMatcher* matcher)
 {
-	/*cv::Point2f point;
-	point.x = 2;
-	randomValue = 7.0 + (double) RotationAngle;
-	changeRandomVariable();*/
 	PageIdx = -1;
-	PageName = "default";
-
+	
 	LocationPxTL = cv::Point2f(-1,-1);
 	LocationPxTR = cv::Point2f(-1,-1);
 	LocationPxBL = cv::Point2f(-1,-1);
@@ -30,9 +22,35 @@ paperRegistration::paperRegistration()
 	LocationPxM = cv::Point2f(-1,-1);
 	RotationAngle = 0;	
 
-	isSimulation_ = true;
-	imgRatio_ = 1.0;
-	miliseconds = 0;
+	isCameraInUse_ = camInUse;
+	isCameraConnected = false;
+	imgRatio_ = imageRatio;
+	computeLocation = true;
+	status = -1;
+
+	/*point.push_back(cvPoint(175,0));
+	point.push_back(cvPoint(492, 350));*/
+
+	if (isCameraInUse_)
+	{
+		//fastDetectorPageImg = new cv::FastFeatureDetector(145, true);
+		fastDetectorCamImg = new cv::FastFeatureDetector(30, true);
+		//matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 21, 0));
+		extractor = new cv::FREAK(true, false, 13.0F, 2);
+	}	
+	else 
+	{
+		//surfDetectorPageImg = new cv::SurfFeatureDetector(2000, 4, 1, false);
+		surfDetectorCamImg = new cv::SurfFeatureDetector(600,4, 1, false);
+		//matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 25, 0));
+		extractor = new cv::FREAK(true, false, 10.0F, 3);		
+	}
+
+	fMatcher = matcher->getFeatureMatcher();
+	dbKeyPoints = matcher->getDBKeyPoints();
+	
+	lastDeviceImage = cv::Mat();
+	currentDeviceImg = cv::Mat();
 }
 
 paperRegistration::~paperRegistration()
@@ -42,11 +60,6 @@ paperRegistration::~paperRegistration()
 int paperRegistration::getPageIdx()
 {
 	return PageIdx;
-}
-
-std::string paperRegistration::getPageName()
-{
-	return PageName;
 }
 
 cv::Point2f paperRegistration::getLocationPxTL()
@@ -79,77 +92,259 @@ float paperRegistration::getRotationAngle()
 	return RotationAngle;
 }
 
-void paperRegistration::imageWarp(float imageRatio, bool isSim)
+void paperRegistration::warpImage(cv::Mat &rawImage, cv::Mat &image, bool camInUse)
 {
-	isSimulation_ = isSim;
-	imgRatio_ = imageRatio;
+	if (rawImage.empty())
+		return;
 
-	if (!isSimulation_)
+	//cv::Mat image = rawImage.clone();
+	if (camInUse)
 	{
-		cv::Point2f srcPoint[4] = {cv::Point2f(10,10),cv::Point2f(155,10), cv::Point2f(10,292), cv::Point2f(166,292)};
-		cv::Point2f destPoint[4] = {cv::Point2f(446,666), cv::Point2f(267,666), cv::Point2f(446,316), cv::Point2f(253,316)};		
+		std::vector<cv::Point2f> point(2);
+		point[0] = cvPoint(172,0);
+		point[1] = cvPoint(490, 352);
+
+		if (!warpMat.empty())
+		{
+			cv::warpPerspective(rawImage, image, warpMat, cv::Size(1000,2000));			
+			cv::perspectiveTransform(point, point, warpMat);				
+		}
+		image = cv::Mat(image, cv::Rect(point[0], point[1]));
 		
-		//compute homography matrix
-		warpMat = cv::getPerspectiveTransform(srcPoint, destPoint);
+		cv::Mat blurrImg;
+		cv::GaussianBlur(image, blurrImg, cv::Size(5,5), 3);		
+		cv::addWeighted(image, 1.6, blurrImg, -0.5, 0, image);		
+		//imwrite("cam1.png", image);
+	}
+	else
+	{			
+		warpMat = getRotationMatrix2D(cv::Point2f(rawImage.cols/2.0, rawImage.rows/2.0), 180, 1);
+		cv::warpAffine(rawImage, image, warpMat, rawImage.size());
+		cv::resize(image, image, cv::Size(rawImage.cols*imgRatio_, rawImage.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
+		//imwrite("sim.png", image);
+	}	
+}
+
+void paperRegistration::setCameraImg()
+{
+	cv::Mat rawImage;
+	loadCameraImage(rawImage);
+	//imwrite("rawImage.png", rawImage);
+	//warp image
+	if (status == -1 || compareImages(rawImage, lastDeviceImage) > 1.6)
+	{		
+		warpImage(rawImage, currentDeviceImg, true);		
+		computeLocation = true;
+	}
+	else computeLocation = false;
+
+	lastDeviceImage = rawImage.clone();
+
+}
+
+void paperRegistration::setCameraImg(cv::Mat &camImg)
+{	
+	cv::Mat rawImage;
+	cvtColor(camImg, rawImage, CV_BGR2GRAY);
+
+	//warp image
+	if (status == -1 || compareImages(rawImage, lastDeviceImage) > 1.6)
+	{
+		warpImage(rawImage, currentDeviceImg, false);
+		computeLocation = true;
+	}
+	else computeLocation = false;
+	
+	lastDeviceImage = rawImage.clone();
+}
+
+void paperRegistration::computeWarpMatrix(float imageRatio)
+{
+	imgRatio_ = imageRatio;
+}
+
+void paperRegistration::computeWarpMatrix(std::string path)
+{
+	warpMat = cv::Mat( 3, 3, CV_32FC1 );
+	cv::FileStorage fw(path, cv::FileStorage::READ );
+	fw["homography"] >> warpMat; 
+	fw.release();
+}
+
+float paperRegistration::computeAngle( cv::Point2f pt1, cv::Point2f pt2, cv::Point2f pt0 )
+{
+	float slope1 = (pt0.y - pt2.y)/(pt0.x - pt2.x);
+	float slope2 = (pt2.y - pt1.y)/(pt2.x - pt1.x);
+
+	if (slope2*slope1 == -1)
+		return 90.0f;
+	else return (atan(fabs((slope2-slope1)/(1.0f+slope2*slope1))))*180/CV_PI;
+}
+
+float paperRegistration::computeLength(cv::Point2f pt0, cv::Point2f pt1)
+{
+	return sqrt((pt0.x-pt1.x)*(pt0.x-pt1.x)+(pt0.y-pt1.y)*(pt0.y-pt1.y));
+}
+
+float paperRegistration::computeArea(cv::Point2f pt0, cv::Point2f pt1, cv::Point2f pt2 )
+{
+	float a = sqrt((pt0.x-pt1.x)*(pt0.x-pt1.x)+(pt0.y-pt1.y)*(pt0.y-pt1.y));
+	float b = sqrt((pt1.x-pt2.x)*(pt1.x-pt2.x)+(pt1.y-pt2.y)*(pt1.y-pt2.y));
+	float c = sqrt((pt0.x-pt2.x)*(pt0.x-pt2.x)+(pt0.y-pt2.y)*(pt0.y-pt2.y));
+
+	float perimeter = a+b+c;
+
+	return sqrt(0.5*perimeter*(0.5*perimeter-a)*(0.5*perimeter-b)*(0.5*perimeter-c));
+}
+
+void paperRegistration::detectFigures(cv::vector<cv::vector<cv::Point>>& squares, cv::vector<cv::vector<cv::Point>>& triangles,
+	float minLength, float maxLength, int tresh_binary)
+{
+	if (currentDeviceImg.empty())
+		return;
+	
+	//cv::Mat image = currentDeviceImg;
+	//cv::Mat image = cv::imread("C:/Users/sophie/Desktop/meinz.png", CV_LOAD_IMAGE_GRAYSCALE);// cv::imread(path, CV_LOAD_IMAGE_GRAYSCALE);  
+	//resize(image, image, cv::Size(500,700));
+
+	squares.clear();  
+	triangles.clear();	
+	
+	cv::Mat gray;
+	cv::Mat element = getStructuringElement(cv::MORPH_RECT, cv::Size(7,7));
+	cv::vector<cv::vector<cv::Point> > contours;
+
+	//compute binary image
+	//use dilatation and erosion to improve edges
+	threshold(currentDeviceImg, gray, tresh_binary, 255, cv::THRESH_BINARY_INV);	
+	dilate(gray, gray, element, cv::Point(-1,-1));
+	erode(gray, gray, element, cv::Point(-1,-1));
+	
+	// find contours and store them all as a list
+	cv::findContours(gray, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+	
+	//test each contour
+	cv::vector<cv::Point> approx;
+	cv::vector<cv::vector<cv::Point> >::iterator iterEnd = contours.end();
+	for(cv::vector<cv::vector<cv::Point> >::iterator iter = contours.begin(); iter != iterEnd; ++iter)
+	{
+		// approximate contour with accuracy proportional
+		// to the contour perimeter
+		cv::approxPolyDP(*iter, approx, arcLength(*iter, true)*0.03, true);
+	     
+		//contours should be convex
+		if (isContourConvex(approx))
+		{
+			// square contours should have 4 vertices after approximation and 
+			// relatively large length (to filter out noisy contours)
+			if( approx.size() == 4)
+			{
+				bool rectangular = true;	 
+				for( int j = 3; j < 6; j++ )
+				{
+					// if cosines of all angles are small
+					// (all angles are ~90 degree) then write
+					// vertices to result
+					 if (fabs(90 - fabs(computeAngle(approx[j%4], approx[j-3], approx[j-2]))) > 7)
+					 {
+						rectangular = false;
+						break;
+					 }
+				}
+				
+				if (!rectangular)
+					continue;
+				
+				float side1 = computeLength(approx[0], approx[1]);
+				float side2 = computeLength(approx[1], approx[2]);
+					
+				if (side1 > minLength && side1 < maxLength && 
+					side2 > minLength && side2 < maxLength)
+					squares.push_back(approx);
+			}		
+			// triangle contours should have 3 vertices after approximation and 
+			// relatively large length (to filter out noisy contours)
+			else if ( approx.size() == 3)
+			{
+				float side1 = computeLength(approx[0], approx[1]);
+				float side2 = computeLength(approx[1], approx[2]);
+				float side3 = computeLength(approx[2], approx[0]);
+				
+				if (side1 > minLength && side1 < maxLength && 
+					side2 > minLength && side2 < maxLength &&
+					side3 > minLength && side3 < maxLength)
+					triangles.push_back(approx);
+			}
+		}
 	}
 }
 
-cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &cameraImage, cv::vector<cv::vector<cv::KeyPoint>> &dbKeyPoints)
+cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &deviceImage)
 {   
 	std::vector<cv::KeyPoint> deviceKeypoints;
-	cv::FAST(cameraImage, deviceKeypoints, 30, true);
-
 	cv::Mat deviceImageDescriptors;	
-	cv::FREAK extractor;
-	extractor.compute(cameraImage, deviceKeypoints, deviceImageDescriptors);
+
+	if (isCameraInUse_)
+		fastDetectorCamImg->detect(deviceImage, deviceKeypoints);
+	else surfDetectorCamImg->detect(deviceImage, deviceKeypoints);
+	extractor->compute(deviceImage, deviceKeypoints, deviceImageDescriptors);
 	
-		if (deviceImageDescriptors.rows > 4)
+	if (deviceImageDescriptors.rows > 4)
 	{
 		std::vector<std::vector<cv::DMatch>> dmatches;
-		matcher.knnMatch(deviceImageDescriptors, dmatches, 2);
+		fMatcher->knnMatch(deviceImageDescriptors, dmatches, 2);
+
+		//set votingPageIndices to null
+		int count = dbKeyPoints.size();
+		cv::vector<int> votingPageIndices;
+		for (int i = 0; i < count; i++)
+			votingPageIndices.push_back(0);
+
 		std::vector<cv::Point2f> mpts_1, mpts_2; // Used for homography	
-		bool PageIdxIsSet = false;
-		for(unsigned int i=0; i<(unsigned int)dmatches.size(); ++i)
+		std::vector<std::vector<cv::DMatch>>::iterator endIterator = dmatches.end();
+		for (std::vector<std::vector<cv::DMatch>>::iterator iter = dmatches.begin(); iter != endIterator; ++iter)
 		{
-			if(!dmatches[i].empty()) 
+			std::vector<cv::DMatch>::iterator firstMatch = iter->begin();
+			if(!iter->empty()) 
 			{
-				if (dmatches[i][0].distance < 0.7*dmatches[i][1].distance)
+				if (firstMatch->distance < 0.7*(++(iter->begin()))->distance)
 				{
-					mpts_1.push_back(deviceKeypoints[dmatches[i][0].queryIdx].pt);		
-					mpts_2.push_back(dbKeyPoints[dmatches[i][0].imgIdx][dmatches[i][0].trainIdx].pt);
-				
-					if (PageIdxIsSet != true)
-					{
-						PageIdx = dmatches[i][0].imgIdx;
-						PageIdxIsSet = true;
-					}
+					mpts_1.push_back(deviceKeypoints[firstMatch->queryIdx].pt);		
+					mpts_2.push_back(dbKeyPoints[firstMatch->imgIdx][firstMatch->trainIdx].pt);
+					votingPageIndices[firstMatch->imgIdx]++;
 				}								
 			}
 		}
 
-		deviceKeypoints.clear();
-		std::vector<uchar> mask;
-		if (mpts_1.size() >= 4)
-		{
-			cv::Mat loc = findHomography(mpts_1, mpts_2, CV_RANSAC, 3, mask);
-			return loc;
+		int max = 0;
+		PageIdx = -1;
+		for (unsigned int i = 0; i < votingPageIndices.size(); ++i)
+		{			
+			if (votingPageIndices[i] > max)
+			{
+				max = votingPageIndices[i];
+				PageIdx = i;
+			}
 		}
+
+		if (mpts_1.size() >= 4)
+			return findHomography(mpts_1, mpts_2, cv::RANSAC);
 	}
 
 	return cv::Mat();
 }
 
-void paperRegistration::drawMatch(cv::Mat *cameraImage, cv::Mat &homography)
+void paperRegistration::drawMatch(cv::Mat &cameraImage, cv::Mat &homography)
 {
-	cv::Mat pageImage = cv::imread("C:/Users/sophie/Desktop/Registration/unManagedTest/images/New folder/paper_page.png", CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat pageImage = cv::imread("Document/181110000030000002.png", CV_LOAD_IMAGE_GRAYSCALE);
 
 	//draw detected region
 	std::vector<cv::Point2f> device_corners(5);
 	device_corners[0] = cvPoint(0,0);
-	device_corners[1] = cvPoint(cameraImage->cols, 0 );
-	device_corners[2] = cvPoint(cameraImage->cols, cameraImage->rows ); 
-	device_corners[3] = cvPoint(0, cameraImage->rows );
-	device_corners[4] = cvPoint(cameraImage->cols/2.0f, cameraImage->rows/2.0f );
+	device_corners[1] = cvPoint(cameraImage.cols, 0 );
+	device_corners[2] = cvPoint(cameraImage.cols, cameraImage.rows ); 
+	device_corners[3] = cvPoint(0, cameraImage.rows );
+	device_corners[4] = cvPoint(cameraImage.cols/2.0f, cameraImage.rows/2.0f );
 
 	if (!homography.empty())
 	{
@@ -169,84 +364,17 @@ void paperRegistration::drawMatch(cv::Mat *cameraImage, cv::Mat &homography)
 	}
 
 	cv::imshow( "Original", pageImage );
-	cv::imshow( "frame", *cameraImage );
-
+	//cv::imshow( "frame", cameraImage );
+	
 	cv::waitKey(0);
 }
 
-
-void paperRegistration::getFiles(std::wstring directory, std::vector<std::string> &fileNameList)
-{
-	HANDLE handle;
-	WIN32_FIND_DATA finddata; 
-
-	handle = FindFirstFile(directory.c_str(),&finddata);
-	FindNextFile(handle,&finddata);
-	while (FindNextFile(handle,&finddata))
-	{
-		std::wstring fileName = finddata.cFileName;
-		std::string str( fileName.begin(), fileName.end() );
-		fileNameList.push_back(str);
-	}
-	FindClose(handle);
-}
-
-void paperRegistration::createIndex(std::string dir_path)
-{
-	cv::vector<cv::Mat> dbDescriptors;
-	cv::FREAK extractor;
-
-	//load pages
-	std::string path = dir_path + "\\*";
-	std::wstring wsTmp(path.begin(), path.end());
-	std::wstring ws = wsTmp;
-	std::vector<std::string> fileNameList;
-	getFiles(ws, fileNameList);
-
-	for (unsigned int i = 0; i < fileNameList.size(); i++)
-	{		
-		std::string imagePath = dir_path + "/" + fileNameList[i];
-		cv::Mat pageImage = cv::imread(imagePath, CV_LOAD_IMAGE_GRAYSCALE);
-
-		cv::vector<cv::KeyPoint> pageKeyPoints;
-		cv::Mat pageImageDescriptors;
-		cv::FAST(pageImage, pageKeyPoints, 100, true);
-		extractor.compute(pageImage, pageKeyPoints, pageImageDescriptors);
-	
-		dbDescriptors.push_back(pageImageDescriptors);
-		dbKeyPoints.push_back(pageKeyPoints);
-	}
-	//ToDo save FlannIDX
-	/*cv::FlannBasedMatcher flannMatcher = new cv::flann::LshIndexParams(10, 30, 1);
-	std::string sceneImageData = "sceneImagedatamodel.xml";
-	cv::FileStorage fs(sceneImageData, cv::FileStorage::WRITE);
-
-	flannMatcher.write(fs);*/
-
-	matcher = cv::FlannBasedMatcher(new cv::flann::LshIndexParams(5,22, 0));
-	matcher.add(dbDescriptors);
-	matcher.train();
-	
-}
-
-
 float paperRegistration::compareImages(cv::Mat &lastImg, cv::Mat &currentImg)
 {
-	/*int histSize = 1;
-	float range[] = {0, 256};
-	const float* histRange = {range};
-	bool uniform = true;
-	bool accumulate = false;
-	cv::Mat a1_hist, a2_hist;
-	
-	cv::calcHist(&lastImg, 1, 0, cv::Mat(), a1_hist, 1, &histSize, &histRange, uniform, accumulate );
-	cv::calcHist(&currentImg, 1, 0, cv::Mat(), a2_hist, 1, &histSize, &histRange, uniform, accumulate );
-	
-	float compar_c = cv::compareHist(a1_hist, a2_hist, CV_COMP_CORREL);*/
 	cv::Scalar mean;
 	cv::Mat diff;
 	if (lastImg.size != currentImg.size)
-		mean = 1;
+		return 10;
 	else {
 		cv::subtract(lastImg, currentImg, diff);
 		mean = cv::mean(diff);
@@ -255,116 +383,240 @@ float paperRegistration::compareImages(cv::Mat &lastImg, cv::Mat &currentImg)
 	return mean[0];
 }
 
-float paperRegistration::getMiliSec()
+int paperRegistration::connectCamera()
 {
-	return miliseconds;
+	//FlyCapture2::Error error;
+	//FlyCapture2::PGRGuid guid;
+	//FlyCapture2::BusManager busMgr;
+
+	//// Getting the GUID of the cam
+	//error = busMgr.GetCameraFromIndex(0, &guid);
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+	//
+	//// Connect to a camera
+	//error = cam.Connect(&guid);
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+	//
+	////set video mode
+	//error = cam.SetVideoModeAndFrameRate(FlyCapture2::VIDEOMODE_640x480Y8, FlyCapture2::FRAMERATE_30);
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+
+	////set brightness
+	//FlyCapture2::Property prop;
+	//prop.type = FlyCapture2::BRIGHTNESS;
+	//prop.valueA = 480;
+	//error = cam.SetProperty(&prop);
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+
+	//// Starting the capture
+	//error = cam.StartCapture();
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+	//
+
+	//// Get one raw image to be able to calculate the OpenCV window size
+	//cam.RetrieveBuffer(&rawImage);
+	//// Setting the window size in OpenCV
+	//frame = cvCreateImage(cv::Size(rawImage.GetCols(), rawImage.GetRows()), 8, 1);
+
+	//isCameraConnected = true;
+	cap = new cv::VideoCapture(CV_CAP_ANY);
+
+	cap->set(CV_CAP_PROP_FRAME_HEIGHT, 360);
+	cap->set(CV_CAP_PROP_FRAME_WIDTH, 640);
+	cap->set(CV_CAP_PROP_BRIGHTNESS, 180);
+	cap->set(CV_CAP_PROP_CONTRAST, 3);
+	cap->set(CV_CAP_PROP_FOCUS, 14);
+	cap->set(CV_CAP_PROP_SATURATION, 0);
+	
+	if (!cap->isOpened())
+			return -1;
+
+	return 1;
 }
 
-int paperRegistration::detectLocation(cv::Mat &cameraImage, cv::Mat &lastImg)
+int paperRegistration::disconnectCamera() 
 {
-	//cv::resize(cameraImage, cameraImage, cv::Size(299,428));
-	//cv::resize(lastImg, lastImg, cv::Size(299,428));
+	//if (!isCameraConnected)
+	//	return 1;
+	//isCameraConnected = false;
 
-	//conert to grey scale image
+	//FlyCapture2::Error error;
+	//// Stop capturing images
+ //   error = cam.StopCapture();
+ //   if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+	//
+	////Disconnect the camera
+ //   error = cam.Disconnect();
+ //   if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return -1;
+	//}
+	cap->release();
+
+	return 1;
+}
+
+void paperRegistration::loadCameraImage(cv::Mat &cameraImage)
+{
+	//if (!isCameraConnected)
+	//	return cv::Mat();
+
+	//FlyCapture2::Error error;
+
+	//// Start capturing images
+	//cam.RetrieveBuffer(&rawImage);
+	//	
+	//// Get the raw image dimensions
+	//FlyCapture2::PixelFormat pixFormat;
+	//unsigned int rows, cols, stride;
+	//rawImage.GetDimensions( &rows, &cols, &stride, &pixFormat );
+	//	
+	//// Create a converted image
+	//FlyCapture2::Image convertedImage;
+	//	
+	////Convert the raw image
+	//error = rawImage.Convert( FlyCapture2::PIXEL_FORMAT_MONO8, &convertedImage );
+	//if (error != FlyCapture2::PGRERROR_OK)
+	//{
+	//	error.PrintErrorTrace();
+	//	return cv::Mat();
+	//}
+	//	
+	//// Copy the image into the Mat of OpenCV
+	//memcpy(frame->imageData, convertedImage.GetData(), convertedImage.GetDataSize());
 	
-	cvtColor(cameraImage, cameraImage, CV_BGR2GRAY);	
-	cvtColor(lastImg, lastImg, CV_BGR2GRAY);
+	if (cap->isOpened())
+	{
+		*cap >> cameraImage;
+		cvtColor(cameraImage, cameraImage, CV_RGB2GRAY);		
+	}
+	else cameraImage = cv::Mat();
+		
+}
 
-	if (compareImages(cameraImage, lastImg) > 1.5)
-	{	
-		//toDo: load matcher	
-		/*std::string sceneImageData = "sceneImagedatamodel.xml";
-		cv::FileStorage fs(sceneImageData, cv::FileStorage::READ);
-		cv::FileNode fn = fs.getFirstTopLevelNode(); 
-		matcher.read(fn);*/
+int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
+{	
+	isCameraInUse_ = cameraInUse;
 		
-		//ToDo size in warp image
-		if (isSimulation_)
-		{			
-			warpMat = getRotationMatrix2D(cv::Point2f(cameraImage.cols/2.0, cameraImage.rows/2.0), 180, 1);
-			cv::warpAffine(cameraImage, cameraImage, warpMat, cameraImage.size());
-			cv::resize(cameraImage, cameraImage, cv::Size(cameraImage.cols*imgRatio_, cameraImage.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
-		}
-		else 
-		{
-			cv::Mat warpedImage;
-			cv::warpPerspective(cameraImage, warpedImage, warpMat, cv::Size(2500,3300));				
-			std::vector<cv::Point2f> point(2);
-			point[0] = cvPoint(0,0);
-			point[1] = cvPoint(cameraImage.cols,cameraImage.rows);
-			cv::perspectiveTransform(point, point, warpMat);	
-			cameraImage = cv::Mat(warpedImage, cv::Rect(point[0], point[1]));
-			warpedImage.release();
-		}
+	if (currentDeviceImg.empty())
+	{
+		status = -1;
+		return status;
+	}
+	
+	if (computeLocation)
+	{			
+		//if (cameraInUse)
+		//{
+		//	std::vector<cv::Point2f> point(2);
+		//	point[0] = cvPoint(175,0);
+		//	point[1] = cvPoint(492, 350);
+		//
+		//	if (!warpMat.empty())
+		//	{
+		//		cv::warpPerspective(cameraImage, cameraImage, warpMat, cv::Size(1000,2000));			
+		//		cv::perspectiveTransform(point, point, warpMat);				
+		//	}
+		//	cameraImage = cv::Mat(cameraImage, cv::Rect(point[0], point[1]));
+		//	
+		//	cv::Mat blurrImg;
+		//	cv::GaussianBlur(cameraImage, blurrImg, cv::Size(5,5), 3);		
+		//	/*cv::addWeighted(cameraImage, 2.3, blurrImg, -0.5, 0, cameraImage);
+		//	cv::addWeighted(cameraImage, 1.5, blurrImg, -0.5, 0, cameraImage);*/
+		//	cv::addWeighted(cameraImage, 1.6, blurrImg, -0.5, 0, cameraImage);			
+		//}
+		//else
+		//{			
+		//	warpMat = getRotationMatrix2D(cv::Point2f(cameraImage.cols/2.0, cameraImage.rows/2.0), 180, 1);
+		//	cv::warpAffine(cameraImage, cameraImage, warpMat, cameraImage.size());
+		//	cv::resize(cameraImage, cameraImage, cv::Size(cameraImage.cols*imgRatio_, cameraImage.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
+		//}
 		
-		cv::Mat locationHM = computeLocalFeatures(cameraImage, dbKeyPoints);
+		cv::Mat locationHM = computeLocalFeatures(currentDeviceImg);
 		
 		//compute rotation angle (in degree)
 		if (!locationHM.empty())
 		{
-			//locationHM = locationHM * warpMat;
+			//drawMatch(cameraImage, locationHM);
+
+			//compute location
+			std::vector<cv::Point2f> device_point(5);
+			device_point[0] = cvPoint(0,0);
+			device_point[1] = cvPoint(currentDeviceImg.cols,0);
+			device_point[2] = cvPoint(currentDeviceImg.cols,currentDeviceImg.rows);
+			device_point[3] = cvPoint(0,currentDeviceImg.rows);
+			device_point[4] = cvPoint(currentDeviceImg.cols/2 + 4,currentDeviceImg.rows/2 + 23);
+
+			float areaCamImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
+			
+			cv::perspectiveTransform(device_point, device_point, locationHM);
+			//drawMatch(currentDeviceImg, locationHM);
+			//proof validity of result
+			//3 angles must be around 90 degree
+			for( int j = 3; j < 6; j++ )
+			{
+				float angleCorner = computeAngle(device_point[j%4], device_point[j-3], device_point[j-2]);
+				if (fabs(90-angleCorner) > 7)
+				{
+					status = -1;
+					return status;
+				}
+			}
+			
+			float areaDetectedImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
+			//proof size of detected area
+			if (fabs(areaDetectedImg-areaCamImg) >= areaCamImg * 0.1)
+			{
+				status = -1;
+				return status;
+			}
+
 			cv::Mat rotationMat, orthMat;
 			cv::Vec3d eulerAngles;
 			eulerAngles = cv::RQDecomp3x3(locationHM, rotationMat, orthMat);
 			RotationAngle = eulerAngles[2];
-			
-			//compute location
-			//ToDo: use Center of device instead of top left corner
-			std::vector<cv::Point2f> device_point(5);
-			device_point[0] = cvPoint(0,0);
-			device_point[1] = cvPoint(cameraImage.cols,0);
-			device_point[2] = cvPoint(0,cameraImage.rows);
-			device_point[3] = cvPoint(cameraImage.cols,cameraImage.rows);
-			device_point[4] = cvPoint(cameraImage.cols/2,cameraImage.rows/2);
 
-			/*float area_searchImg = sqrt(((device_point[1].x-device_point[0].x)*(device_point[1].x-device_point[0].x))+
-				((device_point[1].y-device_point[0].y)*(device_point[1].y-device_point[0].y)))*
-				sqrt(((device_point[2].x-device_point[1].x)*(device_point[2].x-device_point[1].x))+
-				((device_point[2].y-device_point[1].y)*(device_point[2].y-device_point[1].y)));*/
-			
-			cv::perspectiveTransform(device_point, device_point, locationHM);	
 			LocationPxTL = device_point[0];
 			LocationPxTR = device_point[1];
-			LocationPxBL = device_point[2];
-			LocationPxBR = device_point[3];
+			LocationPxBR = device_point[2];
+			LocationPxBL = device_point[3];
 			LocationPxM = device_point[4];
-			
-			/*cv::Mat pageImage = cv::imread("C:/Users/Sophie/Documents/GitHub/tPad/Src/tPad/ActiveReader/bin/x64/Release/Document/17030000002000000.png", CV_LOAD_IMAGE_GRAYSCALE);
-
-			if (LocationPxTL.x < 0)
-				LocationPxTL.x = 0;
-			else if (LocationPxTL.x > pageImage.cols)
-				LocationPxTL.x = pageImage.cols;
-			if (LocationPxTL.y < 0)
-				LocationPxTL.y = 0;
-			else if (LocationPxTL.y > pageImage.rows)
-				LocationPxTL.y = pageImage.rows;
-			if (LocationPxBR.x < 0)
-				LocationPxBR.x = 0;
-			else if (LocationPxBR.x > pageImage.cols)
-				LocationPxBR.x = pageImage.cols;
-			if (LocationPxBR.y < 0)
-				LocationPxBR.y = 0;
-			else if (LocationPxBR.y > pageImage.rows)
-				LocationPxBR.y = pageImage.rows;
-			cv::Mat result = cv::Mat(pageImage, cv::Rect(LocationPxTL, LocationPxBR));
-			cv::imwrite("result.png", result);*/
-			
-			/*float area_result = sqrt(((device_point[1].x-device_point[0].x)*(device_point[1].x-device_point[0].x))+
-				((device_point[1].y-device_point[0].y)*(device_point[1].y-device_point[0].y)))*
-				sqrt(((device_point[2].x-device_point[1].x)*(device_point[2].x-device_point[1].x))+
-				((device_point[2].y-device_point[1].y)*(device_point[2].y-device_point[1].y)));*/
-						
-			/*if (area_searchImg > area_result && (area_result/area_searchImg) < 0.9)
-				return -1;			
-			else if (area_result > area_searchImg && (area_searchImg/area_result) < 0.9)
-				return -1;*/
-
-			//drawMatch(&cameraImage, locationHM);			
-			return 1;
+					
+			status = 1;
+			return status;
 		}
-		else return -1;
+		else {
+			status =  -1;
+			return status;
+		}
 	}
-	else return 0;
-	
+	else {
+		status = 0;	//new image is similiar to previous one
+		return status;
+	}
 }

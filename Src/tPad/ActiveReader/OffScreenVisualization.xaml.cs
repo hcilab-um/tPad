@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
-using System.Drawing;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -19,10 +18,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
   public partial class OffScreenVisualization : UserControl, INotifyPropertyChanged
   {
 
-    public static readonly DependencyProperty ActualMarkerProperty = DependencyProperty.Register("ActualMarker", typeof(ObservableCollection<ITPadMarker>), typeof(OffScreenVisualization));
-    public ObservableCollection<ITPadMarker> ActualMarker
+    public static readonly DependencyProperty ActualMarkerProperty = DependencyProperty.Register("ActualMarker", typeof(ObservableCollection<IActiveReaderMarker>), typeof(OffScreenVisualization));
+    public ObservableCollection<IActiveReaderMarker> ActualMarker
     {
-      get { return (ObservableCollection<ITPadMarker>)GetValue(ActualMarkerProperty); }
+      get { return (ObservableCollection<IActiveReaderMarker>)GetValue(ActualMarkerProperty); }
       set { SetValue(ActualMarkerProperty, value); }
     }
 
@@ -47,10 +46,24 @@ namespace UofM.HCI.tPab.App.ActiveReader
       set { SetValue(PageWidthProperty, value); }
     }
 
-    public static readonly DependencyProperty DeviceLocationProperty = DependencyProperty.Register("DeviceLocation", typeof(PointF), typeof(OffScreenVisualization));
-    public PointF DeviceLocation
+    public static readonly DependencyProperty DeviceWidthProperty = DependencyProperty.Register("DeviceWidth", typeof(float), typeof(OffScreenVisualization));
+    public float DeviceWidth
     {
-      get { return (PointF)GetValue(DeviceLocationProperty); }
+      get { return (float)GetValue(DeviceWidthProperty); }
+      set { SetValue(DeviceWidthProperty, value); }
+    }
+
+    public static readonly DependencyProperty DeviceHeightProperty = DependencyProperty.Register("DeviceHeight", typeof(float), typeof(OffScreenVisualization));
+    public float DeviceHeight
+    {
+      get { return (float)GetValue(DeviceHeightProperty); }
+      set { SetValue(DeviceHeightProperty, value); }
+    }
+
+    public static readonly DependencyProperty DeviceLocationProperty = DependencyProperty.Register("DeviceLocation", typeof(Point), typeof(OffScreenVisualization));
+    public Point DeviceLocation
+    {
+      get { return (Point)GetValue(DeviceLocationProperty); }
       set { SetValue(DeviceLocationProperty, value); }
     }
 
@@ -59,6 +72,13 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       get { return (float)GetValue(DeviceRotationProperty); }
       set { SetValue(DeviceRotationProperty, value); }
+    }
+
+    public static readonly DependencyProperty UIRotationProperty = DependencyProperty.Register("UIRotation", typeof(double), typeof(OffScreenVisualization));
+    public double UIRotation
+    {
+      get { return (double)GetValue(UIRotationProperty); }
+      set { SetValue(UIRotationProperty, value); }
     }
 
     public static readonly DependencyProperty HeightFactorProperty = DependencyProperty.Register("HeightFactor", typeof(float), typeof(OffScreenVisualization));
@@ -75,29 +95,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
       set { SetValue(WidthFactorProperty, value); }
     }
 
-    //public TPadPage ActualPageObject
-    //{
-    //  get
-    //  {
-    //    if (ActualDocument == null || ActualPage == -1 || ActualDocument.Pages == null || ActualDocument.Pages.Length <= ActualPage)
-    //      return null;
-    //    return ActualDocument.Pages[ActualPage];
-    //  }
-    //}
-
     public OffScreenVisualization()
     {
       InitializeComponent();
     }
-
-    //protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
-    //{
-    //  base.OnPropertyChanged(e);
-    //  if (e.Property == OffScreenVisualization.ActualPageProperty || e.Property == OffScreenVisualization.ActualDocumentProperty)
-    //  {
-    //    OnPropertyChanged("ActualPageObject");
-    //  }
-    //}
 
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged(String name)

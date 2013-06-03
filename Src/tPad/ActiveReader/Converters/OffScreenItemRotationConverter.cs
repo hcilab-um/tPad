@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using System.Drawing;
 using System.Windows;
 
 namespace UofM.HCI.tPab.App.ActiveReader.Converters
@@ -17,11 +16,25 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
 
       var deviceWidthInPage = float.Parse(values[0].ToString());
       var deviceHeightInPage = float.Parse(values[1].ToString());
-      var highlightPosition = (PointF)values[2];
-      var deviceLoc = (PointF)values[3];
+      var highlightPosition = (Point)values[2];
+      var deviceLoc = (Point)values[3];
       var widthFactor = float.Parse(values[4].ToString());
       var heightFactor = float.Parse(values[5].ToString());
-      var angle = double.Parse(values[6].ToString());
+      var deviceAngle = double.Parse(values[6].ToString());
+      var uiAngle = double.Parse(values[7].ToString());
+
+      //Corrections for the anchoring of the UI to the text flow
+      var angle = deviceAngle + uiAngle;
+      if (uiAngle == 90 || uiAngle == 270)
+      {
+        var tmp = deviceWidthInPage;
+        deviceWidthInPage = deviceHeightInPage;
+        deviceHeightInPage = tmp;
+      }
+
+      //The highlightPosition is not in cms, thus it must be converted to pixels
+      highlightPosition.X = highlightPosition.X * widthFactor;
+      highlightPosition.Y = highlightPosition.Y * heightFactor;
 
       Vector deviceLocation = new Vector(deviceLoc.X * widthFactor, deviceLoc.Y * heightFactor);
       Vector deviceCenter = new Vector(deviceLocation.X + (deviceWidthInPage / 2.0f), deviceLocation.Y + (deviceHeightInPage / 2.0f)); //center within the page

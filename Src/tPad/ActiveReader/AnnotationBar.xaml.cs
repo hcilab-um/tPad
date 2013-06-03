@@ -12,7 +12,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
-using System.Drawing;
 
 namespace UofM.HCI.tPab.App.ActiveReader
 {
@@ -43,10 +42,10 @@ namespace UofM.HCI.tPab.App.ActiveReader
       set { SetValue(PageHeightProperty, value); }
     }
 
-    public static readonly DependencyProperty DeviceLocationProperty = DependencyProperty.Register("DeviceLocation", typeof(PointF), typeof(AnnotationBar));
-    public PointF DeviceLocation
+    public static readonly DependencyProperty DeviceLocationProperty = DependencyProperty.Register("DeviceLocation", typeof(Point), typeof(AnnotationBar));
+    public Point DeviceLocation
     {
-      get { return (PointF)GetValue(DeviceLocationProperty); }
+      get { return (Point)GetValue(DeviceLocationProperty); }
       set { SetValue(DeviceLocationProperty, value); }
     }
 

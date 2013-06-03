@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
+using System.Windows;
+using System.ComponentModel;
 
 namespace UofM.HCI.tPab
 {
 
-  public interface ITPadAppController
+  public interface ITPadAppController : INotifyPropertyChanged
   {
     int ActualPage { get; }
     TPadDocument ActualDocument { get; }

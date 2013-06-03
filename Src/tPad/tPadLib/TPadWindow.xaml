@@ -2,26 +2,36 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters"
+        xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters" Background="Blue"
         WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Topmost="True" WindowStartupLocation="Manual"
         Loaded="tpWindow_Loaded" SizeChanged="tpWindow_SizeChanged">
-  
+
   <Window.Resources>
     <converters:LayerScalingConverter x:Key="cMultiplier" />
   </Window.Resources>
-  
-  <Grid x:Name="gTPadApp">
-    <Grid.Width>
+
+  <Canvas x:Name="cWrapper">
+
+    <Canvas.Width>
       <MultiBinding Converter="{StaticResource ResourceKey=cMultiplier}">
         <Binding ElementName="tpWindow" Path="Profile.Resolution.Width"/>
         <Binding ElementName="tpWindow" Path="SizeMultiplier"/>
       </MultiBinding>
-    </Grid.Width>
-    <Grid.Height>
+    </Canvas.Width>
+    <Canvas.Height>
       <MultiBinding Converter="{StaticResource ResourceKey=cMultiplier}">
         <Binding ElementName="tpWindow" Path="Profile.Resolution.Height"/>
         <Binding ElementName="tpWindow" Path="SizeMultiplier"/>
-      </MultiBinding>      
-    </Grid.Height>
-  </Grid>
+      </MultiBinding>
+    </Canvas.Height>
+
+    <Canvas.RenderTransform>
+      <ScaleTransform ScaleX="{Binding ElementName=tpWindow, Path=SizeMultiplier}" ScaleY="{Binding ElementName=tpWindow, Path=SizeMultiplier}"/>
+    </Canvas.RenderTransform>
+    
+    <Grid x:Name="gTPadApp" Background="Transparent"
+        Width="{Binding ElementName=tpWindow, Path=Profile.Resolution.Width}"
+        Height="{Binding ElementName=tpWindow, Path=Profile.Resolution.Height}">
+    </Grid>
+  </Canvas>
 </Window>
