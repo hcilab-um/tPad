@@ -10,12 +10,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="333.36456"
+   width="336.28937"
    height="173.11859"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="SuperDisplay.svg"
+   inkscape:export-filename="C:\Users\jhincapie\Desktop\Projects\tPad\Docs\SuperDisplay.png"
+   inkscape:export-xdpi="180"
+   inkscape:export-ydpi="180">
   <defs
      id="defs4">
     <pattern
@@ -336,9 +339,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="155.63376"
-     inkscape:cy="94.488503"
+     inkscape:zoom="3.959798"
+     inkscape:cx="152.01952"
+     inkscape:cy="86.173904"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -346,10 +349,10 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1440"
-     inkscape:window-height="795"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -402,21 +405,21 @@
        xml:space="preserve"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="561.07141"
-       y="492.94864"
+       y="491.9006"
        id="text6144"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6146"
          x="561.07141"
-         y="492.94864">Protection Glass</tspan></text>
+         y="491.9006">Protection Glass</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text6160"
-       y="512.23431"
+       y="510.40381"
        x="562.08215"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
-         y="512.23431"
+         y="510.40381"
          x="562.08215"
          id="tspan6162"
          sodipodi:role="line">Touch Sensor</tspan></text>
@@ -424,32 +427,32 @@
        xml:space="preserve"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="561.49133"
-       y="530.55078"
+       y="528.91187"
        id="text6164"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6166"
          x="561.49133"
-         y="530.55078">OLED display</tspan></text>
+         y="528.91187">OLED display</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text6168"
-       y="549.83655"
+       y="549.27539"
        x="561.07141"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
-         y="549.83655"
+         y="549.27539"
          x="561.07141"
          id="tspan6170"
-         sodipodi:role="line">IR Backlight</tspan></text>
+         sodipodi:role="line">IR OLED Backlight</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text6176"
-       y="570.09149"
+       y="569.76105"
        x="561.07141"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
-         y="570.09149"
+         y="569.76105"
          x="561.07141"
          id="tspan6178"
          sodipodi:role="line">PixelSense</tspan></text>
@@ -457,12 +460,42 @@
        xml:space="preserve"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        x="561.07141"
-       y="589.3772"
+       y="588.26422"
        id="text6180"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6182"
          x="561.07141"
-         y="589.3772">Protection Glass</tspan></text>
+         y="588.26422">Protection Glass</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 532.36598,488.32149 24.74874,0"
+       id="path3050"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 532.36598,507.59421 24.74874,0"
+       id="path3050-7"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 532.36598,526.86693 24.74874,0"
+       id="path3050-1"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 532.36598,546.13965 24.74874,0"
+       id="path3050-15"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 532.36598,565.41237 24.74874,0"
+       id="path3050-2"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 532.36598,584.68509 24.74874,0"
+       id="path3050-76"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
