@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="UofM.HCI.tPad.App.Ruler.RulerApp" x:Name="rulerApp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:convertersLib="clr-namespace:UofM.HCI.tPad.Converters;assembly=tPadLib"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+  
+  <UserControl.Resources>
+    <convertersLib:DivisionMultiConverter x:Key="dConverter"/>
+  </UserControl.Resources>
+  
+  <Grid x:Name="gMeasurements"  Background="White" MouseUp="Grid_MouseUp"
+        Width="{Binding ElementName=rulerApp, Path=ActualWidth}" Height="{Binding ElementName=rulerApp, Path=ActualHeight}">
+    <Button x:Name="btnClose" Content="Close" VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="45" Margin="16" Click="btnClose_Click"/>
+
+    <Line x:Name="measureLine" X1="100" Y1="50" X2="200" Y2="50" StrokeThickness="2" Stroke="Black"/>
+    
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="LightGray">
+      <Label FontSize="20">Distance: </Label>
+      <Label FontSize="20">
+        <Label.Content>
+          <MultiBinding Converter="{StaticResource ResourceKey=dConverter}">
+            <Binding ElementName="rulerApp" Path="Distance" FallbackValue="100"/>
+            <Binding ElementName="rulerApp" Path="Core.Profile.PixelsPerCm.Width"/>
+          </MultiBinding>
+        </Label.Content>
+      </Label>
+      <Label FontSize="20">cms</Label>
+    </StackPanel>
+  </Grid>
+</UserControl>
