@@ -25,7 +25,7 @@ namespace UofM.HCI.tPad.Converters
       int actualPage = (int)values[0];
       TPadDocument actualDocument = (TPadDocument)values[1];
 
-      if (actualPage == -1)
+      if (actualPage == -1 || actualPage >= actualDocument.Pages.Length)
         return GetSampleDoc();
 
       String pageFileName = actualDocument.Pages[actualPage].FileName;

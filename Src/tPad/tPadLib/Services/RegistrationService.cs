@@ -108,7 +108,7 @@ namespace UofM.HCI.tPad.Services
         location.Status = LocationStatus.Located;
         location.RotationAngle = ClampedAngle(Controller.RotationAngle);
         location.LocationCm = new Point(Controller.Location.X / Controller.WidthFactor, Controller.Location.Y / Controller.HeightFactor);
-        location.DocumentID = Controller.ActualDocument.ID;
+        location.Document = Controller.ActualDocument;
         location.PageIndex = Controller.ActualPage;
       }
       
@@ -133,7 +133,7 @@ namespace UofM.HCI.tPad.Services
           (float)(locationPx.Y / Controller.HeightFactor));
 
         //TODO: get Document object from featureTracker
-        location.DocumentID = Controller.ActualDocument.ID;
+        location.Document = Controller.ActualDocument;
         location.PageIndex = Tracker.PageIdx;
       }
       else if (status == -1 && trigger > 10)

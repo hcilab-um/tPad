@@ -60,7 +60,19 @@
   </UserControl.Resources>
 
   <!-- This is the outer wrapper which makes the paintable area of the application to be as big as the ducoment page -->
-  <Grid x:Name="gOuterWrapper" Width="{Binding ElementName=arApp, Path=Core.Profile.DocumentSizeInPixels.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.DocumentSizeInPixels.Height}">
+  <Grid x:Name="gOuterWrapper">
+    <Grid.Width>
+      <MultiBinding Converter="{StaticResource ResourceKey=cMultiplierMulti}">
+        <Binding ElementName="arApp" Path="ActualDocument.DocumentSize.Width"/>
+        <Binding ElementName="arApp" Path="Core.Profile.PixelsPerCm.Width"/>
+      </MultiBinding>
+    </Grid.Width>
+    <Grid.Height>
+      <MultiBinding Converter="{StaticResource ResourceKey=cMultiplierMulti}">
+        <Binding ElementName="arApp" Path="ActualDocument.DocumentSize.Height"/>
+        <Binding ElementName="arApp" Path="Core.Profile.PixelsPerCm.Height"/>
+      </MultiBinding>      
+    </Grid.Height>
 
     <!-- This rectangle guarantees a correct placement of the layers - do not delete -->
     <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" 
@@ -127,7 +139,7 @@
         <!-- This rectange covering the whole area and almost transparent is necessary to detect the mouse events -->
         <!-- We cannot have the cHighlights canvas handle this events because it would need to opacity to be that low and then the highlight themselves would be almost transparent too -->
         <Rectangle x:Name="rHighlights" Fill="White" Opacity="0.1" Canvas.Left="0" Canvas.Top="0" 
-                   Width="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}" Height="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
+                   Width="{Binding ElementName=arApp, Path=ActualDocument.DocumentSize.Width}" Height="{Binding ElementName=arApp, Path=ActualDocument.DocumentSize.Height}"
                    MouseDown="cHighlights_MouseDown" MouseUp="cHighlights_MouseUp" MouseMove="cHighlights_MouseMove"/>
       </Canvas>
 
@@ -243,8 +255,8 @@
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.Highlights}"
                                       ActualIcon="Images/ArrowHighlight.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
-                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
+                                      PageHeight="{Binding ElementName=arApp, Path=ActualDocument.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=ActualDocument.DocumentSize.Width}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
                                       DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
                                       DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
@@ -267,14 +279,14 @@
         </menuBar:OffScreenVisualization.UIRotation>
       </menuBar:OffScreenVisualization>
 
-      <!--The off-screen visualization for annotations-->
+      <!--The off-screen visualization for annotations- ActualIcon="Images/ArrowAnnotation.png" -->
       <menuBar:OffScreenVisualization Canvas.Top="0" Canvas.Left="0"
                                       Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.Annotations}"
                                       ActualIcon="Images/ArrowAnnotation.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
-                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
+                                      PageHeight="{Binding ElementName=arApp, Path=ActualDocument.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=ActualDocument.DocumentSize.Width}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
                                       DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
                                       DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
@@ -303,8 +315,8 @@
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.SearchResults}"
                                       ActualIcon="Images/ArrowSearchResults.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
-                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
+                                      PageHeight="{Binding ElementName=arApp, Path=ActualDocument.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=ActualDocument.DocumentSize.Width}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
                                       DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
                                       DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"
@@ -333,8 +345,8 @@
                                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"    
                                       ActualMarker="{Binding ElementName=arApp, Path=ActualPageObject.ScribblingCollections}"
                                       ActualIcon="Images/ArrowAnnotation.png"
-                                      PageHeight="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Height}"
-                                      PageWidth="{Binding ElementName=arApp, Path=Core.Profile.DocumentSize.Width}"
+                                      PageHeight="{Binding ElementName=arApp, Path=ActualDocument.DocumentSize.Height}"
+                                      PageWidth="{Binding ElementName=arApp, Path=ActualDocument.DocumentSize.Width}"
                                       DeviceRotation="{Binding ElementName=arApp, Path=Core.Device.Location.RotationAngle}"
                                       DeviceLocation="{Binding ElementName=arApp, Path=Core.Device.Location.LocationCm}"
                                       DeviceWidth="{Binding ElementName=arApp, Path=Core.Profile.Resolution.Width}"

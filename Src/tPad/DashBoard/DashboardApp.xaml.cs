@@ -54,44 +54,7 @@ namespace UofM.HCI.tPad.App.Dashboard
       InitializeComponent();
 
       core.GlyphsChanged += core_GlyphsChanged;
-
-
-      //CalculatorAppDescriptor = new TPadApplicationDescriptor()
-      //{
-      //  Name = "Calculator",
-      //  Icon = UofM.HCI.tPad.Properties.Resources.CalculatorAppIcon,
-      //  AppClass = typeof(CalculatorApp),
-      //  Launcher = this
-      //};
-      //CalculatorAppDescriptor.Triggers.Add(Glyph.Square);
-
-
     }
-
-    //private TPadApplicationDescriptor CalculatorAppDescriptor { get; set; }
-
-
-    //public TPadLauncherSettings GetSettings(TPadLauncherSettings settings)
-    //{
-    //  throw new NotImplementedException();
-    //}
-
-    //public TPadApplicationDescriptor GetApplicationDescriptor()
-    //{
-    //  throw new NotImplementedException();
-    //}
-
-    //public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
-    //{
-    //  if (descriptor.AppClass == typeof(CalculatorApp))
-    //  {
-    //    CalculatorApp calculator = new CalculatorApp(core.Profile, container, controller);
-    //    calculator.Core = core;
-    //    return calculator;
-    //  }
-    //  return null;
-    //}
-
 
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged(String name)

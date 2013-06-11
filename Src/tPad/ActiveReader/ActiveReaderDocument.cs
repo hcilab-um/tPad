@@ -24,7 +24,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
       }
     }
 
-    public ActiveReaderPage this[int index]
+    public new ActiveReaderPage this[int index]
     {
       get
       {
@@ -50,6 +50,5 @@ namespace UofM.HCI.tPad.App.ActiveReader
 
       return clone;
     }
-
   }
 }

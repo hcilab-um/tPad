@@ -21,7 +21,7 @@ namespace UofM.HCI.tPad
     /// These page-variables correspond to the index of the current page on the collection of pages the RegistrationService searches on.
     /// </summary>
     public int PageIndex { get; set; }
-    public int DocumentID { get; set; }
+    public TPadDocument Document { get; set; }
 
     /// <summary>
     /// This is the location of the center of the device.
@@ -40,7 +40,7 @@ namespace UofM.HCI.tPad
         return false;
       if (PageIndex != other.PageIndex)
         return false;
-      if (DocumentID != other.DocumentID)
+      if (Document != other.Document)
         return false;
       if (LocationCm != other.LocationCm)
         return false;

@@ -256,7 +256,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
       else
       {
         //Change of document
-        if (ActualDocument.ID != e.NewLocation.DocumentID)
+        if (!ActualDocument.Equals(e.NewLocation.Document))
         {
           //1- Saves current layers to disk
           PdfHelper.SaveLayersToDisk(ActualDocument, Core.Device.ID);
@@ -335,13 +335,22 @@ namespace UofM.HCI.tPad.App.ActiveReader
 
     private void LoadDocument(TPadLocation newLocation)
     {
-      if (newLocation.DocumentID == -1)
+      if (newLocation.Document == null)
         throw new Exception("Document cannot be null");
-      if (!DbDocuments.ContainsKey(newLocation.DocumentID))
-        throw new Exception("Unknown document");
+
+      if (!DbDocuments.ContainsKey(newLocation.Document.ID))
+      {
+        Dispatcher.Invoke(DispatcherPriority.Render,
+        (Action)delegate()
+        {
+          DocumentLoader loader = new DocumentLoader();
+          ActiveReaderDocument lookup = loader.LoadDocument(newLocation.Document);
+          DbDocuments.Add(lookup.ID, lookup);
+        });
+      }
 
       //1- Loads the layers should they exist in disk
-      ActualDocument = DbDocuments[newLocation.DocumentID];
+      ActualDocument = DbDocuments[newLocation.Document.ID];
       PdfHelper = new PDFContentHelper(ActualDocument.FileName);
       PdfHelper.LoadLayersFromDisk(ActualDocument, Core.Device.ID);
 

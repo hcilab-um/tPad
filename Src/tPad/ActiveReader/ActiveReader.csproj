@@ -197,24 +197,24 @@
     <Content Include="homography.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\ActiveReaderIcon.png">
+    <Resource Include="Images\ActiveReaderIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <Content Include="Images\AnchoredToFlow.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\AnchoredToFlowSelected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\ArrowHighlight.png">
+    <Resource Include="Images\ArrowHighlight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ArrowAnnotation.png">
+    </Resource>
+    <Resource Include="Images\ArrowAnnotation.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\ArrowSearchResults.png">
+    </Resource>
+    <Resource Include="Images\ArrowSearchResults.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <AppDesigner Include="Properties\" />
     <Content Include="Images\Contrast.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

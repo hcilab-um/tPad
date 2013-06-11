@@ -182,7 +182,7 @@ namespace UofM.HCI.tPad
       InitializeComponent();
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
 
-      ActualDocument = GetDocument("Blank");
+      ActualDocument = GetDocument("Blank", 0);
     }
 
     private void wSimulator_Loaded(object sender, RoutedEventArgs e)
@@ -442,16 +442,16 @@ namespace UofM.HCI.tPad
 
     private void cbDocument_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      ActualDocument = GetDocument((cbDocument.SelectedItem as ComboBoxItem).Tag as String);        
+      ActualDocument = GetDocument((cbDocument.SelectedItem as ComboBoxItem).Tag as String, cbDocument.SelectedIndex);
     }
 
-    private TPadDocument GetDocument(String conventionName)
+    private TPadDocument GetDocument(String conventionName, int documentID)
     {
       String docFolder = String.Format(@"Documents\{0}\", conventionName);
       if (!Directory.Exists(docFolder))
         throw new ArgumentException(String.Format("Folder '{0}' does not exist!", docFolder));
 
-      TPadDocument result = new StandardDocument() { ID = 0, Folder = docFolder, FileName = docFolder + String.Format("{0}.pdf", conventionName) };
+      TPadDocument result = new StandardDocument() { ID = documentID, Folder = docFolder, FileName = docFolder + String.Format("{0}.pdf", conventionName) };
       result.DocumentSize = new Size(21.59, 27.94); //US Letter - 215.9 mm × 279.4 mm
 
       String[] pages = Directory.GetFiles(docFolder, "*.png");

@@ -35,6 +35,20 @@ namespace UofM.HCI.tPad
     public Size DocumentSize { get; set; }
 
     public abstract TPadDocument Clone();
+
+    public bool Equals(TPadDocument other)
+    {
+      if (ID != other.ID)
+        return false;
+      if (Folder != other.Folder)
+        return false;
+      if (FileName != other.FileName)
+        return false;
+      if (DocumentSize != other.DocumentSize)
+        return false;
+
+      return true;
+    }
   }
 
 }

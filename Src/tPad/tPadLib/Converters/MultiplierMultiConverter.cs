@@ -12,7 +12,11 @@ namespace UofM.HCI.tPad.Converters
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if (values.Length == 0)
-        return 1;
+        return (double)1;
+
+      foreach(var value in values)
+        if(value == DependencyProperty.UnsetValue)
+          return (double)1;
 
       var multiplier = (double)1;
       for (int i = 0; i < values.Length; i++)

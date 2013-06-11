@@ -33,6 +33,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
       ActiveReaderApp appInstance = new ActiveReaderApp(core, container, controller);
+
       return appInstance;
     }
 
