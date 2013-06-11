@@ -5,9 +5,9 @@ using System.Text;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
 using Ubicomp.Utils.NET.MTF;
 using System.Net;
-using UofM.HCI.tPab.Network;
+using UofM.HCI.tPad.Network;
 
-namespace UofM.HCI.tPab.Monitors
+namespace UofM.HCI.tPad.Monitors
 {
   public class MulticastMonitor : ContextMonitor, ITransportListener
   {

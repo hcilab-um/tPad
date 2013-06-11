@@ -7,11 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing;
-using UofM.HCI.tPab.Util;
+using UofM.HCI.tPad.Util;
 using System.Drawing.Imaging;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
 
-namespace UofM.HCI.tPab.Monitors
+namespace UofM.HCI.tPad.Monitors
 {
   public class SimCameraMonitor : ContextMonitor
   {

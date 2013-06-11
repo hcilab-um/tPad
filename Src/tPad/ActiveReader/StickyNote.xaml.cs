@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace UofM.HCI.tPab.App.ActiveReader
+namespace UofM.HCI.tPad.App.ActiveReader
 {
   /// <summary>
   /// Interaction logic for StickyNote.xaml

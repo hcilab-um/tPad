@@ -12,7 +12,7 @@ using System.IO;
 using System.Threading;
 using System.Text.RegularExpressions;
 
-namespace UofM.HCI.tPab.Monitors
+namespace UofM.HCI.tPad.Monitors
 {
 
 

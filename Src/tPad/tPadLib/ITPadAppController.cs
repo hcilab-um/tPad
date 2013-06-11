@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.ComponentModel;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
 
   public interface ITPadAppController : INotifyPropertyChanged

@@ -5,7 +5,7 @@ using System.Text;
 using Jayrock.Json.Conversion;
 using System.Windows.Threading;
 
-namespace UofM.HCI.tPab.App.ActiveReader.Network
+namespace UofM.HCI.tPad.App.ActiveReader.Network
 {
   public class ActiveReaderMessageImporter : IImporter
   {

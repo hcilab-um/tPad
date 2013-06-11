@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Jayrock.Json.Conversion;
 
-namespace UofM.HCI.tPab.App.ActiveReader.Network
+namespace UofM.HCI.tPad.App.ActiveReader.Network
 {
   public class ActiveReaderMessageExporter : IExporter
   {

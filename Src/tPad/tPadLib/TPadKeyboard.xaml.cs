@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
   /// <summary>
   /// Interaction logic for UserControlKeyboard.xaml

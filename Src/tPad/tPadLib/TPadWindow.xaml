@@ -1,8 +1,8 @@
-﻿<Window x:Class="UofM.HCI.tPab.TPadWindow" x:Name="tpWindow"
+﻿<Window x:Class="UofM.HCI.tPad.TPadWindow" x:Name="tpWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:converters="clr-namespace:UofM.HCI.tPab.Converters" Background="Blue"
+        xmlns:converters="clr-namespace:UofM.HCI.tPad.Converters" Background="Blue"
         WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Topmost="True" WindowStartupLocation="Manual"
         Loaded="tpWindow_Loaded" SizeChanged="tpWindow_SizeChanged">
 

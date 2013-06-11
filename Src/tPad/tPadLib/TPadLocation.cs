@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Windows;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
 
   public enum LocationStatus { NotLocated, Locating, Located }

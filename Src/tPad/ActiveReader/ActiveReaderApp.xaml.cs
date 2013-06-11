@@ -22,9 +22,9 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using System.Windows.Ink;
-using UofM.HCI.tPab.Network;
+using UofM.HCI.tPad.Network;
 
-namespace UofM.HCI.tPab.App.ActiveReader
+namespace UofM.HCI.tPad.App.ActiveReader
 {
 
   public enum ActiveReadingTool { None, Highlighter, Pen, Eraser };
@@ -36,7 +36,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
   {
     public event EventHandler Closed;
 
-    public ObservableCollection<Figure> FigurePositions { get; set; }
     public Dictionary<int, ActiveReaderDocument> DbDocuments { get; set; }
 
     public TPadCore Core { get; set; }
@@ -154,7 +153,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     private Stack<ToolObjectPair> undoStack = new Stack<ToolObjectPair>();
     private Stack<ToolObjectPair> redoStack = new Stack<ToolObjectPair>();
 
-    public ActiveReaderApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, ObservableCollection<Figure> figures)
+    public ActiveReaderApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
     {
       Core = core;
 
@@ -164,7 +163,6 @@ namespace UofM.HCI.tPab.App.ActiveReader
       Container = container;
       Controller = controller;
 
-      FigurePositions = figures;
       DbDocuments = new Dictionary<int, ActiveReaderDocument>();
 
       PropertyChanged += new PropertyChangedEventHandler(ActiveReaderApp_PropertyChanged);
@@ -197,14 +195,14 @@ namespace UofM.HCI.tPab.App.ActiveReader
       BindingOperations.SetBinding(cm_searchItem, MenuItem.HeaderProperty, new Binding("SearchTerm")
       {
         Source = this,
-        Converter = new UofM.HCI.tPab.App.ActiveReader.Converters.StringToContextMenuLabelConverter(),
+        Converter = new UofM.HCI.tPad.App.ActiveReader.Converters.StringToContextMenuLabelConverter(),
         ConverterParameter = "Search \"{0}\""
       });
 
       BindingOperations.SetBinding(cm_searchItem, MenuItem.VisibilityProperty, new Binding("SearchTerm")
       {
         Source = this,
-        Converter = new UofM.HCI.tPab.App.ActiveReader.Converters.ContextMenuVisibilityConverter(),
+        Converter = new UofM.HCI.tPad.App.ActiveReader.Converters.ContextMenuVisibilityConverter(),
       });
 
       //necessary to set binding of context menu
@@ -569,7 +567,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
         }
 
         Rect contentBounds = Rect.Empty;
-        String content = PdfHelper.PixelToContent(newPosition, ActualPage, Core.Profile.DocumentSize.Width, Core.Profile.DocumentSize.Height, out contentBounds);
+        String content = PdfHelper.PixelToContent(newPosition, ActualPage, ActualDocument.DocumentSize.Width, ActualDocument.DocumentSize.Height, out contentBounds);
         if (content != null && !isSearchHighlightActive && !isFigureViewerVisible)
         {
           SearchTerm = content;
@@ -959,7 +957,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
     {
       ClearSearch();
 
-      List<ContentLocation> pageSearch = PdfHelper.ContentToPixel(word, page, Core.Profile.DocumentSize.Width, Core.Profile.DocumentSize.Height);
+      List<ContentLocation> pageSearch = PdfHelper.ContentToPixel(word, page, ActualDocument.DocumentSize.Width, ActualDocument.DocumentSize.Height);
 
       foreach (ContentLocation content in pageSearch)
       {

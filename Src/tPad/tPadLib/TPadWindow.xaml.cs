@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
   /// <summary>
   /// Interaction logic for TPadWindow.xaml

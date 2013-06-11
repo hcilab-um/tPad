@@ -8,7 +8,7 @@ using System.Windows;
 using TallComponents.PDF.TextExtraction;
 using System.Xml.Serialization;
 
-namespace UofM.HCI.tPab.App.ActiveReader
+namespace UofM.HCI.tPad.App.ActiveReader
 {
   public class PDFContentHelper
   {
@@ -48,8 +48,8 @@ namespace UofM.HCI.tPab.App.ActiveReader
         StringBuilder currentWord = new StringBuilder();
         wordBounds = Rect.Empty;
         bool foundWord = false;
-        
-        foreach (Glyph glyph in glyphs)
+
+        foreach (TallComponents.PDF.TextExtraction.Glyph glyph in glyphs)
         {
           if (glyph.Characters.Length == 0 || glyph.Characters[0] == ' ')
           {
@@ -132,7 +132,7 @@ namespace UofM.HCI.tPab.App.ActiveReader
           bool foundWord = false;
           int wordIndex = 0;
 
-          foreach (Glyph glyph in glyphs)
+          foreach (TallComponents.PDF.TextExtraction.Glyph glyph in glyphs)
           {
             if (glyph.Characters.Length == 0 || wordIndex == 0)
             {

@@ -8,7 +8,7 @@
     <ProjectGuid>{947CBE92-467E-4E57-8877-CE5AF530D5D7}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UofM.HCI.tPab</RootNamespace>
+    <RootNamespace>UofM.HCI.tPad</RootNamespace>
     <AssemblyName>tPadLib</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -78,19 +78,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.Toolkit, Version=1.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Applications\CalculatorApp.xaml.cs">
-      <DependentUpon>CalculatorApp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Applications\DashboardApp.xaml.cs">
-      <DependentUpon>DashboardApp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Applications\TPadApplicationDescriptor.cs" />
     <Compile Include="Converters\ATFRotation.cs" />
     <Compile Include="Converters\ATFSize.cs" />
     <Compile Include="Converters\ATFTranslation.cs" />
@@ -103,7 +92,17 @@
     <Compile Include="Network\StackingMessage.cs" />
     <Compile Include="Network\StackingMessageExporter.cs" />
     <Compile Include="Network\StackingMessageImporter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\GlyphDetectionService.cs" />
+    <Compile Include="SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StandardDocument.cs" />
+    <Compile Include="TPadApplicationDescriptor.cs" />
     <Compile Include="TPadPage.cs" />
     <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
     <Compile Include="Converters\ConditionalTypeConverter.cs" />
@@ -118,7 +117,7 @@
     <Compile Include="ITPadApp.cs" />
     <Compile Include="ITPadAppContainer.cs" />
     <Compile Include="ITPadAppLauncher.cs" />
-    <Compile Include="Applications\MockApp.xaml.cs">
+    <Compile Include="App\MockApp.xaml.cs">
       <DependentUpon>MockApp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Monitors\BoardMonitor.cs" />
@@ -139,11 +138,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -161,8 +155,8 @@
     <Compile Include="Util\ImageHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -171,15 +165,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Applications\CalculatorApp.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Applications\DashboardApp.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Applications\MockApp.xaml">
+    <Page Include="App\MockApp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -190,6 +176,10 @@
     <Page Include="SimulatorDevice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SplashScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TPadWindow.xaml">
       <SubType>Designer</SubType>
@@ -202,7 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="camera.png" />
-    <Content Include="Applications\CalculatorAppIcon.png">
+    <Content Include="Images\Splash.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="sampledoc.png">

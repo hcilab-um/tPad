@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-namespace UofM.HCI.tPab.Converters
+namespace UofM.HCI.tPad.Converters
 {
   class IntToBinaryConverter : IValueConverter
   {

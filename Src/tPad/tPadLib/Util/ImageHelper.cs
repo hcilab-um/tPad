@@ -7,7 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 
-namespace UofM.HCI.tPab.Util
+namespace UofM.HCI.tPad.Util
 {
   class ImageHelper
   {

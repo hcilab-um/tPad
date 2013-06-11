@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 
-namespace UofM.HCI.tPab.App.ActiveReader
+namespace UofM.HCI.tPad.App.ActiveReader
 {
   /// <summary>
   /// Interaction logic for OffScreenVisualization.xaml

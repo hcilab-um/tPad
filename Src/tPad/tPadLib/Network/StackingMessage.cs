@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Ubicomp.Utils.NET.MTF;
 
-namespace UofM.HCI.tPab.Network
+namespace UofM.HCI.tPad.Network
 {
   public enum StackingMessageType { StackingRequest, StackingResponse, EndNotification, LocationUpdate, StackingTouchEvent };
 

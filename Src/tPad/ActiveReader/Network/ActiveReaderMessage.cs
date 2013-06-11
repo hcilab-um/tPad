@@ -11,7 +11,7 @@ using System.Xml;
 using System.IO.Compression;
 using System.Text.RegularExpressions;
 
-namespace UofM.HCI.tPab.App.ActiveReader.Network
+namespace UofM.HCI.tPad.App.ActiveReader.Network
 {
   public class ActiveReaderMessage : ITransportMessageContent
   {

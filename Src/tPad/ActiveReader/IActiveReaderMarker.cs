@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace UofM.HCI.tPab.App.ActiveReader
+namespace UofM.HCI.tPad.App.ActiveReader
 {
   public interface IActiveReaderMarker
   {

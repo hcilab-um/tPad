@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using Ubicomp.Utils.NET.MTF;
-using UofM.HCI.tPab.Network;
-using UofM.HCI.tPab.Monitors;
+using UofM.HCI.tPad.Network;
+using UofM.HCI.tPad.Monitors;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
 
   public class TPadDevice : INotifyPropertyChanged

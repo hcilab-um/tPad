@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using UofM.HCI.tPab.Monitors;
+using UofM.HCI.tPad.Monitors;
 
-namespace UofM.HCI.tPab.Converters
+namespace UofM.HCI.tPad.Converters
 {
   public class FlippingSideToScaleConverter : IValueConverter
   {

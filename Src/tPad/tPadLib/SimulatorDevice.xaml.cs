@@ -14,12 +14,11 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
-using UofM.HCI.tPab.Util;
+using UofM.HCI.tPad.Util;
 using System.Drawing.Imaging;
-using UofM.HCI.tPab.Monitors;
-using UofM.HCI.tPab.Applications;
+using UofM.HCI.tPad.Monitors;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
 
   /// <summary>
@@ -173,7 +172,7 @@ namespace UofM.HCI.tPab
     {
       RotationAngle = 0;
 
-      Point locationCms = new Point(Profile.DocumentSize.Width / 2, Profile.DocumentSize.Height / 2);
+      Point locationCms = new Point(sWindow.ActualDocument.DocumentSize.Width / 2, sWindow.ActualDocument.DocumentSize.Height / 2);
       Location = new Point(locationCms.X * WidthFactor, locationCms.Y * HeightFactor);
 
       OnPropertyChanged("WidthMultiplier");
@@ -332,22 +331,22 @@ namespace UofM.HCI.tPab
     private void StackingCommand()
     {
       //it means that the device will be paired up with another, and it depends on the simulator to mediate whether this is first (on top) or second (bottom)
-      if (StackingControlState == tPab.StackingControlState.None)
+      if (StackingControlState == tPad.StackingControlState.None)
       {
-        StackingControlState = tPab.StackingControlState.Stacking;
-        OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, PreviousState = tPab.StackingControlState.None, NewState = StackingControlState });
+        StackingControlState = tPad.StackingControlState.Stacking;
+        OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, PreviousState = tPad.StackingControlState.None, NewState = StackingControlState });
       }
       //it means that the device will no longer be stacked on top of another and the operation is cancelled
-      else if (StackingControlState == tPab.StackingControlState.Stacking)
+      else if (StackingControlState == tPad.StackingControlState.Stacking)
       {
-        StackingControlState = tPab.StackingControlState.None;
-        OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, PreviousState = tPab.StackingControlState.Stacking, NewState = StackingControlState });
+        StackingControlState = tPad.StackingControlState.None;
+        OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, PreviousState = tPad.StackingControlState.Stacking, NewState = StackingControlState });
       }
       //it means that the current stacking finishes
-      else if (StackingControlState == tPab.StackingControlState.StackedTop)
+      else if (StackingControlState == tPad.StackingControlState.StackedTop)
       {
-        StackingControlState = tPab.StackingControlState.None;
-        OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, PreviousState = tPab.StackingControlState.Stacking, NewState = StackingControlState });
+        StackingControlState = tPad.StackingControlState.None;
+        OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, PreviousState = tPad.StackingControlState.Stacking, NewState = StackingControlState });
       }
     }
 
@@ -355,7 +354,7 @@ namespace UofM.HCI.tPab
     {
       if (e.State == StackingState.NotStacked)
       {
-        StackingControlState = tPab.StackingControlState.None;
+        StackingControlState = tPad.StackingControlState.None;
         OnStackingControl(this, new StackingControlEventArgs() { Device = Core.Device, NewState = StackingControlState });
       }
     }

@@ -12,20 +12,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
 using System.ComponentModel;
-using UofM.HCI.tPab.Util;
-using UofM.HCI.tPab.Services;
+using UofM.HCI.tPad.Util;
+using UofM.HCI.tPad.Services;
 using System.Drawing.Imaging;
 using System.Threading;
 using System.Windows.Threading;
-using UofM.HCI.tPab.Applications;
+using UofM.HCI.tPad.App;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
 
   /// <summary>
   /// Interaction logic for Simulatorç.xaml
   /// </summary>
-  public partial class Simulator : Window, INotifyPropertyChanged, ITPadAppLauncher
+  public partial class Simulator : Window, INotifyPropertyChanged
   {
 
     private double deviceWidth, deviceHeight;
@@ -174,27 +174,15 @@ namespace UofM.HCI.tPab
       }
     }
 
-    private TPadApplicationDescriptor CalculatorAppDescriptor { get; set; }
-
-    public Simulator(ITPadAppLauncher launcher, TPadProfile profile, TPadDocument document)
+    public Simulator(ITPadAppLauncher launcher, TPadProfile profile)
     {
       Launcher = launcher;
       Profile = profile;
-      if (!File.Exists(document.Pages[0].FileName))
-        throw new ArgumentException(String.Format("Document \"{1}\" not found!", document.Pages[0].FileName));
 
       InitializeComponent();
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
 
-      ActualDocument = document;
-      CalculatorAppDescriptor = new TPadApplicationDescriptor()
-      {
-        Name = "Calculator",
-        Icon = UofM.HCI.tPab.Properties.Resources.CalculatorAppIcon,
-        AppClass = typeof(CalculatorApp),
-        Launcher = this
-      };
-      CalculatorAppDescriptor.Triggers.Add(Glyph.Square);
+      ActualDocument = GetDocument("Blank");
     }
 
     private void wSimulator_Loaded(object sender, RoutedEventArgs e)
@@ -209,9 +197,9 @@ namespace UofM.HCI.tPab
     private void CalculateFactors()
     {
       // This is the number of pixels per centimeter on the height.
-      HeightFactor = (float)(iDocument.ActualHeight / Profile.DocumentSize.Height);
+      HeightFactor = (float)(iDocument.ActualHeight / ActualDocument.DocumentSize.Height);
       // This is the number of pixels per centimeter on the width
-      WidthFactor = (float)(iDocument.ActualWidth / Profile.DocumentSize.Width);
+      WidthFactor = (float)(iDocument.ActualWidth / ActualDocument.DocumentSize.Width);
 
       // These two values should be nearly the same
       if (Math.Abs(HeightFactor - WidthFactor) >= 0.5)
@@ -294,23 +282,21 @@ namespace UofM.HCI.tPab
 
         core.CoreStart(deviceWindow, simDevice);
 
-        DashboardApp dashboard = new DashboardApp(core, deviceWindow, simDevice);
-        dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
-        dashboard.Applications.Add(CalculatorAppDescriptor);
+        TPadApplicationDescriptor defaultAppDescriptor = Launcher.GetApplicationDescriptor();
+        ITPadApp defatultApp = Launcher.GetAppInstance(defaultAppDescriptor, deviceWindow, simDevice, core, null);
 
-        deviceWindow.LoadTPadApp(dashboard);
+        deviceWindow.LoadTPadApp(defatultApp);
         deviceWindow.Show();
         //*************** TO RUN ON SIMULATOR WINDOW *********************
         //core.CoreStart(simDevice, simDevice);
 
-        //DashboardApp dashboard = new DashboardApp(core, simDevice, simDevice);
-        //dashboard.Applications.Add(Launcher.GetApplicationDescriptor());
-        //dashboard.Applications.Add(CalculatorAppDescriptor);
+        //TPadApplicationDescriptor defaultAppDescriptor = Launcher.GetApplicationDescriptor();
+        //ITPadApp defatultApp = Launcher.GetAppInstance(defaultAppDescriptor, simDevice, simDevice, core, null);
         //simDevice.LoadTPadApp(dashboard);
-        //gTop.Children.Add(simDevice);
+        //gTop.Children.Add(defatultApp);
         //*************** END ********************************************
 
-        appInstances.Add(dashboard);
+        appInstances.Add(defatultApp);
       }
       catch (Exception exception)
       {
@@ -454,26 +440,29 @@ namespace UofM.HCI.tPab
         bottomDevice.RotationAngle = topDevice.RotationAngle;
     }
 
-    public TPadLauncherSettings GetSettings(TPadLauncherSettings settings)
+    private void cbDocument_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      throw new NotImplementedException();
+      ActualDocument = GetDocument((cbDocument.SelectedItem as ComboBoxItem).Tag as String);        
     }
 
-    public TPadApplicationDescriptor GetApplicationDescriptor()
+    private TPadDocument GetDocument(String conventionName)
     {
-      throw new NotImplementedException();
+      String docFolder = String.Format(@"Documents\{0}\", conventionName);
+      if (!Directory.Exists(docFolder))
+        throw new ArgumentException(String.Format("Folder '{0}' does not exist!", docFolder));
+
+      TPadDocument result = new StandardDocument() { ID = 0, Folder = docFolder, FileName = docFolder + String.Format("{0}.pdf", conventionName) };
+      result.DocumentSize = new Size(21.59, 27.94); //US Letter - 215.9 mm × 279.4 mm
+
+      String[] pages = Directory.GetFiles(docFolder, "*.png");
+      Array.Sort<String>(pages);
+      result.Pages = new TPadPage[pages.Length];
+      for (int index = 0; index < pages.Length; index++)
+        result.Pages[index] = new StandardPage() { PageIndex = index, FileName = pages[index] };
+
+      return result;
     }
 
-    public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
-    {
-      if (descriptor.AppClass == typeof(CalculatorApp))
-      {
-        CalculatorApp calculator = new CalculatorApp(core.Profile, container, controller);
-        calculator.Core = core;
-        return calculator;
-      }
-      return null;
-    }
   }
 
 }

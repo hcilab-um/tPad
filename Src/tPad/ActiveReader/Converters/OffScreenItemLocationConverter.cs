@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Media;
 
 
-namespace UofM.HCI.tPab.App.ActiveReader.Converters
+namespace UofM.HCI.tPad.App.ActiveReader.Converters
 {
   class OffScreenItemLocationConverter : IMultiValueConverter
   {

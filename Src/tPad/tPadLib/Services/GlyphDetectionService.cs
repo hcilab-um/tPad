@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Ubicomp.Utils.NET.CAF.ContextService;
 using System.Drawing;
-using UofM.HCI.tPab.Monitors;
+using UofM.HCI.tPad.Monitors;
 
-namespace UofM.HCI.tPab.Services
+namespace UofM.HCI.tPad.Services
 {
   public class GlyphDetectionService : ContextService
   {
@@ -44,10 +44,10 @@ namespace UofM.HCI.tPab.Services
 
       if (sender is SimCameraMonitor)
       {
-        List<Applications.Glyph> detectedGlyphs = new List<Applications.Glyph>();
+        List<Glyph> detectedGlyphs = new List<Glyph>();
         var simulatorDevice = ((sender as SimCameraMonitor).CameraSource as SimulatorDevice).CalculatorGlyph;
         if (simulatorDevice == true)
-          detectedGlyphs.Add(Applications.Glyph.Square);
+          detectedGlyphs.Add(Glyph.Square);
         NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(GlyphDetectionService), detectedGlyphs));
       }
       else if (sender is CameraMonitor)
@@ -57,12 +57,12 @@ namespace UofM.HCI.tPab.Services
         if (Tracker == null)
           return;
 
-        List<Applications.Glyph> detectedGlyphs = new List<Applications.Glyph>();
+        List<Glyph> detectedGlyphs = new List<Glyph>();
         ManagedA.Glyphs result = Tracker.DetectFigures(20, 80, 150);
         for(int i = 0 ; i < result.numberSquares ; i++)
-          detectedGlyphs.Add(Applications.Glyph.Square);
+          detectedGlyphs.Add(Glyph.Square);
         for (int i = 0; i < result.numberTriangles; i++)
-          detectedGlyphs.Add(Applications.Glyph.Triangle);
+          detectedGlyphs.Add(Glyph.Triangle);
 
         NotifyContextServiceListeners(this, new NotifyContextServiceListenersEventArgs(typeof(GlyphDetectionService), detectedGlyphs));
       }

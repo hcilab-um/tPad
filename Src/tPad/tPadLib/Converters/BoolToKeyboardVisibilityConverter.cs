@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows;
 
-namespace UofM.HCI.tPab.Converters
+namespace UofM.HCI.tPad.Converters
 {
   public class BoolToKeyboardVisibilityConverter : IValueConverter
   {

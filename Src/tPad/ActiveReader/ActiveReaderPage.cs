@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 using System.Windows.Ink;
 using System.Windows;
 
-namespace UofM.HCI.tPab.App.ActiveReader
+namespace UofM.HCI.tPad.App.ActiveReader
 {
   public class ActiveReaderPage : TPadPage
   {

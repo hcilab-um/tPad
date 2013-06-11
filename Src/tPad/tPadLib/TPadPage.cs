@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Xml.Serialization;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
 
   public abstract class TPadPage

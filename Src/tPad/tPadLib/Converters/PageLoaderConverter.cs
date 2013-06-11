@@ -5,11 +5,11 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using System.IO;
-using UofM.HCI.tPab.Properties;
+using UofM.HCI.tPad.Properties;
 using System.Windows;
-using UofM.HCI.tPab.Services;
+using UofM.HCI.tPad.Services;
 
-namespace UofM.HCI.tPab.Converters
+namespace UofM.HCI.tPad.Converters
 {
   public class PageLoaderConverter : IMultiValueConverter
   {

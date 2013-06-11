@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace UofM.HCI.tPab.App.ActiveReader
+namespace UofM.HCI.tPad.App.ActiveReader
 {
   [XmlInclude(typeof(ActiveReaderPage))]
   public class ActiveReaderDocument : TPadDocument

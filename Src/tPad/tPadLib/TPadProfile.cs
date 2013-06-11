@@ -1,17 +1,16 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
   public class TPadProfile
   {
     public Size Resolution { get; set; }
     public Size ScreenSize { get; set; }
     public Size DeviceSize { get; set; }
-    public Size DocumentSize { get; set; }
 
     private Size pixelsPerCm = Size.Empty;
     public Size PixelsPerCm
@@ -24,16 +23,12 @@ namespace UofM.HCI.tPab
       }
     }
 
-    private Size documentSizeInPixels = Size.Empty;
-    public Size DocumentSizeInPixels
+    public Size DocumentSizeInPixels(Size docSize)
     {
-      get 
-      {
-        if (documentSizeInPixels == Size.Empty && PixelsPerCm != Size.Empty)
-          documentSizeInPixels = new Size(DocumentSize.Width * PixelsPerCm.Width, DocumentSize.Height * PixelsPerCm.Height);
-        return documentSizeInPixels;
-      }
+      Size docSizeInPixels = Size.Empty;
+      if (PixelsPerCm != Size.Empty)
+        docSizeInPixels = new Size(docSize.Width * PixelsPerCm.Width, docSize.Height * PixelsPerCm.Height);
+      return docSizeInPixels;
     }
-
   }
 }

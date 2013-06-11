@@ -6,7 +6,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows;
 
-namespace UofM.HCI.tPab.App.ActiveReader.Converters
+namespace UofM.HCI.tPad.App.ActiveReader.Converters
 {
   public class OffScreenPageVisibilityConverter : IMultiValueConverter
   {

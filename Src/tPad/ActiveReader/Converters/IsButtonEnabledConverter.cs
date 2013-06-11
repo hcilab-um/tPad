@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-namespace UofM.HCI.tPab.App.ActiveReader.Converters
+namespace UofM.HCI.tPad.App.ActiveReader.Converters
 {
   class IsButtonEnabledConverter : IMultiValueConverter
   {

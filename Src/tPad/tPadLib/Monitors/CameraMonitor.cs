@@ -5,7 +5,7 @@ using System.Text;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
 using System.Drawing;
 
-namespace UofM.HCI.tPab.Monitors
+namespace UofM.HCI.tPad.Monitors
 {
   public class CameraMonitor : ContextMonitor
   {

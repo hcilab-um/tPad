@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="UofM.HCI.tPab.App.ActiveReader.FigureViewer" x:Name="figureViewer"
+﻿<UserControl x:Class="UofM.HCI.tPad.App.ActiveReader.FigureViewer" x:Name="figureViewer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:convertersApp="clr-namespace:UofM.HCI.tPab.App.ActiveReader.Converters"
+             xmlns:convertersApp="clr-namespace:UofM.HCI.tPad.App.ActiveReader.Converters"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
 
   <UserControl.Resources>

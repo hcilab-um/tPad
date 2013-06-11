@@ -6,7 +6,7 @@ using System.Windows.Data;
 using System.Windows.Controls;
 using System.Windows;
 
-namespace UofM.HCI.tPab.App.ActiveReader.Converters
+namespace UofM.HCI.tPad.App.ActiveReader.Converters
 {
   class BarPositionItemLocationConverter : IMultiValueConverter
   {

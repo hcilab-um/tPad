@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using UofM.HCI.tPab.Applications;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
   public interface ITPadAppLauncher
   {

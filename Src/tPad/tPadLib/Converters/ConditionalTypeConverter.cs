@@ -18,7 +18,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Data;
 
-namespace UofM.HCI.tPab.Converters
+namespace UofM.HCI.tPad.Converters
 {
 
   [ValueConversion(typeof(object), typeof(object))]

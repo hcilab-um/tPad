@@ -6,9 +6,10 @@ using System.Collections.ObjectModel;
 using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Xml.Serialization;
+using System.Windows;
 
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
 
   public abstract class TPadDocument
@@ -23,6 +24,15 @@ namespace UofM.HCI.tPab
 
     [XmlArray]
     public TPadPage[] Pages { get; set; }
+
+    [XmlIgnore]
+    public TPadPage this[int index]
+    {
+      get { return Pages[index]; }
+      set { Pages[index] = value; }
+    }
+
+    public Size DocumentSize { get; set; }
 
     public abstract TPadDocument Clone();
   }

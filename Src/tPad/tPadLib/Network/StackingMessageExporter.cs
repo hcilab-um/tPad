@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Jayrock.Json.Conversion;
 
-namespace UofM.HCI.tPab.Network
+namespace UofM.HCI.tPad.Network
 {
   class StackingMessageExporter : IExporter
   {

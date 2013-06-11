@@ -5,7 +5,7 @@ using System.Text;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
 using System.Windows.Media.Media3D;
 
-namespace UofM.HCI.tPab.Monitors
+namespace UofM.HCI.tPad.Monitors
 {
 
   public class SimBoardMonitor : ContextMonitor

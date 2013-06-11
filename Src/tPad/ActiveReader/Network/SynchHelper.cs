@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UofM.HCI.tPab.App.ActiveReader.Network;
+using UofM.HCI.tPad.App.ActiveReader.Network;
 using Ubicomp.Utils.NET.MTF;
-using UofM.HCI.tPab.App.ActiveReader;
+using UofM.HCI.tPad.App.ActiveReader;
 using System.Windows.Threading;
 using System.Windows.Ink;
 
-namespace UofM.HCI.tPab.Network
+namespace UofM.HCI.tPad.Network
 {
   public class SynchHelper : ITransportListener
   {

@@ -6,7 +6,7 @@ using System.Windows.Data;
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace UofM.HCI.tPab.Converters
+namespace UofM.HCI.tPad.Converters
 {
   /// <summary>
   /// Taken from: http://www.shujaat.net/2010/08/wpf-images-from-project-resource.html

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
 
-namespace UofM.HCI.tPab.Monitors
+namespace UofM.HCI.tPad.Monitors
 {
 
   public enum FlippingMode { Unknown, FaceUp, FaceDown };

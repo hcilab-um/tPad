@@ -7,9 +7,9 @@ using System.Diagnostics;
 using Ubicomp.Utils.NET.CAF.ContextService;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
 using System.Windows;
-using UofM.HCI.tPab.Monitors;
+using UofM.HCI.tPad.Monitors;
 
-namespace UofM.HCI.tPab.Services
+namespace UofM.HCI.tPad.Services
 {
 
   public class RegistrationService : ContextService

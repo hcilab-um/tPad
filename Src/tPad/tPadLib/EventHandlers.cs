@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UofM.HCI.tPab.Monitors;
-using UofM.HCI.tPab.Applications;
+using UofM.HCI.tPad.Monitors;
+using UofM.HCI.tPad.App;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
 
   public class FlippingEventArgs : EventArgs

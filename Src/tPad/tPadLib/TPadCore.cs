@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UofM.HCI.tPab.Monitors;
+using UofM.HCI.tPad.Monitors;
 using System.Windows;
-using UofM.HCI.tPab.Services;
+using UofM.HCI.tPad.Services;
 using System.ComponentModel;
 using Ubicomp.Utils.NET.CAF.ContextService;
 using Ubicomp.Utils.NET.CAF.ContextAdapter;
-using UofM.HCI.tPab.Network;
+using UofM.HCI.tPad.Network;
 using Ubicomp.Utils.NET.MTF;
-using UofM.HCI.tPab.Applications;
+using UofM.HCI.tPad.App;
 
-namespace UofM.HCI.tPab
+namespace UofM.HCI.tPad
 {
   public class TPadCore : ContextService, IContextServiceListener, INotifyPropertyChanged
   {
