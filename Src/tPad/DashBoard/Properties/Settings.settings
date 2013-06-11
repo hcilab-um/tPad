@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="UofM.HCI.tPad.App.Dashboard.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MulticastGroup" Type="System.String" Scope="User">
+      <Value Profile="(Default)">230.30.30.30</Value>
+    </Setting>
+    <Setting Name="MulticastPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5123</Value>
+    </Setting>
+    <Setting Name="MulticastTTL" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
