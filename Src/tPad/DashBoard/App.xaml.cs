@@ -65,6 +65,9 @@ namespace UofM.HCI.tPad.App.Dashboard
       ActiveReader.Launcher arL = new ActiveReader.Launcher();
       dashboard.Applications.Add(arL.GetApplicationDescriptor());
 
+      Ruler.Launcher rulerL = new Ruler.Launcher();
+      dashboard.Applications.Add(rulerL.GetApplicationDescriptor());
+
       return dashboard;
     }
   }

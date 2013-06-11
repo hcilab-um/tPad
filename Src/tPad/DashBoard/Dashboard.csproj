@@ -133,6 +133,10 @@
       <Project>{8EAA1C78-0574-4F6F-A996-75277BE82665}</Project>
       <Name>ContextAwarenessFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ruler\Ruler.csproj">
+      <Project>{C33F4C7D-C57B-49BD-A493-CF6C8EEBF957}</Project>
+      <Name>Ruler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\tPadLib\tPadLib.csproj">
       <Project>{947CBE92-467E-4E57-8877-CE5AF530D5D7}</Project>
       <Name>tPadLib</Name>
