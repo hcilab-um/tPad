@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="UofM.HCI.tPad.App.GraphExplorer.ValueMark" x:Name="valueMark"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+  <Grid>
+    <Line VerticalAlignment="Bottom" HorizontalAlignment="Center" X1="0" Y1="50" X2="0" Y2="100" StrokeThickness="2" Stroke="Black"/>
+    <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,50" MouseDown="Grid_MouseDown">
+      <Rectangle Fill="LightBlue" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RadiusX="10" RadiusY="10"/>
+      <Label FontWeight="Bold" FontSize="20" Content="{Binding ElementName=valueMark, Path=Mark, FallbackValue=100}" Margin="10,1,10,1"/>
+    </Grid>
+  </Grid>
+</UserControl>
