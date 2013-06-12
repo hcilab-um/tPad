@@ -185,19 +185,15 @@ namespace UofM.HCI.tPad.App.GraphExplorer
         return;
       }
 
-      double distanceInPixels = GetDistanceBetweenPoints(new Point(yAxis.X1, yAxis.Y1), new Point(yAxis.X2, yAxis.Y2));
-      double chartRange = MaxValue - MinValue;
-      double ratio = distanceInPixels / chartRange;
-
       Point queryPos = Mouse.GetPosition(this);
-      double queryY = queryPos.Y;
-      double queryChartValue = (yAxis.Y2 - queryY) / ratio;
+      double queryChartValue = CalculateMarkValue(queryPos.Y);
 
       ValueMark mark = new ValueMark() { Mark = queryChartValue };
       mark.Margin = new Thickness(queryPos.X, queryPos.Y, 0, 0);
       mark.VerticalAlignment = System.Windows.VerticalAlignment.Top;
       mark.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-      mark.MarkClicked += new EventHandler(mark_MarkClicked);
+      mark.MarkClosed += new EventHandler(mark_MarkClicked);
+      mark.MarkMoved += new EventHandler(mark_MarkMoved);
 
       TranslateTransform transform = new TranslateTransform();
       MultiplierConverter converter = new MultiplierConverter();
@@ -206,6 +202,25 @@ namespace UofM.HCI.tPad.App.GraphExplorer
       mark.RenderTransform = transform;
       
       gExplorer.Children.Add(mark);
+    }
+
+    private double CalculateMarkValue(double queryY)
+    {
+      double distanceInPixels = GetDistanceBetweenPoints(new Point(yAxis.X1, yAxis.Y1), new Point(yAxis.X2, yAxis.Y2));
+      double chartRange = MaxValue - MinValue;
+      double ratio = distanceInPixels / chartRange;
+
+      double queryChartValue = (yAxis.Y2 - queryY) / ratio;
+      return queryChartValue;
+    }
+
+    void mark_MarkMoved(object sender, EventArgs e)
+    {
+      ValueMark mark = sender as ValueMark;
+      MarkMovedEventArgs move = e as MarkMovedEventArgs;
+      mark.Margin = new Thickness(mark.Margin.Left + move.X, mark.Margin.Top + move.Y, 0, 0);
+      mark.Mark = CalculateMarkValue(mark.Margin.Top);
+      cancelMouseUp = true;
     }
   }
 }

@@ -21,18 +21,25 @@ namespace UofM.HCI.tPad.App.GraphExplorer
   public partial class ValueMark : UserControl, INotifyPropertyChanged
   {
 
-    public event EventHandler MarkClicked;
-    private void OnMarkClicked()
+    public event EventHandler MarkClosed;
+    private void OnMarkClosed()
     {
-      if (MarkClicked != null)
-        MarkClicked(this, null);
+      if (MarkClosed != null)
+        MarkClosed(this, null);
+    }
+
+    public event EventHandler MarkMoved;
+    private void OnMarkMoved(double x, double y)
+    {
+      if (MarkMoved != null)
+        MarkMoved(this, new MarkMovedEventArgs() { X = x, Y = y });
     }
 
     private double mark = 0;
-    public double Mark 
+    public double Mark
     {
       get { return mark; }
-      set 
+      set
       {
         mark = value;
         OnPropertyChanged("Mark");
@@ -51,9 +58,41 @@ namespace UofM.HCI.tPad.App.GraphExplorer
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
+    private bool isDown = false, isMoving = false;
     private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      OnMarkClicked();
+      isDown = true;
+      initial = Mouse.GetPosition(this);
+    }
+
+    private Point initial;
+    private void Grid_MouseMove(object sender, MouseEventArgs e)
+    {
+      if (!isDown)
+        return;
+      isMoving = true;
+
+      Point actual = Mouse.GetPosition(this);
+      Vector displacement = actual - initial;
+      OnMarkMoved(displacement.X, displacement.Y);
+    }
+
+    private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+      isMoving = false;
+      isDown = false;
+    }
+
+    private void Rectangle_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+      OnMarkClosed();
     }
   }
+
+  public class MarkMovedEventArgs : EventArgs
+  {
+    public double X { get; set; }
+    public double Y { get; set; }
+  }
+
 }

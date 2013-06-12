@@ -3,12 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d">
-  <Grid>
+             mc:Ignorable="d" MouseUp="Grid_MouseUp">
+  <Grid MouseUp="Grid_MouseUp">
     <Line VerticalAlignment="Bottom" HorizontalAlignment="Center" X1="0" Y1="50" X2="0" Y2="100" StrokeThickness="2" Stroke="Black"/>
-    <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,50" MouseDown="Grid_MouseDown">
-      <Rectangle Fill="LightBlue" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RadiusX="10" RadiusY="10"/>
-      <Label FontWeight="Bold" FontSize="20" Content="{Binding ElementName=valueMark, Path=Mark, FallbackValue=100}" Margin="10,1,10,1"/>
+    <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,50" MouseDown="Grid_MouseDown" MouseMove="Grid_MouseMove" MouseUp="Grid_MouseUp">
+      <Rectangle Fill="LightBlue" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RadiusX="10" RadiusY="10" MouseUp="Grid_MouseUp"/>
+      <StackPanel Orientation="Horizontal">
+        <Rectangle Fill="Red" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10,0,0,0" MouseUp="Rectangle_MouseUp"/>
+        <Label FontWeight="Bold" FontSize="20" Content="{Binding ElementName=valueMark, Path=Mark, FallbackValue=100.56585645, StringFormat={}{0:#.##}}" Margin="10,1,20,1" MouseUp="Grid_MouseUp"/>
+      </StackPanel>
     </Grid>
   </Grid>
 </UserControl>
