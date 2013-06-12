@@ -6,20 +6,60 @@
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPad.Converters;assembly=tPadLib"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-  
+
   <UserControl.Resources>
     <convertersLib:DivisionMultiConverter x:Key="dConverter"/>
+    <convertersLib:SubstractionConverter x:Key="sConverter"/>
+    <convertersLib:PointsToAngleConverter x:Key="ptaConverter" />
   </UserControl.Resources>
-  
-  <Grid x:Name="gMeasurements"  Background="White" MouseUp="Grid_MouseUp"
+
+  <Grid x:Name="gMeasurements"  Background="White" MouseDown="gMeasurements_MouseDown" MouseMove="gMeasurements_MouseMove" MouseUp="gMeasurements_MouseUp"
         Width="{Binding ElementName=rulerApp, Path=ActualWidth}" Height="{Binding ElementName=rulerApp, Path=ActualHeight}">
     <Button x:Name="btnClose" Content="Close" VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="45" Margin="16" Click="btnClose_Click"/>
 
+    <Line x:Name="headLine" X1="0" Y1="0" X2="0" Y2="50" StrokeThickness="2" Stroke="Black">
+      <Line.RenderTransform>
+        <TransformGroup>
+          <RotateTransform CenterX="0" CenterY="25">
+            <RotateTransform.Angle>
+              <MultiBinding Converter="{StaticResource ResourceKey=ptaConverter}">
+                <Binding ElementName="measureLine" Path="X1"/>
+                <Binding ElementName="measureLine" Path="Y1"/>
+                <Binding ElementName="measureLine" Path="X2"/>
+                <Binding ElementName="measureLine" Path="Y2"/>
+              </MultiBinding>
+            </RotateTransform.Angle>
+          </RotateTransform>
+          <TranslateTransform X="{Binding ElementName=measureLine, Path=X1, Converter={StaticResource ResourceKey=sConverter}, ConverterParameter=1}"
+                              Y="{Binding ElementName=measureLine, Path=Y1, Converter={StaticResource ResourceKey=sConverter}, ConverterParameter=25}"/>
+        </TransformGroup>
+      </Line.RenderTransform>
+    </Line>
+
     <Line x:Name="measureLine" X1="100" Y1="50" X2="200" Y2="50" StrokeThickness="2" Stroke="Black"/>
-    
+
+    <Line x:Name="tailLine" X1="0" Y1="0" X2="0" Y2="50" StrokeThickness="2" Stroke="Black">
+      <Line.RenderTransform>
+        <TransformGroup>
+          <RotateTransform CenterX="0" CenterY="25">
+            <RotateTransform.Angle>
+              <MultiBinding Converter="{StaticResource ResourceKey=ptaConverter}">
+                <Binding ElementName="measureLine" Path="X1"/>
+                <Binding ElementName="measureLine" Path="Y1"/>
+                <Binding ElementName="measureLine" Path="X2"/>
+                <Binding ElementName="measureLine" Path="Y2"/>
+              </MultiBinding>
+            </RotateTransform.Angle>
+          </RotateTransform>
+          <TranslateTransform X="{Binding ElementName=measureLine, Path=X2, Converter={StaticResource ResourceKey=sConverter}, ConverterParameter=1}"
+                              Y="{Binding ElementName=measureLine, Path=Y2, Converter={StaticResource ResourceKey=sConverter}, ConverterParameter=25}"/>
+        </TransformGroup>
+      </Line.RenderTransform>
+    </Line>
+
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="LightGray">
-      <Label FontSize="20">Distance: </Label>
-      <Label FontSize="20">
+      <Label FontSize="20" FontWeight="Bold">Distance:</Label>
+      <Label FontSize="20" FontWeight="Bold">
         <Label.Content>
           <MultiBinding Converter="{StaticResource ResourceKey=dConverter}">
             <Binding ElementName="rulerApp" Path="Distance" FallbackValue="100"/>
@@ -27,7 +67,7 @@
           </MultiBinding>
         </Label.Content>
       </Label>
-      <Label FontSize="20">cms</Label>
+      <Label FontSize="20" FontWeight="Bold">cms</Label>
     </StackPanel>
   </Grid>
 </UserControl>

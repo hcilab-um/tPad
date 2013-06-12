@@ -66,24 +66,48 @@ namespace UofM.HCI.tPad.App.Ruler
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    private Point startPos, finalPos;
-    private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+    private bool isMoving = false, isHead = true;
+    private void gMeasurements_MouseDown(object sender, MouseButtonEventArgs e)
     {
-      if (startPos.X == 0 && startPos.Y == 0)
+      Point location = Mouse.GetPosition(this);
+      double distanceToHead = GetDistanceBetweenPoints(location, new Point(measureLine.X1, measureLine.Y1));
+      double distanceToTail = GetDistanceBetweenPoints(location, new Point(measureLine.X2, measureLine.Y2));
+      if (distanceToHead <= distanceToTail)
+        isHead = true;
+      else
+        isHead = false;
+      isMoving = true;
+
+      UpdateLine(location, isHead);
+    }
+
+    private void gMeasurements_MouseMove(object sender, MouseEventArgs e)
+    {
+      if (!isMoving)
+        return;
+
+      Point location = Mouse.GetPosition(this);
+      UpdateLine(location, isHead);
+    }
+
+    private void gMeasurements_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+      isMoving = false;
+    }
+
+    private void UpdateLine(Point location, bool isHead)
+    {
+      if (isHead)
       {
-        startPos = Mouse.GetPosition(this);
-        measureLine.X1 = startPos.X;
-        measureLine.Y1 = startPos.Y;
-        Distance = GetDistanceBetweenPoints(startPos, new Point(measureLine.X2, measureLine.Y2));
+        measureLine.X1 = location.X;
+        measureLine.Y1 = location.Y;
       }
       else
       {
-        finalPos = Mouse.GetPosition(this);
-        measureLine.X2 = finalPos.X;
-        measureLine.Y2 = finalPos.Y;
-        Distance = GetDistanceBetweenPoints(startPos, finalPos);
-        startPos = finalPos = new Point(0, 0);
+        measureLine.X2 = location.X;
+        measureLine.Y2 = location.Y;
       }
+      Distance = GetDistanceBetweenPoints(new Point(measureLine.X1, measureLine.Y1), new Point(measureLine.X2, measureLine.Y2));
     }
 
     private double GetDistanceBetweenPoints(Point start, Point final)
@@ -93,7 +117,6 @@ namespace UofM.HCI.tPad.App.Ruler
       double distance = Math.Sqrt(a * a + b * b);
       return distance;
     }
-
   }
 
 }

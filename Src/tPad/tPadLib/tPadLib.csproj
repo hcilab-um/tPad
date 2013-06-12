@@ -83,6 +83,8 @@
     <Compile Include="Converters\ATFRotation.cs" />
     <Compile Include="Converters\ATFSize.cs" />
     <Compile Include="Converters\ATFTranslation.cs" />
+    <Compile Include="Converters\PointsToAngleConverter.cs" />
+    <Compile Include="Converters\SubstractionConverter.cs" />
     <Compile Include="Converters\DivisionMultiConverter.cs" />
     <Compile Include="Converters\MultiplierMultiConverter.cs" />
     <Compile Include="Converters\FlippingSideToScaleConverter.cs" />
@@ -112,7 +114,7 @@
     <Compile Include="Converters\MultiplierConverter.cs" />
     <Compile Include="Converters\PageLoaderConverter.cs" />
     <Compile Include="Converters\StatusVisibilityConverter.cs" />
-    <Compile Include="Converters\SubstractionConverter.cs" />
+    <Compile Include="Converters\SubstractionMultiConverter.cs" />
     <Compile Include="ITPadAppController.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="ITPadApp.cs" />

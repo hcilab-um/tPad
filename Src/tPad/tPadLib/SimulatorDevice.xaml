@@ -11,7 +11,7 @@
     <converters:MultiplierConverter x:Key="cMultiplier" />
     <converters:MultiplierMultiConverter x:Key="cMultiplierMulti" />
     <converters:FlippingSideToScaleConverter x:Key="fsToScale" />
-    <converters:SubstractionConverter x:Key="cSubtraction" />
+    <converters:SubstractionMultiConverter x:Key="cSubtraction" />
   </UserControl.Resources>
 
   <!-- This is the place holder for the TPadApp -->

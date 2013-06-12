@@ -6,19 +6,17 @@ using System.Windows.Data;
 
 namespace UofM.HCI.tPad.Converters
 {
-  public class SubstractionConverter : IMultiValueConverter
+  public class SubstractionConverter : IValueConverter
   {
-    public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      var minuend = Double.Parse(values[0].ToString());
+      var minuend = Double.Parse(value.ToString());
+      var subtrahend = Double.Parse(parameter.ToString());
 
-      for (int i = 1; i < values.Length; i++)
-        minuend -= Double.Parse(values[i].ToString());
-
-      return minuend;
+      return minuend - subtrahend;
     }
 
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       throw new NotImplementedException();
     }
