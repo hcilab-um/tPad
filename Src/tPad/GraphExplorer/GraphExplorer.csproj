@@ -74,6 +74,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ValueMark.xaml.cs">
+      <DependentUpon>ValueMark.xaml</DependentUpon>
+    </Compile>
     <Page Include="GraphExplorerApp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,6 +86,10 @@
       <DependentUpon>GraphExplorerApp.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ValueMark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

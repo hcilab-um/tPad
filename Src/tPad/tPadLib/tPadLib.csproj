@@ -107,7 +107,7 @@
     <Compile Include="StandardDocument.cs" />
     <Compile Include="TPadApplicationDescriptor.cs" />
     <Compile Include="TPadPage.cs" />
-    <Compile Include="Converters\BoolToKeyboardVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ConditionalTypeConverter.cs" />
     <Compile Include="Converters\LayerRotationCenterConverter.cs" />
     <Compile Include="Converters\LayerScalingConverter.cs" />

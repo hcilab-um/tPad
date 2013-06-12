@@ -8,7 +8,7 @@
              d:DesignHeight="208" d:DesignWidth="498">
 
   <UserControl.Resources>
-    <convertersLib:BoolToKeyboardVisibilityConverter x:Key="BoolToKeyboardVisibilityConverter"/>
+    <convertersLib:BoolToVisibilityConverter x:Key="BoolToKeyboardVisibilityConverter"/>
   </UserControl.Resources>
 
   <Grid>

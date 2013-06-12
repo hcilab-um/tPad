@@ -82,6 +82,19 @@ namespace UofM.HCI.tPad
       }
     }
 
+    public String InitialText 
+    {
+      set 
+      {
+        ResultClear();
+        CurrentText.Append(value);
+        CurrentTextLine.Append(value);
+        OnPropertyChanged("CurrentText");
+        OnPropertyChanged("CurrentTextLine");
+        OnPropertyChanged("ResultString");
+      }
+    }
+
     public void ResultClear()
     {
       CurrentText = new StringBuilder();
@@ -108,11 +121,9 @@ namespace UofM.HCI.tPad
 
     private void keyboardButton_Click(object sender, RoutedEventArgs e)
     {
-      Button button = sender as Button;
-      //IsEnterPressed = false;
-
-      if (button != null)
-      {        
+      if (sender is Button)
+      {
+        Button button = sender as Button;
         switch (button.CommandParameter.ToString())
         {
           case "LSHIFT":
@@ -177,6 +188,14 @@ namespace UofM.HCI.tPad
             OnAlphaNumericKeyPressed();  
             
             break;
+        }
+      }
+      else if (sender is System.Windows.Controls.Primitives.ToggleButton)
+      {
+        System.Windows.Controls.Primitives.ToggleButton button = sender as System.Windows.Controls.Primitives.ToggleButton;
+        if ("ABC".Equals(button.Content as String) || ".?123".Equals(button.Content as String))
+        {
+          OnAlphaNumericKeyPressed();
         }
       }
     }
