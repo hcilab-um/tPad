@@ -133,6 +133,10 @@
       <Project>{8EAA1C78-0574-4F6F-A996-75277BE82665}</Project>
       <Name>ContextAwarenessFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphExplorer\GraphExplorer.csproj">
+      <Project>{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}</Project>
+      <Name>GraphExplorer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ruler\Ruler.csproj">
       <Project>{C33F4C7D-C57B-49BD-A493-CF6C8EEBF957}</Project>
       <Name>Ruler</Name>

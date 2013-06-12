@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruler", "Ruler\Ruler.csproj", "{C33F4C7D-C57B-49BD-A493-CF6C8EEBF957}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphExplorer", "GraphExplorer\GraphExplorer.csproj", "{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -182,6 +184,20 @@ Global
 		{C33F4C7D-C57B-49BD-A493-CF6C8EEBF957}.Release|x64.ActiveCfg = Release|x86
 		{C33F4C7D-C57B-49BD-A493-CF6C8EEBF957}.Release|x86.ActiveCfg = Release|x86
 		{C33F4C7D-C57B-49BD-A493-CF6C8EEBF957}.Release|x86.Build.0 = Release|x86
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Release|Mixed Platforms.ActiveCfg = Release|x64
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Release|Mixed Platforms.Build.0 = Release|x64
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Release|Win32.ActiveCfg = Release|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Release|x64.ActiveCfg = Release|Any CPU
+		{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

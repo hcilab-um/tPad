@@ -62,11 +62,20 @@ namespace UofM.HCI.tPad.App.Dashboard
       Calculator.Launcher calculatorL = new Calculator.Launcher();
       dashboard.Applications.Add(calculatorL.GetApplicationDescriptor());
 
-      ActiveReader.Launcher arL = new ActiveReader.Launcher();
-      dashboard.Applications.Add(arL.GetApplicationDescriptor());
+      //Tracer - Tracing and Flipping
 
       Ruler.Launcher rulerL = new Ruler.Launcher();
       dashboard.Applications.Add(rulerL.GetApplicationDescriptor());
+
+      GraphExplorer.Launcher explorerL = new GraphExplorer.Launcher();
+      dashboard.Applications.Add(explorerL.GetApplicationDescriptor());
+
+      //Picture Viewer - Stacking
+
+      //Journal - Simple surface capture
+
+      ActiveReader.Launcher arL = new ActiveReader.Launcher();
+      dashboard.Applications.Add(arL.GetApplicationDescriptor());
 
       return dashboard;
     }
