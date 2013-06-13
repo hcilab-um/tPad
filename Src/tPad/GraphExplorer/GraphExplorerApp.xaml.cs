@@ -143,7 +143,7 @@ namespace UofM.HCI.tPad.App.GraphExplorer
     {
     }
 
-    private void gExplorer_MouseMove(object sender, MouseEventArgs e)
+    private void cExplorer_MouseMove(object sender, MouseEventArgs e)
     {
       if (IsEditing && isMoving)
       {
@@ -156,7 +156,7 @@ namespace UofM.HCI.tPad.App.GraphExplorer
     void mark_MarkClicked(object sender, EventArgs e)
     {
       ValueMark mark = (sender as ValueMark);
-      gExplorer.Children.Remove(mark);
+      cExplorer.Children.Remove(mark);
       cancelMouseUp = true;
     }
 
@@ -169,12 +169,12 @@ namespace UofM.HCI.tPad.App.GraphExplorer
     }
 
     private bool isMoving = false;
-    private void gExplorer_MouseDown(object sender, MouseButtonEventArgs e)
+    private void cExplorer_MouseDown(object sender, MouseButtonEventArgs e)
     {
       isMoving = true;
     }
 
-    private void gExplorer_MouseUp(object sender, MouseButtonEventArgs e)
+    private void cExplorer_MouseUp(object sender, MouseButtonEventArgs e)
     {
       isMoving = false;
       if (IsEditing)
@@ -200,8 +200,8 @@ namespace UofM.HCI.tPad.App.GraphExplorer
       BindingOperations.SetBinding(transform, TranslateTransform.XProperty, new Binding("ActualWidth") { Source = mark, Converter = converter, ConverterParameter = -0.5 });
       BindingOperations.SetBinding(transform, TranslateTransform.YProperty, new Binding("ActualHeight") { Source = mark, Converter = converter, ConverterParameter = -1 });
       mark.RenderTransform = transform;
-      
-      gExplorer.Children.Add(mark);
+
+      cExplorer.Children.Add(mark);
     }
 
     private double CalculateMarkValue(double queryY)
@@ -210,7 +210,7 @@ namespace UofM.HCI.tPad.App.GraphExplorer
       double chartRange = MaxValue - MinValue;
       double ratio = distanceInPixels / chartRange;
 
-      double queryChartValue = (yAxis.Y2 - queryY) / ratio;
+      double queryChartValue = (yAxis.Y2 - queryY) / ratio + MinValue;
       return queryChartValue;
     }
 

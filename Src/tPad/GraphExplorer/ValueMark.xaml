@@ -7,10 +7,10 @@
   <Grid MouseUp="Grid_MouseUp">
     <Line VerticalAlignment="Bottom" HorizontalAlignment="Center" X1="0" Y1="50" X2="0" Y2="100" StrokeThickness="2" Stroke="Black"/>
     <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,50" MouseDown="Grid_MouseDown" MouseMove="Grid_MouseMove" MouseUp="Grid_MouseUp">
-      <Rectangle Fill="LightBlue" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RadiusX="10" RadiusY="10" MouseUp="Grid_MouseUp"/>
+      <Rectangle Fill="LightBlue" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RadiusX="10" RadiusY="10" MouseUp="Grid_MouseUp" MouseLeave="Rectangle_MouseLeave"/>
       <StackPanel Orientation="Horizontal">
         <Rectangle Fill="Red" Height="20" Width="20" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10,0,0,0" MouseUp="Rectangle_MouseUp"/>
-        <Label FontWeight="Bold" FontSize="20" Content="{Binding ElementName=valueMark, Path=Mark, FallbackValue=100.56585645, StringFormat={}{0:#.##}}" Margin="10,1,20,1" MouseUp="Grid_MouseUp"/>
+        <Label FontWeight="Bold" FontSize="20" Content="{Binding ElementName=valueMark, Path=Mark}" Margin="10,1,20,1" ContentStringFormat="F2" MouseUp="Grid_MouseUp"/>
       </StackPanel>
     </Grid>
   </Grid>

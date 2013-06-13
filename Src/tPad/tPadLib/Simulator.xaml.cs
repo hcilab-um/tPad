@@ -253,7 +253,7 @@ namespace UofM.HCI.tPad
         else if (cbJuan.IsSelected)
           settings.BoardPort = cbJuan.Tag as String;
         settings = Launcher.GetSettings(settings);
-        
+
         TPadCore core = new TPadCore();
         core.BoardCOM = settings.BoardPort;
         core.UseCamera = settings.UseCamera;
@@ -292,8 +292,8 @@ namespace UofM.HCI.tPad
 
         //TPadApplicationDescriptor defaultAppDescriptor = Launcher.GetApplicationDescriptor();
         //ITPadApp defatultApp = Launcher.GetAppInstance(defaultAppDescriptor, simDevice, simDevice, core, null);
-        //simDevice.LoadTPadApp(dashboard);
-        //gTop.Children.Add(defatultApp);
+        //simDevice.LoadTPadApp(defatultApp);
+        //gTop.Children.Add(simDevice);
         //*************** END ********************************************
 
         appInstances.Add(defatultApp);
@@ -340,7 +340,7 @@ namespace UofM.HCI.tPad
     protected override void OnClosed(EventArgs e)
     {
       base.OnClosed(e);
-      
+
       foreach (ITPadApp instance in appInstances)
       {
         if (instance.Container is Window)
@@ -355,13 +355,13 @@ namespace UofM.HCI.tPad
     void deviceWindow_Closed(object sender, EventArgs e)
     {
       chbUseFeatureTracking.IsEnabled = true;
-      
+
       ITPadApp instanceClosed = appInstances.FirstOrDefault(tmp => tmp.Container == sender);
       instanceClosed.Core.CoreStop();
 
       appInstances.Remove(instanceClosed);
       gTop.Children.Remove(instanceClosed.Controller as UserControl);
-      deviceCount--;      
+      deviceCount--;
     }
 
     public void GetCoordinatesForScreenCapture(out int zeroX, out int zeroY)

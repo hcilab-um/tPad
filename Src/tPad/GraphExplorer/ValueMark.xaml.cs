@@ -87,6 +87,12 @@ namespace UofM.HCI.tPad.App.GraphExplorer
     {
       OnMarkClosed();
     }
+
+    private void Rectangle_MouseLeave(object sender, MouseEventArgs e)
+    {
+      isMoving = false;
+      isDown = false;
+    }
   }
 
   public class MarkMovedEventArgs : EventArgs
