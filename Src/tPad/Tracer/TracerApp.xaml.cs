@@ -47,16 +47,23 @@ namespace UofM.HCI.tPad.App.Tracer
       InitializeComponent();
     }
 
-    public void Close()
+    private void tracerApp_Loaded(object sender, RoutedEventArgs e)
     {
-      if (Closed != null)
-        Closed(this, EventArgs.Empty);
+      Core.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
     }
 
-    public void OnPropertyChanged(String name)
+    void Device_FlippingChanged(object sender, FlippingEventArgs e)
     {
-      if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(name));
+      if (Core.Device.FlippingSide == Monitors.FlippingMode.FaceUp)
+      {
+        ShowMenu = false;
+        btnMenu.Content = "Menu";
+      }
+      else if (Core.Device.FlippingSide == Monitors.FlippingMode.FaceDown)
+      {
+        ShowMenu = true;
+        btnMenu.Content = "Back";
+      }
     }
 
     private void btnMenu_Click(object sender, RoutedEventArgs e)
@@ -72,5 +79,30 @@ namespace UofM.HCI.tPad.App.Tracer
     {
       Close();
     }
+
+    void colorCanvas_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
+    {
+      inkCanvas.DefaultDrawingAttributes.Color = e.NewValue;
+    }
+
+    private void RadioButton_Checked(object sender, RoutedEventArgs e)
+    {
+      double size = Double.Parse((sender as RadioButton).Tag as String);
+      inkCanvas.DefaultDrawingAttributes.Width = size;
+      inkCanvas.DefaultDrawingAttributes.Height = size;
+    }
+
+    public void Close()
+    {
+      if (Closed != null)
+        Closed(this, EventArgs.Empty);
+    }
+
+    public void OnPropertyChanged(String name)
+    {
+      if (PropertyChanged != null)
+        PropertyChanged(this, new PropertyChangedEventArgs(name));
+    }
+
   }
 }
