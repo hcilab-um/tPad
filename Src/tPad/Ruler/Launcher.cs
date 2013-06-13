@@ -22,7 +22,6 @@ namespace UofM.HCI.tPad.App.Ruler
         AppClass = typeof(RulerApp),
         Launcher = this
       };
-      descriptor.Triggers.Add(Glyph.Square);
 
       return descriptor;
     }

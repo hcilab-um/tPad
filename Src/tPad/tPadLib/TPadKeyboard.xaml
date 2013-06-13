@@ -149,7 +149,7 @@
           <ToggleButton IsChecked="{Binding ShowNumericKeyboard, ElementName=tPadKeyboard}" Grid.Column="5" Grid.ColumnSpan="2" Command="{Binding Path=PressAndHold}" CommandParameter="IGNORE" Content=".?123" Click="keyboardButton_Click" Background="Black" Foreground="White" BorderBrush="Black"/>
         </Grid>
       </Grid>
-      <Grid Grid.Row="1" x:Name="NumKeyboard" Background="Black" Margin="0,0,0,0" Visibility="{Binding ShowNumericKeyboard, ElementName=tPadKeyboard, Converter={StaticResource ResourceKey=BoolToKeyboardVisibilityConverter}}" >
+      <Grid Grid.Row="1" x:Name="NumKeyboard" Background="Black" Margin="0,0,0,0" Visibility="{Binding ShowNumericKeyboard, ElementName=tPadKeyboard, Converter={StaticResource ResourceKey=BoolToKeyboardVisibilityConverter}, ConverterParameter=True}" >
         <Grid.RowDefinitions>
           <RowDefinition Height="0"/>
           <RowDefinition />

@@ -145,6 +145,10 @@
       <Project>{947CBE92-467E-4E57-8877-CE5AF530D5D7}</Project>
       <Name>tPadLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tracer\Tracer.csproj">
+      <Project>{200211EA-F147-4A79-BAF8-0245D876ED9D}</Project>
+      <Name>Tracer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\RecentAdvancesInAR\RecentAdvancesInAR-01.png">

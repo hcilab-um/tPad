@@ -11,7 +11,8 @@ namespace UofM.HCI.tPad.Converters
   {
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if ((bool?)value == true)
+      bool target = Boolean.Parse(parameter as String);
+      if ((bool?)value == target)
         return System.Windows.Visibility.Visible;
       else
         return System.Windows.Visibility.Collapsed;

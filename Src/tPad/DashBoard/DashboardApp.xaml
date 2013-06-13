@@ -12,7 +12,7 @@
   
   <StackPanel Orientation="Vertical">
     <Label FontWeight="Bold">tPad Applications</Label>
-    <ListBox ItemsSource="{Binding ElementName=appDashboard, Path=Applications}">
+    <ListBox ItemsSource="{Binding ElementName=appDashboard, Path=Applications}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <WrapPanel Orientation="Horizontal" />

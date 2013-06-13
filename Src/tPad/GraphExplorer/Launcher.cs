@@ -21,7 +21,6 @@ namespace UofM.HCI.tPad.App.GraphExplorer
         AppClass = typeof(GraphExplorerApp),
         Launcher = this
       };
-      descriptor.Triggers.Add(Glyph.Square);
 
       return descriptor;
     }

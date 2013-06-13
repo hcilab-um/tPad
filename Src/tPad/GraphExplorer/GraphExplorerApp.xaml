@@ -27,7 +27,7 @@
         </StackPanel>
         <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" Width="{Binding ElementName=graphExplorerApp, Path=ActualWidth}" Height="200"
                                  HorizontalAlignment="Stretch" ShowNumericKeyboard="True"
-                                 Visibility="{Binding ElementName=graphExplorerApp, Path=IsEditing, Converter={StaticResource ResourceKey=bvConverter}}"
+                                 Visibility="{Binding ElementName=graphExplorerApp, Path=IsEditing, Converter={StaticResource ResourceKey=bvConverter}, ConverterParameter=True}"
                                  EnterKeyPressed="tpKeyboard_EnterKeyPressed" AlphaNumericKeyPressed="tpKeyboard_AlphaNumericKeyPressed" />
       </StackPanel>
       <Canvas x:Name="cExplorer" Background="White" MouseMove="cExplorer_MouseMove" MouseDown="cExplorer_MouseDown" MouseUp="cExplorer_MouseUp">
