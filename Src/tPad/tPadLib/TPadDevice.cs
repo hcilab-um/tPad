@@ -96,7 +96,7 @@ namespace UofM.HCI.tPad
         OnPropertyChanged("FlippingSide");
 
         if (FlippingChanged != null)
-          FlippingChanged(this, new FlippingEventArgs());
+          FlippingChanged(this, new FlippingEventArgs() { FlippingSide = flippingSide });
       }
     }
 

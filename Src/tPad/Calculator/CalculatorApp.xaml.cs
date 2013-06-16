@@ -59,7 +59,6 @@ namespace UofM.HCI.tPad.App.Calculator
 
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {
-      core.GlyphDetection.Continue();
       Close();
     }
 

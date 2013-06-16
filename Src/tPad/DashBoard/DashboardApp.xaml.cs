@@ -24,24 +24,25 @@ namespace UofM.HCI.tPad.App.Dashboard
   public partial class DashboardApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
 
-    public event EventHandler Closed;
-
-    private TPadCore core;
-    public TPadCore Core
-    {
-      get { return core; }
-      set
-      {
-        core = value;
-        OnPropertyChanged("Core");
-      }
-    }
-
+    public TPadCore Core { get; set; }
     public TPadProfile Profile { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
+    public TPadApplicationDescriptor DefaultFlippingAppDescriptor { get; set; }
+
     public ObservableCollection<TPadApplicationDescriptor> Applications { get; private set; }
+    public Stack<TPadApplicationDescriptor> RunningApps { get; set; }
+
+    private ITPadApp TopApp
+    {
+      get { return TopAppDescriptor == null ? null : TopAppDescriptor.Instance; }
+    }
+
+    private TPadApplicationDescriptor TopAppDescriptor
+    {
+      get { return RunningApps.Count == 0 ? null : RunningApps.Peek(); }
+    }
 
     public DashboardApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
     {
@@ -51,33 +52,41 @@ namespace UofM.HCI.tPad.App.Dashboard
       Profile = core.Profile;
 
       Applications = new ObservableCollection<TPadApplicationDescriptor>();
+      RunningApps = new Stack<TPadApplicationDescriptor>();
       InitializeComponent();
 
       core.GlyphsChanged += core_GlyphsChanged;
+      core.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
+      core.Device.DeviceShaked += new EventHandler(Device_DeviceShaked);
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-    public void OnPropertyChanged(String name)
+    private void LaunchApp(TPadApplicationDescriptor descriptor)
     {
-      if (PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(name));
+      if (descriptor == null)
+        return;
+
+      ITPadApp application = descriptor.Launcher.GetAppInstance(descriptor, Container, Controller, Core, null);
+      descriptor.Instance = application;
+      descriptor.Instance.Closed += new EventHandler(application_Closed);
+      RunningApps.Push(descriptor);
+      Container.LoadTPadApp(application);
+    }
+
+    void application_Closed(object sender, EventArgs e)
+    {
+      TPadApplicationDescriptor descriptor = RunningApps.Pop();
+      descriptor.Instance = null;
+    }
+
+    public ITPadApp GetRunningInstance(Type appType)
+    {
+      return RunningApps.SingleOrDefault(app => app.AppClass.Equals(appType)).Instance;
     }
 
     private void Image_MouseUp(object sender, MouseButtonEventArgs e)
     {
       TPadApplicationDescriptor descriptor = (sender as Image).DataContext as TPadApplicationDescriptor;
-      ITPadApp application = descriptor.Launcher.GetAppInstance(descriptor, Container, Controller, core, null);
-      Container.LoadTPadApp(application);
-    }
-
-    public void LaunchTPadApp(Type appType)
-    {
-      var descriptor = Applications.SingleOrDefault(tmp => tmp.AppClass.Equals(appType));
-      if (descriptor == null)
-        return;
-
-      ITPadApp application = descriptor.Launcher.GetAppInstance(descriptor, Container, Controller, core, null);
-      Container.LoadTPadApp(application);
+      LaunchApp(descriptor);
     }
 
     void core_GlyphsChanged(object sender, GlyphsEventArgs e)
@@ -87,22 +96,25 @@ namespace UofM.HCI.tPad.App.Dashboard
         {
           foreach (GlyphEvent gEvent in e.GlyphEvents)
           {
+            //The top app handles such glyph
+            if (TopAppDescriptor != null && TopAppDescriptor.Triggers.Contains(gEvent.Glyph))
+              continue;
+
+            //The dashboard handles the glyph by launching the app associated to it
             var descriptor = Applications.SingleOrDefault(app => app.Triggers.Exists(glyph => glyph == gEvent.Glyph));
             if (descriptor == null)
               continue;
 
             if (gEvent.Status == GlyphStatus.Entered)
             {
-              ITPadApp application = Container.GetRunningInstance(descriptor.AppClass);
+              ITPadApp application = GetRunningInstance(descriptor.AppClass);
               if (application != null)
                 continue;
-              core.GlyphDetection.Pause();
-              application = descriptor.Launcher.GetAppInstance(descriptor, Container, Controller, core, null);
-              Container.LoadTPadApp(application);
+              LaunchApp(descriptor);
             }
             else if (gEvent.Status == GlyphStatus.Left)
             {
-              ITPadApp application = Container.GetRunningInstance(descriptor.AppClass);
+              ITPadApp application = GetRunningInstance(descriptor.AppClass);
               if (application == null)
                 continue;
               application.Close();
@@ -111,6 +123,51 @@ namespace UofM.HCI.tPad.App.Dashboard
         });
     }
 
+    void Device_FlippingChanged(object sender, FlippingEventArgs e)
+    {
+      Dispatcher.Invoke(DispatcherPriority.Render,
+        (Action)delegate()
+        {
+          //The top app handles such glyph
+          if (TopAppDescriptor != null && TopAppDescriptor.Events.Contains(TPadEvent.Flipping))
+            return;
+
+          //The dashboard handles the flipping - launches or closes the defatult flipping app
+          if (e.FlippingSide == Monitors.FlippingMode.FaceUp)
+          {
+            if (TopAppDescriptor != DefaultFlippingAppDescriptor)
+              return;
+            if (TopApp != null)
+              TopApp.Close();
+          }
+          else if (e.FlippingSide == Monitors.FlippingMode.FaceDown)
+          {
+            if (TopAppDescriptor == DefaultFlippingAppDescriptor)
+              return;
+            LaunchApp(DefaultFlippingAppDescriptor);
+          }
+        });
+    }
+
+    void Device_DeviceShaked(object sender, EventArgs e)
+    {
+      Dispatcher.Invoke(DispatcherPriority.Render,
+        (Action)delegate()
+        {
+          //The top app handles such glyph
+          if (TopAppDescriptor != null && TopAppDescriptor.Events.Contains(TPadEvent.Shaking))
+            return;
+        });
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    public void OnPropertyChanged(String name)
+    {
+      if (PropertyChanged != null)
+        PropertyChanged(this, new PropertyChangedEventArgs(name));
+    }
+
+    public event EventHandler Closed;
     public void Close()
     {
       if (Closed != null)

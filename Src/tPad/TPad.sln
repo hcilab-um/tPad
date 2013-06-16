@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphExplorer", "GraphExplo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracer", "Tracer\Tracer.csproj", "{200211EA-F147-4A79-BAF8-0245D876ED9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Browser", "Browser\Browser.csproj", "{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -214,6 +216,20 @@ Global
 		{200211EA-F147-4A79-BAF8-0245D876ED9D}.Release|Win32.ActiveCfg = Release|Any CPU
 		{200211EA-F147-4A79-BAF8-0245D876ED9D}.Release|x64.ActiveCfg = Release|Any CPU
 		{200211EA-F147-4A79-BAF8-0245D876ED9D}.Release|x86.ActiveCfg = Release|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Release|Mixed Platforms.ActiveCfg = Release|x64
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Release|Mixed Platforms.Build.0 = Release|x64
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Release|Win32.ActiveCfg = Release|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Release|x64.ActiveCfg = Release|Any CPU
+		{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,13 +15,20 @@ namespace UofM.HCI.tPad
     public String Name { get; set; }
     public Type AppClass { get; set; }
     public ITPadAppLauncher Launcher { get; set; }
+
+    public ITPadApp Instance { get; set; }
+
     public List<Glyph> Triggers { get; set; }
+    public List<TPadEvent> Events { get; set; }
 
     public TPadApplicationDescriptor()
     {
       Triggers = new List<Glyph>();
+      Events = new List<TPadEvent>();
     }
   }
+
+  public enum TPadEvent { Flipping, Shaking }
 
   public enum Glyph { Square, Triangle };
 

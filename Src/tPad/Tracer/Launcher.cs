@@ -22,6 +22,7 @@ namespace UofM.HCI.tPad.App.Tracer
         AppClass = typeof(TracerApp),
         Launcher = this
       };
+      descriptor.Events.Add(TPadEvent.Flipping);
 
       return descriptor;
     }

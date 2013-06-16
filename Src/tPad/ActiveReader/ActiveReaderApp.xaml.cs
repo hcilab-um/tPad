@@ -233,7 +233,6 @@ namespace UofM.HCI.tPad.App.ActiveReader
 
     void Device_FlippingChanged(object sender, FlippingEventArgs e)
     {
-      throw new NotImplementedException();
     }
 
     void Device_RegistrationChanged(object sender, RegistrationEventArgs e)
@@ -319,7 +318,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
         System.Windows.Interop.HwndTarget hwndTarget = hwndSource.CompositionTarget;
         hwndTarget.RenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
 
-        Console.WriteLine("meVideo.Play();");
+        //Console.WriteLine("meVideo.Play();");
         meVideo.Visibility = System.Windows.Visibility.Visible;
         meVideo.Play();
         isPlaying = true;
@@ -1506,17 +1505,17 @@ namespace UofM.HCI.tPad.App.ActiveReader
 
     private void meVideo_MediaEnded(object sender, RoutedEventArgs e)
     {
-      Console.WriteLine("meVideo_MediaEnded");
+      //Console.WriteLine("meVideo_MediaEnded");
     }
 
     private void meVideo_MediaFailed(object sender, ExceptionRoutedEventArgs e)
     {
-      Console.WriteLine("meVideo_MediaFailed");
+      //Console.WriteLine("meVideo_MediaFailed");
     }
 
     private void meVideo_MediaOpened(object sender, RoutedEventArgs e)
     {
-      Console.WriteLine("meVideo_MediaOpened");
+      //Console.WriteLine("meVideo_MediaOpened");
     }
 
   }

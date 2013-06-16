@@ -59,6 +59,10 @@ namespace UofM.HCI.tPad.App.Dashboard
     {
       DashboardApp dashboard = new DashboardApp(core, container, controller);
 
+      Browser.Launcher browserL = new Browser.Launcher();
+      dashboard.Applications.Add(browserL.GetApplicationDescriptor());
+      dashboard.DefaultFlippingAppDescriptor = dashboard.Applications[0];
+
       Calculator.Launcher calculatorL = new Calculator.Launcher();
       dashboard.Applications.Add(calculatorL.GetApplicationDescriptor());
 

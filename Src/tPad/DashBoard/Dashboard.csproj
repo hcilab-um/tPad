@@ -125,6 +125,10 @@
       <Project>{B53DD4B6-4A18-44D9-9074-9ED2407209A2}</Project>
       <Name>ActiveReader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Browser\Browser.csproj">
+      <Project>{7791DE59-6ABC-4371-A56F-A5B9C3BA0C26}</Project>
+      <Name>Browser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calculator\Calculator.csproj">
       <Project>{CBFE218E-CC8F-43D6-8009-FE84B7BF4B5F}</Project>
       <Name>Calculator</Name>

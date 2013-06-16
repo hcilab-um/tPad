@@ -10,7 +10,6 @@ namespace UofM.HCI.tPad
   public interface ITPadAppContainer
   {
     void LoadTPadApp(ITPadApp tPadApp);
-    ITPadApp GetRunningInstance(Type appType);
   }
 
 }

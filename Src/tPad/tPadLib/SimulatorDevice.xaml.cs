@@ -179,8 +179,6 @@ namespace UofM.HCI.tPad
       OnPropertyChanged("HeightMultiplier");
     }
 
-    private List<ITPadApp> currentApps = new List<ITPadApp>();
-
     public void LoadTPadApp(ITPadApp tPadApp)
     {
       if (tPadApp == null)
@@ -191,7 +189,6 @@ namespace UofM.HCI.tPad
       (tPadApp as UserControl).VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       (tPadApp as UserControl).HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
       gTPadApp.Children.Add(tPadApp as UserControl);
-      currentApps.Add(tPadApp);
     }
 
     void tPadApp_Closed(object sender, EventArgs e)
@@ -199,12 +196,6 @@ namespace UofM.HCI.tPad
       ITPadApp tPadApp = (ITPadApp)sender;
       tPadApp.Closed -= tPadApp_Closed;
       gTPadApp.Children.Remove(tPadApp as UserControl);
-      currentApps.Remove(tPadApp);
-    }
-
-    public ITPadApp GetRunningInstance(Type appType)
-    {
-      return currentApps.SingleOrDefault(app => app.GetType().Equals(appType));
     }
 
     private delegate MemoryStream GetDeviceViewDelegate();
@@ -256,7 +247,7 @@ namespace UofM.HCI.tPad
       }
       catch (Exception e)
       {
-        Console.WriteLine(e.Message);
+        MessageBox.Show(e.Message);
       }
 
       return result;

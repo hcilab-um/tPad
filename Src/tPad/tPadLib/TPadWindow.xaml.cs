@@ -23,8 +23,6 @@ namespace UofM.HCI.tPad
     public TPadProfile Profile { get; set; }
     private ITPadAppLauncher Launcher { get; set; }
 
-    private List<ITPadApp> currentApps = new List<ITPadApp>();
-
     private double sizeMultiplier = 1;
     public double SizeMultiplier
     {
@@ -54,12 +52,10 @@ namespace UofM.HCI.tPad
 
       tPadApp.Closed += tPadApp_Closed;
 
-
       UserControl TPadApp = tPadApp as UserControl;
       TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
       gTPadApp.Children.Add(TPadApp);
-      currentApps.Add(tPadApp);
     }
 
     void tPadApp_Closed(object sender, EventArgs e)
@@ -67,12 +63,6 @@ namespace UofM.HCI.tPad
       ITPadApp tPadApp = (ITPadApp)sender;
       tPadApp.Closed -= tPadApp_Closed;
       gTPadApp.Children.Remove(tPadApp as UserControl);
-      currentApps.Remove(tPadApp);
-    }
-
-    public ITPadApp GetRunningInstance(Type appType)
-    {
-      return currentApps.SingleOrDefault(app => app.GetType().Equals(appType));
     }
 
     private void tpWindow_Loaded(object sender, RoutedEventArgs e)

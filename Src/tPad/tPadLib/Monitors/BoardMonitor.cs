@@ -153,7 +153,7 @@ namespace UofM.HCI.tPad.Monitors
         if (actualUpdateJson == null || actualUpdateJson.Length == 0)
           return;
 
-        Console.WriteLine(actualUpdateJson);
+        //Console.WriteLine(actualUpdateJson);
         JsonReader reader = new JsonTextReader(new StringReader(actualUpdateJson));
         BoardUpdate actualUpdate = jsonImportContext.Import<BoardUpdate>(reader);
         actualUpdateJson = String.Empty;
