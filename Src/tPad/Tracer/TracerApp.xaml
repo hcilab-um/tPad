@@ -13,7 +13,7 @@
     <convertersLib:FlippingSideToScaleConverter x:Key="fsToScale" />
   </UserControl.Resources>
 
-  <Grid Width="{Binding ElementName=rulerApp, Path=ActualWidth}" Height="{Binding ElementName=rulerApp, Path=ActualHeight}">
+  <Grid Width="{Binding ElementName=tracerApp, Path=ActualWidth}" Height="{Binding ElementName=tracerApp, Path=ActualHeight}">
     <InkCanvas x:Name="inkCanvas" Visibility="{Binding ElementName=tracerApp, Path=ShowMenu, Converter={StaticResource ResourceKey=bvConverter}, ConverterParameter=False}">
     </InkCanvas>
     <Grid Background="White" Visibility="{Binding ElementName=tracerApp, Path=ShowMenu, Converter={StaticResource ResourceKey=bvConverter}, ConverterParameter=True}">

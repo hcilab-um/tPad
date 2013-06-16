@@ -11,6 +11,7 @@ using Ubicomp.Utils.NET.CAF.ContextAdapter;
 using UofM.HCI.tPad.Network;
 using Ubicomp.Utils.NET.MTF;
 using UofM.HCI.tPad.App;
+using System.Windows.Threading;
 
 namespace UofM.HCI.tPad
 {
@@ -38,6 +39,7 @@ namespace UofM.HCI.tPad
 
     public String BoardCOM { get; set; }
     public bool UseCamera { get; set; }
+    public Dispatcher Dispatcher { get; set; }
 
     private ContextMonitorContainer monitorsContainer = null;
     private ContextServiceContainer servicesContainer = null;
@@ -58,7 +60,7 @@ namespace UofM.HCI.tPad
 
       Board = new BoardMonitor() { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 100 };
       SimBoard = new SimBoardMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
-      Camera = new CameraMonitor(UseCamera) { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 }; 
+      Camera = new CameraMonitor(UseCamera) { UpdateType = ContextAdapterUpdateType.Interval, UpdateInterval = 50 };
       SimCamera = new SimCameraMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
 
       FlippingMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
@@ -83,8 +85,8 @@ namespace UofM.HCI.tPad
 
       SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
       SimCamera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
-           
-      
+
+
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       shakingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
@@ -131,7 +133,7 @@ namespace UofM.HCI.tPad
       servicesContainer.StopServices();
     }
 
-   private void ConfigurePeripherals()
+    private void ConfigurePeripherals()
     {
       //Stops everything
       Board.COMPort = null;
@@ -156,22 +158,26 @@ namespace UofM.HCI.tPad
 
     protected override void CustomUpdateMonitorReading(object sender, NotifyContextMonitorListenersEventArgs e)
     {
-      if (e.Type == typeof(StackingUpdate))
-      {
-        Device.ProcessStackingUpdate((StackingUpdate)e.NewObject);
-      }
-      else if (e.Type == typeof(TransportMessage))
-      {
-        Device.ProcessStackingUpdate((TransportMessage)e.NewObject);
-      }
-      else if (e.Type == typeof(FlippingMode))
-      {
-        Device.FlippingSide = (FlippingMode)e.NewObject;
-      }
-      else if (e.Type == typeof(ShakingMonitor))
-      {
-        Device.NotifyShake((DateTime)e.NewObject);
-      }
+      Dispatcher.Invoke(DispatcherPriority.Render,
+        (Action)delegate()
+        {
+          if (e.Type == typeof(StackingUpdate))
+          {
+            Device.ProcessStackingUpdate((StackingUpdate)e.NewObject);
+          }
+          else if (e.Type == typeof(TransportMessage))
+          {
+            Device.ProcessStackingUpdate((TransportMessage)e.NewObject);
+          }
+          else if (e.Type == typeof(FlippingMode))
+          {
+            Device.FlippingSide = (FlippingMode)e.NewObject;
+          }
+          else if (e.Type == typeof(ShakingMonitor))
+          {
+            Device.NotifyShake((DateTime)e.NewObject);
+          }
+        });
     }
 
     public void ContextChanged(object sender, NotifyContextServiceListenersEventArgs e)

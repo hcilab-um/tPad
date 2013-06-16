@@ -15,19 +15,18 @@ using System.Text.RegularExpressions;
 namespace UofM.HCI.tPad.Monitors
 {
 
-
   /// <summary>
-  /// {"Orientation": { "X": 357.43, "Y": 359.36, "Z": 255.96 }, "StackCode": "0000"}
+  /// {"FlippingSide": "FaceDown", "Orientation": { "X": 225.00, "Y": 97.59, "Z": 352.41 }, "StackCode": "0000"}
+  /// {"FlippingSide": "FaceUp", "Orientation": { "X": 47.25, "Y": 360.00, "Z": 90.00 }, "StackCode": "0000"}
   /// </summary>
   public struct BoardUpdate
   {
     public Point3D Orientation { get; set; }
     public String StackCode { get; set; }
+    public FlippingMode FlippingSide { get; set; }
 
     [JsonIgnore]
     public int DeviceOnTopID { get; set; }
-    [JsonIgnore]
-    public FlippingMode FlippingSide { get; set; }
     [JsonIgnore]
     public bool Shaked { get; set; }
   }
@@ -38,13 +37,18 @@ namespace UofM.HCI.tPad.Monitors
     public String COMPort { get; set; }
     public SerialPort Port { get; set; }
     private String actualUpdateJson = String.Empty;
-    private Regex validator = new Regex("{\"Orientation\": { (\"(X|Y|Z)\": [0-9]{1,3}.[0-9]{2}(,| )*)+ }, \"StackCode\": \"(0|1){4}\"}");
+    private Regex validator = new Regex("{\"FlippingSide\": (\"FaceUp\"|\"FaceDown\"), \"Orientation\": { \"(X|Y|Z)\": ([0-9]{1,3}.[0-9]{2})(.| )+ }, \"StackCode\": \"(0|1){4}\"}");
 
     private ImportContext jsonImportContext { get; set; }
 
     private Object monitor = new Object();
 
-    private BoardUpdate lastUpdate = new BoardUpdate() { DeviceOnTopID = 0, Orientation = new Point3D(0, 0, 0) };
+    private BoardUpdate lastUpdate = new BoardUpdate()
+    {
+      FlippingSide = FlippingMode.Unknown,
+      DeviceOnTopID = 0,
+      Orientation = new Point3D(0, 0, 0)
+    };
 
     public BoardMonitor()
     {
@@ -85,6 +89,7 @@ namespace UofM.HCI.tPad.Monitors
       return true;
     }
 
+    private String incompleteLine = String.Empty;
     void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
       if (e.EventType == SerialData.Chars)
@@ -93,13 +98,32 @@ namespace UofM.HCI.tPad.Monitors
         String readData = port.ReadExisting();
         String[] lines = readData.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
-        foreach (String line in lines)
+        lock (monitor)
         {
-          if (!validator.IsMatch(line)) //drops incomplete lines
-            continue;
+          foreach (String line in lines)
+          {
+            if (validator.IsMatch(line))
+            {
+              actualUpdateJson = line;
+              continue;
+            }
 
-          lock (monitor)
-            actualUpdateJson = line;
+            if (line.StartsWith("{"))
+            {
+              incompleteLine = line;
+              continue;
+            }
+
+            incompleteLine += line;
+            if (!line.EndsWith("}"))
+              continue;
+
+            if (!validator.IsMatch(incompleteLine))
+              incompleteLine = String.Empty;
+
+            actualUpdateJson = incompleteLine;
+            incompleteLine = String.Empty;
+          }
         }
       }
       else if (e.EventType == SerialData.Eof)
@@ -129,8 +153,10 @@ namespace UofM.HCI.tPad.Monitors
         if (actualUpdateJson == null || actualUpdateJson.Length == 0)
           return;
 
+        Console.WriteLine(actualUpdateJson);
         JsonReader reader = new JsonTextReader(new StringReader(actualUpdateJson));
         BoardUpdate actualUpdate = jsonImportContext.Import<BoardUpdate>(reader);
+        actualUpdateJson = String.Empty;
 
         if (actualUpdate.StackCode.Length != 4)
           return;

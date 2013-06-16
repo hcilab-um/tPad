@@ -29,14 +29,12 @@ namespace UofM.HCI.tPad.Monitors
       {
         //It's comming from the actual board and needs the processing
       }
-      else
-      {
-        if (ActualFlippingMode == boardInfo.FlippingSide)
-          return;
 
-        ActualFlippingMode = boardInfo.FlippingSide;
-        NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(FlippingMode), ActualFlippingMode));
-      }
+      if (ActualFlippingMode == boardInfo.FlippingSide)
+        return;
+
+      ActualFlippingMode = boardInfo.FlippingSide;
+      NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(FlippingMode), ActualFlippingMode));
     }
   }
 }

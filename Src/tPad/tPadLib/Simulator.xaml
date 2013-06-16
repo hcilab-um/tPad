@@ -52,8 +52,8 @@
         <ComboBox x:Name="cbComPorts" Text="COM Port:">
           <ComboBoxItem IsSelected="True" Tag="SimSim">Simulator/Simulator</ComboBoxItem>
           <ComboBoxItem x:Name="cbSimCamera" Tag="SimCam">Simulator/Camera</ComboBoxItem>
-          <ComboBoxItem x:Name="cbJuan" Tag="COM5">Juan (COM5/Sim)</ComboBoxItem>
-          <ComboBoxItem Tag="COM5">Sophie (COM5)</ComboBoxItem>
+          <ComboBoxItem x:Name="cbComSim" Tag="COM5">COM5/Sim</ComboBoxItem>
+          <ComboBoxItem x:Name="cbComCamera" Tag="COM5">COM5/Camera</ComboBoxItem>
         </ComboBox>
         <Button x:Name="tbRunCore" Click="tbRunCore_Click" Content="New@Port"/>
       </StackPanel>

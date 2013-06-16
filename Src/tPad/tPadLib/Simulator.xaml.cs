@@ -244,19 +244,23 @@ namespace UofM.HCI.tPad
       try
       {
         TPadLauncherSettings settings = new TPadLauncherSettings() { DeviceID = deviceCount++, BoardPort = null, UseCamera = false };
-        if (cbSimCamera.IsSelected)
+        if (cbSimCamera.IsSelected || cbComCamera.IsSelected)
         {
           chbUseFeatureTracking.IsChecked = true;
           chbUseFeatureTracking.IsEnabled = false;
           settings.UseCamera = true;
         }
-        else if (cbJuan.IsSelected)
-          settings.BoardPort = cbJuan.Tag as String;
+
+        if (cbComSim.IsSelected)
+          settings.BoardPort = cbComSim.Tag as String;
+        if(cbComCamera.IsSelected)
+          settings.BoardPort = cbComCamera.Tag as String;
         settings = Launcher.GetSettings(settings);
 
         TPadCore core = new TPadCore();
         core.BoardCOM = settings.BoardPort;
         core.UseCamera = settings.UseCamera;
+        core.Dispatcher = Dispatcher;
         core.Configure(Profile, settings.DeviceID, settings.MulticastGroup, settings.MulticastPort, settings.MulticastTTL);
 
         SimulatorDevice simDevice = new SimulatorDevice(this, core);

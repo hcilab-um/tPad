@@ -26,6 +26,12 @@ double x;
 double y;
 double z;
 
+int prevOrientation = -1;
+int prevStackCode0 = -1;
+int prevStackCode1 = -1;
+int prevStackCode2 = -1;
+int prevStackCode3 = -1;
+
 void setup(){
   Serial.begin(9600);
   
@@ -62,7 +68,7 @@ void loop(){
   z = RAD_TO_DEG * (atan2(-yAng, -xAng) + PI);
 
   //Calculates the side that's on top. 1: front up | -1: reverse up
-  int orientation = -1;
+  int orientation = 0;
   int count = 0;
   if(x >= 270 || x <= 90)
     count++;
@@ -79,14 +85,35 @@ void loop(){
   int stackCode2 = digitalRead(stackPin2);
   int stackCode3 = digitalRead(stackPin3);
 
+  boolean change = false;
+  if(prevOrientation != orientation)
+    change = true;
+  if(prevStackCode0 != stackCode0)
+    change = true;
+  if(prevStackCode1 != stackCode1)
+    change = true;
+  if(prevStackCode2 != stackCode2)
+    change = true;
+  if(prevStackCode3 != stackCode3)
+    change = true;
+
+  if(!change)
+    return;
+
+  prevOrientation = orientation;
+  prevStackCode0 = stackCode0;
+  prevStackCode1 = stackCode1;
+  prevStackCode2 = stackCode2;
+  prevStackCode3 = stackCode3;
+
   //Output the caculations
   Serial.print("{");
-  Serial.print("\"Orientation\": { \"Side\": ");
+  Serial.print("\"FlippingSide\": ");
   if(orientation == 1)
-    Serial.print("\"Front\", ");
+    Serial.print("\"FaceUp\", ");
   else
-    Serial.print("\"Reverse\", ");
-  Serial.print("\"X\": ");
+    Serial.print("\"FaceDown\", ");
+  Serial.print("\"Orientation\": { \"X\": ");
   Serial.print(x);
   Serial.print(", \"Y\": ");
   Serial.print(y);
