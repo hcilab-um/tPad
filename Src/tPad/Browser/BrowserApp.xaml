@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300" >
   <DockPanel>
     <DockPanel DockPanel.Dock="Bottom">
-      <Button x:Name="btnClose" Content="Close" Height="30" Padding="10,0,10,0" DockPanel.Dock="Left"/>
+      <Button x:Name="btnClose" Content="Close" Height="30" Padding="10,0,10,0" DockPanel.Dock="Left" Click="btnClose_Click"/>
       <Button x:Name="btnGo" Content="Go" Height="30" Padding="10,0,10,0" DockPanel.Dock="Right"/>
       <TextBox x:Name="tbAddress"/>
     </DockPanel>

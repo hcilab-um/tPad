@@ -64,5 +64,10 @@ namespace UofM.HCI.tPad.App.Browser
         webControl1.Source = new Uri(String.Format("https://www.google.com/search?q={0}", url));
     }
 
+    private void btnClose_Click(object sender, RoutedEventArgs e)
+    {
+      Close();
+    }
+
   }
 }

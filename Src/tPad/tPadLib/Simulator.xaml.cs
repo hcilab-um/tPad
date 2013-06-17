@@ -251,10 +251,8 @@ namespace UofM.HCI.tPad
           settings.UseCamera = true;
         }
 
-        if (cbComSim.IsSelected)
-          settings.BoardPort = cbComSim.Tag as String;
-        if(cbComCamera.IsSelected)
-          settings.BoardPort = cbComCamera.Tag as String;
+        if (cbComSim.IsSelected || cbComCamera.IsSelected)
+          settings.BoardPort = (cbComPort.SelectedItem as ComboBoxItem).Tag as String;
         settings = Launcher.GetSettings(settings);
 
         TPadCore core = new TPadCore();

@@ -49,11 +49,15 @@
       </StackPanel>
 
       <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-        <ComboBox x:Name="cbComPorts" Text="COM Port:">
+        <ComboBox x:Name="cbSettings" Text="Settings:">
           <ComboBoxItem IsSelected="True" Tag="SimSim">Simulator/Simulator</ComboBoxItem>
           <ComboBoxItem x:Name="cbSimCamera" Tag="SimCam">Simulator/Camera</ComboBoxItem>
-          <ComboBoxItem x:Name="cbComSim" Tag="COM5">COM5/Sim</ComboBoxItem>
-          <ComboBoxItem x:Name="cbComCamera" Tag="COM5">COM5/Camera</ComboBoxItem>
+          <ComboBoxItem x:Name="cbComSim">COM5/Sim</ComboBoxItem>
+          <ComboBoxItem x:Name="cbComCamera">COM5/Camera</ComboBoxItem>
+        </ComboBox>
+        <ComboBox x:Name="cbComPort" Text="COM:">
+          <ComboBoxItem IsSelected="True" Tag="COM5">COM5</ComboBoxItem>
+          <ComboBoxItem Tag="COM3">COM3</ComboBoxItem>
         </ComboBox>
         <Button x:Name="tbRunCore" Click="tbRunCore_Click" Content="New@Port"/>
       </StackPanel>
