@@ -28,6 +28,16 @@ namespace UofM.HCI.tPad.App.Ruler
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
+    public Dictionary<String, String> Context
+    {
+      get
+      {
+        Dictionary<String, String> currentContext = new Dictionary<String, String>();
+        currentContext.Add("main", (Distance / Core.Profile.PixelsPerCm.Width).ToString());
+        return currentContext;
+      }
+    }
+
     private double distance = 0.0;
     public double Distance
     {
@@ -65,6 +75,8 @@ namespace UofM.HCI.tPad.App.Ruler
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
+
+    public void LoadInitContext(Dictionary<string, string> init) { }
 
     private bool isMoving = false, isHead = true;
     private void gMeasurements_MouseDown(object sender, MouseButtonEventArgs e)

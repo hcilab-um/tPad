@@ -41,6 +41,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
+    public Dictionary<String, String> Context { get { return null; } }
 
     private PDFContentHelper PdfHelper { get; set; }
     private SynchHelper Synch { get; set; }
@@ -168,6 +169,8 @@ namespace UofM.HCI.tPad.App.ActiveReader
       PropertyChanged += new PropertyChangedEventHandler(ActiveReaderApp_PropertyChanged);
       InitializeComponent();
     }
+
+    public void LoadInitContext(Dictionary<string, string> init) { }
 
     void ActiveReaderApp_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -766,19 +769,6 @@ namespace UofM.HCI.tPad.App.ActiveReader
         //  cm_deleteItem.Visibility = Visibility.Visible;
       }
     }
-
-    //private void CMDelete_Click(object sender, RoutedEventArgs e)
-    //{
-    //  cHighlights.Children.Remove(currentHighlight);
-    //  foreach (Highlight line in ActualDocument[ActualPage].Highlights)
-    //  {
-    //    if (currentHighlight == line.Line)
-    //    {
-    //      ActualDocument[ActualPage].Highlights.Remove(line);
-    //      break;
-    //    }
-    //  }
-    //}
 
     private void CMSearch_Click(object sender, RoutedEventArgs e)
     {

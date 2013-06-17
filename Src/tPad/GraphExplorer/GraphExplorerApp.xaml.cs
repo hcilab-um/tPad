@@ -28,6 +28,7 @@ namespace UofM.HCI.tPad.App.GraphExplorer
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
+    public Dictionary<String, String> Context { get { return null; } }
 
     private bool isEditing = false;
     public bool IsEditing
@@ -78,6 +79,8 @@ namespace UofM.HCI.tPad.App.GraphExplorer
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
+
+    public void LoadInitContext(Dictionary<string, string> init) { }
 
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {

@@ -8,12 +8,12 @@
 #pragma once
 
 #include <string>
-#include <opencv2/nonfree/nonfree.hpp>
+#include <opencv2\nonfree\nonfree.hpp>
 
 class EXPORT_OR_IMPORT FeatureMatcher
 {
 public:
-	FeatureMatcher() {}
+	FeatureMatcher();
 	FeatureMatcher(bool isCameraInUse, std::string pathPdfImg);
 	~FeatureMatcher();
 

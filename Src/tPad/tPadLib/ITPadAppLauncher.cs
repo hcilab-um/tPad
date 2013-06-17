@@ -22,6 +22,8 @@ namespace UofM.HCI.tPad
     public String MulticastGroup { get; set; }
     public int MulticastPort { get; set; }
     public int MulticastTTL { get; set; }
+
+    public Dictionary<String, String> Context { get; set; }
   }
 
 }

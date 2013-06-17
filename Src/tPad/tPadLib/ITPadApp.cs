@@ -14,6 +14,9 @@ namespace UofM.HCI.tPad
     ITPadAppContainer Container { get; set; }
     ITPadAppController Controller { get; set; }
 
+    Dictionary<String, String> Context { get; }
+    void LoadInitContext(Dictionary<String, String> init);
+
     void Close();
   }
 

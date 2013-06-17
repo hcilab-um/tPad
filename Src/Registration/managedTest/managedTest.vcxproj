@@ -78,13 +78,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\Sophie\Documents\Visual Studio 2010\Projects\unManagedTest\unManagedTest;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Sophie\Documents\Visual Studio 2010\Projects\unManagedTest\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\OpenCV2.4.3\opencv\build\include;C:\OpenCV2.4.3\opencv\build\include\opencv;C:\OpenCV2.4.3\opencv\build\include\opencv2;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenCV2.4.3\opencv\build\x86\vc10\lib;$(OutDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\OpenCV2.4.3\opencv\build\include\opencv2;C:\OpenCV2.4.3\opencv\build\include\opencv;C:\OpenCV2.4.3\opencv\build\include;C:\Program Files\Point Grey Research\FlyCapture2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib;C:\OpenCV2.4.3\opencv\build\common\tbb\intel64\vc10;$(MSBuildProjectDirectory)\..\..\tPad\x64\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\OpenCV2.4.3\opencv\build\include;C:\OpenCV2.4.3\opencv\build\include\opencv;C:\OpenCV2.4.3\opencv\build\include\opencv2;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib;$(MSBuildProjectDirectory)\..\..\tPad\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -118,11 +118,11 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>C:\Users\sophie\project\unManagedTest\unManagedTest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\unManagedTest</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\Users\sophie\project\unManagedTest\x64\Release\unManagedTest.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_core243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_calib3d243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_features2d243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_flann243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_highgui243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_imgproc243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_nonfree243.lib;$(OutDir)\unmanagedReg.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,7 +134,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_core243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_calib3d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_flann243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_highgui243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_imgproc243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_legacy243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_ml243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_objdetect243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_video243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_nonfree243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_contrib243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_features2d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_photo243.lib;C:\Program Files\Point Grey Research\FlyCapture2\lib64\FlyCapture2.lib;unmanagedReg.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_core243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_calib3d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_flann243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_highgui243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_imgproc243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_legacy243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_ml243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_objdetect243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_video243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_nonfree243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_contrib243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_features2d243.lib;C:\OpenCV2.4.3\opencv\build\x64\vc10\lib\opencv_photo243.lib;unmanagedReg.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -21,7 +21,6 @@ namespace UofM.HCI.tPad.App.Browser
         AppClass = typeof(BrowserApp),
         Launcher = this
       };
-      descriptor.Events.Add(TPadEvent.Flipping);
 
       return descriptor;
     }
@@ -29,6 +28,7 @@ namespace UofM.HCI.tPad.App.Browser
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
       BrowserApp browser = new BrowserApp(core, container, controller);
+      browser.LoadInitContext(settings.Context);
       return browser;
     }
   }

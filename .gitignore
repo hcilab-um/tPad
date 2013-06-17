@@ -10,6 +10,7 @@ TestResults
 
 .DS_Store
 Src/ExtendedWPFToolkit
+Release
 
 *.suo
 *.sdf

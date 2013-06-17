@@ -37,6 +37,7 @@ namespace UofM.HCI.tPad.App.Calculator
     public TPadProfile Profile { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
+    public Dictionary<String, String> Context { get { return null; } }
 
     public CalculatorApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
     {
@@ -67,5 +68,20 @@ namespace UofM.HCI.tPad.App.Calculator
       if (Closed != null)
         Closed(this, EventArgs.Empty);
     }
+
+    public void LoadInitContext(Dictionary<string, string> init) 
+    {
+      if (init == null)
+        return;
+      if (!init.Keys.Contains("main"))
+        return;
+
+      double inputValue = 0;
+      if(!Double.TryParse(init["main"], out inputValue))
+        return;
+
+      cControl.Value = (decimal)inputValue;
+    }
+
   }
 }

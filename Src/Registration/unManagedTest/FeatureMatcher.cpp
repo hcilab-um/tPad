@@ -7,6 +7,10 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+FeatureMatcher::FeatureMatcher()
+{
+}
+
 FeatureMatcher::FeatureMatcher(bool isCameraInUse, std::string pathPdfImg)
 {
 	_isCameraInUse = isCameraInUse;

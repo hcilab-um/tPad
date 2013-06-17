@@ -13,7 +13,7 @@
   </UserControl.Resources>
 
   <Grid Width="{Binding ElementName=calculatorApp, Path=ActualWidth}" Height="{Binding ElementName=calculatorApp, Path=ActualHeight}">
-    <xceed:Calculator VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black" />
+    <xceed:Calculator x:Name="cControl" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black" />
     <Button x:Name="btnClose" Content="Close" VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="45" Margin="16" Click="btnClose_Click"/>
   </Grid>
 

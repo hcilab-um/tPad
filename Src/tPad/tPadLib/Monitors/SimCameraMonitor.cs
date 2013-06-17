@@ -18,11 +18,11 @@ namespace UofM.HCI.tPad.Monitors
     private ManagedA.wrapperFeatureMatcher Matcher;
 
     public ManagedA.wrapperRegistClass Tracker { get; set; }
-    
+
     public bool Pause { get; set; }
 
     private ITPadAppController cameraSource = null;
-    public ITPadAppController CameraSource 
+    public ITPadAppController CameraSource
     {
       get { return cameraSource; }
       set
@@ -41,7 +41,7 @@ namespace UofM.HCI.tPad.Monitors
     {
       StartFeatureTracker();
     }
-        
+
     private bool isStarted = false;
     public void StartFeatureTracker()
     {
@@ -58,7 +58,7 @@ namespace UofM.HCI.tPad.Monitors
       }
       catch { return; }
     }
-       
+
     protected override void CustomRun()
     {
       if (Pause || CameraSource == null)
@@ -92,7 +92,6 @@ namespace UofM.HCI.tPad.Monitors
     {
       CustomRun();
     }
-
   }
 }
 

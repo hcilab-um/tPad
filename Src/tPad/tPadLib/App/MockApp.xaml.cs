@@ -37,6 +37,7 @@ namespace UofM.HCI.tPad.App
     public TPadProfile Profile { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
+    public Dictionary<String, String> Context { get { return null; } }
 
     public MockApp(TPadProfile profile, ITPadAppContainer container, ITPadAppController controller)
     {
@@ -60,5 +61,9 @@ namespace UofM.HCI.tPad.App
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
+    public void LoadInitContext(Dictionary<string, string> init)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

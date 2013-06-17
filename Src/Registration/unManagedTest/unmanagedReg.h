@@ -8,10 +8,8 @@
 #pragma once
 
 #include <string>
-#include <opencv2/nonfree/nonfree.hpp>
+#include <opencv2\nonfree\nonfree.hpp>
 #include <opencv2\highgui\highgui.hpp>
-
-#include <FlyCapture2.h>
 
 #include "FeatureMatcher.h"
 

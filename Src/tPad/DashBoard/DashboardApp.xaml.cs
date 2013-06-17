@@ -28,6 +28,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     public TPadProfile Profile { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
+    public Dictionary<String, String> Context { get { return null; } }
 
     public TPadApplicationDescriptor DefaultFlippingAppDescriptor { get; set; }
 
@@ -60,12 +61,15 @@ namespace UofM.HCI.tPad.App.Dashboard
       core.Device.DeviceShaked += new EventHandler(Device_DeviceShaked);
     }
 
-    private void LaunchApp(TPadApplicationDescriptor descriptor)
+    private void LaunchApp(TPadApplicationDescriptor descriptor, Dictionary<String, String> topAppContext = null)
     {
       if (descriptor == null)
         return;
 
-      ITPadApp application = descriptor.Launcher.GetAppInstance(descriptor, Container, Controller, Core, null);
+      TPadLauncherSettings settings = new TPadLauncherSettings();
+      settings.Context = topAppContext;
+
+      ITPadApp application = descriptor.Launcher.GetAppInstance(descriptor, Container, Controller, Core, settings);
       descriptor.Instance = application;
       descriptor.Instance.Closed += new EventHandler(application_Closed);
       RunningApps.Push(descriptor);
@@ -135,6 +139,8 @@ namespace UofM.HCI.tPad.App.Dashboard
           //The dashboard handles the flipping - launches or closes the defatult flipping app
           if (e.FlippingSide == Monitors.FlippingMode.FaceUp)
           {
+            if (DefaultFlippingAppDescriptor == null)
+              return;
             if (TopAppDescriptor != DefaultFlippingAppDescriptor)
               return;
             if (TopApp != null)
@@ -144,7 +150,7 @@ namespace UofM.HCI.tPad.App.Dashboard
           {
             if (TopAppDescriptor == DefaultFlippingAppDescriptor)
               return;
-            LaunchApp(DefaultFlippingAppDescriptor);
+            LaunchApp(DefaultFlippingAppDescriptor, TopAppDescriptor == null ? null : TopApp.Context);
           }
         });
     }
@@ -173,6 +179,9 @@ namespace UofM.HCI.tPad.App.Dashboard
       if (Closed != null)
         Closed(this, EventArgs.Empty);
     }
+
+    public void LoadInitContext(Dictionary<string, string> init) { }
+
   }
 
 }

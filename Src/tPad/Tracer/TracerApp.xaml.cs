@@ -27,6 +27,7 @@ namespace UofM.HCI.tPad.App.Tracer
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
+    public Dictionary<String, String> Context { get { return null; } }
 
     private bool showMenu = false;
     public bool ShowMenu 
@@ -104,5 +105,6 @@ namespace UofM.HCI.tPad.App.Tracer
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
+    public void LoadInitContext(Dictionary<string, string> init) { }
   }
 }
