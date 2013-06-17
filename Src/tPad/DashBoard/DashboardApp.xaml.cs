@@ -84,7 +84,10 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     public ITPadApp GetRunningInstance(Type appType)
     {
-      return RunningApps.SingleOrDefault(app => app.AppClass.Equals(appType)).Instance;
+      TPadApplicationDescriptor descriptor = RunningApps.SingleOrDefault(app => app.AppClass.Equals(appType));
+      if (descriptor == null)
+        return null;
+      return descriptor.Instance;
     }
 
     private void Image_MouseUp(object sender, MouseButtonEventArgs e)
