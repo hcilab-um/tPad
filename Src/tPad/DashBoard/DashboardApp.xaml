@@ -27,5 +27,9 @@
         </DataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>
+    <Label FontWeight="Bold">Dashboard Settings</Label>
+    <StackPanel Orientation="Horizontal">
+      <CheckBox x:Name="cbUserDefaultFlippingApp" Content="Browser @ Flipping" IsChecked="False" Margin="16"/>
+    </StackPanel>
   </StackPanel>
 </UserControl>

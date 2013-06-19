@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Threading;
+using UofM.HCI.tPad.Monitors;
 
 namespace UofM.HCI.tPad.App.Dashboard
 {
@@ -31,6 +32,8 @@ namespace UofM.HCI.tPad.App.Dashboard
     public Dictionary<String, String> Context { get { return null; } }
 
     public TPadApplicationDescriptor DefaultFlippingAppDescriptor { get; set; }
+    public TPadApplicationDescriptor FaceUpAppDescriptor { get; set; }
+    public TPadApplicationDescriptor FaceDownAppDescriptor { get; set; }
 
     public ObservableCollection<TPadApplicationDescriptor> Applications { get; private set; }
     public Stack<TPadApplicationDescriptor> RunningApps { get; set; }
@@ -72,6 +75,7 @@ namespace UofM.HCI.tPad.App.Dashboard
       ITPadApp application = descriptor.Launcher.GetAppInstance(descriptor, Container, Controller, Core, settings);
       descriptor.Instance = application;
       descriptor.Instance.Closed += new EventHandler(application_Closed);
+      descriptor.RunningSide = Core.Device.FlippingSide;
       RunningApps.Push(descriptor);
       Container.LoadTPadApp(application);
     }
@@ -79,6 +83,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     void application_Closed(object sender, EventArgs e)
     {
       TPadApplicationDescriptor descriptor = RunningApps.Pop();
+      descriptor.RunningSide = Monitors.FlippingMode.Unknown;
       descriptor.Instance = null;
     }
 
@@ -136,23 +141,51 @@ namespace UofM.HCI.tPad.App.Dashboard
           if (TopAppDescriptor != null && TopAppDescriptor.Events.Contains(TPadEvent.Flipping))
             return;
 
-          //The dashboard handles the flipping - launches or closes the defatult flipping app
-          if (e.FlippingSide == Monitors.FlippingMode.FaceUp)
-          {
-            if (DefaultFlippingAppDescriptor == null)
-              return;
-            if (TopAppDescriptor != DefaultFlippingAppDescriptor)
-              return;
-            if (TopApp != null)
-              TopApp.Close();
-          }
-          else if (e.FlippingSide == Monitors.FlippingMode.FaceDown)
-          {
-            if (TopAppDescriptor == DefaultFlippingAppDescriptor)
-              return;
-            LaunchApp(DefaultFlippingAppDescriptor, TopAppDescriptor == null ? null : TopApp.Context);
-          }
+          if (cbUserDefaultFlippingApp.IsChecked.Value)
+            HandleFlippingWithDeafultApp(e.FlippingSide);
+          else
+            HandleFlippingWithRunningApps(e.FlippingSide);
         });
+    }
+
+    private void HandleFlippingWithDeafultApp(FlippingMode flippingMode)
+    {
+      //The dashboard handles the flipping - launches or closes the defatult flipping app
+      if (flippingMode == Monitors.FlippingMode.FaceUp)
+      {
+        if (DefaultFlippingAppDescriptor == null)
+          return;
+        if (TopAppDescriptor != DefaultFlippingAppDescriptor)
+          return;
+        if (TopApp != null)
+          TopApp.Close();
+      }
+      else if (flippingMode == Monitors.FlippingMode.FaceDown)
+      {
+        if (TopAppDescriptor == DefaultFlippingAppDescriptor)
+          return;
+        LaunchApp(DefaultFlippingAppDescriptor, TopAppDescriptor == null ? null : TopApp.Context);
+      }
+    }
+
+    private void HandleFlippingWithRunningApps(FlippingMode flippingMode)
+    {
+      TPadApplicationDescriptor currentAD = flippingMode == FlippingMode.FaceUp ? FaceDownAppDescriptor : FaceUpAppDescriptor;
+      TPadApplicationDescriptor targetAD = flippingMode == FlippingMode.FaceUp ? FaceUpAppDescriptor : FaceDownAppDescriptor;
+      if (targetAD != null)
+        BringToFront(targetAD, currentAD == null ? null : currentAD.Instance.Context);
+      else if(currentAD != null)
+        Minimize(currentAD);
+    }
+
+    private void BringToFront(TPadApplicationDescriptor targetAD, Dictionary<string, string> dictionary)
+    {
+      throw new NotImplementedException();
+    }
+
+    private void Minimize(TPadApplicationDescriptor currentAD)
+    {
+      (currentAD.Instance as FrameworkElement).Visibility = System.Windows.Visibility.Collapsed;
     }
 
     void Device_DeviceShaked(object sender, EventArgs e)

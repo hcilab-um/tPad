@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using UofM.HCI.tPad.Monitors;
 
 namespace UofM.HCI.tPad
 {
@@ -17,6 +18,7 @@ namespace UofM.HCI.tPad
     public ITPadAppLauncher Launcher { get; set; }
 
     public ITPadApp Instance { get; set; }
+    public FlippingMode RunningSide { get; set; }
 
     public List<Glyph> Triggers { get; set; }
     public List<TPadEvent> Events { get; set; }
