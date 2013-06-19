@@ -10,6 +10,8 @@ namespace UofM.HCI.tPad
   public interface ITPadAppContainer
   {
     void LoadTPadApp(ITPadApp tPadApp);
+    void Hide(ITPadApp tPadApp);
+    void Show(ITPadApp tPadApp);
   }
 
 }

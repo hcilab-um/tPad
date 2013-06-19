@@ -8,11 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
 
-  <UserControl.Resources>
-    <convertersLib:MultiplierConverter x:Key="cMultiplier" />
-    <convertersLib:FlippingSideToScaleConverter x:Key="fsToScale" />
-  </UserControl.Resources>
-  
   <DockPanel Background="LightGray">
     <DockPanel DockPanel.Dock="Bottom" Margin="16,10,16,10" >
       <Button x:Name="btnClose" Content="Close" Height="30" Padding="10,0,10,0" DockPanel.Dock="Left" Click="btnClose_Click"/>
@@ -21,11 +16,5 @@
     </DockPanel>
     <my:WebControl Name="webControl1" Source="http://www.wikipedia.org/"/>
   </DockPanel>
-  
-  <UserControl.RenderTransform>
-    <ScaleTransform ScaleX="{Binding ElementName=browserApp, Path=Core.Device.FlippingSide, Converter={StaticResource ResourceKey=fsToScale}}"
-                    CenterX="{Binding ElementName=browserApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
-                    CenterY="{Binding ElementName=browserApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
-  </UserControl.RenderTransform>
   
 </UserControl>

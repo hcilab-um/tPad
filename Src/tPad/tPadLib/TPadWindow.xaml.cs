@@ -20,6 +20,7 @@ namespace UofM.HCI.tPad
   public partial class TPadWindow : Window, ITPadAppContainer, INotifyPropertyChanged
   {
 
+    public TPadCore Core { get; set; }
     public TPadProfile Profile { get; set; }
     private ITPadAppLauncher Launcher { get; set; }
 
@@ -36,11 +37,12 @@ namespace UofM.HCI.tPad
 
     public int InstanceNumber { get; set; }
 
-    public TPadWindow(TPadProfile profile, ITPadAppLauncher launcher)
+    public TPadWindow(TPadProfile profile, ITPadAppLauncher launcher, TPadCore core)
     {
       SizeMultiplier = 0.75; // This makes the window smaller when using a single monitor set-up -- for development
       Launcher = launcher;
       Profile = profile;
+      Core = core;
 
       InitializeComponent();
     }
@@ -56,6 +58,20 @@ namespace UofM.HCI.tPad
       TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
       gTPadApp.Children.Add(TPadApp);
+    }
+
+    public void Hide(ITPadApp tPadApp)
+    {
+      UserControl app = tPadApp as UserControl;
+      app.Visibility = System.Windows.Visibility.Collapsed;
+    }
+
+    public void Show(ITPadApp tPadApp)
+    {
+      UserControl app = tPadApp as UserControl;
+      int nextIndex = gTPadApp.Children.Cast<FrameworkElement>().Max(element => Canvas.GetZIndex(element)) + 1;
+      Canvas.SetZIndex(app, nextIndex);
+      app.Visibility = System.Windows.Visibility.Visible;
     }
 
     void tPadApp_Closed(object sender, EventArgs e)
@@ -99,7 +115,6 @@ namespace UofM.HCI.tPad
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
-
   }
 
 }

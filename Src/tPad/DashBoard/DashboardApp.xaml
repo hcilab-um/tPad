@@ -8,13 +8,11 @@
   
   <UserControl.Resources>
     <convertersLib:WPFBitmapConverter x:Key="cWPFBS" />
-    <convertersLib:MultiplierConverter x:Key="cMultiplier" />
-    <convertersLib:FlippingSideToScaleConverter x:Key="fsToScale" />
   </UserControl.Resources>
   
   <StackPanel Orientation="Vertical">
     <Label FontWeight="Bold">tPad Applications</Label>
-    <ListBox ItemsSource="{Binding ElementName=appDashboard, Path=Applications}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+    <ListBox ItemsSource="{Binding ElementName=dashboardApp, Path=Applications}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
       <ListBox.ItemsPanel>
         <ItemsPanelTemplate>
           <WrapPanel Orientation="Horizontal" />
@@ -31,14 +29,8 @@
     </ListBox>
     <Label FontWeight="Bold">Dashboard Settings</Label>
     <StackPanel Orientation="Horizontal">
-      <CheckBox x:Name="cbUserDefaultFlippingApp" Content="Browser @ Flipping" IsChecked="False" Margin="16"/>
+      <CheckBox x:Name="cbUserDefaultFlippingApp" Content="Browser @ Flipping" IsChecked="False" Margin="16" Unchecked="cbUserDefaultFlippingApp_Unchecked"/>
     </StackPanel>
   </StackPanel>
-
-  <UserControl.RenderTransform>
-    <ScaleTransform ScaleX="{Binding ElementName=dashboardApp, Path=Core.Device.FlippingSide, Converter={StaticResource ResourceKey=fsToScale}}"
-                    CenterX="{Binding ElementName=dashboardApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
-                    CenterY="{Binding ElementName=dashboardApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
-  </UserControl.RenderTransform>
 
 </UserControl>

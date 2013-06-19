@@ -7,19 +7,21 @@
         Loaded="tpWindow_Loaded" SizeChanged="tpWindow_SizeChanged">
 
   <Window.Resources>
-    <converters:LayerScalingConverter x:Key="cMultiplier" />
+    <converters:LayerScalingConverter x:Key="cLayerScaling" />
+    <converters:MultiplierConverter x:Key="cMultiplier" />
+    <converters:FlippingSideToScaleConverter x:Key="fsToScale" />
   </Window.Resources>
 
   <Canvas x:Name="cWrapper">
 
     <Canvas.Width>
-      <MultiBinding Converter="{StaticResource ResourceKey=cMultiplier}">
+      <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
         <Binding ElementName="tpWindow" Path="Profile.Resolution.Width"/>
         <Binding ElementName="tpWindow" Path="SizeMultiplier"/>
       </MultiBinding>
     </Canvas.Width>
     <Canvas.Height>
-      <MultiBinding Converter="{StaticResource ResourceKey=cMultiplier}">
+      <MultiBinding Converter="{StaticResource ResourceKey=cLayerScaling}">
         <Binding ElementName="tpWindow" Path="Profile.Resolution.Height"/>
         <Binding ElementName="tpWindow" Path="SizeMultiplier"/>
       </MultiBinding>
@@ -28,10 +30,17 @@
     <Canvas.RenderTransform>
       <ScaleTransform ScaleX="{Binding ElementName=tpWindow, Path=SizeMultiplier}" ScaleY="{Binding ElementName=tpWindow, Path=SizeMultiplier}"/>
     </Canvas.RenderTransform>
-    
+
     <Grid x:Name="gTPadApp" Background="Transparent"
         Width="{Binding ElementName=tpWindow, Path=Profile.Resolution.Width}"
         Height="{Binding ElementName=tpWindow, Path=Profile.Resolution.Height}">
+
+      <Grid.RenderTransform>
+        <ScaleTransform ScaleX="{Binding ElementName=tpWindow, Path=Core.Device.FlippingSide, Converter={StaticResource ResourceKey=fsToScale}}"
+                    CenterX="{Binding ElementName=gTPadApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
+                    CenterY="{Binding ElementName=gTPadApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
+      </Grid.RenderTransform>
+
     </Grid>
   </Canvas>
 </Window>

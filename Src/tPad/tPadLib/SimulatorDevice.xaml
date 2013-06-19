@@ -53,6 +53,13 @@
       <Grid x:Name="gTPadApp" Background="Transparent"
             Width="{Binding ElementName=sDevice, Path=Profile.Resolution.Width}"
             Height="{Binding ElementName=sDevice, Path=Profile.Resolution.Height}">
+
+        <Grid.RenderTransform>
+          <ScaleTransform ScaleX="{Binding ElementName=sDevice, Path=Core.Device.FlippingSide, Converter={StaticResource ResourceKey=fsToScale}}"
+                    CenterX="{Binding ElementName=gTPadApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
+                    CenterY="{Binding ElementName=gTPadApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
+        </Grid.RenderTransform>
+
       </Grid>
     </Canvas>
 

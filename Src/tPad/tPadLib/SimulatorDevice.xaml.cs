@@ -191,6 +191,20 @@ namespace UofM.HCI.tPad
       gTPadApp.Children.Add(tPadApp as UserControl);
     }
 
+    public void Hide(ITPadApp tPadApp)
+    {
+      UserControl app = tPadApp as UserControl;
+      app.Visibility = System.Windows.Visibility.Collapsed;
+    }
+
+    public void Show(ITPadApp tPadApp)
+    {
+      UserControl app = tPadApp as UserControl;
+      int nextIndex = gTPadApp.Children.Cast<FrameworkElement>().Max(element => Canvas.GetZIndex(element)) + 1;
+      Canvas.SetZIndex(app, nextIndex);
+      app.Visibility = System.Windows.Visibility.Visible;
+    }
+
     void tPadApp_Closed(object sender, EventArgs e)
     {
       ITPadApp tPadApp = (ITPadApp)sender;
