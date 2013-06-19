@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="UofM.HCI.tPad.App.Dashboard.DashboardApp" x:Name="appDashboard"
+﻿<UserControl x:Class="UofM.HCI.tPad.App.Dashboard.DashboardApp" x:Name="dashboardApp"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,6 +8,8 @@
   
   <UserControl.Resources>
     <convertersLib:WPFBitmapConverter x:Key="cWPFBS" />
+    <convertersLib:MultiplierConverter x:Key="cMultiplier" />
+    <convertersLib:FlippingSideToScaleConverter x:Key="fsToScale" />
   </UserControl.Resources>
   
   <StackPanel Orientation="Vertical">
@@ -32,4 +34,11 @@
       <CheckBox x:Name="cbUserDefaultFlippingApp" Content="Browser @ Flipping" IsChecked="False" Margin="16"/>
     </StackPanel>
   </StackPanel>
+
+  <UserControl.RenderTransform>
+    <ScaleTransform ScaleX="{Binding ElementName=dashboardApp, Path=Core.Device.FlippingSide, Converter={StaticResource ResourceKey=fsToScale}}"
+                    CenterX="{Binding ElementName=dashboardApp, Path=ActualWidth, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"
+                    CenterY="{Binding ElementName=dashboardApp, Path=ActualHeight, Converter={StaticResource ResourceKey=cMultiplier}, ConverterParameter=0.5}"/>
+  </UserControl.RenderTransform>
+
 </UserControl>
