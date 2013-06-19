@@ -6,11 +6,11 @@
              xmlns:my="http://schemas.awesomium.com/winfx"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
-  <DockPanel>
-    <DockPanel DockPanel.Dock="Bottom" Margin="16,10,16,10" Background="White">
+  <DockPanel Background="LightGray">
+    <DockPanel DockPanel.Dock="Bottom" Margin="16,10,16,10" >
       <Button x:Name="btnClose" Content="Close" Height="30" Padding="10,0,10,0" DockPanel.Dock="Left"/>
       <Button x:Name="btnGo" Content="Go" Height="30" Padding="10,0,10,0" DockPanel.Dock="Right"/>
-      <TextBox x:Name="tbAddress" Margin="16,0"/>
+      <TextBox x:Name="tbAddress" Margin="16,0" BorderThickness="1" BorderBrush="Black"/>
     </DockPanel>
     <my:WebControl Name="webControl1" Source="http://www.wikipedia.org/"/>
   </DockPanel>
