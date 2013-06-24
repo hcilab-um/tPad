@@ -117,9 +117,9 @@ void loop(){
   Serial.print("{");
   Serial.print("\"FlippingSide\": ");
   if(orientation == 1)
-    Serial.print("\"FaceUp\", ");
-  else
     Serial.print("\"FaceDown\", ");
+  else
+    Serial.print("\"FaceUp\", ");
   Serial.print("\"Orientation\": { \"X\": ");
   Serial.print(x);
   Serial.print(", \"Y\": ");
