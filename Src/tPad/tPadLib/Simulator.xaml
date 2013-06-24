@@ -52,12 +52,13 @@
         <ComboBox x:Name="cbSettings" Text="Settings:">
           <ComboBoxItem IsSelected="True" Tag="SimSim">Simulator/Simulator</ComboBoxItem>
           <ComboBoxItem x:Name="cbSimCamera" Tag="SimCam">Simulator/Camera</ComboBoxItem>
-          <ComboBoxItem x:Name="cbComSim">COM5/Sim</ComboBoxItem>
-          <ComboBoxItem x:Name="cbComCamera">COM5/Camera</ComboBoxItem>
+          <ComboBoxItem x:Name="cbComSim">COM/Sim</ComboBoxItem>
+          <ComboBoxItem x:Name="cbComCamera">COM/Camera</ComboBoxItem>
         </ComboBox>
         <ComboBox x:Name="cbComPort" Text="COM:">
-          <ComboBoxItem IsSelected="True" Tag="COM5">COM5</ComboBoxItem>
           <ComboBoxItem Tag="COM3">COM3</ComboBoxItem>
+          <ComboBoxItem IsSelected="True" Tag="COM5">COM5</ComboBoxItem>
+          <ComboBoxItem Tag="COM7">COM7</ComboBoxItem>
         </ComboBox>
         <CheckBox x:Name="ckbSeparateWindow" IsChecked="True" Content="Run in Separate Window?" />
         <Button x:Name="tbRunCore" Click="tbRunCore_Click" Content="New@Port"/>
