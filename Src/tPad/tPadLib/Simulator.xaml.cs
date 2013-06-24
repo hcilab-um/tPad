@@ -275,30 +275,36 @@ namespace UofM.HCI.tPad
         BindingOperations.SetBinding(simDevice, SimulatorDevice.FrameHeightProperty, new Binding("FrameHeight") { Source = this });
 
         //*************** TO RUN ON TPAD WINDOW *********************
-        //simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice) { Core = core });
-        //gTop.Children.Add(simDevice);
+        if (ckbSeparateWindow.IsChecked.Value)
+        {
+          simDevice.LoadTPadApp(new MockApp(Profile, simDevice, simDevice) { Core = core });
+          gTop.Children.Add(simDevice);
 
-        //TPadWindow deviceWindow = new TPadWindow(Profile, Launcher, core);
-        //deviceWindow.Closed += deviceWindow_Closed;
-        //deviceWindow.InstanceNumber = appInstances.Count;
+          TPadWindow deviceWindow = new TPadWindow(Profile, Launcher, core);
+          deviceWindow.Closed += deviceWindow_Closed;
+          deviceWindow.InstanceNumber = appInstances.Count;
 
-        //core.CoreStart(deviceWindow, simDevice);
+          core.CoreStart(deviceWindow, simDevice);
 
-        //TPadApplicationDescriptor defaultAppDescriptor = Launcher.GetApplicationDescriptor();
-        //ITPadApp defatultApp = Launcher.GetAppInstance(defaultAppDescriptor, deviceWindow, simDevice, core, null);
+          TPadApplicationDescriptor defaultAppDescriptor = Launcher.GetApplicationDescriptor();
+          ITPadApp defatultApp = Launcher.GetAppInstance(defaultAppDescriptor, deviceWindow, simDevice, core, null);
 
-        //deviceWindow.LoadTPadApp(defatultApp);
-        //deviceWindow.Show();
+          deviceWindow.LoadTPadApp(defatultApp);
+          deviceWindow.Show();
+          appInstances.Add(defatultApp);
+        }
         //*************** TO RUN ON SIMULATOR WINDOW *********************
-        core.CoreStart(simDevice, simDevice);
+        else
+        {
+          core.CoreStart(simDevice, simDevice);
 
-        TPadApplicationDescriptor defaultAppDescriptor = Launcher.GetApplicationDescriptor();
-        ITPadApp defatultApp = Launcher.GetAppInstance(defaultAppDescriptor, simDevice, simDevice, core, null);
-        simDevice.LoadTPadApp(defatultApp);
-        gTop.Children.Add(simDevice);
+          TPadApplicationDescriptor defaultAppDescriptor = Launcher.GetApplicationDescriptor();
+          ITPadApp defatultApp = Launcher.GetAppInstance(defaultAppDescriptor, simDevice, simDevice, core, null);
+          simDevice.LoadTPadApp(defatultApp);
+          gTop.Children.Add(simDevice);
+          appInstances.Add(defatultApp);
+        }
         //*************** END ********************************************
-
-        appInstances.Add(defatultApp);
       }
       catch (Exception exception)
       {

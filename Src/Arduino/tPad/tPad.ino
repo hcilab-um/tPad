@@ -35,6 +35,8 @@ int prevStackCode3 = -1;
 void setup(){
   Serial.begin(9600);
   
+  pinMode(A3, OUTPUT);
+  
   pinMode(stackPin0, INPUT);
   pinMode(stackPin1, INPUT);
   pinMode(stackPin2, INPUT);
@@ -99,6 +101,11 @@ void loop(){
 
   if(!change)
     return;
+    
+  if(orientation == 1)
+    digitalWrite(A3, HIGH);
+  else
+    digitalWrite(A3, LOW);
 
   prevOrientation = orientation;
   prevStackCode0 = stackCode0;
