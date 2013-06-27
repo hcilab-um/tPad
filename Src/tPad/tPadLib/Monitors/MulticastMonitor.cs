@@ -32,6 +32,8 @@ namespace UofM.HCI.tPad.Monitors
       if (!TransportMessageImporter.Importers.ContainsKey(StackingMessage.MessageID))
         TransportMessageImporter.Importers.Add(StackingMessage.MessageID, new StackingMessageImporter());
 
+      TransportComponent.Instance.JsonImportContext.Register(new StandardDocumentImporter());
+
       TransportComponent.Instance.Init();
     }
 

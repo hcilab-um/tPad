@@ -112,6 +112,7 @@
     <Compile Include="Converters\WPFBitmapConverter.cs" />
     <Compile Include="Monitors\MulticastMonitor.cs" />
     <Compile Include="Monitors\ShakingMonitor.cs" />
+    <Compile Include="Network\StandardDocumentImporter.cs" />
     <Compile Include="Network\StackingMessage.cs" />
     <Compile Include="Network\StackingMessageExporter.cs" />
     <Compile Include="Network\StackingMessageImporter.cs" />

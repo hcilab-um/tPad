@@ -37,9 +37,30 @@ namespace UofM.HCI.tPad.Monitors
       Pause = false;
     }
 
-    protected override void CustomStart()
+    protected override void CustomRun()
     {
-      StartFeatureTracker();
+      if (Pause || CameraSource == null)
+        return;
+
+      float angle = 0;
+      Bitmap deviceView = (CameraSource as SimulatorDevice).GetDeviceView(out angle);
+      if (deviceView == null)
+        return;
+
+      //EUREKA!!!
+      Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as SimulatorDevice).ScreenCorrectedAppBounds);
+      NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(Bitmap), rotatedView));
+
+      if (TPadCore.UseFeatureTracking)
+      {
+        if(!isStarted)
+          StartFeatureTracker();
+
+        Tracker.SetCameraImg(rotatedView);
+        //rotatedView.Save("meinz.png");
+      }
+      //using (FileStream storage = CreateFileStream(angle))
+      //  rotatedView.Save(storage, ImageFormat.Png);
     }
 
     private bool isStarted = false;
@@ -57,29 +78,6 @@ namespace UofM.HCI.tPad.Monitors
         isStarted = true;
       }
       catch { return; }
-    }
-
-    protected override void CustomRun()
-    {
-      if (Pause || CameraSource == null)
-        return;
-
-      float angle = 0;
-      Bitmap deviceView = (CameraSource as SimulatorDevice).GetDeviceView(out angle);
-      if (deviceView == null)
-        return;
-
-      //EUREKA!!!
-      Bitmap rotatedView = ImageHelper.RotateImageByAngle(deviceView, 180 - angle, (CameraSource as SimulatorDevice).ScreenCorrectedAppBounds);
-      NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(Bitmap), rotatedView));
-
-      if (TPadCore.UseFeatureTracking)
-      {
-        Tracker.SetCameraImg(rotatedView);
-        //rotatedView.Save("meinz.png");
-      }
-      //using (FileStream storage = CreateFileStream(angle))
-      //  rotatedView.Save(storage, ImageFormat.Png);
     }
 
     private FileStream CreateFileStream(float angle)

@@ -67,9 +67,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Sophie\Documents\Visual Studio 2010\Projects\unManagedTest\unManagedTest;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Sophie\Documents\Visual Studio 2010\Projects\unManagedTest\Debug;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\OpenCV2.4.3\opencv\build\include;C:\OpenCV2.4.3\opencv\build\include\opencv;C:\OpenCV2.4.3\opencv\build\include\opencv2;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenCV2.4.3\opencv\build\x86\vc10\lib;$(OutDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -92,11 +92,11 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <AdditionalIncludeDirectories>C:\Users\sophie\project\unManagedTest\unManagedTest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\..\unManagedTest</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\Users\sophie\project\unManagedTest\x64\Release\unManagedTest.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_core243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_calib3d243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_features2d243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_flann243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_highgui243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_imgproc243.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_nonfree243.lib;$(OutDir)\unmanagedReg.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

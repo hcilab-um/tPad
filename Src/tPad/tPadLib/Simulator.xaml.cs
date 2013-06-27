@@ -423,10 +423,9 @@ namespace UofM.HCI.tPad
           topDevice.StackingControlState = StackingControlState.None;
 
         if (bottomDevice != null)
-        {
           bottomDevice.StackingControlState = StackingControlState.None;
+        if (bottomDevice != null)
           bottomDevice.DeviceOnTopID = 0;
-        }
 
         topDevice = null;
         bottomDevice = null;

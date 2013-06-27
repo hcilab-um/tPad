@@ -27,8 +27,8 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
 
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      PhotoAlbumApp ruler = new PhotoAlbumApp(core, container, controller);
-      return ruler;
+      PhotoAlbumApp photoAlbum = new PhotoAlbumApp(core, container, controller);
+      return photoAlbum;
     }
   }
 }

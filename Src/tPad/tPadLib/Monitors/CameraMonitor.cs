@@ -14,18 +14,12 @@ namespace UofM.HCI.tPad.Monitors
     private ManagedA.wrapperFeatureMatcher Matcher;
 
     public ManagedA.wrapperRegistClass Tracker { get; set; }
-    
+
     public ITPadAppController Controller { get; set; }
 
     public CameraMonitor(bool useC)
     {
       useCamera = useC;
-    }
-
-    protected override void CustomStart()
-    {      
-      if (useCamera)
-        StartFeatureTracker();
     }
 
     private bool isStarted = false;
@@ -78,8 +72,12 @@ namespace UofM.HCI.tPad.Monitors
       //NotifyContextServices(this, null);     
 
       if (useCamera)
+      {
+        if (!isStarted)
+          StartFeatureTracker();
+
         Tracker.SetCameraImg();
-      
+      }
     }
 
     protected override void CustomStop()

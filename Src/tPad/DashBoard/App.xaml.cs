@@ -75,7 +75,8 @@ namespace UofM.HCI.tPad.App.Dashboard
       Tracer.Launcher tracerL = new Tracer.Launcher();
       dashboard.Applications.Add(tracerL.GetApplicationDescriptor());
 
-      //Picture Viewer - Stacking
+      PhotoAlbum.Launcher photoAlbumL = new PhotoAlbum.Launcher();
+      dashboard.Applications.Add(photoAlbumL.GetApplicationDescriptor());
 
       //Journal - Simple surface capture
 

@@ -67,9 +67,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\lib\openCV2.4.3\opencv\build\include\opencv2;C:\lib\openCV2.4.3\opencv\build\include\opencv;C:\lib\openCV2.4.3\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib;C:\lib\openCV2.4.3\opencv\build\common\tbb\intel64\vc10;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\OpenCV2.4.3\opencv\build\include;C:\OpenCV2.4.3\opencv\build\include\opencv;C:\OpenCV2.4.3\opencv\build\include\opencv2;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\OpenCV2.4.3\opencv\build\x86\vc10\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -95,7 +95,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_core243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_calib3d243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_flann243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_highgui243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_imgproc243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_legacy243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_ml243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_objdetect243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_video243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_nonfree243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_contrib243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_features2d243d.lib;C:\lib\openCV2.4.3\opencv\build\x64\vc10\lib\opencv_photo243d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_core243d.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_calib3d243d.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_features2d243d.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_flann243d.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_highgui243d.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_imgproc243d.lib;C:\OpenCV2.4.3\opencv\build\x86\vc10\lib\opencv_nonfree243d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

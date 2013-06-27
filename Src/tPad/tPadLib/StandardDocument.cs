@@ -5,7 +5,7 @@ using System.Text;
 
 namespace UofM.HCI.tPad
 {
-  internal class StandardDocument : TPadDocument
+  public class StandardDocument : TPadDocument
   {
     public override TPadDocument Clone()
     {
@@ -23,7 +23,7 @@ namespace UofM.HCI.tPad
     }
   }
 
-  internal class StandardPage : TPadPage
+  public class StandardPage : TPadPage
   {
     public override TPadPage Clone()
     {

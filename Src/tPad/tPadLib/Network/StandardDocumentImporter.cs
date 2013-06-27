@@ -6,7 +6,7 @@ using Jayrock.Json.Conversion;
 
 namespace UofM.HCI.tPad.Network
 {
-  public class StackingMessageImporter : IImporter
+  public class StandardDocumentImporter : IImporter
   {
 
     //"messageType":"LocationUpdate",
@@ -45,12 +45,12 @@ namespace UofM.HCI.tPad.Network
 
     public object Import(ImportContext context, Jayrock.Json.JsonReader reader)
     {
-      return (StackingMessage)context.Import<StackingMessage>(reader);
+      return (StandardDocument)context.Import<StandardDocument>(reader);
     }
 
     public Type OutputType
     {
-      get { return typeof(StackingMessage); }
+      get { return typeof(TPadDocument); }
     }
   }
 }
