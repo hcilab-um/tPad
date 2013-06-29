@@ -88,7 +88,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
       FigureLinks = new ObservableCollection<IActiveReaderMarker>();
     }
 
-    public override TPadPage Clone()
+    public new TPadPage Clone()
     {
       ActiveReaderPage clone = new ActiveReaderPage();
       clone.FileName = FileName;

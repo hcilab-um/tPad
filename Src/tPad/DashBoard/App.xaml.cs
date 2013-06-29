@@ -57,7 +57,7 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     public ITPadApp GetAppInstance(UofM.HCI.tPad.TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      DashboardApp dashboard = new DashboardApp(core, container, controller);
+      DashboardApp dashboard = new DashboardApp(core, container, controller, descriptor);
 
       Browser.Launcher browserL = new Browser.Launcher();
       dashboard.Applications.Add(browserL.GetApplicationDescriptor());

@@ -37,7 +37,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
       }
     }
 
-    public override TPadDocument Clone()
+    public new TPadDocument Clone()
     {
       ActiveReaderDocument clone = new ActiveReaderDocument();
       clone.ID = ID;

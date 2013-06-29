@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace UofM.HCI.tPad
 {
 
-  public abstract class TPadPage
+  public class TPadPage
   {
     [XmlAttribute]
     public int PageIndex { get; set; }
@@ -30,7 +30,14 @@ namespace UofM.HCI.tPad
       FileName = fileName;
     }
 
-    public abstract TPadPage Clone();
+    public TPadPage Clone()
+    {
+      TPadPage clone = new TPadPage();
+      clone.FileName = FileName;
+      clone.PageIndex = PageIndex;
+
+      return clone;
+    }
   }
 
 }

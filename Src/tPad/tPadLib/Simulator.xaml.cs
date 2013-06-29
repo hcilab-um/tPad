@@ -411,7 +411,7 @@ namespace UofM.HCI.tPad
           bottomDevice.StackingControlState = StackingControlState.StackedBotton;
 
           topDevice.Location = bottomDevice.Location;
-          topDevice.RotationAngle = bottomDevice.RotationAngle;
+          topDevice.RotationAngle = bottomDevice.RotationAngle + 180;
           topDevice.SetValue(Grid.ZIndexProperty, 1);
           bottomDevice.SetValue(Grid.ZIndexProperty, 0);
           bottomDevice.DeviceOnTopID = topDevice.Core.Device.ID;
@@ -444,7 +444,7 @@ namespace UofM.HCI.tPad
       if (bottomDevice.Location != topDevice.Location)
         bottomDevice.Location = topDevice.Location;
       if (bottomDevice.RotationAngle != topDevice.RotationAngle)
-        bottomDevice.RotationAngle = topDevice.RotationAngle;
+        bottomDevice.RotationAngle = topDevice.RotationAngle - 180;
     }
 
     private void cbDocument_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -458,14 +458,14 @@ namespace UofM.HCI.tPad
       if (!Directory.Exists(docFolder))
         throw new ArgumentException(String.Format("Folder '{0}' does not exist!", docFolder));
 
-      TPadDocument result = new StandardDocument() { ID = documentID, Folder = docFolder, FileName = docFolder + String.Format("{0}.pdf", conventionName) };
+      TPadDocument result = new TPadDocument() { ID = documentID, Folder = docFolder, FileName = docFolder + String.Format("{0}.pdf", conventionName) };
       result.DocumentSize = new Size(21.59, 27.94); //US Letter - 215.9 mm × 279.4 mm
 
       String[] pages = Directory.GetFiles(docFolder, "*.png");
       Array.Sort<String>(pages);
       result.Pages = new TPadPage[pages.Length];
       for (int index = 0; index < pages.Length; index++)
-        result.Pages[index] = new StandardPage() { PageIndex = index, FileName = pages[index] };
+        result.Pages[index] = new TPadPage() { PageIndex = index, FileName = pages[index] };
 
       return result;
     }

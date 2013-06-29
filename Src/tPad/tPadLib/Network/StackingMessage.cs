@@ -27,8 +27,6 @@ namespace UofM.HCI.tPad.Network
 
     public System.Windows.Point TouchLocation { get; set; }
     public System.Windows.Input.TouchAction TouchAction { get; set; }
-
-
   }
 
 }

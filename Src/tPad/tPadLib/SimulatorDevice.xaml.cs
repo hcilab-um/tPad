@@ -189,6 +189,7 @@ namespace UofM.HCI.tPad
       (tPadApp as UserControl).VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       (tPadApp as UserControl).HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
       gTPadApp.Children.Add(tPadApp as UserControl);
+      Show(tPadApp);
     }
 
     public void Hide(ITPadApp tPadApp)

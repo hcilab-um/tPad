@@ -12,7 +12,7 @@ using System.Windows;
 namespace UofM.HCI.tPad
 {
 
-  public abstract class TPadDocument
+  public class TPadDocument
   {
     [XmlAttribute]
     public int ID { get; set; }
@@ -34,7 +34,20 @@ namespace UofM.HCI.tPad
 
     public Size DocumentSize { get; set; }
 
-    public abstract TPadDocument Clone();
+    public TPadDocument Clone()
+    {
+      TPadDocument clone = new TPadDocument();
+      clone.ID = ID;
+      clone.Folder = Folder;
+      clone.FileName = FileName;
+      clone.DocumentSize = DocumentSize;
+
+      clone.Pages = new TPadPage[Pages.Length];
+      for (int index = 0; index < Pages.Length; index++)
+        clone[index] = this[index].Clone();
+
+      return clone;
+    }
 
     public bool Equals(TPadDocument other)
     {
