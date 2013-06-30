@@ -18,6 +18,8 @@ using Ubicomp.Utils.NET.MTF;
 using UofM.HCI.tPad.App.PhotoAlbum.Network;
 using System.Windows.Threading;
 using System.Threading;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 
 namespace UofM.HCI.tPad.App.PhotoAlbum
 {
@@ -40,6 +42,7 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
 
     public ObservableCollection<String> LocalPhotos { get; set; }
     public ObservableCollection<String> ReceivedPhotos { get; set; }
+    private BackgroundWorker imageSender = new BackgroundWorker();
 
     private DraggingDirection dragging = DraggingDirection.None;
     public DraggingDirection Dragging
@@ -49,6 +52,34 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
       {
         dragging = value;
         OnPropertyChanged("Dragging");
+      }
+    }
+
+    private String networkOperation = String.Empty;
+    public String NetworkOperation
+    {
+      get { return networkOperation; }
+      set
+      {
+        networkOperation = value;
+
+        if (networkOperation == String.Empty)
+          Canvas.SetZIndex(gNetworkOperation, -1);
+        else
+          Canvas.SetZIndex(gNetworkOperation, 10);
+        
+        OnPropertyChanged("NetworkOperation");
+      }
+    }
+
+    private double networkProgress = 0.0;
+    public double NetworkProgress
+    {
+      get { return networkProgress; }
+      set
+      {
+        networkProgress = value;
+        OnPropertyChanged("NetworkProgress");
       }
     }
 
@@ -62,7 +93,13 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
       ReceivedPhotos = new ObservableCollection<String>();
 
       InitializeComponent();
+
       LoadPhotos();
+      imageSender.WorkerReportsProgress = true;
+      imageSender.WorkerSupportsCancellation = true;
+      imageSender.DoWork += new DoWorkEventHandler(imageSender_DoWork);
+      imageSender.ProgressChanged += new ProgressChangedEventHandler(imageSender_ProgressChanged);
+      imageSender.RunWorkerCompleted += new RunWorkerCompletedEventHandler(imageSender_RunWorkerCompleted);
 
       TransportComponent.Instance.TransportListeners.Add(this);
       if (!TransportMessageExporter.Exporters.ContainsKey(PhotoMessage.MessageID))
@@ -76,8 +113,6 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
 
     public void Close()
     {
-
-
       if (Closed != null)
         Closed(this, EventArgs.Empty);
     }
@@ -106,14 +141,18 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
 
     private void Image_MouseUp(object sender, MouseButtonEventArgs e)
     {
+      imgZoom.DataContext = (sender as Image).DataContext;
       imgZoom.Source = (sender as Image).Source;
       gZoom.Visibility = System.Windows.Visibility.Visible;
+      Canvas.SetZIndex(gZoom, 10);
     }
 
     private void btnCloseZoom_Click(object sender, RoutedEventArgs e)
     {
+      imgZoom.DataContext = null;
       imgZoom.Source = null;
       gZoom.Visibility = System.Windows.Visibility.Collapsed;
+      Canvas.SetZIndex(gZoom, -1);
     }
 
     void Device_StackingChanged(object sender, StackingEventArgs e)
@@ -156,17 +195,27 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
             (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance))
           {
             // Get the dragged ListViewItem
-            ListBoxItem item = FindAnchestor<ListBoxItem>((DependencyObject)e.OriginalSource);
-            if (item == null)
-              return;
+            DependencyObject dragSource = null;
+            String picturePath = String.Empty;
+            ListBoxItem container = FindAnchestor<ListBoxItem>((DependencyObject)e.OriginalSource);
+            if (container != null)
+            {
+              dragSource = container;
+              picturePath = (String)lbLocalPhotos.ItemContainerGenerator.ItemFromContainer(container);
+            }
+            else if (e.OriginalSource is Image)
+            {
+              dragSource = (e.OriginalSource as Image);
+              picturePath = (e.OriginalSource as Image).DataContext as String;
+            }
 
-            // Find the data behind the ListViewItem
-            var contact = lbLocalPhotos.ItemContainerGenerator.ItemFromContainer(item);
+            if (picturePath == null || picturePath == String.Empty)
+              return;
 
             // Initialize the drag & drop operation
             Dragging = DraggingDirection.TopToBelow;
-            DataObject dragData = new DataObject("photoURI", contact);
-            DragDrop.DoDragDrop(item, dragData, DragDropEffects.Move);
+            DataObject dragData = new DataObject("photoURI", picturePath);
+            DragDrop.DoDragDrop(dragSource, dragData, DragDropEffects.Move);
             Dragging = DraggingDirection.None;
           }
         }
@@ -216,16 +265,15 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
           var result = VisualTreeHelper.HitTest(this, mousePos);
 
           // Get the dragged ListViewItem
-          ListBoxItem item = FindAnchestor<ListBoxItem>((DependencyObject)result.VisualHit);
-          if (item == null)
-            return;
-
-          // Find the data behind the ListViewItem
-          var contact = lbLocalPhotos.ItemContainerGenerator.ItemFromContainer(item);
+          String picturePath = String.Empty;
+          ListBoxItem container = FindAnchestor<ListBoxItem>((DependencyObject)result.VisualHit);
+          if (container != null)
+            picturePath = (String) lbLocalPhotos.ItemContainerGenerator.ItemFromContainer(container);
+          else if (result.VisualHit is Image)
+            picturePath = (result.VisualHit as Image).DataContext as String;
 
           // Initialize the drag & drop operation
-          pictureDraggingBelow = contact.ToString();
-          Console.WriteLine(pictureDraggingBelow.Substring(pictureDraggingBelow.Length - 10));
+          pictureDraggingBelow = picturePath;
           Core.Device.SendMessage(new PhotoMessage() { Type = PhotoMessage.PhotoMessageType.DragStarted });
         }
         return;
@@ -235,16 +283,36 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
       {
         Core.Device.SendMessage(new PhotoMessage() { Type = PhotoMessage.PhotoMessageType.DragFinished });
 
-        String picture = pictureDraggingBelow;
+        Point mousePos = topToBelowMatrix.Transform(new Point(e.Location.X, e.Location.Y));
+        if (mousePos.Y < ActualHeight / 2) //the click was in the own area
+        {
+          Vector diff = startPos - mousePos;
+          if ((Math.Abs(diff.X) <= SystemParameters.MinimumHorizontalDragDistance &&
+            Math.Abs(diff.Y) <= SystemParameters.MinimumVerticalDragDistance))
+          {
+            //was click and should for forward it to the right control
+            var target = VisualTreeHelper.HitTest(this, mousePos);
+            Image picture = FindAnchestor<Image>((DependencyObject)target.VisualHit);
+            if (picture != null)
+              Image_MouseUp(picture, null);
+
+            Button button = FindAnchestor<Button>((DependencyObject)target.VisualHit);
+            if (button != null)
+            {
+              ButtonAutomationPeer peer = new ButtonAutomationPeer(button);
+              IInvokeProvider invoke = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+              invoke.Invoke();
+            }
+          }
+        }
+
+        String picturePath = pictureDraggingBelow;
         pictureDraggingBelow = String.Empty;
         startPos = new Point(0, 0);
 
-        Point mousePos = topToBelowMatrix.Transform(new Point(e.Location.X, e.Location.Y));
-        if (mousePos.Y < ActualHeight / 2)
-          return;
-
-        if (picture != String.Empty)
-          SendPicture(Core.Device.DeviceOnTop, picture);
+        // the click was in the "drop here area" to send to the device on top
+        if (picturePath != String.Empty)
+          SendPicture(Core.Device.DeviceOnTop, picturePath);
       }
     }
 
@@ -292,36 +360,8 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
 
     private void SendPicture(int remoteDevide, string picturePath)
     {
-      if (!File.Exists(picturePath))
-        return;
-
-      Guid transaction = Guid.NewGuid();
-      FileStream picture = File.OpenRead(picturePath);
-      long lenght = picture.Length;
-      int totalParts = (int)(lenght / BUFFER_SIZE);
-      if (lenght % BUFFER_SIZE != 0)
-        totalParts++;
-
-      for (int part = 0; part < totalParts; part++)
-      {
-        PhotoMessage message = new PhotoMessage();
-        message.Type = PhotoMessage.PhotoMessageType.FilePart;
-        message.Transaction = transaction;
-        message.FileName = System.IO.Path.GetFileName(picturePath);
-        message.TotalParts = totalParts;
-        message.ActualPart = part;
-
-        if (part < totalParts - 1)
-          message.ContentSize = BUFFER_SIZE;
-        else
-          message.ContentSize = (int)(lenght % 10240);
-
-        message.Content = new byte[message.ContentSize];
-        picture.Read(message.Content, 0, message.ContentSize);
-
-        Core.Device.SendMessage(message);
-        Thread.Sleep(100);
-      }
+      NetworkOperation = "Sending File";
+      imageSender.RunWorkerAsync(picturePath);
     }
 
     public int MessageType
@@ -342,6 +382,13 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
           parts.Clear();
 
         parts.Add(pMessage);
+        Dispatcher.Invoke(DispatcherPriority.Render,
+        (Action)delegate()
+        {
+          NetworkOperation = "Receiving File";
+          NetworkProgress = (pMessage.ActualPart / pMessage.TotalParts) * 100;
+        });
+
         if (parts.Count == pMessage.TotalParts)
           SaveReceivedFile();
       }
@@ -370,7 +417,64 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
         (Action)delegate()
         {
           ReceivedPhotos.Add(fileName);
+          NetworkProgress = 100;
+          NetworkOperation = String.Empty;
         });
+    }
+
+    void imageSender_DoWork(object sender, DoWorkEventArgs e)
+    {
+      BackgroundWorker worker = sender as BackgroundWorker;
+      String picturePath = e.Argument as String;
+      if (!File.Exists(picturePath))
+        return;
+
+      Guid transaction = Guid.NewGuid();
+      FileStream picture = File.OpenRead(picturePath);
+      long lenght = picture.Length;
+      int totalParts = (int)(lenght / BUFFER_SIZE);
+      if (lenght % BUFFER_SIZE != 0)
+        totalParts++;
+
+      for (int part = 0; part < totalParts; part++)
+      {
+        PhotoMessage message = new PhotoMessage();
+        message.Type = PhotoMessage.PhotoMessageType.FilePart;
+        message.Transaction = transaction;
+        message.FileName = System.IO.Path.GetFileName(picturePath);
+        message.TotalParts = totalParts;
+        message.ActualPart = part;
+
+        if (part < totalParts - 1)
+          message.ContentSize = BUFFER_SIZE;
+        else
+          message.ContentSize = (int)(lenght % 10240);
+
+        message.Content = new byte[message.ContentSize];
+        picture.Read(message.Content, 0, message.ContentSize);
+
+        Core.Device.SendMessage(message);
+        worker.ReportProgress((message.ActualPart / message.TotalParts) * 100, null);
+        Thread.Sleep(20);
+      }
+    }
+
+    void imageSender_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    {
+      NetworkProgress = e.ProgressPercentage;
+    }
+
+    void imageSender_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      NetworkOperation = String.Empty;
+    }
+
+    private void btnStopNetworkOperation_Click(object sender, RoutedEventArgs e)
+    {
+      if (imageSender.IsBusy)
+        imageSender.CancelAsync();
+      NetworkOperation = String.Empty;
+      parts.Clear();
     }
   }
 }

@@ -18,6 +18,7 @@ using System.Drawing.Imaging;
 using System.Threading;
 using System.Windows.Threading;
 using UofM.HCI.tPad.App;
+using System.Collections.ObjectModel;
 
 namespace UofM.HCI.tPad
 {
@@ -174,10 +175,13 @@ namespace UofM.HCI.tPad
       }
     }
 
+    public ObservableCollection<ITPadApp> AppInstances { get; set; }
+
     public Simulator(ITPadAppLauncher launcher, TPadProfile profile)
     {
       Launcher = launcher;
       Profile = profile;
+      AppInstances = new ObservableCollection<ITPadApp>();
 
       InitializeComponent();
       iDocument.SizeChanged += new SizeChangedEventHandler(iDocument_SizeChanged);
@@ -223,7 +227,6 @@ namespace UofM.HCI.tPad
       FrameHeight = (DeviceHeight - AppHeight) / 2;
     }
 
-    private List<ITPadApp> appInstances = new List<ITPadApp>();
     private void tbRunCore_Click(object sender, RoutedEventArgs e)
     {
       if (deviceCount == 4)
@@ -232,7 +235,7 @@ namespace UofM.HCI.tPad
         return;
       }
 
-      foreach (ITPadApp appInstance in appInstances)
+      foreach (ITPadApp appInstance in AppInstances)
       {
         if (appInstance.Core.UseCamera)
         {
@@ -282,7 +285,7 @@ namespace UofM.HCI.tPad
 
           TPadWindow deviceWindow = new TPadWindow(Profile, Launcher, core);
           deviceWindow.Closed += deviceWindow_Closed;
-          deviceWindow.InstanceNumber = appInstances.Count;
+          deviceWindow.InstanceNumber = AppInstances.Count;
 
           core.CoreStart(deviceWindow, simDevice);
 
@@ -291,7 +294,7 @@ namespace UofM.HCI.tPad
 
           deviceWindow.LoadTPadApp(defatultApp);
           deviceWindow.Show();
-          appInstances.Add(defatultApp);
+          AppInstances.Add(defatultApp);
         }
         //*************** TO RUN ON SIMULATOR WINDOW *********************
         else
@@ -302,7 +305,7 @@ namespace UofM.HCI.tPad
           ITPadApp defatultApp = Launcher.GetAppInstance(defaultAppDescriptor, simDevice, simDevice, core, null);
           simDevice.LoadTPadApp(defatultApp);
           gTop.Children.Add(simDevice);
-          appInstances.Add(defatultApp);
+          AppInstances.Add(defatultApp);
         }
         //*************** END ********************************************
       }
@@ -349,7 +352,7 @@ namespace UofM.HCI.tPad
     {
       base.OnClosed(e);
 
-      foreach (ITPadApp instance in appInstances)
+      foreach (ITPadApp instance in AppInstances)
       {
         if (instance.Container is Window)
         {
@@ -364,11 +367,15 @@ namespace UofM.HCI.tPad
     {
       chbUseFeatureTracking.IsEnabled = true;
 
-      ITPadApp instanceClosed = appInstances.FirstOrDefault(tmp => tmp.Container == sender);
+      ITPadApp instanceClosed = AppInstances.FirstOrDefault(tmp => tmp.Container == sender);
       instanceClosed.Core.CoreStop();
 
-      appInstances.Remove(instanceClosed);
+      AppInstances.Remove(instanceClosed);
       gTop.Children.Remove(instanceClosed.Controller as UserControl);
+      
+      if (!(instanceClosed.Container is UserControl))
+        (instanceClosed.Container as TPadWindow).Close();
+      
       deviceCount--;
     }
 
@@ -468,6 +475,11 @@ namespace UofM.HCI.tPad
         result.Pages[index] = new TPadPage() { PageIndex = index, FileName = pages[index] };
 
       return result;
+    }
+
+    private void btnInstanceClose_Click(object sender, RoutedEventArgs e)
+    {
+      deviceWindow_Closed(((sender as Button).DataContext as ITPadApp).Container, null);
     }
 
   }

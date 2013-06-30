@@ -42,7 +42,7 @@ namespace UofM.HCI.tPad.Monitors
 
     public void MessageReceived(TransportMessage message, string rawMessage)
     {
-      logger.Debug(String.Format("Message Received - {0} & {1}:{2}", message.MessageType, (message.MessageData as StackingMessage).MessageType, rawMessage));
+      //logger.Debug(String.Format("Message Received - {0} & {1}:{2}", message.MessageType, (message.MessageData as StackingMessage).MessageType, rawMessage));
 
       NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(TransportMessage), message));
     }

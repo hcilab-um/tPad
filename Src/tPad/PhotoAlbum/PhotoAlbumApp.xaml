@@ -13,6 +13,7 @@
     <converters:StackingTranslationConverter x:Key="stConverter"/>
     <converters:StackingVisibilityConverter x:Key="svConverter"/>
     <converters:DraggingToVisibilityConverter x:Key="dtvConverter"/>
+    <converters:NetworkOperationConverter x:Key="noConverter"/>
     <convertersLib:MultiplierConverter x:Key="mConverter"/>
   </UserControl.Resources>
 
@@ -114,5 +115,17 @@
         <TranslateTransform X="{Binding ElementName=mainG, Path=ActualWidth}"/>
       </Grid.RenderTransform>
     </Grid>
+
+    <Grid x:Name="gNetworkOperation" Background="#33FADADD" 
+          Visibility="{Binding ElementName=photoAlbumApp, Path=NetworkOperation, Converter={StaticResource ResourceKey=noConverter}}">
+      
+      <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+        <Label FontSize="20" FontWeight="Bold" Content="{Binding ElementName=photoAlbumApp, Path=NetworkOperation}"/>
+        <ProgressBar Value="{Binding ElementName=photoAlbumApp, Path=NetworkProgress}" Minimum="0" Maximum="100" />
+        <Button x:Name="btnStopNetworkOperation" Click="btnStopNetworkOperation_Click">Stop</Button>
+      </StackPanel>
+      
+    </Grid>
+    
   </Grid>
 </UserControl>

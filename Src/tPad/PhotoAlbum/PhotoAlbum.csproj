@@ -49,6 +49,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -56,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Converters\DraggingToColorConverter.cs" />
     <Compile Include="Converters\DraggingToVisibilityConverter.cs" />
+    <Compile Include="Converters\NetworkOperationConverter.cs" />
     <Compile Include="Converters\StackingDimensionsConverter.cs" />
     <Compile Include="Converters\StackingRotationConverter.cs" />
     <Compile Include="Converters\StackingTranslationConverter.cs" />
