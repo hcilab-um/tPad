@@ -372,10 +372,10 @@ namespace UofM.HCI.tPad
 
       AppInstances.Remove(instanceClosed);
       gTop.Children.Remove(instanceClosed.Controller as UserControl);
-      
+
       if (!(instanceClosed.Container is UserControl))
         (instanceClosed.Container as TPadWindow).Close();
-      
+
       deviceCount--;
     }
 
@@ -480,6 +480,25 @@ namespace UofM.HCI.tPad
     private void btnInstanceClose_Click(object sender, RoutedEventArgs e)
     {
       deviceWindow_Closed(((sender as Button).DataContext as ITPadApp).Container, null);
+    }
+
+    private void btnWhatUpMSG_Click(object sender, RoutedEventArgs e)
+    {
+      Ubicomp.Utils.NET.MTF.TransportComponent.Instance.
+      //Ubicomp.Utils.NET.MTF.TransportComponent.Instance.Send(
+      //  new Ubicomp.Utils.NET.MTF.TransportMessage()
+      //  {
+      //    MessageId = Guid.NewGuid(),
+      //    MessageType = 3,
+      //    TimeStamp = DateTime.Now.ToString(),
+      //    MessageSource = new Ubicomp.Utils.NET.MTF.EventSource()
+      //    {
+      //      ResourceId = Guid.NewGuid(),
+      //      FriendlyName = "Simulator",
+      //      ResourceName = "Simulator"
+      //    },
+      //    MessageData = new ITrans
+      //  });
     }
 
   }

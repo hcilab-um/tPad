@@ -77,7 +77,8 @@
               <StackPanel Orientation="Horizontal">
                 <Label>Device</Label>
                 <Label Content="{Binding Path=Core.Device.ID}"/>
-                <Button x:Name="btnInstanceClose" Click="btnInstanceClose_Click" Margin="10,0">Close</Button>
+                <Button x:Name="btnInstanceClose" Click="btnInstanceClose_Click" Margin="5,3">Close</Button>
+                <Button x:Name="btnWhatUpMSG" Click="btnWhatUpMSG_Click" Margin="5,3">WhatUp</Button>
               </StackPanel>
             </Grid>
           </DataTemplate>

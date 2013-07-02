@@ -31,5 +31,8 @@ namespace UofM.HCI.tPad.App.Browser
       browser.LoadInitContext(settings.Context);
       return browser;
     }
+
+    public void Prepare() { }
+
   }
 }

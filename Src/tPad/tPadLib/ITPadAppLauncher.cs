@@ -12,6 +12,7 @@ namespace UofM.HCI.tPad
     TPadLauncherSettings GetSettings(TPadLauncherSettings settings);
     TPadApplicationDescriptor GetApplicationDescriptor();
     ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings);
+    void Prepare();
   }
 
   public class TPadLauncherSettings
@@ -24,6 +25,11 @@ namespace UofM.HCI.tPad
     public int MulticastTTL { get; set; }
 
     public Dictionary<String, String> Context { get; set; }
+
+    public TPadLauncherSettings()
+    {
+      Context = new Dictionary<string, string>();
+    }
   }
 
 }

@@ -16,13 +16,14 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Threading;
 using UofM.HCI.tPad.Monitors;
+using Ubicomp.Utils.NET.MTF;
 
 namespace UofM.HCI.tPad.App.Dashboard
 {
   /// <summary>
   /// Interaction logic for Dashboard.xaml
   /// </summary>
-  public partial class DashboardApp : UserControl, ITPadApp, INotifyPropertyChanged
+  public partial class DashboardApp : UserControl, ITPadApp, INotifyPropertyChanged, ITransportListener
   {
 
     public TPadCore Core { get; set; }
@@ -229,6 +230,44 @@ namespace UofM.HCI.tPad.App.Dashboard
         DefaultFlippingAppDescriptor.Instance.Close();
     }
 
+    public int MessageType
+    {
+      get { throw new NotImplementedException(); }
+    }
+
+    //Receives messages for all the possible applications and checks there is a running version of the app
+    // This class acts as the pre-delivery listener
+    public void MessageReceived(TransportMessage message, string rawMessage)
+    {
+      //Searchers all the networked apps by seeing if they implement the ITransportListener class
+      var networkedApps = Applications.Where(app => app.AppClass.GetInterfaces().Contains(typeof(ITransportListener)));
+
+      //Selects the ones that listen to the particular type of message
+      var targetApps = networkedApps.Where(app => 
+      {
+        TPadLauncherSettings settings = new TPadLauncherSettings();
+        settings = app.Launcher.GetSettings(settings);
+        if (!settings.Context.ContainsKey("ITransportListener.MessageType"))
+          return false;
+
+        String messageType = settings.Context["ITransportListener.MessageType"];
+        if(messageType == null)
+          return false;
+        
+        int type = Int32.Parse(messageType);
+        if (type == message.MessageType)
+          return true;
+        
+        return false;
+      });
+
+      //Checks whether there is a runtime version of the app
+      var notRunning = targetApps.Where(app => !RunningApps.Contains(app));
+
+      //Launches all the instances that are not already running
+      foreach (TPadApplicationDescriptor descriptor in notRunning)
+        LaunchApp(descriptor, null);
+    }
   }
 
 }

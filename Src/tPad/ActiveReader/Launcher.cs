@@ -37,6 +37,8 @@ namespace UofM.HCI.tPad.App.ActiveReader
       return appInstance;
     }
 
+    public void Prepare() { }
+
   }
 
 }

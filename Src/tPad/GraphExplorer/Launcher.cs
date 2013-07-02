@@ -30,5 +30,8 @@ namespace UofM.HCI.tPad.App.GraphExplorer
       GraphExplorerApp graphExplorer = new GraphExplorerApp(core, container, controller);
       return graphExplorer;
     }
+
+    public void Prepare() { }
+
   }
 }

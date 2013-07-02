@@ -32,5 +32,8 @@ namespace UofM.HCI.tPad.App.Calculator
       calculator.LoadInitContext(settings.Context);
       return calculator;
     }
+
+    public void Prepare() { }
+
   }
 }

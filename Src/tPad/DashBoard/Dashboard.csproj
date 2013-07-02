@@ -141,6 +141,10 @@
       <Project>{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}</Project>
       <Name>GraphExplorer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MulticastTransportFramework\MulticastTransportFramework.csproj">
+      <Project>{4AF95A28-12C7-4D59-8F84-17EF1A60C9A6}</Project>
+      <Name>MulticastTransportFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PhotoAlbum\PhotoAlbum.csproj">
       <Project>{5E1DFF20-CE34-4757-8865-D614A5B2E814}</Project>
       <Name>PhotoAlbum</Name>
@@ -156,6 +160,10 @@
     <ProjectReference Include="..\Tracer\Tracer.csproj">
       <Project>{200211EA-F147-4A79-BAF8-0245D876ED9D}</Project>
       <Name>Tracer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WhatUp\WhatUp.csproj">
+      <Project>{A43719ED-0CC4-4938-A7F4-F5F5F7E77B72}</Project>
+      <Name>WhatUp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

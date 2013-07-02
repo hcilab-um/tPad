@@ -94,6 +94,12 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
 
       InitializeComponent();
 
+      TransportComponent.Instance.TransportListeners.Add(this);
+      if (!TransportMessageExporter.Exporters.ContainsKey(PhotoMessage.MessageID))
+        TransportMessageExporter.Exporters.Add(PhotoMessage.MessageID, new PhotoMessageExporter());
+      if (!TransportMessageImporter.Importers.ContainsKey(PhotoMessage.MessageID))
+        TransportMessageImporter.Importers.Add(PhotoMessage.MessageID, new PhotoMessageImporter());
+
       LoadPhotos();
       imageSender.WorkerReportsProgress = true;
       imageSender.WorkerSupportsCancellation = true;
@@ -101,18 +107,19 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
       imageSender.ProgressChanged += new ProgressChangedEventHandler(imageSender_ProgressChanged);
       imageSender.RunWorkerCompleted += new RunWorkerCompletedEventHandler(imageSender_RunWorkerCompleted);
 
-      TransportComponent.Instance.TransportListeners.Add(this);
-      if (!TransportMessageExporter.Exporters.ContainsKey(PhotoMessage.MessageID))
-        TransportMessageExporter.Exporters.Add(PhotoMessage.MessageID, new PhotoMessageExporter());
-      if (!TransportMessageImporter.Importers.ContainsKey(PhotoMessage.MessageID))
-        TransportMessageImporter.Importers.Add(PhotoMessage.MessageID, new PhotoMessageImporter());
-
       Core.Device.StackingChanged += new StackingChangedEventHandler(Device_StackingChanged);
       Core.Device.StackingTouchEvent += new StackingTouchEventEventHandler(Device_StackingTouchEvent);
     }
 
     public void Close()
     {
+      if (TransportComponent.Instance.TransportListeners.Contains(this))
+        TransportComponent.Instance.TransportListeners.Remove(this);
+      if (TransportMessageExporter.Exporters.ContainsKey(PhotoMessage.MessageID))
+        TransportMessageExporter.Exporters.Remove(PhotoMessage.MessageID);
+      if (TransportMessageImporter.Importers.ContainsKey(PhotoMessage.MessageID))
+        TransportMessageImporter.Importers.Remove(PhotoMessage.MessageID);
+
       if (Closed != null)
         Closed(this, EventArgs.Empty);
     }

@@ -28,6 +28,7 @@ namespace Ubicomp.Utils.NET.MTF
     private int port;
     private int udpTTL;
 
+    public ITransportListener PreDeliveryListener { get; set; }
     public List<ITransportListener> TransportListeners = new List<ITransportListener>();
 
     public ImportContext JsonImportContext;
@@ -131,7 +132,11 @@ namespace Ubicomp.Utils.NET.MTF
 
         try
         {
-          //Console.WriteLine("Processing message {0}", e.Consecutive);
+          //1- Notifies the PreDelivery listener
+          if (PreDeliveryListener != null)
+            PreDeliveryListener.MessageReceived(tMessage, sMessage);
+
+          //2- Notifies the actual target
           var listeners = TransportListeners.Where(tmp => tmp.MessageType == tMessage.MessageType);
           foreach (var listener in listeners)
             listener.MessageReceived(tMessage, sMessage);
@@ -190,7 +195,7 @@ namespace Ubicomp.Utils.NET.MTF
 
     public void MessageReceived(TransportMessage message, String rawMessage)
     {
-      logger.Info("Received Message for Transport Component - Not Implemented Feature.");
+      logger.Info("Received Message for Transport Component - Feature Not Implemented.");
     }
 
     #endregion

@@ -32,5 +32,8 @@ namespace UofM.HCI.tPad.App.Tracer
       TracerApp tracer = new TracerApp(core, container, controller);
       return tracer;
     }
+
+    public void Prepare() { }
+
   }
 }

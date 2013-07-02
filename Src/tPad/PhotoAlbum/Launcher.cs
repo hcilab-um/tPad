@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ubicomp.Utils.NET.MTF;
+using UofM.HCI.tPad.App.PhotoAlbum.Network;
 
 namespace UofM.HCI.tPad.App.PhotoAlbum
 {
@@ -9,7 +11,7 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
   {
     public TPadLauncherSettings GetSettings(TPadLauncherSettings settings)
     {
-      throw new NotImplementedException();
+      return settings;
     }
 
     public TPadApplicationDescriptor GetApplicationDescriptor()
@@ -30,5 +32,7 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
       PhotoAlbumApp photoAlbum = new PhotoAlbumApp(core, container, controller);
       return photoAlbum;
     }
+
+    public void Prepare() { }
   }
 }

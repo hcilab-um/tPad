@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using UofM.HCI.tPad;
 using UofM.HCI.tPad.App.Dashboard.Properties;
+using Ubicomp.Utils.NET.MTF;
 
 namespace UofM.HCI.tPad.App.Dashboard
 {
@@ -78,12 +79,25 @@ namespace UofM.HCI.tPad.App.Dashboard
       PhotoAlbum.Launcher photoAlbumL = new PhotoAlbum.Launcher();
       dashboard.Applications.Add(photoAlbumL.GetApplicationDescriptor());
 
+      WhatUp.Launcher whatUpL = new WhatUp.Launcher();
+      dashboard.Applications.Add(whatUpL.GetApplicationDescriptor());
+
       //Journal - Simple surface capture
 
       ActiveReader.Launcher arL = new ActiveReader.Launcher();
       dashboard.Applications.Add(arL.GetApplicationDescriptor());
 
+      //Prepares applications for runtime
+      foreach (TPadApplicationDescriptor appDesc in dashboard.Applications)
+        appDesc.Launcher.Prepare();
+
+      //Registers the dashboard as the pre-delivery listeners with the TransportComponent
+      TransportComponent.Instance.PreDeliveryListener = dashboard;
+
       return dashboard;
     }
+
+    public void Prepare() { }
+
   }
 }

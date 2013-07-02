@@ -30,7 +30,7 @@ namespace UofM.HCI.tPad
     }
   }
 
-  public enum TPadEvent { Flipping, Shaking }
+  public enum TPadEvent { Flipping, Shaking, NetworkWakeup }
 
   public enum Glyph { Square, Triangle };
 

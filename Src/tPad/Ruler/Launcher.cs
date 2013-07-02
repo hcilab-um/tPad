@@ -31,5 +31,8 @@ namespace UofM.HCI.tPad.App.Ruler
       RulerApp ruler = new RulerApp(core, container, controller);
       return ruler;
     }
+
+    public void Prepare() { }
+
   }
 }
