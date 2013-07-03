@@ -154,6 +154,22 @@ namespace UofM.HCI.tPad
       }
     }
 
+    private bool homePressed = false;
+    public bool HomePressed
+    {
+      get
+      {
+        var tmp = homePressed;
+        homePressed = false;
+        return tmp;
+      }
+      set
+      {
+        homePressed = value;
+        OnPropertyChanged("HomePressed");
+      }
+    }
+
     public SimulatorDevice(Simulator simulator, TPadCore core)
     {
       sWindow = simulator;
@@ -179,7 +195,7 @@ namespace UofM.HCI.tPad
       OnPropertyChanged("HeightMultiplier");
     }
 
-    public void LoadTPadApp(ITPadApp tPadApp)
+    public void LoadTPadApp(ITPadApp tPadApp, bool foreground = true)
     {
       if (tPadApp == null)
         return;
@@ -189,7 +205,11 @@ namespace UofM.HCI.tPad
       (tPadApp as UserControl).VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       (tPadApp as UserControl).HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
       gTPadApp.Children.Add(tPadApp as UserControl);
-      Show(tPadApp);
+
+      if (foreground)
+        Show(tPadApp);
+      else
+        Hide(tPadApp);
     }
 
     public void Hide(ITPadApp tPadApp)
@@ -430,6 +450,11 @@ namespace UofM.HCI.tPad
     private void btStack_Click(object sender, RoutedEventArgs e)
     {
       StackingCommand();
+    }
+
+    private void btHome_Click(object sender, RoutedEventArgs e)
+    {
+      HomePressed = true;
     }
   }
 

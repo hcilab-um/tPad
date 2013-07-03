@@ -21,12 +21,34 @@
       <ListBox.ItemTemplate>
         <DataTemplate>
           <StackPanel Orientation="Vertical" Margin="10">
-            <Image Source="{Binding Path=Icon, Converter={StaticResource ResourceKey=cWPFBS}}" HorizontalAlignment="Center" Width="80" MouseUp="Image_MouseUp"/>
+            <Image x:Name="imgApp"  Source="{Binding Path=Icon, Converter={StaticResource ResourceKey=cWPFBS}}" HorizontalAlignment="Center" Width="80" MouseUp="Image_MouseUp"/>
             <Label Content="{Binding Path=Name}" HorizontalAlignment="Center" FontWeight="Bold"/>
           </StackPanel>
         </DataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>
+
+    <Label FontWeight="Bold">Running Applications</Label>
+    <ListBox ItemsSource="{Binding ElementName=dashboardApp, Path=RunningApps}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Orientation="Horizontal" />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <StackPanel Orientation="Vertical" Margin="10">
+            <Grid>
+              <Image x:Name="imgRunningApp" Source="{Binding Path=Icon, Converter={StaticResource ResourceKey=cWPFBS}}" HorizontalAlignment="Center" Width="80" MouseUp="Image_MouseUp"/>
+              <Ellipse Width="40" Height="40" Stroke="White" StrokeThickness="3" Fill="LightGray" MouseUp="imgRunningApp_MouseUp"
+                       VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,-20,-20,0" DataContext="{Binding}"/>
+            </Grid>
+            <Label Content="{Binding Path=Name}" HorizontalAlignment="Center" FontWeight="Bold"/>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
     <Label FontWeight="Bold">Dashboard Settings</Label>
     <StackPanel Orientation="Horizontal">
       <CheckBox x:Name="cbUserDefaultFlippingApp" Content="Browser @ Flipping" IsChecked="False" Margin="16" Unchecked="cbUserDefaultFlippingApp_Unchecked"/>

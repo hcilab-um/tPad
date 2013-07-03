@@ -22,6 +22,8 @@ namespace UofM.HCI.tPad.App.GraphExplorer
   public partial class GraphExplorerApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
 
+    public event BoolEventHandler IsTopApp;
+    public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -81,11 +83,6 @@ namespace UofM.HCI.tPad.App.GraphExplorer
     }
 
     public void LoadInitContext(Dictionary<string, string> init) { }
-
-    private void btnClose_Click(object sender, RoutedEventArgs e)
-    {
-      Close();
-    }
 
     private void btnEdit_Click(object sender, RoutedEventArgs e)
     {

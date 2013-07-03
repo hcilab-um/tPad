@@ -29,7 +29,5 @@
 
     </DockPanel>
 
-    <Button x:Name="btnClose" Content="Close" VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="45" Margin="16" Click="btnClose_Click"/>
-
   </Grid>
 </UserControl>

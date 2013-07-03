@@ -20,7 +20,8 @@ namespace UofM.HCI.tPad.App.Ruler
   /// </summary>
   public partial class RulerApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
-
+    public event BoolEventHandler IsTopApp;
+    public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -57,11 +58,6 @@ namespace UofM.HCI.tPad.App.Ruler
 
       InitializeComponent();
       Distance = GetDistanceBetweenPoints(new Point(measureLine.X1, measureLine.Y1), new Point(measureLine.X2, measureLine.Y2));
-    }
-
-    private void btnClose_Click(object sender, RoutedEventArgs e)
-    {
-      Close();
     }
 
     public void Close()

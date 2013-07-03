@@ -55,7 +55,6 @@
     <StackPanel Orientation="Vertical">
       <Grid x:Name="gGeneralMenu" Margin="16" 
             Visibility="{Binding ElementName=photoAlbumApp, Path=Core.Device.State, Converter={StaticResource ResourceKey=svConverter}, ConverterParameter=NotStacked}">
-        <Button x:Name="btnClose" Content="Close" VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="45" Click="btnClose_Click"/>
         <Slider x:Name="sldImageSize" Minimum="50" Maximum="200" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150" 
                 TickPlacement="BottomRight" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" Ticks="50, 100, 150, 200" Value="75"/>
       </Grid>

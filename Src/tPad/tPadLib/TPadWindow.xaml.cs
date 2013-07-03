@@ -47,7 +47,7 @@ namespace UofM.HCI.tPad
       InitializeComponent();
     }
 
-    public void LoadTPadApp(ITPadApp tPadApp)
+    public void LoadTPadApp(ITPadApp tPadApp, bool foreground = true)
     {
       if (tPadApp == null)
         return;
@@ -58,6 +58,11 @@ namespace UofM.HCI.tPad
       TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
       gTPadApp.Children.Add(TPadApp);
+
+      if (foreground)
+        Show(tPadApp);
+      else
+        Hide(tPadApp);
     }
 
     public void Hide(ITPadApp tPadApp)

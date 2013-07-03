@@ -21,6 +21,8 @@ namespace UofM.HCI.tPad.App.Calculator
   public partial class CalculatorApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
 
+    public event BoolEventHandler IsTopApp;
+    public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
 
     private TPadCore core;

@@ -66,6 +66,7 @@ namespace UofM.HCI.tPad
       FlippingMonitor flippingMonitor = new FlippingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
       StackingMonitor stackingMonitor = new StackingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
       ShakingMonitor shakingMonitor = new ShakingMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
+      HomeMonitor homeMonitor = new HomeMonitor() { UpdateType = ContextAdapterUpdateType.OnRequest };
       MulticastMonitor multicastMonitor = new MulticastMonitor(groupIP, port, TTL);
 
       Registration = new RegistrationService(UseCamera, Device, Camera, SimCamera);
@@ -75,10 +76,12 @@ namespace UofM.HCI.tPad
       Board.OnNotifyContextServices += flippingMonitor.UpdateMonitorReading;
       Board.OnNotifyContextServices += stackingMonitor.UpdateMonitorReading;
       Board.OnNotifyContextServices += shakingMonitor.UpdateMonitorReading;
+      Board.OnNotifyContextServices += homeMonitor.UpdateMonitorReading;
 
       SimBoard.OnNotifyContextServices += flippingMonitor.UpdateMonitorReading;
       SimBoard.OnNotifyContextServices += stackingMonitor.UpdateMonitorReading;
       SimBoard.OnNotifyContextServices += shakingMonitor.UpdateMonitorReading;
+      SimBoard.OnNotifyContextServices += homeMonitor.UpdateMonitorReading;
 
       Camera.OnNotifyContextServices += Registration.UpdateMonitorReading;
       Camera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
@@ -86,10 +89,10 @@ namespace UofM.HCI.tPad
       SimCamera.OnNotifyContextServices += Registration.UpdateMonitorReading;
       SimCamera.OnNotifyContextServices += GlyphDetection.UpdateMonitorReading;
 
-
       flippingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       stackingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       shakingMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
+      homeMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       multicastMonitor.OnNotifyContextServices += this.UpdateMonitorReading;
       Registration.OnNotifyContextServiceListeners += this.ContextChanged;
       GlyphDetection.OnNotifyContextServiceListeners += this.ContextChanged;
@@ -176,6 +179,10 @@ namespace UofM.HCI.tPad
           else if (e.Type == typeof(ShakingMonitor))
           {
             Device.NotifyShake((DateTime)e.NewObject);
+          }
+          else if (e.Type == typeof(HomeMonitor))
+          {
+            Device.NotifyHome((DateTime)e.NewObject);
           }
         });
     }

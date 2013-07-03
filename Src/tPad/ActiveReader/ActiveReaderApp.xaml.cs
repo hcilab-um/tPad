@@ -34,6 +34,8 @@ namespace UofM.HCI.tPad.App.ActiveReader
   /// </summary>
   public partial class ActiveReaderApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
+    public event BoolEventHandler IsTopApp;
+    public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
 
     public Dictionary<int, ActiveReaderDocument> DbDocuments { get; set; }

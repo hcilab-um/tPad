@@ -17,6 +17,7 @@ namespace UofM.HCI.tPad
     public event RegistrationChangedEventHandler RegistrationChanged;
     public event FlippingChangedEventHandler FlippingChanged;
     public event EventHandler DeviceShaked;
+    public event EventHandler HomePressed;
 
     public event StackingChangedEventHandler StackingChanged;
     public event StackingTouchEventEventHandler StackingTouchEvent;
@@ -292,6 +293,12 @@ namespace UofM.HCI.tPad
     {
       if (DeviceShaked != null)
         DeviceShaked(this, null);
+    }
+
+    internal void NotifyHome(DateTime dateTime)
+    {
+      if (HomePressed != null)
+        HomePressed(this, null);
     }
 
     public void SendTouchEvent(System.Windows.Point point, System.Windows.Input.TouchAction action)

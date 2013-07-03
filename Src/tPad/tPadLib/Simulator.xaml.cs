@@ -19,6 +19,7 @@ using System.Threading;
 using System.Windows.Threading;
 using UofM.HCI.tPad.App;
 using System.Collections.ObjectModel;
+using UofM.HCI.tPad.Network;
 
 namespace UofM.HCI.tPad
 {
@@ -484,21 +485,20 @@ namespace UofM.HCI.tPad
 
     private void btnWhatUpMSG_Click(object sender, RoutedEventArgs e)
     {
-      Ubicomp.Utils.NET.MTF.TransportComponent.Instance.
-      //Ubicomp.Utils.NET.MTF.TransportComponent.Instance.Send(
-      //  new Ubicomp.Utils.NET.MTF.TransportMessage()
-      //  {
-      //    MessageId = Guid.NewGuid(),
-      //    MessageType = 3,
-      //    TimeStamp = DateTime.Now.ToString(),
-      //    MessageSource = new Ubicomp.Utils.NET.MTF.EventSource()
-      //    {
-      //      ResourceId = Guid.NewGuid(),
-      //      FriendlyName = "Simulator",
-      //      ResourceName = "Simulator"
-      //    },
-      //    MessageData = new ITrans
-      //  });
+      Ubicomp.Utils.NET.MTF.TransportComponent.Instance.Send(
+        new Ubicomp.Utils.NET.MTF.TransportMessage()
+        {
+          MessageId = Guid.NewGuid(),
+          MessageType = 3,
+          TimeStamp = DateTime.Now.ToString(),
+          MessageSource = new Ubicomp.Utils.NET.MTF.EventSource()
+          {
+            ResourceId = Guid.NewGuid(),
+            FriendlyName = "Simulator",
+            ResourceName = "Simulator"
+          },
+          MessageData = new FakeWhatUpMessage()
+        });
     }
 
   }

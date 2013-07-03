@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using Ubicomp.Utils.NET.MTF;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
 
 namespace UofM.HCI.tPad.App.WhatUp
 {
@@ -25,6 +26,8 @@ namespace UofM.HCI.tPad.App.WhatUp
 
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
+    public event BoolEventHandler IsTopApp;
+    public event RequestUserFocus RequestFocus;
 
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
@@ -74,7 +77,17 @@ namespace UofM.HCI.tPad.App.WhatUp
       if (message.MessageData == null || !(message.MessageData is WhatUpMessage))
         return;
 
-      Messages.Add(message.MessageData as WhatUpMessage);
+      Dispatcher.Invoke(DispatcherPriority.Render,
+        (Action)delegate()
+        {
+          WhatUpMessage wuMessage = message.MessageData as WhatUpMessage;
+          Messages.Add(wuMessage);
+
+          if (IsTopApp(this, null))
+            return;
+
+          RequestFocus(this, String.Format("{0}: {1}", wuMessage.From, wuMessage.Message), "Reply", "Cancel");
+        });
     }
 
     private void tpKeyboard_EnterKeyPressed(object sender, EventArgs e)
@@ -91,11 +104,6 @@ namespace UofM.HCI.tPad.App.WhatUp
 
       Messages.Add(messageToSend);
       Core.Device.SendMessage(messageToSend);
-    }
-
-    private void btnClose_Click(object sender, RoutedEventArgs e)
-    {
-      Close();
     }
   }
 }

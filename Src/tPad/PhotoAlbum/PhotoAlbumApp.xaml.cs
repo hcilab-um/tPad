@@ -31,6 +31,8 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
 
     public const int BUFFER_SIZE = 10240;
 
+    public event BoolEventHandler IsTopApp;
+    public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -128,11 +130,6 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
-    }
-
-    private void btnClose_Click(object sender, RoutedEventArgs e)
-    {
-      Close();
     }
 
     private void LoadPhotos()

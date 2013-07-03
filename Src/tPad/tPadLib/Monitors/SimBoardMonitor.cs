@@ -36,10 +36,10 @@ namespace UofM.HCI.tPad.Monitors
     {
       if (Pause)
         return;
-      if (e.PropertyName != "DeviceOnTopID" && e.PropertyName != "FlippingSide" && e.PropertyName != "JustShaked")
+      if (e.PropertyName != "DeviceOnTopID" && e.PropertyName != "FlippingSide" && e.PropertyName != "JustShaked" && e.PropertyName != "HomePressed")
         return;
 
-      BoardUpdate update = new BoardUpdate() { DeviceOnTopID = sDevice.DeviceOnTopID, FlippingSide = sDevice.FlippingSide, Shaked = sDevice.JustShaked };
+      BoardUpdate update = new BoardUpdate() { DeviceOnTopID = sDevice.DeviceOnTopID, FlippingSide = sDevice.FlippingSide, Shaked = sDevice.JustShaked, Home = sDevice.HomePressed };
       NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(BoardUpdate), update));
     }
 

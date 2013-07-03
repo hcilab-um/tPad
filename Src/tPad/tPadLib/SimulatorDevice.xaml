@@ -35,12 +35,13 @@
             VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="V" Height="25" Width="25" Margin="0,0,0,25"/>
 
     <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="25,0,0,25" Orientation="Horizontal">
-      <ToggleButton x:Name="btLaunchCalculator" Click="btLaunchCalculator_Click"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Calc"  Height="25" Width="50"/>
-      <Button x:Name="btShakeDevice" Click="btShakeDevice_Click"
-              VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Shake"  Height="25" Width="50"/>
+      <ToggleButton x:Name="btLaunchCalculator" Click="btLaunchCalculator_Click" Content="Calc"  Height="25" Width="50"/>
+      <Button x:Name="btShakeDevice" Click="btShakeDevice_Click" Content="Shake"  Height="25" Width="50"/>
     </StackPanel>
 
+    <Button x:Name="btHome" Click="btHome_Click" Margin="0,0,25,25" 
+            VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Home" Height="25" Width="50" />
+    
     <ToggleButton x:Name="btStack" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,25,0" Click="btStack_Click"
                   Height="25" Width="50" Content="Stack" />
     

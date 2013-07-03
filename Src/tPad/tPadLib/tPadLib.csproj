@@ -110,8 +110,10 @@
     <Compile Include="Converters\FlippingSideToScaleConverter.cs" />
     <Compile Include="Converters\IntToBinaryConverter.cs" />
     <Compile Include="Converters\WPFBitmapConverter.cs" />
+    <Compile Include="Monitors\HomeMonitor.cs" />
     <Compile Include="Monitors\MulticastMonitor.cs" />
     <Compile Include="Monitors\ShakingMonitor.cs" />
+    <Compile Include="Network\FakeWhatUpMessage.cs" />
     <Compile Include="Network\StackingMessage.cs" />
     <Compile Include="Network\StackingMessageExporter.cs" />
     <Compile Include="Network\StackingMessageImporter.cs" />
@@ -180,6 +182,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

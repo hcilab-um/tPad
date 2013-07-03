@@ -94,6 +94,9 @@ namespace UofM.HCI.tPad.Services
           if (Tracker == null)
             Tracker = (sender as CameraMonitor).Tracker;
 
+          if (Tracker == null)
+            return;
+
           //start feature tracking
           //Stopwatch sw = new Stopwatch();
           //sw.Start();

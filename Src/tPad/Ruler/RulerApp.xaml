@@ -15,7 +15,6 @@
 
   <Grid x:Name="gMeasurements"  Background="White" MouseDown="gMeasurements_MouseDown" MouseMove="gMeasurements_MouseMove" MouseUp="gMeasurements_MouseUp"
         Width="{Binding ElementName=rulerApp, Path=ActualWidth}" Height="{Binding ElementName=rulerApp, Path=ActualHeight}">
-    <Button x:Name="btnClose" Content="Close" VerticalAlignment="Top" HorizontalAlignment="Left" Height="30" Width="45" Margin="16" Click="btnClose_Click"/>
 
     <Line x:Name="headLine" X1="0" Y1="0" X2="0" Y2="50" StrokeThickness="2" Stroke="Black">
       <Line.RenderTransform>

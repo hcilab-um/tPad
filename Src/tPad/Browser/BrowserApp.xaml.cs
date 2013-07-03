@@ -21,6 +21,8 @@ namespace UofM.HCI.tPad.App.Browser
   public partial class BrowserApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
 
+    public event BoolEventHandler IsTopApp;
+    public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -63,11 +65,5 @@ namespace UofM.HCI.tPad.App.Browser
       else
         webControl1.Source = new Uri(String.Format("https://www.google.com/search?q={0}", url));
     }
-
-    private void btnClose_Click(object sender, RoutedEventArgs e)
-    {
-      Close();
-    }
-
   }
 }

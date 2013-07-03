@@ -29,6 +29,8 @@ namespace UofM.HCI.tPad.Monitors
     public int DeviceOnTopID { get; set; }
     [JsonIgnore]
     public bool Shaked { get; set; }
+    [JsonIgnore]
+    public bool Home { get; set; }
   }
 
   public class BoardMonitor : ContextMonitor

@@ -20,7 +20,8 @@ namespace UofM.HCI.tPad.App.Tracer
   /// </summary>
   public partial class TracerApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
-
+    public event BoolEventHandler IsTopApp;
+    public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -74,11 +75,6 @@ namespace UofM.HCI.tPad.App.Tracer
         btnMenu.Content = "Back";
       else
         btnMenu.Content = "Menu";
-    }
-
-    private void btnClose_Click(object sender, RoutedEventArgs e)
-    {
-      Close();
     }
 
     void colorCanvas_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)

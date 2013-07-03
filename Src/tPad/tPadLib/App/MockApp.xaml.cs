@@ -21,6 +21,8 @@ namespace UofM.HCI.tPad.App
   public partial class MockApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
 
+    public event BoolEventHandler IsTopApp;
+    public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
 
     private TPadCore core;
