@@ -29,7 +29,7 @@ namespace UofM.HCI.tPad.App.Browser
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
-    public Dictionary<String, String> Context { get { return null; } }
+    public Dictionary<String, Object> Context { get { return null; } }
 
     public BrowserApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
     {
@@ -51,14 +51,14 @@ namespace UofM.HCI.tPad.App.Browser
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, string> init)
+    public void LoadInitContext(Dictionary<string, Object> init)
     {
       if (init == null)
         return;
       if (!init.Keys.Contains("main"))
         return;
 
-      String url = init["main"];
+      String url = init["main"] as String;
       Uri myUri;
       if (Uri.TryCreate(url, UriKind.Absolute, out myUri))
         webControl1.Source = myUri;

@@ -6,7 +6,12 @@ using System.Text;
 namespace UofM.HCI.tPad
 {
 
-  public delegate bool BoolEventHandler(object sender, EventArgs e);
+  public class ObjectEventArgs : EventArgs 
+  {
+    public Object Parameter { get; set; }
+  }
+
+  public delegate bool BoolEventHandler(object sender, ObjectEventArgs e);
 
   public delegate void RequestUserFocus(object sender, String message, String buttonOK, String buttonCancel);
 
@@ -20,8 +25,8 @@ namespace UofM.HCI.tPad
     ITPadAppContainer Container { get; set; }
     ITPadAppController Controller { get; set; }
 
-    Dictionary<String, String> Context { get; }
-    void LoadInitContext(Dictionary<String, String> init);
+    Dictionary<String, Object> Context { get; }
+    void LoadInitContext(Dictionary<String, Object> init);
 
     void Close();
   }

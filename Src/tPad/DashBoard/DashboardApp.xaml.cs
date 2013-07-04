@@ -17,6 +17,7 @@ using System.IO;
 using System.Windows.Threading;
 using UofM.HCI.tPad.Monitors;
 using Ubicomp.Utils.NET.MTF;
+using UofM.HCI.tPad.App.Dashboard.Properties;
 
 namespace UofM.HCI.tPad.App.Dashboard
 {
@@ -33,7 +34,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     public TPadProfile Profile { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
-    public Dictionary<String, String> Context { get { return null; } }
+    public Dictionary<String, Object> Context { get { return null; } }
 
     public TPadApplicationDescriptor DashboardDescriptor { get; private set; }
     public TPadApplicationDescriptor NotificationDialogDescriptor { get; private set; }
@@ -47,7 +48,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     {
       get
       {
-        TPadApplicationDescriptor descriptor = RunningApps.LastOrDefault(app => app.RunningSide == FlippingMode.FaceUp);
+        TPadApplicationDescriptor descriptor = GetVisibleDescriptor(FlippingMode.FaceUp);
         return descriptor == null ? DashboardDescriptor : descriptor;
       }
     }
@@ -56,7 +57,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     {
       get
       {
-        TPadApplicationDescriptor descriptor = RunningApps.LastOrDefault(app => app.RunningSide == FlippingMode.FaceDown);
+        TPadApplicationDescriptor descriptor = GetVisibleDescriptor(FlippingMode.FaceDown);
         return descriptor == null ? DashboardDescriptor : descriptor;
       }
     }
@@ -65,15 +66,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     {
       get
       {
-        TPadApplicationDescriptor descriptor = RunningApps.FirstOrDefault(app => 
-          {
-            if (app.RunningSide != Core.Device.FlippingSide)
-              return false;
-            if ((app.Instance as UserControl).Visibility != System.Windows.Visibility.Visible)
-              return false;
-            return true;
-          });
-        return descriptor == null ? DashboardDescriptor : descriptor;
+        return Core.Device.FlippingSide == FlippingMode.FaceUp ? FaceUpAppDescriptor : FaceDownAppDescriptor;
       }
     }
 
@@ -86,10 +79,18 @@ namespace UofM.HCI.tPad.App.Dashboard
       DashboardDescriptor = descriptor;
       DashboardDescriptor.Instance = this;
 
-      NotificationDialogDescriptor = new TPadApplicationDescriptor() { AppClass = typeof(NotificationDialog) };
-      NotificationDialogDescriptor.Instance = new NotificationDialog();
+      NotificationDialogDescriptor = new TPadApplicationDescriptor()
+      {
+        AppClass = typeof(NotificationDialog),
+        Icon = Properties.Resources.NotificationDialog
+      };
+
+      NotificationDialogDescriptor.Instance = new NotificationDialog(Core);
       NotificationDialogDescriptor.Instance.Closed += application_Closed;
       NotificationDialogDescriptor.Instance.IsTopApp += application_IsTopApp;
+      (NotificationDialogDescriptor.Instance as NotificationDialog).ClickedOK += new EventHandler(notification_ClickedOK);
+      (NotificationDialogDescriptor.Instance as NotificationDialog).ClickedCancel += new EventHandler(notification_ClickedCancel);
+      NotificationDialogDescriptor.Events.Add(TPadEvent.Flipping);
 
       Applications = new ObservableCollection<TPadApplicationDescriptor>();
       RunningApps = new ObservableCollection<TPadApplicationDescriptor>();
@@ -101,7 +102,7 @@ namespace UofM.HCI.tPad.App.Dashboard
       core.Device.HomePressed += new EventHandler(Device_HomePressed);
     }
 
-    private void LaunchApp(TPadApplicationDescriptor descriptor, Dictionary<String, String> appContext = null, bool foreground = true)
+    private void LaunchApp(TPadApplicationDescriptor descriptor, Dictionary<String, Object> appContext = null, bool foreground = true)
     {
       if (descriptor == null)
         return;
@@ -125,14 +126,17 @@ namespace UofM.HCI.tPad.App.Dashboard
     {
       TPadApplicationDescriptor descriptor = GetRunningDescriptor(sender.GetType());
 
-      descriptor.Instance.Closed -= application_Closed;
-      descriptor.Instance.IsTopApp -= application_IsTopApp;
-      descriptor.Instance.RequestFocus -= application_RequestFocus;
-
       RunningApps.Remove(descriptor);
       FlippingMode side = descriptor.RunningSide;
       descriptor.RunningSide = Monitors.FlippingMode.Unknown;
-      descriptor.Instance = null;
+
+      if (descriptor != NotificationDialogDescriptor)
+      {
+        descriptor.Instance.Closed -= application_Closed;
+        descriptor.Instance.IsTopApp -= application_IsTopApp;
+        descriptor.Instance.RequestFocus -= application_RequestFocus;
+        descriptor.Instance = null;
+      }
 
       if (side != Core.Device.FlippingSide)
         return;
@@ -141,29 +145,40 @@ namespace UofM.HCI.tPad.App.Dashboard
       BringToFront(next, null);
     }
 
-    bool application_IsTopApp(object sender, EventArgs e)
+    bool application_IsTopApp(object sender, ObjectEventArgs e)
     {
+      FlippingMode topSide = Core.Device.FlippingSide;
+      if (e != null && e is ObjectEventArgs)
+        topSide = (FlippingMode)e.Parameter;
+      TPadApplicationDescriptor topDescriptor = topSide == FlippingMode.FaceUp ? FaceUpAppDescriptor : FaceDownAppDescriptor;
+
       ITPadApp app = sender as ITPadApp;
       TPadApplicationDescriptor descriptor = GetRunningDescriptor(app.GetType());
-      if (descriptor == TopAppDescriptor)
+      if (descriptor == topDescriptor)
         return true;
       return false;
     }
 
     void application_RequestFocus(object sender, string message, string buttonOK, string buttonCancel)
     {
-      Dictionary<String, String> context = new Dictionary<String,String>();
+      TPadApplicationDescriptor descriptor = GetRunningDescriptor((sender as ITPadApp).GetType());
+
+      Dictionary<String, Object> context = new Dictionary<String, Object>();
       context.Add("message", message);
       context.Add("buttonOK", buttonOK);
       context.Add("buttonCancel", buttonCancel);
+      context.Add("sender", descriptor);
+      context.Add("currentApp", TopAppDescriptor);
 
+      RunningApps.Add(NotificationDialogDescriptor);
       NotificationDialogDescriptor.Instance.LoadInitContext(context);
       NotificationDialogDescriptor.RunningSide = Core.Device.FlippingSide;
       Container.LoadTPadApp(NotificationDialogDescriptor.Instance, true);
     }
 
-    private void BringToFront(TPadApplicationDescriptor descriptor, Dictionary<string, string> context)
+    private void BringToFront(TPadApplicationDescriptor descriptor, Dictionary<string, Object> context)
     {
+      descriptor.RunningSide = Core.Device.FlippingSide;
       descriptor.Instance.LoadInitContext(context);
       Container.Show(descriptor.Instance);
     }
@@ -175,6 +190,9 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     public ITPadApp GetRunningInstance(Type appType)
     {
+      if (appType == NotificationDialogDescriptor.AppClass)
+        return NotificationDialogDescriptor.Instance;
+
       TPadApplicationDescriptor descriptor = GetRunningDescriptor(appType, FlippingMode.FaceUp);
       descriptor = descriptor != null ? descriptor : GetRunningDescriptor(appType, FlippingMode.FaceDown);
       return descriptor == null ? null : descriptor.Instance;
@@ -182,6 +200,9 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     public TPadApplicationDescriptor GetRunningDescriptor(Type appType)
     {
+      if (appType == NotificationDialogDescriptor.AppClass)
+        return NotificationDialogDescriptor;
+
       TPadApplicationDescriptor descriptor = GetRunningDescriptor(appType, FlippingMode.FaceUp);
       descriptor = descriptor != null ? descriptor : GetRunningDescriptor(appType, FlippingMode.FaceDown);
       return descriptor;
@@ -190,6 +211,19 @@ namespace UofM.HCI.tPad.App.Dashboard
     public TPadApplicationDescriptor GetRunningDescriptor(Type appType, FlippingMode side)
     {
       return RunningApps.LastOrDefault(app => app.AppClass.Equals(appType) && app.RunningSide == side);
+    }
+
+    private TPadApplicationDescriptor GetVisibleDescriptor(FlippingMode side)
+    {
+      TPadApplicationDescriptor descriptor = RunningApps.LastOrDefault(app =>
+      {
+        if (app.RunningSide != side)
+          return false;
+        if ((app.Instance as UserControl).Visibility != System.Windows.Visibility.Visible)
+          return false;
+        return true;
+      });
+      return descriptor;
     }
 
     private void Image_MouseUp(object sender, MouseButtonEventArgs e)
@@ -212,7 +246,7 @@ namespace UofM.HCI.tPad.App.Dashboard
           foreach (GlyphEvent gEvent in e.GlyphEvents)
           {
             //The top app handles such glyph
-            if (TopAppDescriptor != null && TopAppDescriptor.Triggers.Contains(gEvent.Glyph))
+            if (TopAppDescriptor.Triggers.Contains(gEvent.Glyph))
               continue;
 
             //The dashboard handles the glyph by launching the app associated to it
@@ -241,6 +275,9 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     void Device_FlippingChanged(object sender, FlippingEventArgs e)
     {
+      if (e.Handled)
+        return;
+
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
@@ -252,12 +289,17 @@ namespace UofM.HCI.tPad.App.Dashboard
             targetAD != DashboardDescriptor && targetAD.Events.Contains(TPadEvent.Flipping))
             return;
 
-          Minimize(currentAD);
+          //Minimize(currentAD);
 
           if (cbUserDefaultFlippingApp.IsChecked.Value && currentAD != DefaultFlippingAppDescriptor && targetAD != DefaultFlippingAppDescriptor)
-            LaunchApp(DefaultFlippingAppDescriptor, TopAppDescriptor == null ? null : TopAppDescriptor.Instance.Context);
+          {
+            if (RunningApps.Contains(DefaultFlippingAppDescriptor))
+              BringToFront(DefaultFlippingAppDescriptor, null);
+            else
+              LaunchApp(DefaultFlippingAppDescriptor, TopAppDescriptor.Instance.Context);
+          }
           else
-            BringToFront(targetAD, currentAD == null ? null : currentAD.Instance.Context);
+            BringToFront(targetAD, currentAD.Instance.Context);
         });
     }
 
@@ -267,7 +309,7 @@ namespace UofM.HCI.tPad.App.Dashboard
         (Action)delegate()
         {
           //The top app handles such glyph
-          if (TopAppDescriptor != null && TopAppDescriptor.Events.Contains(TPadEvent.Shaking))
+          if (TopAppDescriptor.Events.Contains(TPadEvent.Shaking))
             return;
         });
     }
@@ -299,7 +341,7 @@ namespace UofM.HCI.tPad.App.Dashboard
         Closed(this, EventArgs.Empty);
     }
 
-    public void LoadInitContext(Dictionary<string, string> init) { }
+    public void LoadInitContext(Dictionary<string, Object> init) { }
 
     private void cbUserDefaultFlippingApp_Unchecked(object sender, RoutedEventArgs e)
     {
@@ -327,7 +369,7 @@ namespace UofM.HCI.tPad.App.Dashboard
         if (!settings.Context.ContainsKey("ITransportListener.MessageType"))
           return false;
 
-        String messageType = settings.Context["ITransportListener.MessageType"];
+        String messageType = settings.Context["ITransportListener.MessageType"] as String;
         if (messageType == null)
           return false;
 
@@ -356,6 +398,23 @@ namespace UofM.HCI.tPad.App.Dashboard
       descriptor.Instance.Close();
       BringToFront(DashboardDescriptor, null);
     }
+
+    void notification_ClickedOK(object sender, EventArgs e)
+    {
+      Minimize(TopAppDescriptor);
+
+      TPadApplicationDescriptor descriptor = (NotificationDialogDescriptor.Instance as NotificationDialog).NotificationApp;
+      BringToFront(descriptor, null);
+    }
+
+    void notification_ClickedCancel(object sender, EventArgs e)
+    {
+      Minimize(TopAppDescriptor);
+
+      TPadApplicationDescriptor descriptor = (NotificationDialogDescriptor.Instance as NotificationDialog).ActualApp;
+      BringToFront(descriptor, null);
+    }
+
   }
 
 }

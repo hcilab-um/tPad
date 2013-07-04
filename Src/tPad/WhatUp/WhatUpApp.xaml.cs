@@ -32,7 +32,7 @@ namespace UofM.HCI.tPad.App.WhatUp
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
-    public Dictionary<String, String> Context { get { return null; } }
+    public Dictionary<String, Object> Context { get { return null; } }
 
     public ObservableCollection<WhatUpMessage> Messages { get; set; }
 
@@ -63,7 +63,7 @@ namespace UofM.HCI.tPad.App.WhatUp
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, string> init) { }
+    public void LoadInitContext(Dictionary<string, Object> init) { }
 
     public int MessageType
     {

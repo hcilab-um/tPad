@@ -23,7 +23,6 @@ namespace UofM.HCI.tPad.App.WhatUp
         AppClass = typeof(WhatUpApp),
         Launcher = this
       };
-      descriptor.Events.Add(TPadEvent.Flipping);
       descriptor.Events.Add(TPadEvent.NetworkWakeup);
 
       return descriptor;

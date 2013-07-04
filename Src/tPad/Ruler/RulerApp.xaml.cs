@@ -29,11 +29,11 @@ namespace UofM.HCI.tPad.App.Ruler
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
-    public Dictionary<String, String> Context
+    public Dictionary<String, Object> Context
     {
       get
       {
-        Dictionary<String, String> currentContext = new Dictionary<String, String>();
+        Dictionary<String, Object> currentContext = new Dictionary<String, Object>();
         currentContext.Add("main", (Distance / Core.Profile.PixelsPerCm.Width).ToString());
         return currentContext;
       }
@@ -72,7 +72,7 @@ namespace UofM.HCI.tPad.App.Ruler
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, string> init) { }
+    public void LoadInitContext(Dictionary<string, Object> init) { }
 
     private bool isMoving = false, isHead = true;
     private void gMeasurements_MouseDown(object sender, MouseButtonEventArgs e)

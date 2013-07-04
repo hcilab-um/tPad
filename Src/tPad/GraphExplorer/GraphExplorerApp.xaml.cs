@@ -30,7 +30,7 @@ namespace UofM.HCI.tPad.App.GraphExplorer
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
-    public Dictionary<String, String> Context { get { return null; } }
+    public Dictionary<String, Object> Context { get { return null; } }
 
     private bool isEditing = false;
     public bool IsEditing
@@ -82,7 +82,7 @@ namespace UofM.HCI.tPad.App.GraphExplorer
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, string> init) { }
+    public void LoadInitContext(Dictionary<string, Object> init) { }
 
     private void btnEdit_Click(object sender, RoutedEventArgs e)
     {

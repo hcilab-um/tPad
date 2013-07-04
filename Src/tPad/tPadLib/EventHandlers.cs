@@ -11,6 +11,7 @@ namespace UofM.HCI.tPad
   public class FlippingEventArgs : EventArgs
   {
     public FlippingMode FlippingSide { get; set; }
+    public bool Handled { get; set; }
   }
 
   public delegate void FlippingChangedEventHandler(object sender, FlippingEventArgs e);

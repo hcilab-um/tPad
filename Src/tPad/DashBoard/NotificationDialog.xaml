@@ -10,9 +10,21 @@
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="380" Height="400">
       <Rectangle RadiusX="10" RadiusY="10" Stroke="Black" StrokeThickness="5" Fill="White"/>
       <DockPanel Margin="20">
-        <TextBlock Text="{Binding ElementName=nDialog, Path=Message}" />
+        <Grid Margin="20" DockPanel.Dock="Bottom">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          
+          <Button x:Name="btnOK" Grid.Column="0" Content="{Binding ElementName=nDialog, Path=ButtonOK, FallbackValue=OK}" Margin="10,0" Click="btnOK_Click"
+                  FontSize="20" FontWeight="Bold"/>
+          <Button x:Name="btnCancel" Grid.Column="1" Content="{Binding ElementName=nDiaog, Path=ButtonCancel, FallbackValue=Cancel}" Margin="10,0" Click="btnCancel_Click"
+                  FontSize="20" FontWeight="Bold"/>
+        </Grid>
+        
+        <TextBlock Text="{Binding ElementName=nDialog, Path=Message}" FontSize="20" FontWeight="Bold" Margin="20" />
       </DockPanel>
     </Grid>
-    
+
   </Grid>
 </UserControl>

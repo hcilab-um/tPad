@@ -40,7 +40,7 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
-    public Dictionary<string, string> Context { get { return null; } }
+    public Dictionary<string, Object> Context { get { return null; } }
 
     public ObservableCollection<String> LocalPhotos { get; set; }
     public ObservableCollection<String> ReceivedPhotos { get; set; }
@@ -141,7 +141,7 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
         LocalPhotos.Add(photo);
     }
 
-    public void LoadInitContext(Dictionary<string, string> init) { }
+    public void LoadInitContext(Dictionary<string, Object> init) { }
 
     private void Image_MouseUp(object sender, MouseButtonEventArgs e)
     {

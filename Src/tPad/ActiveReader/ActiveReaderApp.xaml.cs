@@ -43,7 +43,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
-    public Dictionary<String, String> Context { get { return null; } }
+    public Dictionary<String, System.Object> Context { get { return null; } }
 
     private PDFContentHelper PdfHelper { get; set; }
     private SynchHelper Synch { get; set; }
@@ -172,7 +172,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
       InitializeComponent();
     }
 
-    public void LoadInitContext(Dictionary<string, string> init) { }
+    public void LoadInitContext(Dictionary<string, System.Object> init) { }
 
     void ActiveReaderApp_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {

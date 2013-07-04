@@ -93,12 +93,20 @@ namespace UofM.HCI.tPad
       get { return flippingSide; }
       set
       {
+        if (flippingSide == value)
+          return;
+
         flippingSide = value;
         OnPropertyChanged("FlippingSide");
 
         if (FlippingChanged != null)
-          FlippingChanged(this, new FlippingEventArgs() { FlippingSide = flippingSide });
+          FlippingChanged(this, new FlippingEventArgs() { FlippingSide = flippingSide, Handled = false });
       }
+    }
+
+    public FlippingMode OppositeFlippingSide
+    {
+      get { return FlippingSide == FlippingMode.FaceUp ? FlippingMode.FaceDown : FlippingMode.FaceUp; }
     }
 
     private DateTime timeLastShake = DateTime.MinValue;

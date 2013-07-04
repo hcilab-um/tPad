@@ -24,11 +24,11 @@ namespace UofM.HCI.tPad
     public int MulticastPort { get; set; }
     public int MulticastTTL { get; set; }
 
-    public Dictionary<String, String> Context { get; set; }
+    public Dictionary<String, Object> Context { get; set; }
 
     public TPadLauncherSettings()
     {
-      Context = new Dictionary<string, string>();
+      Context = new Dictionary<string, Object>();
     }
   }
 
