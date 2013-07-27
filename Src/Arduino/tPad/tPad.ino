@@ -5,15 +5,18 @@
 //////////////////////////////////////////////////////////////////
 
 //Analog read pins
-const int xPin = 0;
-const int yPin = 1;
-const int zPin = 2;
+const int xPin = A0;
+const int yPin = A1;
+const int zPin = A2;
 
 //Digital read pins
-const int stackPin0 = 10;
-const int stackPin1 = 16;
-const int stackPin2 = 14;
-const int stackPin3 = 15;
+const int stackPin0 = 2;
+const int stackPin1 = 3;
+const int stackPin2 = 4;
+const int stackPin3 = 5;
+
+//Touch sensor multiplexers
+const int touchMultiplexersPin = A3;
 
 //The minimum and maximum values that came from
 //the accelerometer while standing still
@@ -35,7 +38,7 @@ int prevStackCode3 = -1;
 void setup(){
   Serial.begin(9600);
   
-  pinMode(A3, OUTPUT);
+  pinMode(touchMultiplexersPin, OUTPUT);
   
   pinMode(stackPin0, INPUT);
   pinMode(stackPin1, INPUT);
@@ -69,16 +72,27 @@ void loop(){
   y = RAD_TO_DEG * (atan2(-xAng, -zAng) + PI);
   z = RAD_TO_DEG * (atan2(-yAng, -xAng) + PI);
 
-  //Calculates the side that's on top. 1: front up | -1: reverse up
+  //Calculates the side that's on top. 0: face up | 1:  face down
+  Serial.print(xRead);
+  Serial.print(";");
+  Serial.print(yRead);
+  Serial.print(";");
+  Serial.print(zRead);
+  Serial.print(";");
+  Serial.print(xAng);
+  Serial.print(";");
+  Serial.print(yAng);
+  Serial.print(";");
+  Serial.print(zAng);
+  Serial.print(";");
+  Serial.print(x);
+  Serial.print(";");
+  Serial.print(y);
+  Serial.print(";");
+  Serial.println(z);
+  
   int orientation = 0;
-  int count = 0;
-  if(x >= 270 || x <= 90)
-    count++;
-  if(y >= 270 || y <= 90)
-    count++;
-  if(z >= 90 && z <= 360)
-    count ++;
-  if(count >= 2)
+  if(zAng >= 0)
     orientation = 1;
   
   //read the digital values for the staking codes
@@ -95,17 +109,18 @@ void loop(){
   if(prevStackCode1 != stackCode1)
     change = true;
   if(prevStackCode2 != stackCode2)
+  
     change = true;
   if(prevStackCode3 != stackCode3)
     change = true;
 
-  if(!change)
+  if(!change) 
     return;
     
   if(orientation == 1)
-    digitalWrite(A3, HIGH);
+    digitalWrite(touchMultiplexersPin, LOW);
   else
-    digitalWrite(A3, LOW);
+    digitalWrite(touchMultiplexersPin, HIGH);
 
   prevOrientation = orientation;
   prevStackCode0 = stackCode0;
@@ -114,28 +129,28 @@ void loop(){
   prevStackCode3 = stackCode3;
 
   //Output the caculations
-  Serial.print("{");
-  Serial.print("\"FlippingSide\": ");
-  if(orientation == 1)
-    Serial.print("\"FaceDown\", ");
-  else
-    Serial.print("\"FaceUp\", ");
-  Serial.print("\"Orientation\": { \"X\": ");
-  Serial.print(x);
-  Serial.print(", \"Y\": ");
-  Serial.print(y);
-  Serial.print(", \"Z\": ");
-  Serial.print(z);
-  Serial.print(" }");
-
-  Serial.print(", ");
-  Serial.print("\"StackCode\": \"");
-  Serial.print(stackCode0);
-  Serial.print(stackCode1);
-  Serial.print(stackCode2);
-  Serial.print(stackCode3);
-  Serial.print("\"");
-  Serial.println("}");
+//  Serial.print("{");
+//  Serial.print("\"FlippingSide\": ");
+//  if(orientation == 1)
+//    Serial.print("\"FaceUp\", ");
+//  else
+//    Serial.print("\"FaceDown\", ");
+//  Serial.print("\"Orientation\": { \"X\": ");
+//  Serial.print(x);
+//  Serial.print(", \"Y\": ");
+//  Serial.print(y);
+//  Serial.print(", \"Z\": ");
+//  Serial.print(z);
+//  Serial.print(" }");
+//
+//  Serial.print(", ");
+//  Serial.print("\"StackCode\": \"");
+//  Serial.print(stackCode0);
+//  Serial.print(stackCode1);
+//  Serial.print(stackCode2);
+//  Serial.print(stackCode3);
+//  Serial.print("\"");
+//  Serial.println("}");
   Serial.flush();
 
   delay(100);//just here to slow down the serial output - Easier to read
