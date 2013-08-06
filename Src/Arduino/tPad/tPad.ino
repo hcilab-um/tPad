@@ -73,23 +73,23 @@ void loop(){
   z = RAD_TO_DEG * (atan2(-yAng, -xAng) + PI);
 
   //Calculates the side that's on top. 0: face up | 1:  face down
-  Serial.print(xRead);
-  Serial.print(";");
-  Serial.print(yRead);
-  Serial.print(";");
-  Serial.print(zRead);
-  Serial.print(";");
-  Serial.print(xAng);
-  Serial.print(";");
-  Serial.print(yAng);
-  Serial.print(";");
-  Serial.print(zAng);
-  Serial.print(";");
-  Serial.print(x);
-  Serial.print(";");
-  Serial.print(y);
-  Serial.print(";");
-  Serial.println(z);
+//  Serial.print(xRead);
+//  Serial.print(";");
+//  Serial.print(yRead);
+//  Serial.print(";");
+//  Serial.print(zRead);
+//  Serial.print(";");
+//  Serial.print(xAng);
+//  Serial.print(";");
+//  Serial.print(yAng);
+//  Serial.print(";");
+//  Serial.print(zAng);
+//  Serial.print(";");
+//  Serial.print(x);
+//  Serial.print(";");
+//  Serial.print(y);
+//  Serial.print(";");
+//  Serial.println(z);
   
   int orientation = 0;
   if(zAng >= 0)
@@ -129,28 +129,28 @@ void loop(){
   prevStackCode3 = stackCode3;
 
   //Output the caculations
-//  Serial.print("{");
-//  Serial.print("\"FlippingSide\": ");
-//  if(orientation == 1)
-//    Serial.print("\"FaceUp\", ");
-//  else
-//    Serial.print("\"FaceDown\", ");
-//  Serial.print("\"Orientation\": { \"X\": ");
-//  Serial.print(x);
-//  Serial.print(", \"Y\": ");
-//  Serial.print(y);
-//  Serial.print(", \"Z\": ");
-//  Serial.print(z);
-//  Serial.print(" }");
-//
-//  Serial.print(", ");
-//  Serial.print("\"StackCode\": \"");
-//  Serial.print(stackCode0);
-//  Serial.print(stackCode1);
-//  Serial.print(stackCode2);
-//  Serial.print(stackCode3);
-//  Serial.print("\"");
-//  Serial.println("}");
+  Serial.print("{");
+  Serial.print("\"FlippingSide\": ");
+  if(orientation == 1)
+    Serial.print("\"FaceUp\", ");
+  else
+    Serial.print("\"FaceDown\", ");
+  Serial.print("\"Orientation\": { \"X\": ");
+  Serial.print(x);
+  Serial.print(", \"Y\": ");
+  Serial.print(y);
+  Serial.print(", \"Z\": ");
+  Serial.print(z);
+  Serial.print(" }");
+
+  Serial.print(", ");
+  Serial.print("\"StackCode\": \"");
+  Serial.print(stackCode0);
+  Serial.print(stackCode1);
+  Serial.print(stackCode2);
+  Serial.print(stackCode3);
+  Serial.print("\"");
+  Serial.println("}");
   Serial.flush();
 
   delay(100);//just here to slow down the serial output - Easier to read
