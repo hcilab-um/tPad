@@ -41,17 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NeuralNetwork.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Data\tpad cleaned.csv" />
     <None Include="Data\tpad consolidated.csv" />
     <None Include="Data\tpad down.csv" />
     <None Include="Data\tpad encoded.csv" />
     <None Include="Data\tpad up.csv" />
+    <None Include="tpadencoded.csv" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\tpadcleaner.py" />
     <Content Include="Data\tpadconsolidator.py" />
     <Content Include="Data\tpadencoder.py" />
   </ItemGroup>
