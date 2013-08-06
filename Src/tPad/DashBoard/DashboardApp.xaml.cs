@@ -285,8 +285,7 @@ namespace UofM.HCI.tPad.App.Dashboard
           TPadApplicationDescriptor targetAD = e.FlippingSide == FlippingMode.FaceUp ? FaceUpAppDescriptor : FaceDownAppDescriptor;
 
           //The top app handles such glyph
-          if (currentAD != DashboardDescriptor && currentAD.Events.Contains(TPadEvent.Flipping) ||
-            targetAD != DashboardDescriptor && targetAD.Events.Contains(TPadEvent.Flipping))
+          if (currentAD != DashboardDescriptor && currentAD.Events.Contains(TPadEvent.Flipping))// || targetAD != DashboardDescriptor && targetAD.Events.Contains(TPadEvent.Flipping))
             return;
 
           //Minimize(currentAD);
