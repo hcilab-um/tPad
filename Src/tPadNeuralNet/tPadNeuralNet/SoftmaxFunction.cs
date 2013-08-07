@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace tPadNeuralNet
 {
-    class SoftmaxFunction:IActivationFunction
+    public class SoftmaxFunction:IActivationFunction
     {
         public double Evaluate(double value)
         {

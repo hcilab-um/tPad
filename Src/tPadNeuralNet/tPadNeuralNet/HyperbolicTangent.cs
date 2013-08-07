@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace tPadNeuralNet
 {
-    class HyperbolicTangent: IActivationFunction
+    public class HyperbolicTangent: IActivationFunction
     {
         public double Evaluate(double value)
         {

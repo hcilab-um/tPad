@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace tPadNeuralNet
 {
-    interface IActivationFunction
+    public interface IActivationFunction
     {
         double Evaluate(double value);
         double[] Evaluate(double[] values);

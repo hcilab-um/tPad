@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace tPadNeuralNet
 {
-    class SigmoidFunction: IActivationFunction
+    public class SigmoidFunction: IActivationFunction
     {
         public double Evaluate(double value)
         {

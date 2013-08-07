@@ -13,60 +13,61 @@ namespace tPadNeuralNet
         {
             for (int r = 0; r < 1; r++)
             {
-                Console.WriteLine("\nBegin building neural network");
-                Console.WriteLine("Reading in data");
+                //Console.WriteLine("\nBegin building neural network");
+                //Console.WriteLine("Reading in data");
                 double[][] allData = GetAllData(@"../../Data/tpad encoded.csv");
                 
 
-                Console.WriteLine("\nFirst 6 rows of entire 150-item data set:");
-                ShowMatrix(allData, 6, 1, true);
+                //Console.WriteLine("\nFirst 6 rows of entire 150-item data set:");
+                //ShowMatrix(allData, 6, 1, true);
 
-                Console.WriteLine("Creating 80% training and 20% test data matrices");
+                //Console.WriteLine("Creating 80% training and 20% test data matrices");
                 double[][] trainData = null;
                 double[][] testData = null;
                 MakeTrainTest(allData, out trainData, out testData);
 
-                Console.WriteLine("\nFirst 5 rows of training data:");
-                ShowMatrix(trainData, 5, 1, true);
-                Console.WriteLine("First 3 rows of test data:");
-                ShowMatrix(testData, 3, 1, true);
+                //Console.WriteLine("\nFirst 5 rows of training data:");
+                //ShowMatrix(trainData, 5, 1, true);
+                //Console.WriteLine("First 3 rows of test data:");
+                //ShowMatrix(testData, 3, 1, true);
 
                 double bestAccuracy = double.MinValue;
                 int bestNumHidden = -1;
                 for (int numHidden = 0; numHidden < 20; numHidden++)
                 {
-                    Console.WriteLine("\nCreating a 4-input, 7-hidden, 3-output neural network");
-                    Console.Write("Hard-coded tanh function for input-to-hidden and softmax for ");
-                    Console.WriteLine("hidden-to-output activations");
                     const int numInput = 3;
                     const int numOutput = 1;
-                    NeuralNetwork nn = new NeuralNetwork(numInput, numHidden, numOutput);
+                    //Console.WriteLine("\nCreating a {0}-input, {1}-hidden, {2}-output neural network", numInput, numHidden, numOutput);
+                    //Console.Write("Hard-coded tanh function for input-to-hidden and softmax for ");
+                    //Console.WriteLine("hidden-to-output activations");
+                    
+                    NeuralNetwork nn = new NeuralNetwork(numInput, numHidden, numOutput, new SigmoidFunction(), new SigmoidFunction());
 
-                    Console.WriteLine("\nInitializing weights and bias to small random values");
+                    //Console.WriteLine("\nInitializing weights and bias to small random values");
                     nn.InitializeWeights();
 
                     int maxEpochs = 10;
                     double learnRate = 0.05;
                     double momentum = 0.01;
                     double weightDecay = 0.0001;
-                    Console.WriteLine("Setting maxEpochs = {0}, learnRate = {1}, momentum = {2}, weightDecay = {3}", maxEpochs, learnRate, momentum, weightDecay);
-                    Console.WriteLine("Training has hard-coded mean squared error < 0.020 stopping condition");
+                    //Console.WriteLine("Setting maxEpochs = {0}, learnRate = {1}, momentum = {2}, weightDecay = {3}", maxEpochs, learnRate, momentum, weightDecay);
+                    //Console.WriteLine("Training has hard-coded mean squared error < 0.020 stopping condition");
 
-                    Console.WriteLine("\nBeginning training using incremental back-propagation\n");
+                    //Console.WriteLine("\nBeginning training using incremental back-propagation\n");
                     nn.Train(trainData, maxEpochs, learnRate, momentum, weightDecay);
-                    Console.WriteLine("Training complete");
+                    //Console.WriteLine("Training complete");
 
                     //double[] weights = nn.GetWeights();
                     //Console.WriteLine("Final neural network weights and bias values:");
                     //ShowVector(weights, 10, 3, true);
 
                     double trainAcc = nn.Accuracy(trainData);
-                    Console.WriteLine("\nAccuracy on training data = " + trainAcc.ToString("F4"));
+                    Console.WriteLine("Accuracy on training data = " + trainAcc.ToString("F4"));
 
                     double testAcc = nn.Accuracy(testData);
-                    Console.WriteLine("\nAccuracy on test data = " + testAcc.ToString("F4"));
+                    Console.WriteLine("Accuracy on test data = " + testAcc.ToString("F4"));
 
-                    Console.WriteLine("\nEnd neural network \n");
+                    Console.WriteLine("End neural network \n");
 
 
                     if(testAcc > bestAccuracy)
