@@ -19,12 +19,37 @@
         <Label FontSize="20" FontWeight="Bold">Current Color</Label>
         <xceed:ColorCanvas x:Name="colorCanvas" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" UsingAlphaChannel="False" SelectedColorChanged="colorCanvas_SelectedColorChanged"/>
         <Label FontSize="20" FontWeight="Bold">Pen Width</Label>
-        <StackPanel Orientation="Horizontal">
-          <RadioButton GroupName="PenSize" Content="1 pt" Tag="1" Checked="RadioButton_Checked" FontSize="20" Margin="0,0,10,0" />
-          <RadioButton GroupName="PenSize" Content="2 pt" Tag="2" Checked="RadioButton_Checked" FontSize="20" Margin="0,0,10,0" />
-          <RadioButton GroupName="PenSize" Content="5 pt" Tag="5" Checked="RadioButton_Checked" FontSize="20" Margin="0,0,10,0" />
-          <RadioButton GroupName="PenSize" Content="10 pt" Tag="10" Checked="RadioButton_Checked" FontSize="20" Margin="0,0,10,0" />
-          <RadioButton GroupName="PenSize" Content="20 pt" Tag="20" Checked="RadioButton_Checked" FontSize="20" Margin="0,0,10,0" />
+        <StackPanel Orientation="Vertical">
+          <RadioButton GroupName="PenSize" Tag="1" Checked="RadioButton_Checked" FontSize="20" Margin="0,0,10,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <Label>1 px -</Label>
+              <Ellipse Width="1" Height="1" Fill="Red" VerticalAlignment="Center"/>
+            </StackPanel>
+          </RadioButton>
+          <RadioButton GroupName="PenSize" Tag="2" Checked="RadioButton_Checked" FontSize="20" Margin="0,0,10,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <Label>2 px -</Label>
+              <Ellipse Width="2" Height="2" Fill="Red" VerticalAlignment="Center"/>
+            </StackPanel>
+          </RadioButton>
+          <RadioButton GroupName="PenSize" Tag="5" Checked="RadioButton_Checked" FontSize="20" Margin="0,0,10,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <Label>5 px -</Label>
+              <Ellipse Width="5" Height="5" Fill="Red" VerticalAlignment="Center"/>
+            </StackPanel>
+          </RadioButton>
+          <RadioButton GroupName="PenSize" Tag="10" Checked="RadioButton_Checked" FontSize="20" Margin="0,0,10,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <Label>10 px -</Label>
+              <Ellipse Width="10" Height="10" Fill="Red" VerticalAlignment="Center"/>
+            </StackPanel>
+          </RadioButton>
+          <RadioButton GroupName="PenSize" Tag="20" Checked="RadioButton_Checked" FontSize="20" Margin="0,0,10,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <Label>20 px -</Label>
+              <Ellipse Width="20" Height="20" Fill="Red" VerticalAlignment="Center"/>
+            </StackPanel>
+          </RadioButton>
         </StackPanel>
       </StackPanel>
     </Grid>

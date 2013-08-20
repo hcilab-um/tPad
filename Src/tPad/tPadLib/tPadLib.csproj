@@ -110,7 +110,7 @@
     <Compile Include="Converters\FlippingSideToScaleConverter.cs" />
     <Compile Include="Converters\IntToBinaryConverter.cs" />
     <Compile Include="Converters\WPFBitmapConverter.cs" />
-    <Compile Include="Monitors\HomeMonitor.cs" />
+    <Compile Include="Monitors\ButtonMonitor.cs" />
     <Compile Include="Monitors\MulticastMonitor.cs" />
     <Compile Include="Monitors\ShakingMonitor.cs" />
     <Compile Include="Network\FakeWhatUpMessage.cs" />
@@ -245,7 +245,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy $(SolutionDir)\Release\*.dll $(TargetDir)</PreBuildEvent>
+    <PreBuildEvent>copy $(SolutionDir)\$(ConfigurationName)\*.dll $(TargetDir)</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

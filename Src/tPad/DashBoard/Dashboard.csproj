@@ -238,7 +238,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy $(SolutionDir)\Release\*.dll $(TargetDir)
+    <PreBuildEvent>copy $(SolutionDir)\$(ConfigurationName)\*.dll $(TargetDir)
 copy $(SolutionDir)\Lib\opencv_*.dll $(TargetDir)</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

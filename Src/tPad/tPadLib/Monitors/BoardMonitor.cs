@@ -16,21 +16,20 @@ namespace UofM.HCI.tPad.Monitors
 {
 
   /// <summary>
-  /// {"FlippingSide": "FaceDown", "Orientation": { "X": 225.00, "Y": 97.59, "Z": 352.41 }, "StackCode": "0000"}
-  /// {"FlippingSide": "FaceUp", "Orientation": { "X": 47.25, "Y": 360.00, "Z": 90.00 }, "StackCode": "0000"}
+  /// {"FlippingSide": "FaceUp", "ButtonEvent": "None" }
+  /// {"FlippingSide": "FaceDown", "ButtonEvent": "Single" }
+  /// {"FlippingSide": "FaceUp", "ButtonEvent": "Double" }
   /// </summary>
   public struct BoardUpdate
   {
-    public Point3D Orientation { get; set; }
-    public String StackCode { get; set; }
     public FlippingMode FlippingSide { get; set; }
+    public ButtonEvent ButtonEvent { get; set; }
+    public String StackCode { get; set; }
 
     [JsonIgnore]
     public int DeviceOnTopID { get; set; }
     [JsonIgnore]
     public bool Shaked { get; set; }
-    [JsonIgnore]
-    public bool Home { get; set; }
   }
 
   public class BoardMonitor : ContextMonitor
@@ -39,7 +38,7 @@ namespace UofM.HCI.tPad.Monitors
     public String COMPort { get; set; }
     public SerialPort Port { get; set; }
     private String actualUpdateJson = String.Empty;
-    private Regex validator = new Regex("{\"FlippingSide\": (\"FaceUp\"|\"FaceDown\"), \"Orientation\": { \"(X|Y|Z)\": ([0-9]{1,3}.[0-9]{2})(.| )+ }, \"StackCode\": \"(0|1){4}\"}");
+    private Regex validator = new Regex("{\"FlippingSide\": (\"FaceUp\"|\"FaceDown\"), \"ButtonEvent\": (\"None\"|\"Single\"|\"Double\"), \"StackCode\": \"(0|1){4}\"}");
 
     private ImportContext jsonImportContext { get; set; }
 
@@ -49,7 +48,6 @@ namespace UofM.HCI.tPad.Monitors
     {
       FlippingSide = FlippingMode.Unknown,
       DeviceOnTopID = 0,
-      Orientation = new Point3D(0, 0, 0)
     };
 
     public BoardMonitor()

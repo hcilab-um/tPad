@@ -22,7 +22,7 @@ namespace UofM.HCI.tPad.Converters
       for (int i = 1; i < values.Length; i++)
         factor = factor / (double)values[i];
 
-      return factor;
+      return Math.Round(factor, 2);
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

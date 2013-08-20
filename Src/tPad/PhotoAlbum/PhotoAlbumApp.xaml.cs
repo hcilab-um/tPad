@@ -40,8 +40,6 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
-    public Dictionary<string, Object> Context { get { return null; } }
-
     public ObservableCollection<String> LocalPhotos { get; set; }
     public ObservableCollection<String> ReceivedPhotos { get; set; }
     private BackgroundWorker imageSender = new BackgroundWorker();
@@ -69,7 +67,7 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
           Canvas.SetZIndex(gNetworkOperation, -1);
         else
           Canvas.SetZIndex(gNetworkOperation, 10);
-        
+
         OnPropertyChanged("NetworkOperation");
       }
     }
@@ -272,7 +270,7 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
           String picturePath = String.Empty;
           ListBoxItem container = FindAnchestor<ListBoxItem>((DependencyObject)result.VisualHit);
           if (container != null)
-            picturePath = (String) lbLocalPhotos.ItemContainerGenerator.ItemFromContainer(container);
+            picturePath = (String)lbLocalPhotos.ItemContainerGenerator.ItemFromContainer(container);
           else if (result.VisualHit is Image)
             picturePath = (result.VisualHit as Image).DataContext as String;
 
@@ -480,5 +478,31 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
       NetworkOperation = String.Empty;
       parts.Clear();
     }
+
+    private bool tapAndFlip = false;
+    private void imgZoom_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+      tapAndFlip = true;
+    }
+
+    private void imgZoom_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+      tapAndFlip = false;
+    }
+
+    public Dictionary<string, Object> Context
+    {
+      get 
+      {
+        if (!tapAndFlip)
+          return null;
+
+        Dictionary<string, object>  context = new Dictionary<string, object>();
+        context.Add("image", imgZoom.Source);
+        tapAndFlip = false;
+        return context;
+      }
+    }
+
   }
 }

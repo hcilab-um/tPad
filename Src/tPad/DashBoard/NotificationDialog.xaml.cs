@@ -73,7 +73,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     {
       Core = core;
       Core.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
-      Core.Device.HomePressed += new EventHandler(Device_HomePressed);
+      Core.Device.HomePressed += new HomeButtonEventEventHandler(Device_HomePressed);
 
       InitializeComponent();
     }
@@ -118,9 +118,12 @@ namespace UofM.HCI.tPad.App.Dashboard
       btnOK_Click(sender, null);
     }
 
-    void Device_HomePressed(object sender, EventArgs e)
+    void Device_HomePressed(object sender, HomeButtonEventArgs e)
     {
       if (!IsTopApp(this, null))
+        return;
+
+      if (e.Event != Monitors.ButtonEvent.Single)
         return;
 
       Close();

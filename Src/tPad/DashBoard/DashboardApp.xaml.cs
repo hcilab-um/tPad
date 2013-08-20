@@ -99,7 +99,7 @@ namespace UofM.HCI.tPad.App.Dashboard
       core.GlyphsChanged += core_GlyphsChanged;
       core.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
       core.Device.DeviceShaked += new EventHandler(Device_DeviceShaked);
-      core.Device.HomePressed += new EventHandler(Device_HomePressed);
+      core.Device.HomePressed += new HomeButtonEventEventHandler(Device_HomePressed);
     }
 
     private void LaunchApp(TPadApplicationDescriptor descriptor, Dictionary<String, Object> appContext = null, bool foreground = true)
@@ -284,11 +284,9 @@ namespace UofM.HCI.tPad.App.Dashboard
           TPadApplicationDescriptor currentAD = e.FlippingSide == FlippingMode.FaceUp ? FaceDownAppDescriptor : FaceUpAppDescriptor;
           TPadApplicationDescriptor targetAD = e.FlippingSide == FlippingMode.FaceUp ? FaceUpAppDescriptor : FaceDownAppDescriptor;
 
-          //The top app handles such glyph
+          //The top app handles flipping
           if (currentAD != DashboardDescriptor && currentAD.Events.Contains(TPadEvent.Flipping))// || targetAD != DashboardDescriptor && targetAD.Events.Contains(TPadEvent.Flipping))
             return;
-
-          //Minimize(currentAD);
 
           if (cbUserDefaultFlippingApp.IsChecked.Value && currentAD != DefaultFlippingAppDescriptor && targetAD != DefaultFlippingAppDescriptor)
           {
@@ -313,13 +311,18 @@ namespace UofM.HCI.tPad.App.Dashboard
         });
     }
 
-    void Device_HomePressed(object sender, EventArgs e)
+    void Device_HomePressed(object sender, HomeButtonEventArgs e)
     {
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
-          if (TopAppDescriptor == DashboardDescriptor)
+          if (e.Event == ButtonEvent.None)
             return;
+
+          if (e.Event == ButtonEvent.Single)
+            spRunningApps.Visibility = System.Windows.Visibility.Collapsed;
+          else if (e.Event == ButtonEvent.Double)
+            spRunningApps.Visibility = System.Windows.Visibility.Visible;
 
           Minimize(TopAppDescriptor);
           BringToFront(DashboardDescriptor, null);

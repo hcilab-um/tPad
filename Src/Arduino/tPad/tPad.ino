@@ -9,12 +9,6 @@ const int xPin = A0;
 const int yPin = A1;
 const int zPin = A2;
 
-//Digital read pins
-const int stackPin0 = 2;
-const int stackPin1 = 3;
-const int stackPin2 = 4;
-const int stackPin3 = 5;
-
 //Touch sensor multiplexers
 const int touchMultiplexersPin = A3;
 
@@ -28,37 +22,80 @@ int maxVal = 630;
 double x;
 double y;
 double z;
+int prevOrientation = 0;
 
-int prevOrientation = -1;
-int prevStackCode0 = -1;
-int prevStackCode1 = -1;
-int prevStackCode2 = -1;
-int prevStackCode3 = -1;
+// Button pin
+const int buttonPin = 2;
+
+// Button press variables
+int buttonPressCount = 0;
+int buttonPressCyclesBetween = 0;
+const int maxButtonPressCyclesBetween = 250;
+int prevIsButtonPressed = 0;
 
 void setup(){
   Serial.begin(9600);
   
   pinMode(touchMultiplexersPin, OUTPUT);
-  
-  pinMode(stackPin0, INPUT);
-  pinMode(stackPin1, INPUT);
-  pinMode(stackPin2, INPUT);
-  pinMode(stackPin3, INPUT);
+  pinMode(buttonPin, INPUT);
 }
 
 void loop(){
 
-  //read the analog values from the accelerometer
+  int orientation = calculateOrientation();
+  int buttonEvent = calculateButtonPress();
+
+  boolean needsPrint = false;
+  if(prevOrientation != orientation)
+    needsPrint = true;
+  if(buttonEvent != 0)
+    needsPrint = true;
+    
+  if(!needsPrint) 
+    return;
+
+  //changes the orientation multiplexers    
+  if(orientation == 1)
+    digitalWrite(touchMultiplexersPin, LOW);
+  else
+    digitalWrite(touchMultiplexersPin, HIGH);
+  prevOrientation = orientation;
+  
+  //Output the caculations
+  Serial.print("{");
+  
+  //Prints out flipping side
+  Serial.print("\"FlippingSide\": ");
+  if(orientation == 1)
+    Serial.print("\"FaceUp\"");
+  else
+    Serial.print("\"FaceDown\"");
+  
+  //Prints out button event
+  Serial.print(", ");
+  Serial.print("\"ButtonEvent\": ");
+  if(buttonEvent == 0)
+    Serial.print("\"None\"");
+  else if(buttonEvent == 1)
+    Serial.print("\"Single\"");
+  else if(buttonEvent == 2)
+    Serial.print("\"Double\"");
+
+  //Prints out the stack code to be used for the ID-12 integration
+  Serial.print(", ");
+  Serial.print("\"StackCode\": \"0000\"");
+
+  //Finished the output
+  Serial.println("}");
+  Serial.flush();
+}
+
+int calculateOrientation()
+{
+    //read the analog values from the accelerometer
   int xRead = analogRead(xPin);
   int yRead = analogRead(yPin);
   int zRead = analogRead(zPin);
-
-//  Serial.print("xRead: ");
-//  Serial.print(xRead);
-//  Serial.print(" | yRead: ");
-//  Serial.print(yRead);
-//  Serial.print(" | zRead: ");
-//  Serial.println(zRead);
 
   //convert read values to degrees -90 to 90 - Needed for atan2
   int xAng = map(xRead, minVal, maxVal, -90, 90);
@@ -72,86 +109,62 @@ void loop(){
   y = RAD_TO_DEG * (atan2(-xAng, -zAng) + PI);
   z = RAD_TO_DEG * (atan2(-yAng, -xAng) + PI);
 
-  //Calculates the side that's on top. 0: face up | 1:  face down
-  Serial.print(xRead);
-  Serial.print(";");
-  Serial.print(yRead);
-  Serial.print(";");
-  Serial.print(zRead);
-  Serial.print(";");
-  Serial.print(xAng);
-  Serial.print(";");
-  Serial.print(yAng);
-  Serial.print(";");
-  Serial.print(zAng);
-  Serial.print(";");
-  Serial.print(x);
-  Serial.print(";");
-  Serial.print(y);
-  Serial.print(";");
-  Serial.println(z);
-  
-  int orientation = 0;
+  int orientation = -1;
   if(zAng >= 0)
     orientation = 1;
   
-  //read the digital values for the staking codes
-  int stackCode0 = digitalRead(stackPin0);
-  int stackCode1 = digitalRead(stackPin1);
-  int stackCode2 = digitalRead(stackPin2);
-  int stackCode3 = digitalRead(stackPin3);
+  return orientation;
+}
 
-  boolean change = false;
-  if(prevOrientation != orientation)
-    change = true;
-  if(prevStackCode0 != stackCode0)
-    change = true;
-  if(prevStackCode1 != stackCode1)
-    change = true;
-  if(prevStackCode2 != stackCode2)
+int calculateButtonPress()
+{
+  int isButtonPressed = digitalRead(buttonPin);
   
-    change = true;
-  if(prevStackCode3 != stackCode3)
-    change = true;
-
-  if(!change) 
-    return;
+  // no press and nothing has happened
+  if(isButtonPressed == 0 && !prevIsButtonPressed)
+  {
+    // the max number of cycles hasn't passed and thus is keeps waiting for the second press
+    if(buttonPressCount == 1 && buttonPressCyclesBetween < maxButtonPressCyclesBetween)
+    {
+      buttonPressCyclesBetween++;
+      prevIsButtonPressed = false;
+      return 0;
+    }
     
-  if(orientation == 1)
-    digitalWrite(touchMultiplexersPin, LOW);
-  else
-    digitalWrite(touchMultiplexersPin, HIGH);
-
-  prevOrientation = orientation;
-  prevStackCode0 = stackCode0;
-  prevStackCode1 = stackCode1;
-  prevStackCode2 = stackCode2;
-  prevStackCode3 = stackCode3;
-
-  //Output the caculations
-//  Serial.print("{");
-//  Serial.print("\"FlippingSide\": ");
-//  if(orientation == 1)
-//    Serial.print("\"FaceUp\", ");
-//  else
-//    Serial.print("\"FaceDown\", ");
-//  Serial.print("\"Orientation\": { \"X\": ");
-//  Serial.print(x);
-//  Serial.print(", \"Y\": ");
-//  Serial.print(y);
-//  Serial.print(", \"Z\": ");
-//  Serial.print(z);
-//  Serial.print(" }");
-//
-//  Serial.print(", ");
-//  Serial.print("\"StackCode\": \"");
-//  Serial.print(stackCode0);
-//  Serial.print(stackCode1);
-//  Serial.print(stackCode2);
-//  Serial.print(stackCode3);
-//  Serial.print("\"");
-//  Serial.println("}");
-
-  Serial.flush();
-  delay(100);//just here to slow down the serial output - Easier to read
+    // the max number of cycles has passed and thus it fires one single click
+    if(buttonPressCount == 1) 
+    {
+      buttonPressCount = 0;
+      buttonPressCyclesBetween = 0;
+      return 1;
+    }
+    
+    return 0;
+  }
+  
+  // button just released (no press and it was pressed before)
+  if(isButtonPressed == 0 && prevIsButtonPressed)
+  {
+    // starts waiting for the second press
+    if(buttonPressCount == 0) 
+    {
+      buttonPressCount++;
+      buttonPressCyclesBetween++;
+      prevIsButtonPressed = false;
+      return 0;
+    }
+    
+    // second press
+    if(buttonPressCount == 1)
+    {
+      buttonPressCount = 0;
+      buttonPressCyclesBetween = 0;
+      prevIsButtonPressed = false;
+      return 2;
+    }
+  }
+  
+  prevIsButtonPressed = true;
+  return 0;
+  
 }

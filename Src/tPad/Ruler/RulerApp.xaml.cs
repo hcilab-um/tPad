@@ -34,7 +34,7 @@ namespace UofM.HCI.tPad.App.Ruler
       get
       {
         Dictionary<String, Object> currentContext = new Dictionary<String, Object>();
-        currentContext.Add("main", (Distance / Core.Profile.PixelsPerCm.Width).ToString());
+        currentContext.Add("main", Math.Round(Distance / Core.Profile.PixelsPerCm.Width, 2).ToString());
         return currentContext;
       }
     }

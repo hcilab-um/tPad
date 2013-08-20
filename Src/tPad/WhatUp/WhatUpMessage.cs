@@ -23,6 +23,9 @@ namespace UofM.HCI.tPad.App.WhatUp
     [JsonIgnore]
     public bool IsLocal { get; set; }
 
+    [JsonIgnore]
+    public Object Attachment { get; set; }
+
     public override string ToString()
     {
       return String.Format("From: {0} Message: {1}", From, Message);

@@ -4,8 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:tpadcontrols="clr-namespace:UofM.HCI.tPad;assembly=tPadLib"
+             xmlns:whatup="clr-namespace:UofM.HCI.tPad.App.WhatUp"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+  
+  <UserControl.Resources>
+    <whatup:AlignmentConverter x:Key="cAlignment" />
+  </UserControl.Resources>
+  
   <Grid>
     <DockPanel>
 
@@ -13,16 +19,33 @@
         <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" Width="{Binding ElementName=whatUpApp, Path=ActualWidth}" Height="200"
                                    HorizontalAlignment="Stretch" EnterKeyPressed="tpKeyboard_EnterKeyPressed" />
       </StackPanel>
+      
+      <Grid Background="Black" DockPanel.Dock="Top">
+        <Label Content="Message from Simulator" FontSize="24" FontWeight="ExtraBold" Foreground="White"/> 
+        <Button x:Name="bAttach" Click="bAttach_Click" HorizontalAlignment="Right" FontSize="24" Width="100">Attach</Button>
+      </Grid>
 
-      <ListBox ItemsSource="{Binding ElementName=whatUpApp, Path=Messages}">
+      <ListBox x:Name="lbMessages" ItemsSource="{Binding ElementName=whatUpApp, Path=Messages}">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>
-            <StackPanel Orientation="Vertical" />
+            <StackPanel Orientation="Vertical" Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=ActualWidth}"/>
           </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
         <ListBox.ItemTemplate>
           <DataTemplate>
-            <TextBlock Margin="3,3,3,3" Width="Auto" Text="{Binding Path=Message}" />
+            <Grid Width="470">
+              <Grid Margin="5">
+                <Grid.HorizontalAlignment>
+                  <MultiBinding Converter="{StaticResource ResourceKey=cAlignment}">
+                    <Binding ElementName="whatUpApp" Path="Core.Device.ID" />
+                    <Binding Path="From"/>
+                  </MultiBinding>
+                </Grid.HorizontalAlignment>
+                <Rectangle RadiusX="5" RadiusY="5" Stroke="DarkBlue" Fill="Lavender"></Rectangle>
+                <TextBlock Margin="3,3,3,3" Width="Auto" Text="{Binding Path=Message}" FontSize="24" FontWeight="Bold"/>
+                <Image Width="250" Source="{Binding Path=Attachment}" Margin="5"/>
+              </Grid>
+            </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>

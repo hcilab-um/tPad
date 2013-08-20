@@ -29,7 +29,6 @@ namespace UofM.HCI.tPad.App.Browser
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
-    public Dictionary<String, Object> Context { get { return null; } }
 
     public BrowserApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
     {
@@ -65,5 +64,41 @@ namespace UofM.HCI.tPad.App.Browser
       else
         webControl1.Source = new Uri(String.Format("https://www.google.com/search?q={0}", url));
     }
+
+    private bool tapAndFlip = false;
+    private void webControl1_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+      tapAndFlip = true;
+      Point position = e.GetPosition(webControl1);
+      webControl1.CopyImageAt((int)position.X, (int)position.Y);
+    }
+
+    private void webControl1_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+    {
+      tapAndFlip = false;
+      Clipboard.Clear();
+    }
+
+    public Dictionary<string, Object> Context
+    {
+      get
+      {
+        if (!tapAndFlip)
+          return null;
+
+        Console.WriteLine(Clipboard.ContainsImage());
+        if (Clipboard.ContainsImage())
+        {
+          BitmapSource image = Clipboard.GetImage();
+          Clipboard.Clear();
+
+          Dictionary<string, object> context = new Dictionary<string, object>();
+          context.Add("image", image);
+          return context;
+        }
+        return null;
+      }
+    }
+
   }
 }

@@ -57,4 +57,11 @@ namespace UofM.HCI.tPad
 
   public delegate void StackingTouchEventEventHandler(object sender, StackingTouchEventArgs e);
 
+  public class HomeButtonEventArgs : EventArgs 
+  {
+    public ButtonEvent Event { get; set; }
+  }
+
+  public delegate void HomeButtonEventEventHandler(object sender, HomeButtonEventArgs e);
+
 }

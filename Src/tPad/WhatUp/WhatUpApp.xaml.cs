@@ -15,6 +15,7 @@ using System.ComponentModel;
 using Ubicomp.Utils.NET.MTF;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using Microsoft.Win32;
 
 namespace UofM.HCI.tPad.App.WhatUp
 {
@@ -63,7 +64,20 @@ namespace UofM.HCI.tPad.App.WhatUp
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init) { }
+    public void LoadInitContext(Dictionary<string, Object> init) 
+    {
+      if (init == null)
+        return;
+
+      if (init.ContainsKey("image"))
+      {
+        Messages.Add(new WhatUpMessage()
+        {
+          From = String.Format("Device-{0}", Core.Device.ID),
+          Attachment = init["image"]
+        });
+      }
+    }
 
     public int MessageType
     {
@@ -92,7 +106,9 @@ namespace UofM.HCI.tPad.App.WhatUp
 
     private void tpKeyboard_EnterKeyPressed(object sender, EventArgs e)
     {
-      String currentText = tpKeyboard.CurrentText.ToString();
+      String currentText = tpKeyboard.CurrentText.ToString().Trim();
+      tpKeyboard.CurrentText.Clear();
+
       if (currentText == String.Empty)
         return;
 
@@ -104,6 +120,35 @@ namespace UofM.HCI.tPad.App.WhatUp
 
       Messages.Add(messageToSend);
       Core.Device.SendMessage(messageToSend);
+    }
+
+    private void bAttach_Click(object sender, RoutedEventArgs e)
+    {
+      OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+      String path = String.Format("{0}\\Device{1}\\Photos\\", Environment.CurrentDirectory, Core.Device.ID);
+      openFileDialog1.InitialDirectory = path;
+      openFileDialog1.Filter = "image files (*.jpg)|*.jpg";
+      openFileDialog1.FilterIndex = 2;
+      openFileDialog1.RestoreDirectory = true;
+      openFileDialog1.Multiselect = false;
+
+      if (openFileDialog1.ShowDialog() == true)
+      {
+        try
+        {
+          String file = openFileDialog1.FileName;
+          Messages.Add(new WhatUpMessage()
+          {
+            From = String.Format("Device-{0}", Core.Device.ID),
+            Attachment = file
+          });
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+        }
+      }
     }
   }
 }
