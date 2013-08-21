@@ -7,6 +7,7 @@ using System.Windows;
 using UofM.HCI.tPad;
 using UofM.HCI.tPad.App.Dashboard.Properties;
 using Ubicomp.Utils.NET.MTF;
+using UofM.HCI.tPad.App.InfSeeking;
 
 namespace UofM.HCI.tPad.App.Dashboard
 {
@@ -51,7 +52,8 @@ namespace UofM.HCI.tPad.App.Dashboard
       {
         Name = "Dashboard",
         Icon = null,
-        AppClass = typeof(DashboardApp),
+        AppType = typeof(DashboardApp),
+        AppUUID = Guid.NewGuid(),
         Launcher = this
       };
     }
@@ -87,6 +89,9 @@ namespace UofM.HCI.tPad.App.Dashboard
       ActiveReader.Launcher arL = new ActiveReader.Launcher();
       dashboard.Applications.Add(arL.GetApplicationDescriptor());
 
+      //Experiment 1 - Information Seeking
+      SetUpExperiment1(dashboard);
+
       //Prepares applications for runtime
       foreach (TPadApplicationDescriptor appDesc in dashboard.Applications)
         appDesc.Launcher.Prepare();
@@ -95,6 +100,119 @@ namespace UofM.HCI.tPad.App.Dashboard
       TransportComponent.Instance.PreDeliveryListener = dashboard;
 
       return dashboard;
+    }
+
+    private void SetUpExperiment1(DashboardApp dashboard)
+    {
+      InfSeeking.SeekLauncher ifL = new InfSeeking.SeekLauncher();
+      dashboard.Applications.Add(ifL.GetApplicationDescriptor());
+
+      //BLUE INFORMATION PROVIDERS - 7
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 1).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 2).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 3).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 4).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 5).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 6).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 7).GetApplicationDescriptor());
+
+      //GREEN INFORMATION PROVIDERS -InfSeeking
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 1).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 2).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 3).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 4).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 5).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 6).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 7).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 8).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 9).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 10).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 11).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 12).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 13).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 14).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 15).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 16).GetApplicationDescriptor());
+
+      //YELLOW INFORMATION PROVIDERS InfSeeking
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 1).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 2).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 3).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 4).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 5).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 6).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 7).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 8).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 9).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 10).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 11).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 12).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 13).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 14).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 15).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 16).GetApplicationDescriptor());
+
+      //RED INFORMATION PROVIDERS - 1InfSeeking
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 1).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 2).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 3).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 4).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 5).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 6).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 7).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 8).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 9).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 10).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 11).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 12).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 13).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 14).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 15).GetApplicationDescriptor());
+      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 16).GetApplicationDescriptor());
+
+      List<InfSeekingCondition> conditions = new List<InfSeekingCondition>();
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 2));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 3));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 2));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 3));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 2));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 3));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 2));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 3));
+
+      CalculatePairs(conditions, 3, 6);
+      dashboard.SetInfSeekingExperiment(conditions);
+    }
+
+    private Random generator = new Random((int)(DateTime.Now.Ticks % 54695));
+    private void CalculatePairs(List<InfSeekingCondition> conditions, int maxDisplayDistance = 3, int trialsPerCondition = 8)
+    {
+      foreach (InfSeekingCondition condition in conditions)
+      {
+        condition.Pairs = new List<Exp1Pair>();
+        for (int trial = 0; trial < trialsPerCondition; trial++)
+        {
+          List<Exp1SourceApp> apps = new List<Exp1SourceApp>();
+          for (int appIndex = 0; appIndex < condition.AppsNumber; appIndex++)
+          {
+            apps.Add(new Exp1SourceApp() { SourceGroup = (ProviderGroup)generator.Next(4), InstanceNro = generator.Next(7) + 1 });
+            apps[appIndex].ImagePath = String.Format(@"{0}\Images\InfProvider{1}{2}.png", Environment.CurrentDirectory, apps[appIndex].SourceGroup, apps[appIndex].InstanceNro);
+          }
+
+          for (int selection = 0; selection < 3; selection++)
+          {
+            Exp1Pair pair = new Exp1Pair();
+            pair.Factor1 = generator.Next(100);
+            pair.Factor2 = generator.Next(100);
+            pair.SourceApp = apps[generator.Next(condition.AppsNumber)];
+            condition.Pairs.Add(pair);
+          }
+        }
+      }
     }
 
     public void Prepare() { }

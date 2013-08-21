@@ -36,6 +36,7 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
 
+    public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
@@ -83,8 +84,9 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
       }
     }
 
-    public PhotoAlbumApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
+    public PhotoAlbumApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, Guid appUUID)
     {
+      AppUUID = appUUID;
       Core = core;
       Container = container;
       Controller = controller;

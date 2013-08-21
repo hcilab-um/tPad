@@ -29,13 +29,14 @@ namespace UofM.HCI.tPad.App
     public TPadCore Core
     {
       get { return core; }
-      set 
+      set
       {
         core = value;
         OnPropertyChanged("Core");
       }
     }
 
+    public Guid AppUUID { get; private set; }
     public TPadProfile Profile { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }

@@ -12,9 +12,10 @@ namespace UofM.HCI.tPad
 
   public class TPadApplicationDescriptor
   {
-    public Bitmap Icon { get; set; }
+    public Object Icon { get; set; }
     public String Name { get; set; }
-    public Type AppClass { get; set; }
+    public Type AppType { get; set; }
+    public Guid AppUUID { get; set; }
     public ITPadAppLauncher Launcher { get; set; }
 
     public ITPadApp Instance { get; set; }

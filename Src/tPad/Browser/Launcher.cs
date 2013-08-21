@@ -18,7 +18,8 @@ namespace UofM.HCI.tPad.App.Browser
       {
         Name = "Browser",
         Icon = UofM.HCI.tPad.App.Browser.Properties.Resources.BrowserIcon,
-        AppClass = typeof(BrowserApp),
+        AppType = typeof(BrowserApp),
+        AppUUID = Guid.NewGuid(),
         Launcher = this
       };
 
@@ -27,7 +28,7 @@ namespace UofM.HCI.tPad.App.Browser
 
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      BrowserApp browser = new BrowserApp(core, container, controller);
+      BrowserApp browser = new BrowserApp(core, container, controller, descriptor.AppUUID);
       browser.LoadInitContext(settings.Context);
       return browser;
     }

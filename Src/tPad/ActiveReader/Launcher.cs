@@ -25,14 +25,15 @@ namespace UofM.HCI.tPad.App.ActiveReader
       {
         Name = "ActiveReader",
         Icon = UofM.HCI.tPad.App.ActiveReader.Properties.Resources.ActiveReaderIcon,
-        AppClass = typeof(ActiveReaderApp),
+        AppType = typeof(ActiveReaderApp),
+        AppUUID = Guid.NewGuid(),
         Launcher = this
       };
     }
 
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      ActiveReaderApp appInstance = new ActiveReaderApp(core, container, controller);
+      ActiveReaderApp appInstance = new ActiveReaderApp(core, container, controller, descriptor.AppUUID);
 
       return appInstance;
     }

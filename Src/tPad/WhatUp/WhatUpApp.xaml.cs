@@ -30,6 +30,7 @@ namespace UofM.HCI.tPad.App.WhatUp
     public event BoolEventHandler IsTopApp;
     public event RequestUserFocus RequestFocus;
 
+    public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
@@ -37,8 +38,9 @@ namespace UofM.HCI.tPad.App.WhatUp
 
     public ObservableCollection<WhatUpMessage> Messages { get; set; }
 
-    public WhatUpApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
+    public WhatUpApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, Guid appUUID)
     {
+      AppUUID = appUUID;
       Core = core;
       Container = container;
       Controller = controller;

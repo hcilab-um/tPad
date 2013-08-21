@@ -27,6 +27,7 @@ namespace UofM.HCI.tPad.App.GraphExplorer
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
 
+    public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
@@ -65,8 +66,9 @@ namespace UofM.HCI.tPad.App.GraphExplorer
       }
     }
 
-    public GraphExplorerApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
+    public GraphExplorerApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, Guid appUUID)
     {
+      AppUUID = appUUID;
       InitializeComponent();
     }
 

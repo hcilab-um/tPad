@@ -20,7 +20,8 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
       {
         Name = "Photo Album",
         Icon = UofM.HCI.tPad.App.PhotoAlbum.Properties.Resources.PhotoAlbumIcon,
-        AppClass = typeof(PhotoAlbumApp),
+        AppType = typeof(PhotoAlbumApp),
+        AppUUID = Guid.NewGuid(),
         Launcher = this
       };
 
@@ -29,7 +30,7 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
 
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      PhotoAlbumApp photoAlbum = new PhotoAlbumApp(core, container, controller);
+      PhotoAlbumApp photoAlbum = new PhotoAlbumApp(core, container, controller, descriptor.AppUUID);
       return photoAlbum;
     }
 

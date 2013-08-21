@@ -18,7 +18,8 @@ namespace UofM.HCI.tPad.App.GraphExplorer
       {
         Name = "Graph Explorer",
         Icon = UofM.HCI.tPad.App.GraphExplorer.Properties.Resources.GraphExplorerIcon,
-        AppClass = typeof(GraphExplorerApp),
+        AppType = typeof(GraphExplorerApp),
+        AppUUID = Guid.NewGuid(),
         Launcher = this
       };
 
@@ -27,7 +28,7 @@ namespace UofM.HCI.tPad.App.GraphExplorer
 
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      GraphExplorerApp graphExplorer = new GraphExplorerApp(core, container, controller);
+      GraphExplorerApp graphExplorer = new GraphExplorerApp(core, container, controller, descriptor.AppUUID);
       return graphExplorer;
     }
 

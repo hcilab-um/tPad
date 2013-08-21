@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using UofM.HCI.tPad.Monitors;
 using Ubicomp.Utils.NET.MTF;
 using UofM.HCI.tPad.App.Dashboard.Properties;
+using UofM.HCI.tPad.App.InfSeeking;
 
 namespace UofM.HCI.tPad.App.Dashboard
 {
@@ -26,6 +27,8 @@ namespace UofM.HCI.tPad.App.Dashboard
   /// </summary>
   public partial class DashboardApp : UserControl, ITPadApp, INotifyPropertyChanged, ITransportListener
   {
+
+    private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DashboardApp));
 
     public event BoolEventHandler IsTopApp;
     public event RequestUserFocus RequestFocus;
@@ -36,6 +39,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     public ITPadAppController Controller { get; set; }
     public Dictionary<String, Object> Context { get { return null; } }
 
+    public Guid AppUUID { get { return DashboardDescriptor.AppUUID; } }
     public TPadApplicationDescriptor DashboardDescriptor { get; private set; }
     public TPadApplicationDescriptor NotificationDialogDescriptor { get; private set; }
 
@@ -81,11 +85,12 @@ namespace UofM.HCI.tPad.App.Dashboard
 
       NotificationDialogDescriptor = new TPadApplicationDescriptor()
       {
-        AppClass = typeof(NotificationDialog),
+        AppType = typeof(NotificationDialog),
+        AppUUID = Guid.NewGuid(),
         Icon = Properties.Resources.NotificationDialog
       };
 
-      NotificationDialogDescriptor.Instance = new NotificationDialog(Core);
+      NotificationDialogDescriptor.Instance = new NotificationDialog(Core, NotificationDialogDescriptor.AppUUID);
       NotificationDialogDescriptor.Instance.Closed += application_Closed;
       NotificationDialogDescriptor.Instance.IsTopApp += application_IsTopApp;
       (NotificationDialogDescriptor.Instance as NotificationDialog).ClickedOK += new EventHandler(notification_ClickedOK);
@@ -115,6 +120,19 @@ namespace UofM.HCI.tPad.App.Dashboard
       descriptor.Instance.Closed += application_Closed;
       descriptor.Instance.IsTopApp += application_IsTopApp;
       descriptor.Instance.RequestFocus += application_RequestFocus;
+
+      if (descriptor.AppType == typeof(InfSeeking.InfSeekingApp))
+      {
+        (descriptor.Instance as InfSeeking.InfSeekingApp).GetNextPair += new InfSeeking.Exp1EventHandler(DashboardApp_GetNextPair);
+        (descriptor.Instance as InfSeeking.InfSeekingApp).SendResultOK += new EventHandler(DashboardApp_SendResultOK);
+        (descriptor.Instance as InfSeeking.InfSeekingApp).SendErrorData += new EventHandler(DashboardApp_SendErrorData);
+        (descriptor.Instance as InfSeeking.InfSeekingApp).SendErrorResult += new EventHandler(DashboardApp_SendErrorResult);
+      }
+      else if (descriptor.AppType == typeof(InfSeeking.InfProviderApp))
+      {
+        (descriptor.Instance as InfSeeking.InfProviderApp).GetNextPair += new InfSeeking.Exp1EventHandler(DashboardApp_GetNextPair);
+      }
+
       descriptor.RunningSide = Core.Device.FlippingSide;
 
       RunningApps.Add(descriptor);
@@ -124,7 +142,7 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     void application_Closed(object sender, EventArgs e)
     {
-      TPadApplicationDescriptor descriptor = GetRunningDescriptor(sender.GetType());
+      TPadApplicationDescriptor descriptor = GetRunningDescriptor((sender as ITPadApp).AppUUID);
 
       RunningApps.Remove(descriptor);
       FlippingMode side = descriptor.RunningSide;
@@ -153,7 +171,7 @@ namespace UofM.HCI.tPad.App.Dashboard
       TPadApplicationDescriptor topDescriptor = topSide == FlippingMode.FaceUp ? FaceUpAppDescriptor : FaceDownAppDescriptor;
 
       ITPadApp app = sender as ITPadApp;
-      TPadApplicationDescriptor descriptor = GetRunningDescriptor(app.GetType());
+      TPadApplicationDescriptor descriptor = GetRunningDescriptor((sender as ITPadApp).AppUUID);
       if (descriptor == topDescriptor)
         return true;
       return false;
@@ -161,7 +179,7 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     void application_RequestFocus(object sender, string message, string buttonOK, string buttonCancel)
     {
-      TPadApplicationDescriptor descriptor = GetRunningDescriptor((sender as ITPadApp).GetType());
+      TPadApplicationDescriptor descriptor = GetRunningDescriptor((sender as ITPadApp).AppUUID);
 
       Dictionary<String, Object> context = new Dictionary<String, Object>();
       context.Add("message", message);
@@ -188,29 +206,29 @@ namespace UofM.HCI.tPad.App.Dashboard
       Container.Hide(descriptor.Instance);
     }
 
-    public ITPadApp GetRunningInstance(Type appType)
+    public ITPadApp GetRunningInstance(Guid appUUID)
     {
-      if (appType == NotificationDialogDescriptor.AppClass)
+      if (appUUID == NotificationDialogDescriptor.AppUUID)
         return NotificationDialogDescriptor.Instance;
 
-      TPadApplicationDescriptor descriptor = GetRunningDescriptor(appType, FlippingMode.FaceUp);
-      descriptor = descriptor != null ? descriptor : GetRunningDescriptor(appType, FlippingMode.FaceDown);
+      TPadApplicationDescriptor descriptor = GetRunningDescriptor(appUUID, FlippingMode.FaceUp);
+      descriptor = descriptor != null ? descriptor : GetRunningDescriptor(appUUID, FlippingMode.FaceDown);
       return descriptor == null ? null : descriptor.Instance;
     }
 
-    public TPadApplicationDescriptor GetRunningDescriptor(Type appType)
+    public TPadApplicationDescriptor GetRunningDescriptor(Guid appUUID)
     {
-      if (appType == NotificationDialogDescriptor.AppClass)
+      if (appUUID == NotificationDialogDescriptor.AppUUID)
         return NotificationDialogDescriptor;
 
-      TPadApplicationDescriptor descriptor = GetRunningDescriptor(appType, FlippingMode.FaceUp);
-      descriptor = descriptor != null ? descriptor : GetRunningDescriptor(appType, FlippingMode.FaceDown);
+      TPadApplicationDescriptor descriptor = GetRunningDescriptor(appUUID, FlippingMode.FaceUp);
+      descriptor = descriptor != null ? descriptor : GetRunningDescriptor(appUUID, FlippingMode.FaceDown);
       return descriptor;
     }
 
-    public TPadApplicationDescriptor GetRunningDescriptor(Type appType, FlippingMode side)
+    public TPadApplicationDescriptor GetRunningDescriptor(Guid appUUID, FlippingMode side)
     {
-      return RunningApps.LastOrDefault(app => app.AppClass.Equals(appType) && app.RunningSide == side);
+      return RunningApps.LastOrDefault(app => app.AppUUID.Equals(appUUID) && app.RunningSide == side);
     }
 
     private TPadApplicationDescriptor GetVisibleDescriptor(FlippingMode side)
@@ -231,7 +249,7 @@ namespace UofM.HCI.tPad.App.Dashboard
       TPadApplicationDescriptor descriptor = (sender as Image).DataContext as TPadApplicationDescriptor;
       Minimize(DashboardDescriptor);
 
-      ITPadApp application = GetRunningInstance(descriptor.AppClass);
+      ITPadApp application = GetRunningInstance(descriptor.AppUUID);
       if (application != null)
         BringToFront(descriptor, null);
       else
@@ -256,7 +274,7 @@ namespace UofM.HCI.tPad.App.Dashboard
 
             if (gEvent.Status == GlyphStatus.Entered)
             {
-              ITPadApp application = GetRunningInstance(descriptor.AppClass);
+              ITPadApp application = GetRunningInstance(descriptor.AppUUID);
               if (application != null)
                 BringToFront(descriptor, null);
               else
@@ -264,7 +282,7 @@ namespace UofM.HCI.tPad.App.Dashboard
             }
             else if (gEvent.Status == GlyphStatus.Left)
             {
-              ITPadApp application = GetRunningInstance(descriptor.AppClass);
+              ITPadApp application = GetRunningInstance(descriptor.AppUUID);
               if (application == null)
                 continue;
               application.Close();
@@ -281,6 +299,9 @@ namespace UofM.HCI.tPad.App.Dashboard
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
+          if (!IsFlippingEnabled)
+            return;
+
           TPadApplicationDescriptor currentAD = e.FlippingSide == FlippingMode.FaceUp ? FaceDownAppDescriptor : FaceUpAppDescriptor;
           TPadApplicationDescriptor targetAD = e.FlippingSide == FlippingMode.FaceUp ? FaceUpAppDescriptor : FaceDownAppDescriptor;
 
@@ -296,7 +317,12 @@ namespace UofM.HCI.tPad.App.Dashboard
               LaunchApp(DefaultFlippingAppDescriptor, TopAppDescriptor.Instance.Context);
           }
           else
+          {
+            //Hides the runtime bar in case the dashboard is the next app on top
+            spRunningApps.Visibility = System.Windows.Visibility.Collapsed;
+
             BringToFront(targetAD, currentAD.Instance.Context);
+          }
         });
     }
 
@@ -319,6 +345,11 @@ namespace UofM.HCI.tPad.App.Dashboard
           if (e.Event == ButtonEvent.None)
             return;
 
+          if (!IsHomeButtonEnabled && !IsRuntimeBarEnabled)
+            return;
+
+          currentPage = 0;
+          lbAppsPage.ItemsSource = GetApplicationsPage(currentPage);
           if (e.Event == ButtonEvent.Single)
             spRunningApps.Visibility = System.Windows.Visibility.Collapsed;
           else if (e.Event == ButtonEvent.Double)
@@ -361,7 +392,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     public void MessageReceived(TransportMessage message, string rawMessage)
     {
       //Searchers all the networked apps by seeing if they implement the ITransportListener class
-      var networkedApps = Applications.Where(app => app.AppClass.GetInterfaces().Contains(typeof(ITransportListener)));
+      var networkedApps = Applications.Where(app => app.AppType.GetInterfaces().Contains(typeof(ITransportListener)));
 
       //Selects the ones that listen to the particular type of message
       var targetApps = networkedApps.Where(app =>
@@ -416,6 +447,176 @@ namespace UofM.HCI.tPad.App.Dashboard
       TPadApplicationDescriptor descriptor = (NotificationDialogDescriptor.Instance as NotificationDialog).ActualApp;
       BringToFront(descriptor, null);
     }
+
+    private Dictionary<int, ObservableCollection<TPadApplicationDescriptor>> Pages = new Dictionary<int, ObservableCollection<TPadApplicationDescriptor>>();
+    private ObservableCollection<TPadApplicationDescriptor> GetApplicationsPage(int pageNro)
+    {
+      if (Applications == null)
+        return null;
+
+      if (!Pages.ContainsKey(pageNro))
+      {
+        Pages.Add(pageNro, new ObservableCollection<TPadApplicationDescriptor>());
+
+        int appsPerPage = 16;
+        int startIndex = pageNro * appsPerPage;
+        int endIndex = startIndex + appsPerPage; //non-inclusive
+        if (Applications.Count <= startIndex)
+          return null;
+
+        for (int index = startIndex; index < endIndex; index++)
+        {
+          if (Applications.Count > index)
+            Pages[pageNro].Add(Applications[index]);
+        }
+      }
+
+      return Pages[pageNro];
+    }
+
+    private int currentPage = 0;
+    private void bPrev_Click(object sender, RoutedEventArgs e)
+    {
+      currentPage = Math.Max(0, currentPage - 1);
+      lbAppsPage.ItemsSource = GetApplicationsPage(currentPage);
+    }
+
+    private void bNext_Click(object sender, RoutedEventArgs e)
+    {
+      currentPage = Math.Min(3, currentPage + 1);
+      lbAppsPage.ItemsSource = GetApplicationsPage(currentPage);
+    }
+
+    private void dashboardApp_Loaded(object sender, RoutedEventArgs e)
+    {
+      lbAppsPage.ItemsSource = GetApplicationsPage(currentPage);
+
+      StartInfSeeking();
+    }
+
+    #region Information Seeking Experiments
+
+    public bool IsFlippingEnabled
+    {
+      get
+      {
+        if (conditions == null || conditions.Count == 0 || currentCondition >= conditions.Count)
+          return true;
+        return conditions[currentCondition].Method == SwitchingMethod.Flipping || conditions[currentCondition].Method == SwitchingMethod.TapNFlip ? true : false;
+      }
+    }
+
+    public bool IsHomeButtonEnabled
+    {
+      get 
+      {
+        if (conditions == null || conditions.Count == 0 || currentCondition >= conditions.Count)
+          return true;
+        return conditions[currentCondition].Method == SwitchingMethod.Home ? true : false;
+      }
+    }
+
+    public bool IsRuntimeBarEnabled
+    {
+      get 
+      {
+        if (conditions == null || conditions.Count == 0 || currentCondition >= conditions.Count)
+          return true;
+        return conditions[currentCondition].Method == SwitchingMethod.RuntimeBar ? true : false;
+      }
+    }
+
+    private List<InfSeeking.InfSeekingCondition> conditions;
+    internal void SetInfSeekingExperiment(List<InfSeeking.InfSeekingCondition> inputC)
+    {
+      conditions = inputC;
+    }
+
+    private int currentCondition = 0;
+    private int currentTrial = 0;
+    private int currentSelection = 0;
+    private void StartInfSeeking()
+    {
+      if (conditions == null || conditions.Count == 0)
+        return;
+
+      currentCondition = 0;
+      currentTrial = 0;
+      currentSelection = 0;
+
+      MessageBox.Show(String.Format("In the following trials please use {0} for switching", conditions[currentCondition].Method));
+    }
+
+    InfSeeking.Exp1Pair DashboardApp_GetNextPair(object sender, EventArgs e)
+    {
+      if (currentCondition >= conditions.Count)
+      {
+        MessageBox.Show("Experiment Finished");
+        return null;
+      }
+
+      if (currentTrial >= conditions[currentCondition].Pairs.Count / 3)
+      {
+        currentCondition++;
+        currentTrial = 0;
+        currentSelection = 0;
+
+        if (currentCondition < conditions.Count)
+          MessageBox.Show(String.Format("In the following trials please use {0} for switching", conditions[currentCondition].Method));
+
+        return DashboardApp_GetNextPair(sender, e);
+      }
+
+      if (currentSelection >= 3)
+      {
+        RunningApps.Clear();
+        currentTrial++;
+        currentSelection = 0;
+        return DashboardApp_GetNextPair(sender, e);
+      }
+
+      Exp1Pair pair = conditions[currentCondition].Pairs[currentTrial * 3 + currentSelection];
+      if (pair.TimeStarted == DateTime.MinValue)
+      {
+        errorsData = 0;
+        errorsResult = 0;
+        pair.TimeStarted = DateTime.Now;
+      }
+      return pair;
+    }
+
+    private int errorsResult = 0;
+    void DashboardApp_SendErrorResult(object sender, EventArgs e)
+    {
+      errorsResult++;
+    }
+
+    private int errorsData = 0;
+    void DashboardApp_SendErrorData(object sender, EventArgs e)
+    {
+      errorsData++;
+    }
+
+    void DashboardApp_SendResultOK(object sender, EventArgs e)
+    {
+      InfSeekingCondition condition = conditions[currentCondition];
+      Exp1Pair currentPair = condition.Pairs[currentTrial * 3 + currentSelection];
+      String logLine = String.Format("{0};{0};{1};{2};{3};{4};{5};{6};{7};",
+        DateTime.Now,
+        condition.Method,
+        condition.AppsNumber,
+        currentTrial + 1,
+        currentSelection + 1,
+        (int)currentPair.SourceApp.SourceGroup,
+        (DateTime.Now - currentPair.TimeStarted).TotalMilliseconds,
+        errorsData,
+        errorsResult);
+      logger.Info(logLine);
+
+      currentSelection++;
+    }
+
+    #endregion
 
   }
 

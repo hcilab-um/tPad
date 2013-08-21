@@ -19,7 +19,8 @@ namespace UofM.HCI.tPad.App.Ruler
       {
         Name = "Ruler",
         Icon = UofM.HCI.tPad.App.Ruler.Properties.Resources.RulerIcon,
-        AppClass = typeof(RulerApp),
+        AppType = typeof(RulerApp),
+        AppUUID = Guid.NewGuid(),
         Launcher = this
       };
 
@@ -28,7 +29,7 @@ namespace UofM.HCI.tPad.App.Ruler
 
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      RulerApp ruler = new RulerApp(core, container, controller);
+      RulerApp ruler = new RulerApp(core, container, controller, descriptor.AppUUID);
       return ruler;
     }
 

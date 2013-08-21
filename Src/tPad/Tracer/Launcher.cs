@@ -19,7 +19,8 @@ namespace UofM.HCI.tPad.App.Tracer
       {
         Name = "Tracer",
         Icon = UofM.HCI.tPad.App.Tracer.Properties.Resources.TracerIcon,
-        AppClass = typeof(TracerApp),
+        AppType = typeof(TracerApp),
+        AppUUID = Guid.NewGuid(),
         Launcher = this
       };
       descriptor.Events.Add(TPadEvent.Flipping);
@@ -29,7 +30,7 @@ namespace UofM.HCI.tPad.App.Tracer
 
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      TracerApp tracer = new TracerApp(core, container, controller);
+      TracerApp tracer = new TracerApp(core, container, controller, descriptor.AppUUID);
       return tracer;
     }
 
