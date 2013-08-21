@@ -16,7 +16,6 @@ void setup(){
   Serial.begin(9600);
   
   pinMode(touchMultiplexersPin, OUTPUT);
-  pinMode(buttonPin, INPUT);
 }
 
 void loop(){
@@ -25,7 +24,7 @@ void loop(){
   {
     char c = Serial.read();
     Serial.println("");
-    Serial.println(";;;");
+    Serial.println(",,,");
         Serial.println("");
     Keyboard.write( (c-96) %26 + 97);
   }
