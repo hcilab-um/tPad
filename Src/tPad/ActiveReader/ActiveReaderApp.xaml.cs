@@ -40,6 +40,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
 
     public Dictionary<int, ActiveReaderDocument> DbDocuments { get; set; }
 
+    public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
@@ -156,9 +157,10 @@ namespace UofM.HCI.tPad.App.ActiveReader
     private Stack<ToolObjectPair> undoStack = new Stack<ToolObjectPair>();
     private Stack<ToolObjectPair> redoStack = new Stack<ToolObjectPair>();
 
-    public ActiveReaderApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
+    public ActiveReaderApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, Guid appUUID)
     {
       Core = core;
+      AppUUID = appUUID;
 
       ActualPage = -1;
       ActualDocument = null;

@@ -25,6 +25,7 @@ namespace UofM.HCI.tPad.App.Ruler
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
 
+    public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
@@ -50,8 +51,9 @@ namespace UofM.HCI.tPad.App.Ruler
       }
     }
 
-    public RulerApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
+    public RulerApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, Guid appUUID)
     {
+      AppUUID = appUUID;
       Core = core;
       Container = container;
       Controller = controller;

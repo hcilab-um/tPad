@@ -15,9 +15,11 @@ namespace UofM.HCI.tPad.Converters
   {
     #region IValueConverter Members
 
-    public object Convert(object value, Type targetType, object parameter,
-        System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
+      if (value is BitmapSource || value is String)
+        return value;
+
       MemoryStream ms = new MemoryStream();
       ((System.Drawing.Bitmap)value).Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
       BitmapImage image = new BitmapImage();

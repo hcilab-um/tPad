@@ -24,11 +24,11 @@ namespace UofM.HCI.tPad
     TPadCore Core { get; set; }
     ITPadAppContainer Container { get; set; }
     ITPadAppController Controller { get; set; }
+    Guid AppUUID { get; }
 
     Dictionary<String, Object> Context { get; }
     void LoadInitContext(Dictionary<String, Object> init);
 
     void Close();
   }
-
 }

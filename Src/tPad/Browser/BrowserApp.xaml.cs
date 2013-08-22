@@ -26,12 +26,14 @@ namespace UofM.HCI.tPad.App.Browser
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
 
+    public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
 
-    public BrowserApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
+    public BrowserApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, Guid appUUID)
     {
+      AppUUID = appUUID;
       Core = core;
       Container = container;
       Controller = controller;

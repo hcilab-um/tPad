@@ -20,7 +20,8 @@ namespace UofM.HCI.tPad.App.WhatUp
       {
         Name = "WhatUp",
         Icon = UofM.HCI.tPad.App.WhatUp.Properties.Resources.WhatUpIcon,
-        AppClass = typeof(WhatUpApp),
+        AppType = typeof(WhatUpApp),
+        AppUUID = Guid.NewGuid(),
         Launcher = this
       };
       descriptor.Events.Add(TPadEvent.NetworkWakeup);
@@ -30,7 +31,7 @@ namespace UofM.HCI.tPad.App.WhatUp
 
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      WhatUpApp whatUp = new WhatUpApp(core, container, controller);
+      WhatUpApp whatUp = new WhatUpApp(core, container, controller, descriptor.AppUUID);
       return whatUp;
     }
 

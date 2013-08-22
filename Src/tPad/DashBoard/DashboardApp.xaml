@@ -4,14 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPad.Converters;assembly=tPadLib"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="Blue">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300" Background="Blue" Loaded="dashboardApp_Loaded">
   
   <UserControl.Resources>
     <convertersLib:WPFBitmapConverter x:Key="cWPFBS" />
   </UserControl.Resources>
   
   <DockPanel>
-    <StackPanel x:Name="spRunningApps"  DockPanel.Dock="Bottom">
+    <StackPanel x:Name="spRunningApps"  DockPanel.Dock="Bottom" Visibility="Collapsed">
       <Label FontWeight="Bold">Running Applications</Label>
       <ListBox ItemsSource="{Binding ElementName=dashboardApp, Path=RunningApps}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         <ListBox.ItemsPanel>
@@ -36,7 +36,7 @@
 
     <StackPanel Orientation="Vertical">
       <Label FontWeight="Bold">tPad Applications</Label>
-      <ListBox ItemsSource="{Binding ElementName=dashboardApp, Path=Applications}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+      <ListBox x:Name="lbAppsPage" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>
             <WrapPanel Orientation="Horizontal" />
@@ -52,8 +52,14 @@
         </ListBox.ItemTemplate>
       </ListBox>
 
-      <Label FontWeight="Bold">Dashboard Settings</Label>
-      <StackPanel Orientation="Horizontal">
+      <DockPanel Margin="5">
+        <Button x:Name="bPrev" DockPanel.Dock="Left" Click="bPrev_Click" Width="100" Height="100" FontSize="24">PREV</Button>
+        <Button x:Name="bNext" DockPanel.Dock="Right" Click="bNext_Click" Width="100" Height="100" FontSize="24">NEXT</Button>
+        <Label></Label>
+      </DockPanel>
+      
+      <Label FontWeight="Bold" Visibility="Collapsed">Dashboard Settings</Label>
+      <StackPanel Orientation="Horizontal"  Visibility="Collapsed">
         <CheckBox x:Name="cbUserDefaultFlippingApp" Content="Browser @ Flipping" IsChecked="False" Margin="16" Unchecked="cbUserDefaultFlippingApp_Unchecked"/>
       </StackPanel>
     </StackPanel>

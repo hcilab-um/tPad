@@ -36,15 +36,17 @@ namespace UofM.HCI.tPad.App.Calculator
       }
     }
 
+    public Guid AppUUID { get; private set; }
     public TPadProfile Profile { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
     public Dictionary<String, Object> Context { get { return null; } }
 
-    public CalculatorApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller)
+    public CalculatorApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, Guid appUUID)
     {
       var tmp = new Xceed.Wpf.Toolkit.Calculator();
 
+      AppUUID = appUUID;
       Core = core;
       Profile = core.Profile;
       Container = container;

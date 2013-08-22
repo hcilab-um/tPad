@@ -18,7 +18,8 @@ namespace UofM.HCI.tPad.App.Calculator
       {
         Name = "Calculator",
         Icon = UofM.HCI.tPad.App.Calculator.Properties.Resources.CalculatorIcon,
-        AppClass = typeof(CalculatorApp),
+        AppType = typeof(CalculatorApp),
+        AppUUID = Guid.NewGuid(),
         Launcher = this
       };
       descriptor.Triggers.Add(Glyph.Square);
@@ -28,7 +29,7 @@ namespace UofM.HCI.tPad.App.Calculator
 
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      CalculatorApp calculator = new CalculatorApp(core, container, controller);
+      CalculatorApp calculator = new CalculatorApp(core, container, controller, descriptor.AppUUID);
       calculator.LoadInitContext(settings.Context);
       return calculator;
     }

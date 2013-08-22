@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 
-namespace UofM.HCI.tPad.App.Dashboard
+namespace UofM.HCI.tPad.Controls
 {
   /// <summary>
   /// Interaction logic for NotificationDialog.xaml
@@ -28,6 +28,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     public event EventHandler ClickedOK;
     public event EventHandler ClickedCancel;
 
+    public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
@@ -35,6 +36,7 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     public TPadApplicationDescriptor NotificationApp { get; set; }
     public TPadApplicationDescriptor ActualApp { get; set; }
+    public Object State { get; set; }
 
     private String message = String.Empty;
     public String Message
@@ -69,8 +71,9 @@ namespace UofM.HCI.tPad.App.Dashboard
       }
     }
 
-    public NotificationDialog(TPadCore core)
+    public NotificationDialog(TPadCore core, Guid appUUID)
     {
+      AppUUID = appUUID;
       Core = core;
       Core.Device.FlippingChanged += new FlippingChangedEventHandler(Device_FlippingChanged);
       Core.Device.HomePressed += new HomeButtonEventEventHandler(Device_HomePressed);
@@ -100,6 +103,8 @@ namespace UofM.HCI.tPad.App.Dashboard
         NotificationApp = init["sender"] as TPadApplicationDescriptor;
       if (init.Keys.Contains("currentApp"))
         ActualApp = init["currentApp"] as TPadApplicationDescriptor;
+      if (init.Keys.Contains("state"))
+        State = init["state"];
     }
 
     public void Close()
@@ -110,6 +115,9 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     void Device_FlippingChanged(object sender, FlippingEventArgs e)
     {
+      if (IsTopApp == null)
+        return;
+
       //The device has flipped already, therefore it has to ask whether it's the top app on the other side
       if (!IsTopApp(this, new ObjectEventArgs() { Parameter = Core.Device.OppositeFlippingSide }))
         return;
@@ -120,6 +128,9 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     void Device_HomePressed(object sender, HomeButtonEventArgs e)
     {
+      if (IsTopApp == null)
+        return;
+
       if (!IsTopApp(this, null))
         return;
 

@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="UofM.HCI.tPad.App.InfSeeking.InfSeekingApp" x:Name="isApp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:tpadcontrols="clr-namespace:UofM.HCI.tPad;assembly=tPadLib"
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480" Background="White" Loaded="UserControl_Loaded">
+  <DockPanel>
+
+    <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" Width="{Binding ElementName=whatUpApp, Path=ActualWidth}" Height="200" DockPanel.Dock="Bottom"
+                               HorizontalAlignment="Stretch" EnterKeyPressed="tpKeyboard_EnterKeyPressed" />
+
+    <StackPanel Orientation="Vertical">
+      <TextBox x:Name="tbTarget" Width="200" FontSize="50" GotFocus="tb_GotFocus" MouseDoubleClick="tbSecond_MouseDoubleClick" Margin="0,50,0,0"/>
+      <Image x:Name="iSource" Width="200" Margin="0,50,0,0" Source="{Binding ElementName=isApp, Path=CurrentTarget.SourceApp.ImagePath}"/>
+      <Button x:Name="bSend" Width="200" Height="100" FontSize="50" Margin="0,50,0,0" Click="bSend_Click">Send</Button>
+    </StackPanel>
+
+  </DockPanel>
+
+</UserControl>
