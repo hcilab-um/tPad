@@ -349,7 +349,7 @@ namespace UofM.HCI.tPad.App.Dashboard
 
           GoToPage(0);
           spRunningApps.Visibility = System.Windows.Visibility.Collapsed;
-          if (e.Event == ButtonEvent.Double && IsRuntimeBarEnabled)
+          if (IsRuntimeBarEnabled)
             spRunningApps.Visibility = System.Windows.Visibility.Visible;
 
           Minimize(TopAppDescriptor);
@@ -555,7 +555,7 @@ namespace UofM.HCI.tPad.App.Dashboard
         return null;
       }
 
-      if (currentTrial >= conditions[currentCondition].Pairs.Count / 3)
+      if (currentTrial >= conditions[currentCondition].Targets.Count / 3)
       {
         currentCondition++;
         currentTrial = 0;
@@ -577,7 +577,7 @@ namespace UofM.HCI.tPad.App.Dashboard
         return DashboardApp_GetNextPair(sender, e);
       }
 
-      Exp1Target pair = conditions[currentCondition].Pairs[currentTrial * 3 + currentSelection];
+      Exp1Target pair = conditions[currentCondition].Targets[currentTrial * 3 + currentSelection];
       if (pair.TimeStarted == DateTime.MinValue)
       {
         errorsData = 0;
@@ -602,7 +602,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     void DashboardApp_SendResultOK(object sender, EventArgs e)
     {
       InfSeekingCondition condition = conditions[currentCondition];
-      Exp1Target currentPair = condition.Pairs[currentTrial * 3 + currentSelection];
+      Exp1Target currentPair = condition.Targets[currentTrial * 3 + currentSelection];
       String logLine = String.Format("{0};{1};{2};{3};{4};{5};{6};{7}",
         DateTime.Now,
         condition.Method,

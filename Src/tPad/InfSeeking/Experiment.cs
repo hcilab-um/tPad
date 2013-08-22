@@ -24,7 +24,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
     public int AppsNumber { get; set; }
 
     //gets calculated by the Experimenter class
-    public List<Exp1Target> Pairs { get; set; }
+    public List<Exp1Target> Targets { get; set; }
   }
 
   public class Exp1Target

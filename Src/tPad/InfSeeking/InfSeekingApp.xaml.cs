@@ -117,7 +117,10 @@ namespace UofM.HCI.tPad.App.InfSeeking
         return;
 
       if (Clipboard.ContainsText())
-        tbTarget.Text = Clipboard.GetText();
+      {
+        String clipboard = String.Format(@"{0}\{1}", Environment.CurrentDirectory, "clipboard.txt");
+        tbTarget.Text = System.IO.File.ReadAllText(clipboard);
+      }
     }
 
     void notification_ClickedCancel(object sender, EventArgs e)
