@@ -193,7 +193,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     {
       foreach (InfSeekingCondition condition in conditions)
       {
-        condition.Pairs = new List<Exp1Target>();
+        condition.Targets = new List<Exp1Target>();
         for (int trial = 0; trial < trialsPerCondition; trial++)
         {
           List<Exp1SourceApp> apps = new List<Exp1SourceApp>();
@@ -209,7 +209,7 @@ namespace UofM.HCI.tPad.App.Dashboard
             pair.Target = generator.Next(1000);
             pair.SourceApp = apps[generator.Next(condition.AppsNumber)];
             pair.Condition = condition;
-            condition.Pairs.Add(pair);
+            condition.Targets.Add(pair);
           }
         }
       }

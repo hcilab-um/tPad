@@ -555,7 +555,7 @@ namespace UofM.HCI.tPad.App.Dashboard
         return null;
       }
 
-      if (currentTrial >= conditions[currentCondition].Pairs.Count / 3)
+      if (currentTrial >= conditions[currentCondition].Targets.Count / 3)
       {
         currentCondition++;
         currentTrial = 0;
@@ -577,13 +577,13 @@ namespace UofM.HCI.tPad.App.Dashboard
         return DashboardApp_GetNextPair(sender, e);
       }
 
-      Exp1Target pair = conditions[currentCondition].Pairs[currentTrial * 3 + currentSelection];
-      if (pair.TimeStarted == DateTime.MinValue)
+      Exp1Target target = conditions[currentCondition].Targets[currentTrial * 3 + currentSelection];
+      if (target.TimeStarted == DateTime.MinValue)
       {
         errorsData = 0;
-        pair.TimeStarted = DateTime.Now;
+        target.TimeStarted = DateTime.Now;
       }
-      return pair;
+      return target;
     }
 
     private void CloseAllAppsExcept(Type type)
@@ -602,15 +602,15 @@ namespace UofM.HCI.tPad.App.Dashboard
     void DashboardApp_SendResultOK(object sender, EventArgs e)
     {
       InfSeekingCondition condition = conditions[currentCondition];
-      Exp1Target currentPair = condition.Pairs[currentTrial * 3 + currentSelection];
+      Exp1Target currentTarget = condition.Targets[currentTrial * 3 + currentSelection];
       String logLine = String.Format("{0};{1};{2};{3};{4};{5};{6};{7}",
         DateTime.Now,
         condition.Method,
         condition.AppsNumber,
         currentTrial + 1,
         currentSelection + 1,
-        (int)currentPair.SourceApp.SourceGroup,
-        (DateTime.Now - currentPair.TimeStarted).TotalMilliseconds,
+        (int)currentTarget.SourceApp.SourceGroup,
+        (DateTime.Now - currentTarget.TimeStarted).TotalMilliseconds,
         errorsData);
       logger.Info(logLine);
 
