@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using UofM.HCI.tPad.Controls;
 
 namespace UofM.HCI.tPad.App.InfSeeking
 {
@@ -30,23 +31,36 @@ namespace UofM.HCI.tPad.App.InfSeeking
     public TPadCore Core { get; set; }
     public ITPadAppContainer Container { get; set; }
     public ITPadAppController Controller { get; set; }
+    public String Image { get; set; }
+    public TPadApplicationDescriptor Descriptor { get; set; }
 
-    public event Exp1EventHandler GetNextPair;
-    private Exp1Pair currentPair = null;
-    public Exp1Pair CurrentPair
+    public event Exp1EventHandler GetNextTarget;
+    private Exp1Target currentTarget = null;
+    public Exp1Target CurrentTarget
     {
-      get { return currentPair; }
+      get { return currentTarget; }
       set
       {
-        currentPair = value;
-        OnPropertyChanged("CurrentPair");
+        currentTarget = value;
+        OnPropertyChanged("CurrentTarget");
       }
     }
 
-    public InfProviderApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, Guid appUUID)
+    private NotificationDialog notification = null;
+
+    public InfProviderApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, TPadApplicationDescriptor descriptor)
     {
-      AppUUID = appUUID;
+      Core = core;
+      Container = container;
+      AppUUID = descriptor.AppUUID;
+      Image = descriptor.Icon as String;
+      Descriptor = descriptor;
+
       InitializeComponent();
+
+      notification = new NotificationDialog(Core, Guid.NewGuid());
+      notification.ClickedOK += new EventHandler(notification_ClickedOK);
+      notification.ClickedCancel += new EventHandler(notification_ClickedCancel);
     }
 
     public void Close()
@@ -61,20 +75,45 @@ namespace UofM.HCI.tPad.App.InfSeeking
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init) { }
+    public void LoadInitContext(Dictionary<string, Object> init) 
+    {
+      LoadExperimentPair();
+    }
 
     private void Label_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-      if (MessageBox.Show("Copy contents", "Copy+Paste", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-      {
-        Clipboard.SetText((sender as Label).Content as String);
-      }
+      if (CurrentTarget.Condition.Method == SwitchingMethod.TapNFlip)
+        return;
+
+      Dictionary<String, Object> context = new Dictionary<String, Object>();
+      context.Add("message", "Copy contents?");
+      context.Add("buttonOK", "Yes");
+      context.Add("buttonCancel", "No");
+      context.Add("sender", sender);
+      context.Add("currentApp", Descriptor);
+
+      notification.LoadInitContext(context);
+      Container.LoadTPadApp(notification, true);
+    }
+
+    void notification_ClickedOK(object sender, EventArgs e)
+    {
+      Clipboard.SetText(CurrentTarget.Target.ToString());
+    }
+
+    void notification_ClickedCancel(object sender, EventArgs e)
+    {
+
     }
 
     private bool tapAndFlip = false;
     private Label source = null;
+    private DateTime timeMouseUp;
     private void Label_MouseDown(object sender, MouseButtonEventArgs e)
     {
+      if (CurrentTarget.Condition.Method != SwitchingMethod.TapNFlip)
+        return;
+
       tapAndFlip = true;
       source = sender as Label;
     }
@@ -82,46 +121,41 @@ namespace UofM.HCI.tPad.App.InfSeeking
     private void Label_MouseUp(object sender, MouseButtonEventArgs e)
     {
       tapAndFlip = false;
-      source = null;
+      timeMouseUp = DateTime.Now;
     }
 
     public Dictionary<string, Object> Context
     {
       get
       {
-        if (!tapAndFlip)
+        if (!tapAndFlip && (DateTime.Now - timeMouseUp).TotalMilliseconds >= 1000)
           return null;
 
         if (source == null || "EMPTY".Equals(source.Content as String))
           return null;
 
         Dictionary<string, object> context = new Dictionary<string, object>();
-        context.Add("result", source.Content as String);
+        context.Add("result", source.Content.ToString());
         return context;
       }
     }
 
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
-    {
-      LoadExperimentPair();
-    }
-
-    private void ipApp_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    private void UserControl_Loaded(object sender, RoutedEventArgs ev)
     {
       LoadExperimentPair();
     }
 
     private void LoadExperimentPair()
     {
-      Exp1Pair tmp = null;
-      if (GetNextPair != null)
-        tmp = GetNextPair(this, null);
+      Exp1Target tmp = null;
+      if (GetNextTarget != null)
+        tmp = GetNextTarget(this, null);
 
       Guid instanceUUID = Guid.Parse(String.Format("00000000-0000-0000-000{0}-0000000000{1:D2}", (int)tmp.SourceApp.SourceGroup, tmp.SourceApp.InstanceNro));
       if (instanceUUID == AppUUID)
-        CurrentPair = tmp;
+        CurrentTarget = tmp;
       else
-        CurrentPair = null;
+        CurrentTarget = null;
     }
 
   }

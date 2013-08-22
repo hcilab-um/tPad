@@ -19,6 +19,7 @@ using UofM.HCI.tPad.Monitors;
 using Ubicomp.Utils.NET.MTF;
 using UofM.HCI.tPad.App.Dashboard.Properties;
 using UofM.HCI.tPad.App.InfSeeking;
+using UofM.HCI.tPad.Controls;
 
 namespace UofM.HCI.tPad.App.Dashboard
 {
@@ -123,14 +124,13 @@ namespace UofM.HCI.tPad.App.Dashboard
 
       if (descriptor.AppType == typeof(InfSeeking.InfSeekingApp))
       {
-        (descriptor.Instance as InfSeeking.InfSeekingApp).GetNextPair += new InfSeeking.Exp1EventHandler(DashboardApp_GetNextPair);
+        (descriptor.Instance as InfSeeking.InfSeekingApp).GetNextTarget += new InfSeeking.Exp1EventHandler(DashboardApp_GetNextPair);
         (descriptor.Instance as InfSeeking.InfSeekingApp).SendResultOK += new EventHandler(DashboardApp_SendResultOK);
         (descriptor.Instance as InfSeeking.InfSeekingApp).SendErrorData += new EventHandler(DashboardApp_SendErrorData);
-        (descriptor.Instance as InfSeeking.InfSeekingApp).SendErrorResult += new EventHandler(DashboardApp_SendErrorResult);
       }
       else if (descriptor.AppType == typeof(InfSeeking.InfProviderApp))
       {
-        (descriptor.Instance as InfSeeking.InfProviderApp).GetNextPair += new InfSeeking.Exp1EventHandler(DashboardApp_GetNextPair);
+        (descriptor.Instance as InfSeeking.InfProviderApp).GetNextTarget += new InfSeeking.Exp1EventHandler(DashboardApp_GetNextPair);
       }
 
       descriptor.RunningSide = Core.Device.FlippingSide;
@@ -320,7 +320,6 @@ namespace UofM.HCI.tPad.App.Dashboard
           {
             //Hides the runtime bar in case the dashboard is the next app on top
             spRunningApps.Visibility = System.Windows.Visibility.Collapsed;
-
             BringToFront(targetAD, currentAD.Instance.Context);
           }
         });
@@ -345,14 +344,12 @@ namespace UofM.HCI.tPad.App.Dashboard
           if (e.Event == ButtonEvent.None)
             return;
 
-          if (!IsHomeButtonEnabled && !IsRuntimeBarEnabled)
+          if (!IsHomeButtonEnabled && !IsRuntimeBarEnabled && TopAppDescriptor.AppType == typeof(InfSeekingApp))
             return;
 
-          currentPage = 0;
-          lbAppsPage.ItemsSource = GetApplicationsPage(currentPage);
-          if (e.Event == ButtonEvent.Single)
-            spRunningApps.Visibility = System.Windows.Visibility.Collapsed;
-          else if (e.Event == ButtonEvent.Double)
+          GoToPage(0);
+          spRunningApps.Visibility = System.Windows.Visibility.Collapsed;
+          if (e.Event == ButtonEvent.Double && IsRuntimeBarEnabled)
             spRunningApps.Visibility = System.Windows.Visibility.Visible;
 
           Minimize(TopAppDescriptor);
@@ -477,21 +474,24 @@ namespace UofM.HCI.tPad.App.Dashboard
     private int currentPage = 0;
     private void bPrev_Click(object sender, RoutedEventArgs e)
     {
-      currentPage = Math.Max(0, currentPage - 1);
-      lbAppsPage.ItemsSource = GetApplicationsPage(currentPage);
+      GoToPage(Math.Max(0, currentPage - 1));
     }
 
     private void bNext_Click(object sender, RoutedEventArgs e)
     {
-      currentPage = Math.Min(3, currentPage + 1);
-      lbAppsPage.ItemsSource = GetApplicationsPage(currentPage);
+      GoToPage(Math.Min(3, currentPage + 1));
     }
 
     private void dashboardApp_Loaded(object sender, RoutedEventArgs e)
     {
-      lbAppsPage.ItemsSource = GetApplicationsPage(currentPage);
-
+      GoToPage(0);
       StartInfSeeking();
+    }
+
+    private void GoToPage(int destPage)
+    {
+      currentPage = destPage;
+      lbAppsPage.ItemsSource = GetApplicationsPage(currentPage);
     }
 
     #region Information Seeking Experiments
@@ -508,7 +508,7 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     public bool IsHomeButtonEnabled
     {
-      get 
+      get
       {
         if (conditions == null || conditions.Count == 0 || currentCondition >= conditions.Count)
           return true;
@@ -518,7 +518,7 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     public bool IsRuntimeBarEnabled
     {
-      get 
+      get
       {
         if (conditions == null || conditions.Count == 0 || currentCondition >= conditions.Count)
           return true;
@@ -547,7 +547,7 @@ namespace UofM.HCI.tPad.App.Dashboard
       MessageBox.Show(String.Format("In the following trials please use {0} for switching", conditions[currentCondition].Method));
     }
 
-    InfSeeking.Exp1Pair DashboardApp_GetNextPair(object sender, EventArgs e)
+    InfSeeking.Exp1Target DashboardApp_GetNextPair(object sender, EventArgs e)
     {
       if (currentCondition >= conditions.Count)
       {
@@ -569,26 +569,28 @@ namespace UofM.HCI.tPad.App.Dashboard
 
       if (currentSelection >= 3)
       {
-        RunningApps.Clear();
+        CloseAllAppsExcept(typeof(InfSeekingApp));
+        GoToPage(0);
+
         currentTrial++;
         currentSelection = 0;
         return DashboardApp_GetNextPair(sender, e);
       }
 
-      Exp1Pair pair = conditions[currentCondition].Pairs[currentTrial * 3 + currentSelection];
+      Exp1Target pair = conditions[currentCondition].Pairs[currentTrial * 3 + currentSelection];
       if (pair.TimeStarted == DateTime.MinValue)
       {
         errorsData = 0;
-        errorsResult = 0;
         pair.TimeStarted = DateTime.Now;
       }
       return pair;
     }
 
-    private int errorsResult = 0;
-    void DashboardApp_SendErrorResult(object sender, EventArgs e)
+    private void CloseAllAppsExcept(Type type)
     {
-      errorsResult++;
+      var appsToClose = RunningApps.Where(app => app.AppType != type).ToArray();
+      foreach(TPadApplicationDescriptor app in appsToClose)
+        RunningApps.Remove(app);
     }
 
     private int errorsData = 0;
@@ -600,8 +602,8 @@ namespace UofM.HCI.tPad.App.Dashboard
     void DashboardApp_SendResultOK(object sender, EventArgs e)
     {
       InfSeekingCondition condition = conditions[currentCondition];
-      Exp1Pair currentPair = condition.Pairs[currentTrial * 3 + currentSelection];
-      String logLine = String.Format("{0};{0};{1};{2};{3};{4};{5};{6};{7};",
+      Exp1Target currentPair = condition.Pairs[currentTrial * 3 + currentSelection];
+      String logLine = String.Format("{0};{1};{2};{3};{4};{5};{6};{7}",
         DateTime.Now,
         condition.Method,
         condition.AppsNumber,
@@ -609,8 +611,7 @@ namespace UofM.HCI.tPad.App.Dashboard
         currentSelection + 1,
         (int)currentPair.SourceApp.SourceGroup,
         (DateTime.Now - currentPair.TimeStarted).TotalMilliseconds,
-        errorsData,
-        errorsResult);
+        errorsData);
       logger.Info(logLine);
 
       currentSelection++;

@@ -90,9 +90,6 @@
     <Compile Include="DashboardApp.xaml.cs">
       <DependentUpon>DashboardApp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NotificationDialog.xaml.cs">
-      <DependentUpon>NotificationDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -229,10 +226,6 @@
     <Page Include="DashboardApp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="NotificationDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

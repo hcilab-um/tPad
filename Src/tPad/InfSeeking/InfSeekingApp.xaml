@@ -11,15 +11,9 @@
                                HorizontalAlignment="Stretch" EnterKeyPressed="tpKeyboard_EnterKeyPressed" />
 
     <StackPanel Orientation="Vertical">
-      <StackPanel Orientation="Horizontal" Margin="20,50">
-        <Label x:Name="lbFirst" FontSize="24" Content="{Binding ElementName=isApp, Path=CurrentPair.Factor1}"/>
-        <Label FontSize="24">+</Label>
-        <TextBox x:Name="tbSecond" Width="80" FontSize="24" GotFocus="tb_GotFocus" MouseDoubleClick="tbSecond_MouseDoubleClick"></TextBox>
-        <Image x:Name="iSource" Width="50" Source="{Binding ElementName=isApp, Path=CurrentPair.SourceApp.ImagePath}"/>
-        <Label FontSize="24">=</Label>
-        <TextBox x:Name="tbResult" Width="80" FontSize="24" GotFocus="tb_GotFocus"></TextBox>
-        <Button x:Name="bSend" Width="80" FontSize="24" Margin="20,0" Click="bSend_Click">Send</Button>
-      </StackPanel>
+      <TextBox x:Name="tbTarget" Width="200" FontSize="50" GotFocus="tb_GotFocus" MouseDoubleClick="tbSecond_MouseDoubleClick" Margin="0,50,0,0"/>
+      <Image x:Name="iSource" Width="200" Margin="0,50,0,0" Source="{Binding ElementName=isApp, Path=CurrentTarget.SourceApp.ImagePath}"/>
+      <Button x:Name="bSend" Width="200" Height="100" FontSize="50" Margin="0,50,0,0" Click="bSend_Click">Send</Button>
     </StackPanel>
 
   </DockPanel>

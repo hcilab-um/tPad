@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using UofM.HCI.tPad.Controls;
 
 namespace UofM.HCI.tPad.App.InfSeeking
 {
@@ -20,6 +21,8 @@ namespace UofM.HCI.tPad.App.InfSeeking
   /// </summary>
   public partial class InfSeekingApp : UserControl, ITPadApp, INotifyPropertyChanged
   {
+
+    public enum NotificationType { PasteRequest, DataEmpty, DataError };
 
     public event BoolEventHandler IsTopApp;
     public event RequestUserFocus RequestFocus;
@@ -38,24 +41,31 @@ namespace UofM.HCI.tPad.App.InfSeeking
 
     public event EventHandler SendResultOK;
     public event EventHandler SendErrorData;
-    public event EventHandler SendErrorResult;
-    public event Exp1EventHandler GetNextPair;
+    public event Exp1EventHandler GetNextTarget;
 
-    private Exp1Pair currentPair = null;
-    public Exp1Pair CurrentPair 
+    private Exp1Target currentTarget = null;
+    public Exp1Target CurrentTarget 
     {
-      get { return currentPair; }
+      get { return currentTarget; }
       set 
       {
-        currentPair = value;
-        OnPropertyChanged("CurrentPair");
+        currentTarget = value;
+        OnPropertyChanged("CurrentTarget");
       }
     }
 
+    private NotificationDialog notification = null;
+
     public InfSeekingApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, Guid appUUID)
     {
+      Core = core;
+      Container = container;
       AppUUID = appUUID;
       InitializeComponent();
+
+      notification = new NotificationDialog(Core, Guid.NewGuid());
+      notification.ClickedOK += new EventHandler(notification_ClickedOK);
+      notification.ClickedCancel += new EventHandler(notification_ClickedCancel);
     }
 
     public void Close()
@@ -76,22 +86,49 @@ namespace UofM.HCI.tPad.App.InfSeeking
         return;
       if (!context.ContainsKey("result"))
         return;
-      tbSecond.Text = context["result"] as String;
+      tbTarget.Text = context["result"] as String;
     }
 
     private void tbSecond_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-      if (MessageBox.Show("Paste contents", "Copy+Paste", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-      {
-        if (Clipboard.ContainsText())
-          tbSecond.Text = Clipboard.GetText();
-      }
+      if (CurrentTarget.Condition.Method == SwitchingMethod.TapNFlip)
+        return;
+
+      MessabeBoxShow("Paste from clipboard?", "Yes", "No", NotificationType.PasteRequest);
+    }
+
+    private void MessabeBoxShow(String message, String yesButton, String noButton, NotificationType type)
+    {
+      Dictionary<String, Object> context = new Dictionary<String, Object>();
+      context.Add("message", message);
+      context.Add("buttonOK", yesButton);
+      context.Add("buttonCancel", noButton);
+      context.Add("sender", null);
+      context.Add("currentApp", null);
+      context.Add("state", type);
+
+      notification.LoadInitContext(context);
+      Container.LoadTPadApp(notification, true);
+    }
+
+    void notification_ClickedOK(object sender, EventArgs e)
+    {
+      if (((NotificationType)notification.State) != NotificationType.PasteRequest)
+        return;
+
+      if (Clipboard.ContainsText())
+        tbTarget.Text = Clipboard.GetText();
+    }
+
+    void notification_ClickedCancel(object sender, EventArgs e)
+    {
+
     }
 
     private void tpKeyboard_EnterKeyPressed(object sender, EventArgs e)
     {
       if (focusedTB == null)
-        focusedTB = tbSecond;
+        focusedTB = tbTarget;
 
       focusedTB.Text = tpKeyboard.CurrentText.ToString().Trim();
       tpKeyboard.CurrentText.Clear();
@@ -105,41 +142,32 @@ namespace UofM.HCI.tPad.App.InfSeeking
 
     private void bSend_Click(object sender, RoutedEventArgs e)
     {
-      if (tbSecond.Text == String.Empty || tbResult.Text == String.Empty)
+      if (tbTarget.Text == String.Empty)
       {
-        MessageBox.Show("Please enter both the requested data and the result");
+        MessabeBoxShow("Please enter the requested data", "OK", "Cancel", NotificationType.DataEmpty);
         return;
       }
 
-      int factor2 = Int32.Parse(tbSecond.Text);
-      if(factor2 != CurrentPair.Factor2)
+      int target = Int32.Parse(tbTarget.Text);
+      if(target != CurrentTarget.Target)
       {
         SendErrorData(this, null);
-        MessageBox.Show("Please enter the right second factor");
-        return;
-      }
-
-      int result = Int32.Parse(tbResult.Text);
-      if (result != (CurrentPair.Factor1 + CurrentPair.Factor2))
-      {
-        SendErrorResult(this, null);
-        MessageBox.Show("Please enter the right operaiton result");
+        MessabeBoxShow("Please enter the right number", "OK", "Cancel", NotificationType.DataError);
         return;
       }
 
       SendResultOK(this, null);
 
-      CurrentPair = GetNextPair(this, null);
-      tbResult.Text = String.Empty;
-      tbSecond.Text = String.Empty;
+      CurrentTarget = GetNextTarget(this, null);
+      tbTarget.Text = String.Empty;
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-      if (GetNextPair != null)
-        CurrentPair = GetNextPair(this, null);
+      if (GetNextTarget != null)
+        CurrentTarget = GetNextTarget(this, null);
 
-      if (currentPair == null)
+      if (currentTarget == null)
       {
         MessageBox.Show("No experiment is currently being executed");
         return;

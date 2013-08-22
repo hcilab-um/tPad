@@ -174,17 +174,17 @@ namespace UofM.HCI.tPad.App.Dashboard
       conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1));
       conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 2));
       conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 3));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 2));
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 3));
       conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1));
       conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 2));
       conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 3));
       conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1));
       conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 2));
       conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 3));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 2));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 3));
 
-      CalculatePairs(conditions, 3, 6);
+      CalculatePairs(conditions, 3, 1);
       dashboard.SetInfSeekingExperiment(conditions);
     }
 
@@ -193,7 +193,7 @@ namespace UofM.HCI.tPad.App.Dashboard
     {
       foreach (InfSeekingCondition condition in conditions)
       {
-        condition.Pairs = new List<Exp1Pair>();
+        condition.Pairs = new List<Exp1Target>();
         for (int trial = 0; trial < trialsPerCondition; trial++)
         {
           List<Exp1SourceApp> apps = new List<Exp1SourceApp>();
@@ -205,10 +205,10 @@ namespace UofM.HCI.tPad.App.Dashboard
 
           for (int selection = 0; selection < 3; selection++)
           {
-            Exp1Pair pair = new Exp1Pair();
-            pair.Factor1 = generator.Next(100);
-            pair.Factor2 = generator.Next(100);
+            Exp1Target pair = new Exp1Target();
+            pair.Target = generator.Next(1000);
             pair.SourceApp = apps[generator.Next(condition.AppsNumber)];
+            pair.Condition = condition;
             condition.Pairs.Add(pair);
           }
         }

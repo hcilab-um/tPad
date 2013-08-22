@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="UofM.HCI.tPad.App.Dashboard.NotificationDialog" x:Name="nDialog"
+﻿<UserControl x:Class="UofM.HCI.tPad.Controls.NotificationDialog" x:Name="nDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -17,9 +17,9 @@
           </Grid.ColumnDefinitions>
           
           <Button x:Name="btnOK" Grid.Column="0" Content="{Binding ElementName=nDialog, Path=ButtonOK, FallbackValue=OK}" Margin="10,0" Click="btnOK_Click"
-                  FontSize="20" FontWeight="Bold"/>
+                  FontSize="20" FontWeight="Bold" Width="100" Height="100"/>
           <Button x:Name="btnCancel" Grid.Column="1" Content="{Binding ElementName=nDialog, Path=ButtonCancel, FallbackValue=Cancel}" Margin="10,0" Click="btnCancel_Click"
-                  FontSize="20" FontWeight="Bold"/>
+                  FontSize="20" FontWeight="Bold" Width="100" Height="100"/>
         </Grid>
         
         <TextBlock Text="{Binding ElementName=nDialog, Path=Message}" FontSize="20" FontWeight="Bold" Margin="20" />

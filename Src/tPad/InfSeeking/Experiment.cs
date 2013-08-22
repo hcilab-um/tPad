@@ -24,14 +24,14 @@ namespace UofM.HCI.tPad.App.InfSeeking
     public int AppsNumber { get; set; }
 
     //gets calculated by the Experimenter class
-    public List<Exp1Pair> Pairs { get; set; }
+    public List<Exp1Target> Pairs { get; set; }
   }
 
-  public class Exp1Pair
+  public class Exp1Target
   {
-    public int Factor1 { get; set; }
-    public int Factor2 { get; set; }
+    public int Target { get; set; }
     public Exp1SourceApp SourceApp { get; set; }
+    public InfSeekingCondition Condition { get; set; }
 
     public DateTime TimeStarted { get; set; }
   }
@@ -43,6 +43,6 @@ namespace UofM.HCI.tPad.App.InfSeeking
     public String ImagePath { get; set; }
   }
 
-  public delegate Exp1Pair Exp1EventHandler(object sender, EventArgs e);
+  public delegate Exp1Target Exp1EventHandler(object sender, EventArgs e);
 
 }
