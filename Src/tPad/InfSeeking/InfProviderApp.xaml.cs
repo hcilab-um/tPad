@@ -75,7 +75,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init) 
+    public void LoadInitContext(Dictionary<string, Object> init)
     {
       LoadExperimentPair();
     }
@@ -98,7 +98,9 @@ namespace UofM.HCI.tPad.App.InfSeeking
 
     void notification_ClickedOK(object sender, EventArgs e)
     {
-      Clipboard.SetText(CurrentTarget.Target.ToString());
+      String clipboard = String.Format(@"{0}\{1}", Environment.CurrentDirectory, "clipboard.txt");
+      System.IO.File.Delete(clipboard);
+      System.IO.File.WriteAllText(clipboard, CurrentTarget.Target.ToString());
     }
 
     void notification_ClickedCancel(object sender, EventArgs e)
@@ -111,6 +113,8 @@ namespace UofM.HCI.tPad.App.InfSeeking
     private DateTime timeMouseUp;
     private void Label_MouseDown(object sender, MouseButtonEventArgs e)
     {
+      if (CurrentTarget == null)
+        return;
       if (CurrentTarget.Condition.Method != SwitchingMethod.TapNFlip)
         return;
 

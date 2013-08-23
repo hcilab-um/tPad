@@ -349,7 +349,7 @@ namespace UofM.HCI.tPad.App.Shell
 
           GoToPage(0);
           spRunningApps.Visibility = System.Windows.Visibility.Collapsed;
-          if (e.Event == ButtonEvent.Double && IsRuntimeBarEnabled)
+          if (IsRuntimeBarEnabled)
             spRunningApps.Visibility = System.Windows.Visibility.Visible;
 
           Minimize(TopAppDescriptor);

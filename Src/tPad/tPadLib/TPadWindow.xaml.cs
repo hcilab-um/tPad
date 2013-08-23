@@ -57,7 +57,9 @@ namespace UofM.HCI.tPad
       UserControl TPadApp = tPadApp as UserControl;
       TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-      gTPadApp.Children.Add(TPadApp);
+
+      if (!gTPadApp.Children.Contains(TPadApp))
+        gTPadApp.Children.Add(TPadApp);
 
       if (foreground)
         Show(tPadApp);

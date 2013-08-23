@@ -171,25 +171,31 @@ namespace UofM.HCI.tPad.App.Shell
       shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 16).GetApplicationDescriptor());
 
       List<InfSeekingCondition> conditions = new List<InfSeekingCondition>();
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 2));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 3));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 2));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 3));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 2));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 3));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 2));
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 3));
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1)); // 1
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1)); // 4
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1)); // 7
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1)); // 10
+      //CalculateTargets(conditions, 3, 1);
 
-      CalculatePairs(conditions, 3, 1);
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 2)); // 2
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 3)); // 3
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1)); // 1
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1)); // 4
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 3)); // 12
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 2)); // 5
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 2)); // 11
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 3)); // 6
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1)); // 10
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1)); // 7
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 3)); // 9
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 2)); // 8
+      CalculateTargets(conditions, 3, 6);
+
       shell.SetInfSeekingExperiment(conditions);
     }
 
     private Random generator = new Random((int)(DateTime.Now.Ticks % 54695));
-    private void CalculatePairs(List<InfSeekingCondition> conditions, int maxDisplayDistance = 3, int trialsPerCondition = 8)
+    private void CalculateTargets(List<InfSeekingCondition> conditions, int maxDisplayDistance = 3, int trialsPerCondition = 8)
     {
       foreach (InfSeekingCondition condition in conditions)
       {
@@ -199,8 +205,14 @@ namespace UofM.HCI.tPad.App.Shell
           List<Exp1SourceApp> apps = new List<Exp1SourceApp>();
           for (int appIndex = 0; appIndex < condition.AppsNumber; appIndex++)
           {
-            apps.Add(new Exp1SourceApp() { SourceGroup = (ProviderGroup)generator.Next(4), InstanceNro = generator.Next(7) + 1 });
-            apps[appIndex].ImagePath = String.Format(@"{0}\Images\InfProvider{1}{2}.png", Environment.CurrentDirectory, apps[appIndex].SourceGroup, apps[appIndex].InstanceNro);
+            Exp1SourceApp source = new Exp1SourceApp() { SourceGroup = (ProviderGroup)generator.Next(4), InstanceNro = generator.Next(7) + 1 };
+            if (!apps.Exists(app => app.SourceGroup == source.SourceGroup && app.InstanceNro == source.InstanceNro))
+            {
+              apps.Add(source);
+              apps[appIndex].ImagePath = String.Format(@"{0}\Images\InfProvider{1}{2}.png", Environment.CurrentDirectory, apps[appIndex].SourceGroup, apps[appIndex].InstanceNro);
+            }
+            else
+              appIndex--;
           }
 
           for (int selection = 0; selection < 3; selection++)
