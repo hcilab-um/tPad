@@ -8,8 +8,8 @@
     <ProjectGuid>{7D6E664F-D00F-4883-B684-D86425331B95}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UofM.HCI.tPad.App.Dashboard</RootNamespace>
-    <AssemblyName>DashboardApp</AssemblyName>
+    <RootNamespace>UofM.HCI.tPad.App.Shell</RootNamespace>
+    <AssemblyName>ShellApp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -87,8 +87,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DashboardApp.xaml.cs">
-      <DependentUpon>DashboardApp.xaml</DependentUpon>
+    <Compile Include="ShellApp.xaml.cs">
+      <DependentUpon>ShellApp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -223,7 +223,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DashboardApp.xaml">
+    <Page Include="ShellApp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

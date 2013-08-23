@@ -17,19 +17,19 @@ using System.IO;
 using System.Windows.Threading;
 using UofM.HCI.tPad.Monitors;
 using Ubicomp.Utils.NET.MTF;
-using UofM.HCI.tPad.App.Dashboard.Properties;
+using UofM.HCI.tPad.App.Shell.Properties;
 using UofM.HCI.tPad.App.InfSeeking;
 using UofM.HCI.tPad.Controls;
 
-namespace UofM.HCI.tPad.App.Dashboard
+namespace UofM.HCI.tPad.App.Shell
 {
   /// <summary>
   /// Interaction logic for Dashboard.xaml
   /// </summary>
-  public partial class DashboardApp : UserControl, ITPadApp, INotifyPropertyChanged, ITransportListener
+  public partial class ShellApp : UserControl, ITPadApp, INotifyPropertyChanged, ITransportListener
   {
 
-    private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(DashboardApp));
+    private static log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ShellApp));
 
     public event BoolEventHandler IsTopApp;
     public event RequestUserFocus RequestFocus;
@@ -75,7 +75,7 @@ namespace UofM.HCI.tPad.App.Dashboard
       }
     }
 
-    public DashboardApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, TPadApplicationDescriptor descriptor)
+    public ShellApp(TPadCore core, ITPadAppContainer container, ITPadAppController controller, TPadApplicationDescriptor descriptor)
     {
       Core = core;
       Container = container;

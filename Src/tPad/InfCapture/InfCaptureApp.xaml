@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="UofM.HCI.tPad.App.InfCapture.InfCaptureApp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+  <DockPanel>
+    <Grid DockPanel.Dock="Top" Height="100">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal">
+          <Label Content="Page:" FontSize="24" FontWeight="ExtraBold" VerticalContentAlignment="Center"/>
+          <Label Content="1" FontSize="30" FontWeight="ExtraBold"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <Label Content="Figure:" FontSize="24" FontWeight="ExtraBold" VerticalContentAlignment="Center"/>
+          <Label Content="1" FontSize="30" FontWeight="ExtraBold"/>
+        </StackPanel>
+      </StackPanel>
+
+      <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+        <Label Content="Camera" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraBold"/>
+        <Label Content="Clip->Take" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraBold"/>
+      </StackPanel>
+      
+      <Button Grid.Column="2" Content="CAPTURE" FontSize="24" FontWeight="ExtraBold"/>
+      
+    </Grid>
+    
+    <Grid>
+      <Image x:Name="iCameraFeed" />
+      <Rectangle Fill="Black" Opacity="0.005"/>
+      <Rectangle x:Name="rClippingArea" Width="200" Height="200" Stroke="Red" StrokeThickness="3"/>
+    </Grid>
+    
+  </DockPanel>
+</UserControl>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UofM.HCI.tPad.App.Shell.Properties {
+namespace UofM.HCI.tPad.App.InfCapture.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace UofM.HCI.tPad.App.Shell.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("UofM.HCI.tPad.App.Shell.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("UofM.HCI.tPad.App.InfCapture.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,16 +57,6 @@ namespace UofM.HCI.tPad.App.Shell.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap NotificationDialog {
-            get {
-                object obj = ResourceManager.GetObject("NotificationDialog", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

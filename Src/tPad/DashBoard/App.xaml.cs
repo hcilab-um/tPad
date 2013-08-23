@@ -5,11 +5,11 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using UofM.HCI.tPad;
-using UofM.HCI.tPad.App.Dashboard.Properties;
+using UofM.HCI.tPad.App.Shell.Properties;
 using Ubicomp.Utils.NET.MTF;
 using UofM.HCI.tPad.App.InfSeeking;
 
-namespace UofM.HCI.tPad.App.Dashboard
+namespace UofM.HCI.tPad.App.Shell
 {
   /// <summary>
   /// Interaction logic for App.xaml
@@ -52,7 +52,7 @@ namespace UofM.HCI.tPad.App.Dashboard
       {
         Name = "Dashboard",
         Icon = null,
-        AppType = typeof(DashboardApp),
+        AppType = typeof(ShellApp),
         AppUUID = Guid.NewGuid(),
         Launcher = this
       };
@@ -60,115 +60,115 @@ namespace UofM.HCI.tPad.App.Dashboard
 
     public ITPadApp GetAppInstance(UofM.HCI.tPad.TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      DashboardApp dashboard = new DashboardApp(core, container, controller, descriptor);
+      ShellApp shell = new ShellApp(core, container, controller, descriptor);
 
       Browser.Launcher browserL = new Browser.Launcher();
-      dashboard.Applications.Add(browserL.GetApplicationDescriptor());
-      dashboard.DefaultFlippingAppDescriptor = dashboard.Applications[0];
+      shell.Applications.Add(browserL.GetApplicationDescriptor());
+      shell.DefaultFlippingAppDescriptor = shell.Applications[0];
 
       Calculator.Launcher calculatorL = new Calculator.Launcher();
-      dashboard.Applications.Add(calculatorL.GetApplicationDescriptor());
+      shell.Applications.Add(calculatorL.GetApplicationDescriptor());
 
       Ruler.Launcher rulerL = new Ruler.Launcher();
-      dashboard.Applications.Add(rulerL.GetApplicationDescriptor());
+      shell.Applications.Add(rulerL.GetApplicationDescriptor());
 
       GraphExplorer.Launcher explorerL = new GraphExplorer.Launcher();
-      dashboard.Applications.Add(explorerL.GetApplicationDescriptor());
+      shell.Applications.Add(explorerL.GetApplicationDescriptor());
 
       Tracer.Launcher tracerL = new Tracer.Launcher();
-      dashboard.Applications.Add(tracerL.GetApplicationDescriptor());
+      shell.Applications.Add(tracerL.GetApplicationDescriptor());
 
       PhotoAlbum.Launcher photoAlbumL = new PhotoAlbum.Launcher();
-      dashboard.Applications.Add(photoAlbumL.GetApplicationDescriptor());
+      shell.Applications.Add(photoAlbumL.GetApplicationDescriptor());
 
       WhatUp.Launcher whatUpL = new WhatUp.Launcher();
-      dashboard.Applications.Add(whatUpL.GetApplicationDescriptor());
+      shell.Applications.Add(whatUpL.GetApplicationDescriptor());
 
       //Journal - Simple surface capture
 
       ActiveReader.Launcher arL = new ActiveReader.Launcher();
-      dashboard.Applications.Add(arL.GetApplicationDescriptor());
+      shell.Applications.Add(arL.GetApplicationDescriptor());
 
       //Experiment 1 - Information Seeking
-      SetUpExperiment1(dashboard);
+      SetUpExperiment1(shell);
 
       //Prepares applications for runtime
-      foreach (TPadApplicationDescriptor appDesc in dashboard.Applications)
+      foreach (TPadApplicationDescriptor appDesc in shell.Applications)
         appDesc.Launcher.Prepare();
 
       //Registers the dashboard as the pre-delivery listeners with the TransportComponent
-      TransportComponent.Instance.PreDeliveryListener = dashboard;
+      TransportComponent.Instance.PreDeliveryListener = shell;
 
-      return dashboard;
+      return shell;
     }
 
-    private void SetUpExperiment1(DashboardApp dashboard)
+    private void SetUpExperiment1(ShellApp shell)
     {
       InfSeeking.SeekLauncher ifL = new InfSeeking.SeekLauncher();
-      dashboard.Applications.Add(ifL.GetApplicationDescriptor());
+      shell.Applications.Add(ifL.GetApplicationDescriptor());
 
       //BLUE INFORMATION PROVIDERS - 7
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 1).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 2).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 3).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 4).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 5).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 6).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 7).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 1).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 2).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 3).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 4).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 5).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 6).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 7).GetApplicationDescriptor());
 
       //GREEN INFORMATION PROVIDERS -InfSeeking
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 1).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 2).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 3).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 4).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 5).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 6).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 7).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 8).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 9).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 10).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 11).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 12).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 13).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 14).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 15).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 16).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 1).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 2).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 3).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 4).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 5).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 6).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 7).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 8).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 9).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 10).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 11).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 12).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 13).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 14).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 15).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 16).GetApplicationDescriptor());
 
       //YELLOW INFORMATION PROVIDERS InfSeeking
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 1).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 2).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 3).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 4).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 5).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 6).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 7).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 8).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 9).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 10).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 11).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 12).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 13).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 14).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 15).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 16).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 1).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 2).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 3).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 4).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 5).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 6).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 7).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 8).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 9).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 10).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 11).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 12).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 13).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 14).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 15).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Yellow, 16).GetApplicationDescriptor());
 
       //RED INFORMATION PROVIDERS - 1InfSeeking
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 1).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 2).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 3).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 4).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 5).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 6).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 7).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 8).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 9).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 10).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 11).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 12).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 13).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 14).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 15).GetApplicationDescriptor());
-      dashboard.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 16).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 1).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 2).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 3).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 4).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 5).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 6).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 7).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 8).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 9).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 10).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 11).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 12).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 13).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 14).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 15).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 16).GetApplicationDescriptor());
 
       List<InfSeekingCondition> conditions = new List<InfSeekingCondition>();
       conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1));
@@ -185,7 +185,7 @@ namespace UofM.HCI.tPad.App.Dashboard
       conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 3));
 
       CalculatePairs(conditions, 3, 1);
-      dashboard.SetInfSeekingExperiment(conditions);
+      shell.SetInfSeekingExperiment(conditions);
     }
 
     private Random generator = new Random((int)(DateTime.Now.Ticks % 54695));
