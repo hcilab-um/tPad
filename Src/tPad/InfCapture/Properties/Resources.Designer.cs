@@ -59,5 +59,15 @@ namespace UofM.HCI.tPad.App.InfCapture.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap InfCaptureIcon {
+            get {
+                object obj = ResourceManager.GetObject("InfCaptureIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

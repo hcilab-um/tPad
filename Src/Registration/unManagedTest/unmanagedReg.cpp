@@ -129,7 +129,7 @@ void paperRegistration::setCameraImg()
 {
 	cv::Mat rawImage;
 	loadCameraImage(rawImage);
-	//imwrite("rawImage.png", rawImage);
+
 	//warp image
 	if (status == -1 || compareImages(rawImage, lastDeviceImage) > 1.6)
 	{		
@@ -139,7 +139,6 @@ void paperRegistration::setCameraImg()
 	else computeLocation = false;
 
 	lastDeviceImage = rawImage.clone();
-
 }
 
 void paperRegistration::setCameraImg(cv::Mat &camImg)
@@ -156,6 +155,14 @@ void paperRegistration::setCameraImg(cv::Mat &camImg)
 	else computeLocation = false;
 	
 	lastDeviceImage = rawImage.clone();
+}
+
+cv::Mat &paperRegistration::getCameraImg(bool warped)
+{
+	if(!warped)
+		return lastDeviceImage;
+	else 
+	    return currentDeviceImg;
 }
 
 void paperRegistration::computeWarpMatrix(float imageRatio)
@@ -385,60 +392,6 @@ float paperRegistration::compareImages(cv::Mat &lastImg, cv::Mat &currentImg)
 
 int paperRegistration::connectCamera()
 {
-	//FlyCapture2::Error error;
-	//FlyCapture2::PGRGuid guid;
-	//FlyCapture2::BusManager busMgr;
-
-	//// Getting the GUID of the cam
-	//error = busMgr.GetCameraFromIndex(0, &guid);
-	//if (error != FlyCapture2::PGRERROR_OK)
-	//{
-	//	error.PrintErrorTrace();
-	//	return -1;
-	//}
-	//
-	//// Connect to a camera
-	//error = cam.Connect(&guid);
-	//if (error != FlyCapture2::PGRERROR_OK)
-	//{
-	//	error.PrintErrorTrace();
-	//	return -1;
-	//}
-	//
-	////set video mode
-	//error = cam.SetVideoModeAndFrameRate(FlyCapture2::VIDEOMODE_640x480Y8, FlyCapture2::FRAMERATE_30);
-	//if (error != FlyCapture2::PGRERROR_OK)
-	//{
-	//	error.PrintErrorTrace();
-	//	return -1;
-	//}
-
-	////set brightness
-	//FlyCapture2::Property prop;
-	//prop.type = FlyCapture2::BRIGHTNESS;
-	//prop.valueA = 480;
-	//error = cam.SetProperty(&prop);
-	//if (error != FlyCapture2::PGRERROR_OK)
-	//{
-	//	error.PrintErrorTrace();
-	//	return -1;
-	//}
-
-	//// Starting the capture
-	//error = cam.StartCapture();
-	//if (error != FlyCapture2::PGRERROR_OK)
-	//{
-	//	error.PrintErrorTrace();
-	//	return -1;
-	//}
-	//
-
-	//// Get one raw image to be able to calculate the OpenCV window size
-	//cam.RetrieveBuffer(&rawImage);
-	//// Setting the window size in OpenCV
-	//frame = cvCreateImage(cv::Size(rawImage.GetCols(), rawImage.GetRows()), 8, 1);
-
-	//isCameraConnected = true;
 	cap = new cv::VideoCapture(CV_CAP_ANY);
 
 	cap->set(CV_CAP_PROP_FRAME_HEIGHT, 360);
@@ -449,74 +402,25 @@ int paperRegistration::connectCamera()
 	cap->set(CV_CAP_PROP_SATURATION, 0);
 	
 	if (!cap->isOpened())
-			return -1;
+		return -1;
 
 	return 1;
 }
 
 int paperRegistration::disconnectCamera() 
 {
-	//if (!isCameraConnected)
-	//	return 1;
-	//isCameraConnected = false;
-
-	//FlyCapture2::Error error;
-	//// Stop capturing images
- //   error = cam.StopCapture();
- //   if (error != FlyCapture2::PGRERROR_OK)
-	//{
-	//	error.PrintErrorTrace();
-	//	return -1;
-	//}
-	//
-	////Disconnect the camera
- //   error = cam.Disconnect();
- //   if (error != FlyCapture2::PGRERROR_OK)
-	//{
-	//	error.PrintErrorTrace();
-	//	return -1;
-	//}
 	cap->release();
-
 	return 1;
 }
 
 void paperRegistration::loadCameraImage(cv::Mat &cameraImage)
 {
-	//if (!isCameraConnected)
-	//	return cv::Mat();
-
-	//FlyCapture2::Error error;
-
-	//// Start capturing images
-	//cam.RetrieveBuffer(&rawImage);
-	//	
-	//// Get the raw image dimensions
-	//FlyCapture2::PixelFormat pixFormat;
-	//unsigned int rows, cols, stride;
-	//rawImage.GetDimensions( &rows, &cols, &stride, &pixFormat );
-	//	
-	//// Create a converted image
-	//FlyCapture2::Image convertedImage;
-	//	
-	////Convert the raw image
-	//error = rawImage.Convert( FlyCapture2::PIXEL_FORMAT_MONO8, &convertedImage );
-	//if (error != FlyCapture2::PGRERROR_OK)
-	//{
-	//	error.PrintErrorTrace();
-	//	return cv::Mat();
-	//}
-	//	
-	//// Copy the image into the Mat of OpenCV
-	//memcpy(frame->imageData, convertedImage.GetData(), convertedImage.GetDataSize());
-	
 	if (cap->isOpened())
 	{
 		*cap >> cameraImage;
 		cvtColor(cameraImage, cameraImage, CV_RGB2GRAY);		
 	}
 	else cameraImage = cv::Mat();
-		
 }
 
 int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
@@ -531,32 +435,6 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 	
 	if (computeLocation)
 	{			
-		//if (cameraInUse)
-		//{
-		//	std::vector<cv::Point2f> point(2);
-		//	point[0] = cvPoint(175,0);
-		//	point[1] = cvPoint(492, 350);
-		//
-		//	if (!warpMat.empty())
-		//	{
-		//		cv::warpPerspective(cameraImage, cameraImage, warpMat, cv::Size(1000,2000));			
-		//		cv::perspectiveTransform(point, point, warpMat);				
-		//	}
-		//	cameraImage = cv::Mat(cameraImage, cv::Rect(point[0], point[1]));
-		//	
-		//	cv::Mat blurrImg;
-		//	cv::GaussianBlur(cameraImage, blurrImg, cv::Size(5,5), 3);		
-		//	/*cv::addWeighted(cameraImage, 2.3, blurrImg, -0.5, 0, cameraImage);
-		//	cv::addWeighted(cameraImage, 1.5, blurrImg, -0.5, 0, cameraImage);*/
-		//	cv::addWeighted(cameraImage, 1.6, blurrImg, -0.5, 0, cameraImage);			
-		//}
-		//else
-		//{			
-		//	warpMat = getRotationMatrix2D(cv::Point2f(cameraImage.cols/2.0, cameraImage.rows/2.0), 180, 1);
-		//	cv::warpAffine(cameraImage, cameraImage, warpMat, cameraImage.size());
-		//	cv::resize(cameraImage, cameraImage, cv::Size(cameraImage.cols*imgRatio_, cameraImage.rows*imgRatio_), 0, 0 ,cv::INTER_LINEAR);
-		//}
-		
 		cv::Mat locationHM = computeLocalFeatures(currentDeviceImg);
 		
 		//compute rotation angle (in degree)

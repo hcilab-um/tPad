@@ -40,6 +40,8 @@ namespace UofM.HCI.tPad.App.Browser
       InitializeComponent();
     }
 
+    public void DeActivate() { }
+
     public void Close()
     {
       if (Closed != null)

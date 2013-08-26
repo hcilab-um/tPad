@@ -24,6 +24,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
 
     public enum NotificationType { PasteRequest, DataEmpty, DataError };
 
+    public event EventHandler SearchStarted;
     public event BoolEventHandler IsTopApp;
     public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
@@ -41,13 +42,13 @@ namespace UofM.HCI.tPad.App.InfSeeking
 
     public event EventHandler SendResultOK;
     public event EventHandler SendErrorData;
-    public event Exp1EventHandler GetNextTarget;
+    public event Exp1EventHandler GetTarget;
 
     private Exp1Target currentTarget = null;
-    public Exp1Target CurrentTarget 
+    public Exp1Target CurrentTarget
     {
       get { return currentTarget; }
-      set 
+      set
       {
         currentTarget = value;
         OnPropertyChanged("CurrentTarget");
@@ -68,6 +69,12 @@ namespace UofM.HCI.tPad.App.InfSeeking
       notification.ClickedCancel += new EventHandler(notification_ClickedCancel);
     }
 
+    public void DeActivate() 
+    {
+      if (SearchStarted != null)
+        SearchStarted(this, EventArgs.Empty);
+    }
+
     public void Close()
     {
       if (Closed != null)
@@ -80,7 +87,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> context) 
+    public void LoadInitContext(Dictionary<string, Object> context)
     {
       if (context == null)
         return;
@@ -152,7 +159,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
       }
 
       int target = Int32.Parse(tbTarget.Text);
-      if(target != CurrentTarget.Target)
+      if (target != CurrentTarget.Target)
       {
         SendErrorData(this, null);
         MessabeBoxShow("Please enter the right number", "OK", "Cancel", NotificationType.DataError);
@@ -161,15 +168,13 @@ namespace UofM.HCI.tPad.App.InfSeeking
 
       SendResultOK(this, null);
 
-      CurrentTarget = GetNextTarget(this, null);
+      CurrentTarget = GetTarget(this, null);
       tbTarget.Text = String.Empty;
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-      if (GetNextTarget != null)
-        CurrentTarget = GetNextTarget(this, null);
-
+      CurrentTarget = GetTarget(this, null);
       if (currentTarget == null)
       {
         MessageBox.Show("No experiment is currently being executed");

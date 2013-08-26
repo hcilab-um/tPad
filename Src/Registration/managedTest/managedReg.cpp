@@ -49,7 +49,7 @@ namespace ManagedA
 				memcpy(pm + i * 3, pb + i * 4, 3);
 		} else {
 			uchar *pm = currentImg.data;
-			uchar *pb = (uchar *)data1->Scan0.ToPointer();				
+			uchar *pb = (uchar *)data1->Scan0.ToPointer();
 			for (int i = 0; i < bmp1->Width * bmp1->Height; i++) 
 				*(pm + i * 3) = *(pm + i * 3 + 1) = *(pm + i * 3 + 2) = *(pb + i);					
 		}
@@ -57,6 +57,32 @@ namespace ManagedA
 		bmp1->UnlockBits(data1);  	
 
 		registrationObj->setCameraImg(currentImg);
+	}
+
+	Bitmap^ wrapperRegistClass::GetCameraImg(bool warped)
+	{
+		cv::Mat cameraImg = registrationObj->getCameraImg(warped);
+		int width = cameraImg.size().width;
+		int height = cameraImg.size().height;
+		Bitmap^ returnImg = gcnew Bitmap(width, height, System::Drawing::Imaging::PixelFormat::Format24bppRgb); //Format16bppGrayScale
+
+		System::Drawing::Imaging::BitmapData ^data = returnImg->LockBits(
+				*(gcnew System::Drawing::Rectangle(0, 0, returnImg->Width, returnImg->Height)),
+				System::Drawing::Imaging::ImageLockMode::ReadWrite,
+				returnImg->PixelFormat);
+
+		uchar *pm = cameraImg.data;
+		uchar *pb = (uchar *)data->Scan0.ToPointer();
+		for (int i = 0; i < width * height; i++) 
+		{
+			*(pb + i * 3 + 0) = *(pm + i);
+			*(pb + i * 3 + 1) = *(pm + i);
+			*(pb + i * 3 + 2) = *(pm + i);
+		}//*(pm + i);
+
+		returnImg->UnlockBits(data);
+
+		return returnImg;
 	}
 
 	Glyphs wrapperRegistClass::DetectFigures(float minLength, float maxLength, int tresh_binary)

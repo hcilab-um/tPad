@@ -146,6 +146,10 @@
       <Project>{D1602BF8-1D66-4AF2-BC56-2E73D8FCE570}</Project>
       <Name>GraphExplorer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\InfCapture\InfCapture.csproj">
+      <Project>{9E4F1EB3-BC52-4991-8ED6-593D3E784A4E}</Project>
+      <Name>InfCapture</Name>
+    </ProjectReference>
     <ProjectReference Include="..\InfSeeking\InfSeeking.csproj">
       <Project>{0C038BF0-FC33-4BD3-B513-4317741C7887}</Project>
       <Name>InfSeeking</Name>

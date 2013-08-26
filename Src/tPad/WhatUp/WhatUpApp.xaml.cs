@@ -51,6 +51,8 @@ namespace UofM.HCI.tPad.App.WhatUp
       InitializeComponent();
     }
 
+    public void DeActivate() { }
+
     public void Close()
     {
       if (TransportComponent.Instance.TransportListeners.Contains(this))

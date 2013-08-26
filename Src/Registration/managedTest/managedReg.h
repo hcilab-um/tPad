@@ -122,6 +122,8 @@ namespace ManagedA
 			registrationObj->setCameraImg();
 		}
 
+		Bitmap^ GetCameraImg(bool warped);
+
 		int detectLocation(bool camInUse, int previousStatus)
 		{
 			return registrationObj->detectLocation(camInUse, previousStatus);

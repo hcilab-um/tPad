@@ -72,6 +72,8 @@ namespace UofM.HCI.tPad.App.GraphExplorer
       InitializeComponent();
     }
 
+    public void DeActivate() { }
+
     public void Close()
     {
       if (Closed != null)

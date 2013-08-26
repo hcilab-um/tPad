@@ -62,6 +62,8 @@ namespace UofM.HCI.tPad.App.Ruler
       Distance = GetDistanceBetweenPoints(new Point(measureLine.X1, measureLine.Y1), new Point(measureLine.X2, measureLine.Y2));
     }
 
+    public void DeActivate() { }
+
     public void Close()
     {
       if (Closed != null)

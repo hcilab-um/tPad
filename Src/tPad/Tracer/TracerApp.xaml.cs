@@ -91,6 +91,8 @@ namespace UofM.HCI.tPad.App.Tracer
       inkCanvas.DefaultDrawingAttributes.Height = size;
     }
 
+    public void DeActivate() { }
+
     public void Close()
     {
       if (Closed != null)
