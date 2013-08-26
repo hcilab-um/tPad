@@ -143,5 +143,6 @@ namespace ManagedA
 
 	private: 
 		paperRegistration *registrationObj;
+		Bitmap^ returnImg;
 	};
 }

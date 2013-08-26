@@ -22,7 +22,6 @@ namespace UofM.HCI.tPad.App.InfCapture
         AppUUID = Guid.NewGuid(),
         Launcher = this
       };
-
       return descriptor;
     }
 

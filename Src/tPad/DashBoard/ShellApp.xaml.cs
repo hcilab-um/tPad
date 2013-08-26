@@ -262,6 +262,8 @@ namespace UofM.HCI.tPad.App.Shell
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
+          return;
+
           foreach (GlyphEvent gEvent in e.GlyphEvents)
           {
             //The top app handles such glyph

@@ -1,9 +1,20 @@
-﻿<UserControl x:Class="UofM.HCI.tPad.App.InfCapture.InfCaptureApp"
+﻿<UserControl x:Class="UofM.HCI.tPad.App.InfCapture.InfCaptureApp" x:Name="icApp"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480">
+             xmlns:converters="clr-namespace:UofM.HCI.tPad.App.InfCapture"
+             xmlns:convertersLib="clr-namespace:UofM.HCI.tPad.Converters;assembly=tPadLib"
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480" Loaded="icApp_Loaded">
+
+  <UserControl.Resources>
+    <converters:DeviceExp2Converter x:Key="cDeviceExp2"/>
+    <converters:PictureModeSExp2Converter x:Key="cPictureModeSExp2"/>
+    <converters:PictureModeVExp2Converter x:Key="cPictureModeVExp2"/>
+    <converters:ClippingStateExp2Converter x:Key="cClippingStateExp2" />
+    <convertersLib:AdditionConverter x:Key="cAddition"/>
+  </UserControl.Resources>
+
   <DockPanel>
     <Grid DockPanel.Dock="Top" Height="100">
       <Grid.ColumnDefinitions>
@@ -24,19 +35,48 @@
       </StackPanel>
 
       <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
-        <Label Content="Camera" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraBold"/>
-        <Label Content="Clip->Take" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraBold"/>
+        <Label Content="{Binding ElementName=icApp, Path=CurrentCondition.Device}" 
+               VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraBold"/>
+        <Label Content="{Binding ElementName=icApp, Path=CurrentCondition.PictureMode, Converter={StaticResource ResourceKey=cPictureModeSExp2}}"
+               VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="ExtraBold"/>
       </StackPanel>
-      
-      <Button Grid.Column="2" Content="CAPTURE" FontSize="24" FontWeight="ExtraBold"/>
-      
+
+      <Button x:Name="bCapture" Grid.Column="2" Content="CAPTURE" FontSize="24" FontWeight="ExtraBold" Click="bCapture_Click"/>
     </Grid>
-    
+
     <Grid>
-      <Image x:Name="iCameraFeed" />
-      <Rectangle Fill="Black" Opacity="0.005"/>
-      <Rectangle x:Name="rClippingArea" Width="200" Height="200" Stroke="Red" StrokeThickness="3"/>
+      <Image x:Name="iDeviceCameraFeed" 
+             Visibility="{Binding ElementName=icApp, Path=CurrentCondition.Device, Converter={StaticResource ResourceKey=cDeviceExp2}, ConverterParameter=Normal}"/>
+      
+      <Rectangle Fill="Black" Opacity="0.005" MouseDown="Rectangle_MouseDown" MouseMove="Rectangle_MouseMove" MouseUp="Rectangle_MouseUp" MouseLeave="Rectangle_MouseLeave"/>
+
+      <Grid>
+        <Rectangle x:Name="rClippingArea"  Stroke="Red" StrokeThickness="3" 
+                 Width="{Binding ElementName=icApp, Path=SideSize}" 
+                 Height="{Binding ElementName=icApp, Path=SideSize}"
+                 Visibility="{Binding ElementName=icApp, Path=CurrentCondition.PictureMode, Converter={StaticResource ResourceKey=cPictureModeVExp2}, ConverterParameter=Clipped}" />
+
+        <Ellipse x:Name="eTranslate" Width="100" Height="100" Fill="Pink" 
+               MouseDown="eTranslate_MouseDown" MouseMove="eTranslate_MouseMove" MouseUp="eTranslate_MouseUp" MouseLeave="eTranslate_MouseLeave" MouseEnter="eTranslate_MouseEnter"
+               Visibility="{Binding ElementName=icApp, Path=CurrentCondition.PictureMode, Converter={StaticResource ResourceKey=cPictureModeVExp2}, ConverterParameter=Clipped}" />
+
+        <Rectangle Height="100" Width="3" Fill="Red" />
+        <Rectangle Width="100" Height="3" Fill="Red" />
+
+        <Grid.RenderTransform>
+          <TransformGroup>
+            <TranslateTransform X="{Binding ElementName=icApp, Path=TranslateX}" Y="{Binding ElementName=icApp, Path=TranslateY}"/>
+            <RotateTransform Angle="{Binding ElementName=icApp, Path=Angle}" 
+                             CenterX="{Binding ElementName=icApp, Path=TranslateX, Converter={StaticResource ResourceKey=cAddition}, ConverterParameter=240}" 
+                             CenterY="{Binding ElementName=icApp, Path=TranslateY, Converter={StaticResource ResourceKey=cAddition}, ConverterParameter=350}"/>
+          </TransformGroup>
+        </Grid.RenderTransform>
+      </Grid>
+
+      <Button x:Name="bRetake" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="RETAKE" Width="100" Height="100" Click="bRetake_Click"
+              Visibility="{Binding ElementName=icApp, Path=CState, Converter={StaticResource ResourceKey=cClippingStateExp2}, ConverterParameter=Clipping}"/>
+
     </Grid>
-    
+
   </DockPanel>
 </UserControl>
