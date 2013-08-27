@@ -171,25 +171,25 @@ namespace UofM.HCI.tPad.App.Shell
       shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 16).GetApplicationDescriptor());
 
       List<InfSeekingCondition> conditions = new List<InfSeekingCondition>();
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1)); // 1
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1)); // 4
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1)); // 7
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1)); // 10
-      //CalculateTargets(conditions, 3, 1);
-
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 2)); // 2
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 3)); // 3
       conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1)); // 1
       conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1)); // 4
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 3)); // 12
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 2)); // 5
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 2)); // 11
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 3)); // 6
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1)); // 10
       conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1)); // 7
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 3)); // 9
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 2)); // 8
-      CalculateTargets(conditions, 3, 6);
+      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1)); // 10
+      CalculateTargets(conditions, 3, 1);
+
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 2)); // 2
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 3)); // 3
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1)); // 1
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1)); // 4
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 3)); // 12
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 2)); // 5
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 2)); // 11
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 3)); // 6
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1)); // 10
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1)); // 7
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 3)); // 9
+      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 2)); // 8
+      //CalculateTargets(conditions, 3, 6);
 
       shell.SetInfSeekingExperiment(conditions);
     }
