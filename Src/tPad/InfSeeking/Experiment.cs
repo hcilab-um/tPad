@@ -33,7 +33,16 @@ namespace UofM.HCI.tPad.App.InfSeeking
     public Exp1SourceApp SourceApp { get; set; }
     public InfSeekingCondition Condition { get; set; }
 
-    public DateTime TimeStarted { get; set; }
+    public int ReChecks { get; set; }
+    public int Errors { get; set; }
+    public DateTime FirstSeen { get; set; }
+    public DateTime SeekStarted { get; set; }
+    public DateTime DataFound { get; set; }
+
+    public Exp1Target()
+    {
+      ReChecks = -2;
+    }
   }
 
   public class Exp1SourceApp 

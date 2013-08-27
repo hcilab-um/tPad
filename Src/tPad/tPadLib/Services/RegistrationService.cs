@@ -18,7 +18,7 @@ namespace UofM.HCI.tPad.Services
 
     public ITPadAppController Controller { get; set; }
 
-    private ManagedA.wrapperRegistClass Tracker { get; set; }
+    public ManagedA.wrapperRegistClass Tracker { get; set; }
    
     private float temp_SimCaptureToSourceImageRatio;
 

@@ -90,7 +90,10 @@ namespace UofM.HCI.tPad.App.Shell
       shell.Applications.Add(arL.GetApplicationDescriptor());
 
       //Experiment 1 - Information Seeking
-      SetUpExperiment1(shell);
+      //SetUpExperiment1(shell);
+
+      //Experiment 2 - Information Capture
+      SetUpExperiment2(shell);
 
       //Prepares applications for runtime
       foreach (TPadApplicationDescriptor appDesc in shell.Applications)
@@ -192,6 +195,14 @@ namespace UofM.HCI.tPad.App.Shell
       //CalculateTargets(conditions, 3, 6);
 
       shell.SetInfSeekingExperiment(conditions);
+    }
+
+    private void SetUpExperiment2(ShellApp shell)
+    {
+      InfCapture.Launcher icL = new InfCapture.Launcher();
+      shell.Applications.Add(icL.GetApplicationDescriptor());
+
+      //Here go the experimental conditions and all the rest. 
     }
 
     private Random generator = new Random((int)(DateTime.Now.Ticks % 54695));

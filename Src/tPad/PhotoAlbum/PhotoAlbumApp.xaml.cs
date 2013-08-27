@@ -113,6 +113,8 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
       Core.Device.StackingTouchEvent += new StackingTouchEventEventHandler(Device_StackingTouchEvent);
     }
 
+    public void DeActivate() { }
+
     public void Close()
     {
       if (TransportComponent.Instance.TransportListeners.Contains(this))

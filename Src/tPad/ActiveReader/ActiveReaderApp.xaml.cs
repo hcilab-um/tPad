@@ -1011,6 +1011,8 @@ namespace UofM.HCI.tPad.App.ActiveReader
       return mouseDocPosition;
     }
 
+    public void DeActivate() { }
+
     public void Close()
     {
       if (Closed != null)

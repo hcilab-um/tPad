@@ -62,6 +62,8 @@ namespace UofM.HCI.tPad.App.Calculator
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
+    public void DeActivate() { }
+
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {
       Close();

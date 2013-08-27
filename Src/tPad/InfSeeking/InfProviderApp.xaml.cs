@@ -34,7 +34,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
     public String Image { get; set; }
     public TPadApplicationDescriptor Descriptor { get; set; }
 
-    public event Exp1EventHandler GetNextTarget;
+    public event Exp1EventHandler GetTarget;
     private Exp1Target currentTarget = null;
     public Exp1Target CurrentTarget
     {
@@ -62,6 +62,8 @@ namespace UofM.HCI.tPad.App.InfSeeking
       notification.ClickedOK += new EventHandler(notification_ClickedOK);
       notification.ClickedCancel += new EventHandler(notification_ClickedCancel);
     }
+
+    public void DeActivate() { }
 
     public void Close()
     {
@@ -151,9 +153,9 @@ namespace UofM.HCI.tPad.App.InfSeeking
 
     private void LoadExperimentPair()
     {
-      Exp1Target tmp = null;
-      if (GetNextTarget != null)
-        tmp = GetNextTarget(this, null);
+      Exp1Target tmp = GetTarget(this, null);
+      if (tmp == null)
+        return;
 
       Guid instanceUUID = Guid.Parse(String.Format("00000000-0000-0000-000{0}-0000000000{1:D2}", (int)tmp.SourceApp.SourceGroup, tmp.SourceApp.InstanceNro));
       if (instanceUUID == AppUUID)

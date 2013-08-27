@@ -57,6 +57,8 @@ namespace UofM.HCI.tPad.App
         Closed(this, EventArgs.Empty);
     }
 
+    public void DeActivate() { }
+
     public event PropertyChangedEventHandler PropertyChanged;
     public void OnPropertyChanged(String name)
     {

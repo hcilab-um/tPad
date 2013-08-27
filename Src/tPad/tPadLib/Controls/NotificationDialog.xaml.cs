@@ -113,6 +113,8 @@ namespace UofM.HCI.tPad.Controls
         Closed(this, null);
     }
 
+    public void DeActivate() { }
+
     void Device_FlippingChanged(object sender, FlippingEventArgs e)
     {
       if (IsTopApp == null)

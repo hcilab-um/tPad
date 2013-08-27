@@ -29,6 +29,7 @@ namespace UofM.HCI.tPad
     Dictionary<String, Object> Context { get; }
     void LoadInitContext(Dictionary<String, Object> init);
 
+    void DeActivate();
     void Close();
   }
 }

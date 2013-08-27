@@ -69,7 +69,6 @@ namespace UofM.HCI.tPad.Monitors
     protected override void CustomRun()
     {
       NotifyContextServices(this, new NotifyContextMonitorListenersEventArgs(typeof(Bitmap), null));
-      //NotifyContextServices(this, null);     
 
       if (useCamera)
       {

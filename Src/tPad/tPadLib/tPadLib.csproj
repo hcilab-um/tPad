@@ -103,6 +103,7 @@
     <Compile Include="Converters\ATFRotation.cs" />
     <Compile Include="Converters\ATFSize.cs" />
     <Compile Include="Converters\ATFTranslation.cs" />
+    <Compile Include="Converters\AdditionConverter.cs" />
     <Compile Include="Converters\PointsToAngleConverter.cs" />
     <Compile Include="Converters\SubstractionConverter.cs" />
     <Compile Include="Converters\DivisionMultiConverter.cs" />
