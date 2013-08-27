@@ -67,9 +67,6 @@ namespace ManagedA
 		int width = info->width;
 		int height = info->height;
 
-		int varA = info->widthStep;
-		int varB = cameraImg.total();
-
 		if(returnImg == nullptr)
 			returnImg = gcnew Bitmap(width, height, System::Drawing::Imaging::PixelFormat::Format24bppRgb); //Format16bppGrayScale
 		else if(returnImg->Width != width || returnImg->Height != height)
@@ -82,31 +79,16 @@ namespace ManagedA
 
 		if(!warped)
 		{
-			//this code works fine for the unwarped image
 			uchar *source = cameraImg.data;
 			uchar *dest = (uchar *)data->Scan0.ToPointer();
-			for (int i = 0; i < width * height; i++) 
-			{
-				*(dest + i * 3 + 0) = *(source + i);
-				*(dest + i * 3 + 1) = *(source + i);
-				*(dest + i * 3 + 2) = *(source + i);
-			}
-		}
-		else
-		{
-			//this should be the code for when the image is warped
-			info++;
-			varA++;
-			cv::imshow("Warped Image", cameraImg);
-
-			uchar *source = cameraImg.data;
-			uchar *dest = (uchar *)data->Scan0.ToPointer();
+			int sourcePixelIndex = 0;
+			int destPixelIndex = 0;
 			for(int row = 0 ; row < height; row++)
 			{
 				for(int col = 0 ; col < width ; col++)
 				{
-					int sourcePixelIndex = (row * info->widthStep + col);
-					int destPixelIndex = (row * width + col);
+					sourcePixelIndex = (row * info->widthStep + col);
+					destPixelIndex = (row * width + col);
 
 					*(dest + destPixelIndex * 3 + 0) = *(source + sourcePixelIndex);
 					*(dest + destPixelIndex * 3 + 1) = *(source + sourcePixelIndex);
@@ -114,14 +96,28 @@ namespace ManagedA
 				}
 			}
 		}
-
-		returnImg->UnlockBits(data);
-
-		if(varA == varB)//condition will never be true
+		else
 		{
-			returnImg->GetPixel(varA, varB);
-			returnImg->GetPixel(info->widthStep, varB);
+			cv::Mat cleanCameraImg;
+			cameraImg.copyTo(cleanCameraImg);
+			uchar *source = cleanCameraImg.data;
+			uchar *dest = (uchar *)data->Scan0.ToPointer();
+			int sourcePixelIndex = 0;
+			int destPixelIndex = 0;
+			for(int row = 0 ; row < height; row++)
+			{
+				for(int col = 0 ; col < width ; col++)
+				{
+					sourcePixelIndex = (row * width + col) - row;
+					destPixelIndex = (row * width + col);
+
+					*(dest + destPixelIndex * 3 + 0) = *(source + sourcePixelIndex);
+					*(dest + destPixelIndex * 3 + 1) = *(source + sourcePixelIndex);
+					*(dest + destPixelIndex * 3 + 2) = *(source + sourcePixelIndex);
+				}
+			}
 		}
+		returnImg->UnlockBits(data);
 
 		return returnImg;
 	}

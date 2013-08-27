@@ -26,11 +26,11 @@
       <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
         <StackPanel Orientation="Horizontal">
           <Label Content="Page:" FontSize="24" FontWeight="ExtraBold" VerticalContentAlignment="Center"/>
-          <Label Content="1" FontSize="30" FontWeight="ExtraBold"/>
+          <Label Content="{Binding ElementName=icApp, Path=CurrentCapture.Page}" FontSize="30" FontWeight="ExtraBold"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
           <Label Content="Figure:" FontSize="24" FontWeight="ExtraBold" VerticalContentAlignment="Center"/>
-          <Label Content="1" FontSize="30" FontWeight="ExtraBold"/>
+          <Label Content="{Binding ElementName=icApp, Path=CurrentCapture.Figure}" FontSize="30" FontWeight="ExtraBold"/>
         </StackPanel>
       </StackPanel>
 
@@ -73,9 +73,9 @@
         </Grid.RenderTransform>
       </Grid>
 
-      <Button x:Name="bRetake" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="RETAKE" Width="100" Height="100" Click="bRetake_Click"
+      <Button x:Name="bRetake" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="RETAKE" Width="100" Height="100" Click="bRetake_Click" Margin="10,0,0,10"
               Visibility="{Binding ElementName=icApp, Path=CState, Converter={StaticResource ResourceKey=cClippingStateExp2}, ConverterParameter=Clipping}"/>
-
+      
     </Grid>
 
   </DockPanel>

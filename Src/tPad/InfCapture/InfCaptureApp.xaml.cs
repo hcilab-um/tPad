@@ -57,6 +57,8 @@ namespace UofM.HCI.tPad.App.InfCapture
     {
       get
       {
+        if (CurrentCondition == null)
+          return null;
         return CurrentCondition.Captures[currentTrial * MAX_CAPTURES_PER_TRIAL + currentCapture];
       }
     }
@@ -231,6 +233,7 @@ namespace UofM.HCI.tPad.App.InfCapture
 
       currentConditionIndex++;
       OnPropertyChanged("CurrentCondition");
+      OnPropertyChanged("CurrentCapture");
 
       String message = String.Format("Next Capture\n\rDevice: {0}\nTechnique: {1}\n\rPage: {2} - Figure {3}", CurrentCondition.Device, CurrentCondition.PictureMode, CurrentCapture.Page, CurrentCapture.Figure);
       MessageBoxShow(message, "READY", "CANCEL");
@@ -248,6 +251,7 @@ namespace UofM.HCI.tPad.App.InfCapture
 
       CState = ClippingState.Capturing;
       OnPropertyChanged("CurrentCondition");
+      OnPropertyChanged("CurrentCapture");
       TranslateX = 0;
       TranslateY = 0;
       Angle = 0;
@@ -279,6 +283,9 @@ namespace UofM.HCI.tPad.App.InfCapture
 
     void notification_ClickedOK(object sender, EventArgs e)
     {
+      if (CurrentCapture == null)
+        return;
+
       CurrentCapture.StartTime = DateTime.Now;
     }
 
@@ -371,7 +378,6 @@ namespace UofM.HCI.tPad.App.InfCapture
           g.Flush();
         }
 
-
         //Save the figure
         capture.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
       }
@@ -397,7 +403,11 @@ namespace UofM.HCI.tPad.App.InfCapture
     private System.Windows.Point startingPoint = new System.Windows.Point(0, 0);
     private void eTranslate_MouseDown(object sender, MouseButtonEventArgs e)
     {
+      if (CurrentCondition == null)
+        return;
       if (CurrentCondition.Device == Device.Normal && CState == ClippingState.Capturing)
+        return;
+      if (CurrentCondition.Device == Device.tPad && CurrentCondition.PictureMode == PictureMode.Normal)
         return;
 
       isMoving = true;
@@ -435,7 +445,11 @@ namespace UofM.HCI.tPad.App.InfCapture
     private bool isRotatingScaling = false;
     private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
     {
+      if (CurrentCondition == null)
+        return;
       if (CurrentCondition.Device == Device.Normal && CState == ClippingState.Capturing)
+        return;
+      if (CurrentCondition.Device == Device.tPad && CurrentCondition.PictureMode == PictureMode.Normal)
         return;
 
       isRotatingScaling = true;
@@ -446,6 +460,7 @@ namespace UofM.HCI.tPad.App.InfCapture
     {
       if (!isRotatingScaling)
         return;
+
       ResizeMarkers(sender, e);
     }
 

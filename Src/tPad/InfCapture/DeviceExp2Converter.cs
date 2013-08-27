@@ -15,7 +15,7 @@ namespace UofM.HCI.tPad.App.InfCapture
       Device actualD = (Device)value;
       if (actualD == targetD)
         return Visibility.Visible;
-      return Visibility.Collapsed;
+      return Visibility.Visible;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
