@@ -12,16 +12,15 @@ namespace UofM.HCI.tPad.App.InfCapture
 
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
+      bool? showFeed = (bool?)values[1];
+      if (showFeed.Value)
+        return Visibility.Visible;
+
       if (values[0] == DependencyProperty.UnsetValue)
         return Visibility.Collapsed;
 
       Device targetD = (Device)Enum.Parse(typeof(Device), parameter.ToString());
       Device actualD = (Device)values[0];
-
-      bool? showFeed = (bool?)values[1];
-      if (showFeed.Value)
-        return Visibility.Visible;
-
       if (actualD == targetD)
         return Visibility.Visible;
       return Visibility.Collapsed;

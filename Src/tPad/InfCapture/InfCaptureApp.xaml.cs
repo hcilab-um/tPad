@@ -75,7 +75,7 @@ namespace UofM.HCI.tPad.App.InfCapture
     private int currentTrial = 0;
 
     private int currentConditionIndex = -1;
-    private int[] experimentalOrder = { 6, 7, 8, 3, 4, 5, 0, 1, 2, 9, 10, 11 };
+    private int[] experimentalOrder = { 3, 4, 5, 0, 1, 2, 6, 7, 8, 9, 10, 11 };
     private Exp2Condition[] conditions = 
     {
       new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Quarter },
@@ -157,17 +157,18 @@ namespace UofM.HCI.tPad.App.InfCapture
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
-          if (CurrentCondition == null)
-            return;
-          if (CurrentCondition.Device == Device.Normal && CurrentCondition.PictureMode == PictureMode.Clipped && CState == ClippingState.Clipping)
+          if (CurrentCondition != null && CurrentCondition.Device == Device.Normal && CurrentCondition.PictureMode == PictureMode.Clipped && CState == ClippingState.Clipping)
             return;
 
           lock (captureLock)
           {
             UofM.HCI.tPad.Services.RegistrationService registration = sender as UofM.HCI.tPad.Services.RegistrationService;
 
-            capture = (Bitmap)registration.Tracker.GetCameraImg(CurrentCondition.Device == Device.tPad).Clone();
-            if (CurrentCondition.Device == Device.Normal)
+            bool warped = false;
+            if (CurrentCondition != null && CurrentCondition.Device == Device.tPad)
+              warped = true;
+            capture = (Bitmap)registration.Tracker.GetCameraImg(warped).Clone();
+            if (CurrentCondition == null || CurrentCondition.Device == Device.Normal)
               capture.RotateFlip(RotateFlipType.Rotate90FlipXY);
 
             IntPtr tmpPointer = capture.GetHbitmap();
@@ -203,8 +204,10 @@ namespace UofM.HCI.tPad.App.InfCapture
 
     public void LoadInitContext(Dictionary<string, Object> context) { }
 
-    private void icApp_Loaded(object sender, RoutedEventArgs e)
+    private void bStart_Click(object sender, RoutedEventArgs e)
     {
+      bStart.Visibility = System.Windows.Visibility.Collapsed;
+      bCameraFeed.IsChecked = false;
       StartExperiment();
     }
 
@@ -268,6 +271,7 @@ namespace UofM.HCI.tPad.App.InfCapture
       else
       {
         MessageBoxShow("Experiment Finished", "OK", "CANCEL");
+        bStart.Visibility = System.Windows.Visibility.Visible;
       }
     }
 
@@ -349,38 +353,43 @@ namespace UofM.HCI.tPad.App.InfCapture
       lock (captureLock)
       {
         //Writes the current PictureMode
-        RectangleF rectf = new RectangleF(5, capture.Height - 20, 100, 20);
+        RectangleF rectf = new RectangleF(5, capture.Height - 40, 100, 30);
         Graphics g = Graphics.FromImage(capture);
         g.SmoothingMode = SmoothingMode.AntiAlias;
         g.InterpolationMode = InterpolationMode.HighQualityBicubic;
         g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-        g.DrawString(CurrentCondition.PictureMode.ToString(), new Font("Thaoma", 8), System.Drawing.Brushes.Red, rectf);
+        g.DrawString(String.Format("Device: {0} Mode: {1}", CurrentCondition.Device, CurrentCondition.PictureMode), new Font("Thaoma", 8), System.Drawing.Brushes.Red, rectf);
         g.Flush();
+
+        float ratio = 1;
+        if (drawBorders || drawTarget)
+          ratio = (float)(iDeviceCameraFeed.ActualHeight / capture.Height);
+
+        System.Drawing.Drawing2D.Matrix transform = new System.Drawing.Drawing2D.Matrix();
+        transform.RotateAt(Angle, new PointF(capture.Width / 2 + TranslateX, capture.Height / 2 + TranslateY));
+        transform.Scale((float)(1/ratio), (float)(1/ratio));
+        transform.Translate(TranslateX, TranslateY);
+        g.Transform = transform;
 
         //Draw the target marks on the figure
         if (drawBorders)
         {
-          System.Drawing.Drawing2D.Matrix transform = new System.Drawing.Drawing2D.Matrix();
-          transform.RotateAt(Angle, new PointF(capture.Width / 2 + TranslateX, capture.Height / 2 + TranslateY));
-          transform.Translate(TranslateX, TranslateY);
-          g.Transform = transform;
-
           System.Drawing.Rectangle rect = new System.Drawing.Rectangle();
           rect.Width = SideSize;
           rect.Height = SideSize;
-          rect.X = (int)(capture.Width - SideSize) / 2;
-          rect.Y = (int)(capture.Height - SideSize) / 2;
+          rect.X = (int)(iDeviceCameraFeed.ActualWidth - SideSize) / 2;
+          rect.Y = (int)(iDeviceCameraFeed.ActualHeight - SideSize) / 2;
           g.DrawRectangle(Pens.Red, rect);
         }
 
         if (drawTarget)
         {
           g.DrawLine(Pens.Red,
-            new PointF(capture.Width / 2, capture.Height / 2 - 100),
-            new PointF(capture.Width / 2, capture.Height / 2 + 100));
+            new PointF((float)(iDeviceCameraFeed.ActualWidth / 2), (float)(iDeviceCameraFeed.ActualHeight / 2 - 50)),
+            new PointF((float)(iDeviceCameraFeed.ActualWidth / 2), (float)(iDeviceCameraFeed.ActualHeight / 2 + 50)));
           g.DrawLine(Pens.Red,
-            new PointF(capture.Width / 2 - 100, capture.Height / 2),
-            new PointF(capture.Width / 2 + 100, capture.Height / 2));
+            new PointF((float)(iDeviceCameraFeed.ActualWidth / 2 - 50), (float)(iDeviceCameraFeed.ActualHeight / 2)),
+            new PointF((float)(iDeviceCameraFeed.ActualWidth / 2 + 50), (float)(iDeviceCameraFeed.ActualHeight / 2)));
         }
 
         g.Flush();
@@ -498,11 +507,6 @@ namespace UofM.HCI.tPad.App.InfCapture
 
     [DllImport("gdi32.dll")]
     private static extern bool DeleteObject(IntPtr hObject);
-
-    private void bSeeCamera_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
 
   }
 

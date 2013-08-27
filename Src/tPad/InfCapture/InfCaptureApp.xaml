@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:UofM.HCI.tPad.App.InfCapture"
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPad.Converters;assembly=tPadLib"
-             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480" Loaded="icApp_Loaded" Background="White">
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480" Background="White">
 
   <UserControl.Resources>
     <converters:DeviceExp2Converter x:Key="cDeviceExp2"/>
@@ -89,7 +89,7 @@
         </Button.Visibility>
       </Button>
 
-      <ToggleButton x:Name="bCameraFeed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="FEED" Width="100" Height="100" Margin="10,0,0,10" IsChecked="False">
+      <ToggleButton x:Name="bCameraFeed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="FEED" Width="100" Height="100" Margin="10,0,0,10" IsChecked="True">
         <ToggleButton.Visibility>
           <MultiBinding Converter="{StaticResource ResourceKey=cClippingStateAndDeviceExp2Converter}" ConverterParameter="FEED">
             <Binding ElementName="icApp" Path="CurrentCondition.Device" />
@@ -98,6 +98,8 @@
         </ToggleButton.Visibility>
       </ToggleButton>
 
+      <Button Width="200" Height="100" Content="Start Experiment" x:Name="bStart" Click="bStart_Click"/>
+      
     </Grid>
 
   </DockPanel>
