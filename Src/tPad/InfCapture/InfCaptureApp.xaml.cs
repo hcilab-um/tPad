@@ -68,8 +68,8 @@ namespace UofM.HCI.tPad.App.InfCapture
     private Object captureLock = new Object();
     private Bitmap capture = null;
 
-    private const int MAX_CAPTURES_PER_TRIAL = 1;
-    private const int MAX_TRIALS_PER_CONDITION = 1;
+    private const int MAX_CAPTURES_PER_TRIAL = 3;
+    private const int MAX_TRIALS_PER_CONDITION = 3;
 
     private int currentCapture = 0;
     private int currentTrial = 0;
