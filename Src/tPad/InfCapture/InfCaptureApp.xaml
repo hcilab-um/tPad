@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:UofM.HCI.tPad.App.InfCapture"
              xmlns:convertersLib="clr-namespace:UofM.HCI.tPad.Converters;assembly=tPadLib"
-             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480" Loaded="icApp_Loaded">
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480" Loaded="icApp_Loaded" Background="White">
 
   <UserControl.Resources>
     <converters:DeviceExp2Converter x:Key="cDeviceExp2"/>
