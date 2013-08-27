@@ -68,8 +68,8 @@ namespace UofM.HCI.tPad.App.InfCapture
     private Object captureLock = new Object();
     private Bitmap capture = null;
 
-    private const int MAX_CAPTURES_PER_TRIAL = 3;
-    private const int MAX_TRIALS_PER_CONDITION = 3;
+    private const int MAX_CAPTURES_PER_TRIAL = 1;
+    private const int MAX_TRIALS_PER_CONDITION = 1;
 
     private int currentCapture = 0;
     private int currentTrial = 0;
@@ -257,6 +257,9 @@ namespace UofM.HCI.tPad.App.InfCapture
       Angle = 0;
       SideSize = 200;
 
+      if (CurrentCondition != null && CurrentCondition.Device == Device.tPad && CurrentCondition.PictureMode == PictureMode.Clipped)
+        CState = ClippingState.Clipping;
+
       if (currentConditionIndex < conditions.Length)
       {
         String message = String.Format("Next Capture\n\rDevice: {0}\nTechnique: {1}\n\rPage: {2} - Figure {3}", CurrentCondition.Device, CurrentCondition.PictureMode, CurrentCapture.Page, CurrentCapture.Figure);
@@ -314,7 +317,7 @@ namespace UofM.HCI.tPad.App.InfCapture
         if (CurrentCondition.PictureMode == PictureMode.Normal)
         {
           CurrentCapture.EndTime = DateTime.Now;
-          SaveImageAndLog(true);
+          SaveImageAndLog(true, false);
           NextTask();
         }
         else if (CurrentCondition.PictureMode == PictureMode.Clipped)
@@ -324,7 +327,7 @@ namespace UofM.HCI.tPad.App.InfCapture
           else if (CState == ClippingState.Clipping)
           {
             CurrentCapture.EndTime = DateTime.Now;
-            SaveImageAndLog(true);
+            SaveImageAndLog(true, true);
             NextTask();
           }
         }
@@ -333,12 +336,12 @@ namespace UofM.HCI.tPad.App.InfCapture
       else if (CurrentCondition.Device == Device.tPad)
       {
         CurrentCapture.EndTime = DateTime.Now;
-        SaveImageAndLog(true);
+        SaveImageAndLog(false, false);
         NextTask();
       }
     }
 
-    private void SaveImageAndLog(bool drawMarkers)
+    private void SaveImageAndLog(bool drawTarget, bool drawBorders)
     {
       //saves the image with the target marks
       long ticks = CurrentCapture.EndTime.Ticks;
@@ -355,7 +358,7 @@ namespace UofM.HCI.tPad.App.InfCapture
         g.Flush();
 
         //Draw the target marks on the figure
-        if (drawMarkers)
+        if (drawBorders)
         {
           System.Drawing.Drawing2D.Matrix transform = new System.Drawing.Drawing2D.Matrix();
           transform.RotateAt(Angle, new PointF(capture.Width / 2 + TranslateX, capture.Height / 2 + TranslateY));
@@ -368,15 +371,19 @@ namespace UofM.HCI.tPad.App.InfCapture
           rect.X = (int)(capture.Width - SideSize) / 2;
           rect.Y = (int)(capture.Height - SideSize) / 2;
           g.DrawRectangle(Pens.Red, rect);
+        }
 
+        if (drawTarget)
+        {
           g.DrawLine(Pens.Red,
             new PointF(capture.Width / 2, capture.Height / 2 - 100),
             new PointF(capture.Width / 2, capture.Height / 2 + 100));
           g.DrawLine(Pens.Red,
             new PointF(capture.Width / 2 - 100, capture.Height / 2),
             new PointF(capture.Width / 2 + 100, capture.Height / 2));
-          g.Flush();
         }
+
+        g.Flush();
 
         //Save the figure
         capture.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
@@ -480,6 +487,7 @@ namespace UofM.HCI.tPad.App.InfCapture
 
     private void Rectangle_MouseUp(object sender, MouseButtonEventArgs e)
     {
+      isMoving = false;
       isRotatingScaling = false;
     }
 
@@ -490,6 +498,11 @@ namespace UofM.HCI.tPad.App.InfCapture
 
     [DllImport("gdi32.dll")]
     private static extern bool DeleteObject(IntPtr hObject);
+
+    private void bSeeCamera_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 
   }
 

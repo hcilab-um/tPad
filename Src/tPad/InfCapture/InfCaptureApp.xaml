@@ -12,11 +12,12 @@
     <converters:PictureModeSExp2Converter x:Key="cPictureModeSExp2"/>
     <converters:PictureModeVExp2Converter x:Key="cPictureModeVExp2"/>
     <converters:ClippingStateExp2Converter x:Key="cClippingStateExp2" />
+    <converters:ClippingStateAndDeviceExp2Converter x:Key="cClippingStateAndDeviceExp2Converter" />
     <convertersLib:AdditionConverter x:Key="cAddition"/>
   </UserControl.Resources>
 
   <DockPanel>
-    <Grid DockPanel.Dock="Top" Height="100">
+    <Grid DockPanel.Dock="Bottom" Height="100">
       <Grid.ColumnDefinitions>
         <ColumnDefinition />
         <ColumnDefinition />
@@ -45,20 +46,26 @@
     </Grid>
 
     <Grid>
-      <Image x:Name="iDeviceCameraFeed" 
-             Visibility="{Binding ElementName=icApp, Path=CurrentCondition.Device, Converter={StaticResource ResourceKey=cDeviceExp2}, ConverterParameter=Normal}"/>
+      <Image x:Name="iDeviceCameraFeed" >
+        <Image.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cDeviceExp2}" ConverterParameter="Normal">
+            <Binding ElementName="icApp" Path="CurrentCondition.Device"/>
+            <Binding ElementName="bCameraFeed" Path="IsChecked"/>
+          </MultiBinding>
+        </Image.Visibility>
+      </Image>
       
       <Rectangle Fill="Black" Opacity="0.005" MouseDown="Rectangle_MouseDown" MouseMove="Rectangle_MouseMove" MouseUp="Rectangle_MouseUp" MouseLeave="Rectangle_MouseLeave"/>
 
       <Grid>
-        <Rectangle x:Name="rClippingArea"  Stroke="Red" StrokeThickness="3" 
+        <Rectangle x:Name="rClippingArea"  Stroke="Red" StrokeThickness="3" MouseUp="Rectangle_MouseUp"
                  Width="{Binding ElementName=icApp, Path=SideSize}" 
                  Height="{Binding ElementName=icApp, Path=SideSize}"
-                 Visibility="{Binding ElementName=icApp, Path=CurrentCondition.PictureMode, Converter={StaticResource ResourceKey=cPictureModeVExp2}, ConverterParameter=Clipped}" />
+                 Visibility="{Binding ElementName=icApp, Path=CState, Converter={StaticResource ResourceKey=cClippingStateExp2}, ConverterParameter=Clipping}" />
 
         <Ellipse x:Name="eTranslate" Width="100" Height="100" Fill="Pink" 
                MouseDown="eTranslate_MouseDown" MouseMove="eTranslate_MouseMove" MouseUp="eTranslate_MouseUp" MouseLeave="eTranslate_MouseLeave" MouseEnter="eTranslate_MouseEnter"
-               Visibility="{Binding ElementName=icApp, Path=CurrentCondition.PictureMode, Converter={StaticResource ResourceKey=cPictureModeVExp2}, ConverterParameter=Clipped}" />
+               Visibility="{Binding ElementName=icApp, Path=CState, Converter={StaticResource ResourceKey=cClippingStateExp2}, ConverterParameter=Clipping}" />
 
         <Rectangle Height="100" Width="3" Fill="Red" />
         <Rectangle Width="100" Height="3" Fill="Red" />
@@ -73,9 +80,24 @@
         </Grid.RenderTransform>
       </Grid>
 
-      <Button x:Name="bRetake" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="RETAKE" Width="100" Height="100" Click="bRetake_Click" Margin="10,0,0,10"
-              Visibility="{Binding ElementName=icApp, Path=CState, Converter={StaticResource ResourceKey=cClippingStateExp2}, ConverterParameter=Clipping}"/>
-      
+      <Button x:Name="bRetake" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="RETAKE" Width="100" Height="100" Click="bRetake_Click" Margin="10,0,0,10">
+        <Button.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cClippingStateAndDeviceExp2Converter}" ConverterParameter="RETAKE">
+            <Binding ElementName="icApp" Path="CurrentCondition.Device" />
+            <Binding ElementName="icApp" Path="CState" />
+          </MultiBinding>
+        </Button.Visibility>
+      </Button>
+
+      <ToggleButton x:Name="bCameraFeed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="FEED" Width="100" Height="100" Margin="10,0,0,10" IsChecked="False">
+        <ToggleButton.Visibility>
+          <MultiBinding Converter="{StaticResource ResourceKey=cClippingStateAndDeviceExp2Converter}" ConverterParameter="FEED">
+            <Binding ElementName="icApp" Path="CurrentCondition.Device" />
+            <Binding ElementName="icApp" Path="CState" />
+          </MultiBinding>
+        </ToggleButton.Visibility>
+      </ToggleButton>
+
     </Grid>
 
   </DockPanel>

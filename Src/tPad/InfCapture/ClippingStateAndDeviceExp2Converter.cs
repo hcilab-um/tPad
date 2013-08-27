@@ -7,23 +7,26 @@ using System.Windows;
 
 namespace UofM.HCI.tPad.App.InfCapture
 {
-  public class DeviceExp2Converter : IMultiValueConverter
+  public class ClippingStateAndDeviceExp2Converter : IMultiValueConverter
   {
-
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if (values[0] == DependencyProperty.UnsetValue)
         return Visibility.Collapsed;
 
-      Device targetD = (Device)Enum.Parse(typeof(Device), parameter.ToString());
       Device actualD = (Device)values[0];
+      ClippingState actualPM = (ClippingState)values[1];
 
-      bool? showFeed = (bool?)values[1];
-      if (showFeed.Value)
-        return Visibility.Visible;
-
-      if (actualD == targetD)
-        return Visibility.Visible;
+      if ("RETAKE".Equals(parameter.ToString()))
+      {
+        if (actualD == Device.Normal && actualPM == ClippingState.Clipping)
+          return Visibility.Visible;
+      }
+      else if ("FEED".Equals(parameter.ToString()))
+      {
+        if (actualD == Device.tPad)
+          return Visibility.Visible;
+      }
       return Visibility.Collapsed;
     }
 
