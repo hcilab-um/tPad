@@ -190,7 +190,7 @@ namespace UofM.HCI.tPad.App.Shell
       context.Add("currentApp", TopAppDescriptor);
 
       RunningApps.Add(NotificationDialogDescriptor);
-      NotificationDialogDescriptor.Instance.LoadInitContext(context);
+      NotificationDialogDescriptor.Instance.Activate(context);
       NotificationDialogDescriptor.RunningSide = Core.Device.FlippingSide;
       Container.LoadTPadApp(NotificationDialogDescriptor.Instance, true);
     }
@@ -198,7 +198,7 @@ namespace UofM.HCI.tPad.App.Shell
     private void BringToFront(TPadApplicationDescriptor descriptor, Dictionary<string, Object> context)
     {
       descriptor.RunningSide = Core.Device.FlippingSide;
-      descriptor.Instance.LoadInitContext(context);
+      descriptor.Instance.Activate(context);
       Container.Show(descriptor.Instance);
     }
 
@@ -378,7 +378,7 @@ namespace UofM.HCI.tPad.App.Shell
         Closed(this, EventArgs.Empty);
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init) { }
+    public void Activate(Dictionary<string, Object> init) { }
 
     private void cbUserDefaultFlippingApp_Unchecked(object sender, RoutedEventArgs e)
     {

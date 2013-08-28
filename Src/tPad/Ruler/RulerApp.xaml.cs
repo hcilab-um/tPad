@@ -76,7 +76,7 @@ namespace UofM.HCI.tPad.App.Ruler
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init) { }
+    public void Activate(Dictionary<string, Object> init) { }
 
     private bool isMoving = false, isHead = true;
     private void gMeasurements_MouseDown(object sender, MouseButtonEventArgs e)

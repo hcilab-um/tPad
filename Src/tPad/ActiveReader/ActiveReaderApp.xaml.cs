@@ -174,7 +174,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
       InitializeComponent();
     }
 
-    public void LoadInitContext(Dictionary<string, System.Object> init) { }
+    public void Activate(Dictionary<string, System.Object> init) { }
 
     void ActiveReaderApp_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {

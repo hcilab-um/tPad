@@ -30,7 +30,7 @@ namespace UofM.HCI.tPad.App.Calculator
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
       CalculatorApp calculator = new CalculatorApp(core, container, controller, descriptor.AppUUID);
-      calculator.LoadInitContext(settings.Context);
+      calculator.Activate(settings.Context);
       return calculator;
     }
 

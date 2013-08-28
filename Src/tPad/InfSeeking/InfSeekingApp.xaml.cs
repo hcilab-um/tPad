@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using UofM.HCI.tPad.Controls;
+using System.IO;
 
 namespace UofM.HCI.tPad.App.InfSeeking
 {
@@ -69,12 +70,6 @@ namespace UofM.HCI.tPad.App.InfSeeking
       notification.ClickedCancel += new EventHandler(notification_ClickedCancel);
     }
 
-    public void DeActivate() 
-    {
-      if (SearchStarted != null)
-        SearchStarted(this, EventArgs.Empty);
-    }
-
     public void Close()
     {
       if (Closed != null)
@@ -87,13 +82,25 @@ namespace UofM.HCI.tPad.App.InfSeeking
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> context)
+    public void Activate(Dictionary<string, Object> context)
     {
+      if (GetTarget != null)
+        CurrentTarget = GetTarget(this, null);
+
+      if (CurrentTarget != null && CurrentTarget.Condition.Method != SwitchingMethod.TapNFlip)
+        return;
       if (context == null)
         return;
       if (!context.ContainsKey("result"))
         return;
+
       tbTarget.Text = context["result"] as String;
+    }
+
+    public void DeActivate()
+    {
+      if (SearchStarted != null)
+        SearchStarted(this, EventArgs.Empty);
     }
 
     private void tbSecond_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -114,7 +121,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
       context.Add("currentApp", null);
       context.Add("state", type);
 
-      notification.LoadInitContext(context);
+      notification.Activate(context);
       Container.LoadTPadApp(notification, true);
     }
 
@@ -123,11 +130,9 @@ namespace UofM.HCI.tPad.App.InfSeeking
       if (((NotificationType)notification.State) != NotificationType.PasteRequest)
         return;
 
-      if (Clipboard.ContainsText())
-      {
-        String clipboard = String.Format(@"{0}\{1}", Environment.CurrentDirectory, "clipboard.txt");
+      String clipboard = String.Format(@"{0}\{1}", Environment.CurrentDirectory, "clipboard.txt");
+      if (File.Exists(clipboard))
         tbTarget.Text = System.IO.File.ReadAllText(clipboard);
-      }
     }
 
     void notification_ClickedCancel(object sender, EventArgs e)

@@ -105,6 +105,6 @@ namespace UofM.HCI.tPad.App.Tracer
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init) { }
+    public void Activate(Dictionary<string, Object> init) { }
   }
 }

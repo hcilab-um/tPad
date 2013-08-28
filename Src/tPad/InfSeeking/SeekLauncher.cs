@@ -29,7 +29,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
       InfSeekingApp seeker = new InfSeekingApp(core, container, controller, descriptor.AppUUID);
-
+      seeker.Activate(settings.Context);
       return seeker;
     }
 

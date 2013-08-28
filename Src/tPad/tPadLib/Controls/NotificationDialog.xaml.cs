@@ -88,7 +88,7 @@ namespace UofM.HCI.tPad.Controls
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<String, Object> init)
+    public void Activate(Dictionary<String, Object> init)
     {
       if (init == null || init.Count == 0)
         return;

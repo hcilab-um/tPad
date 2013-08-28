@@ -75,7 +75,7 @@ namespace UofM.HCI.tPad.App.Calculator
         Closed(this, EventArgs.Empty);
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init) 
+    public void Activate(Dictionary<string, Object> init) 
     {
       if (init == null)
         return;

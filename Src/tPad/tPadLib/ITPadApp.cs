@@ -27,8 +27,7 @@ namespace UofM.HCI.tPad
     Guid AppUUID { get; }
 
     Dictionary<String, Object> Context { get; }
-    void LoadInitContext(Dictionary<String, Object> init);
-
+    void Activate(Dictionary<String, Object> remoteContext);
     void DeActivate();
     void Close();
   }
