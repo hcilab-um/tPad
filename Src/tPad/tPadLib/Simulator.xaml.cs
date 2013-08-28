@@ -286,7 +286,6 @@ namespace UofM.HCI.tPad
 
           TPadWindow deviceWindow = new TPadWindow(Profile, Launcher, core);
           deviceWindow.Closed += deviceWindow_Closed;
-          deviceWindow.InstanceNumber = AppInstances.Count;
 
           core.CoreStart(deviceWindow, simDevice);
 

@@ -35,7 +35,8 @@ namespace UofM.HCI.tPad
       }
     }
 
-    public int InstanceNumber { get; set; }
+    private System.Windows.Forms.Screen CurrentScreen { get; set; }
+    private static List<System.Windows.Forms.Screen> screensUsed = new List<System.Windows.Forms.Screen>();
 
     public TPadWindow(TPadProfile profile, ITPadAppLauncher launcher, TPadCore core)
     {
@@ -90,24 +91,39 @@ namespace UofM.HCI.tPad
 
     private void tpWindow_Loaded(object sender, RoutedEventArgs e)
     {
-      if (System.Windows.Forms.SystemInformation.MonitorCount == 1)
-        return;
-
-      if (InstanceNumber > 0)
-        return;
-
-      var tPadDisplay = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(
+      var tPadScreens = System.Windows.Forms.Screen.AllScreens.Where(
         tmp => tmp.Bounds.Width == Profile.Resolution.Width && tmp.Bounds.Height == Profile.Resolution.Height);
-      if (tPadDisplay == null)
+      if (tPadScreens == null || tPadScreens.Count() == 0)
         return;
+
+      int displayIndex = -1;
+      var tPadScreen = tPadScreens.ElementAt(++displayIndex);
+      while (screensUsed.Contains(tPadScreen))
+      {
+        tPadScreen = null;
+        ++displayIndex;
+        if (displayIndex == tPadScreens.Count())
+          break;
+        tPadScreen = tPadScreens.ElementAt(displayIndex);
+      }
+
+      if (tPadScreen == null)
+        return;
+      screensUsed.Add(tPadScreen);
+      CurrentScreen = tPadScreen;
 
       SizeMultiplier = 1;
       OnPropertyChanged("SizeMultiplier");
-
-      Left = tPadDisplay.WorkingArea.Left;
-      Top = tPadDisplay.WorkingArea.Top;
+      Left = tPadScreen.WorkingArea.Left;
+      Top = tPadScreen.WorkingArea.Top;
       WindowStyle = System.Windows.WindowStyle.None;
       WindowState = System.Windows.WindowState.Maximized;
+    }
+
+    private void tpWindow_Closed(object sender, EventArgs e)
+    {
+      if (CurrentScreen != null && screensUsed.Contains(CurrentScreen))
+        screensUsed.Remove(CurrentScreen);
     }
 
     private void tpWindow_SizeChanged(object sender, SizeChangedEventArgs e)

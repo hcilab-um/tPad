@@ -4,7 +4,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:converters="clr-namespace:UofM.HCI.tPad.Converters" Background="Transparent"
         WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight" Topmost="True" WindowStartupLocation="Manual"
-        Loaded="tpWindow_Loaded" SizeChanged="tpWindow_SizeChanged">
+        Loaded="tpWindow_Loaded" Closed="tpWindow_Closed" SizeChanged="tpWindow_SizeChanged">
 
   <Window.Resources>
     <converters:LayerScalingConverter x:Key="cLayerScaling" />
