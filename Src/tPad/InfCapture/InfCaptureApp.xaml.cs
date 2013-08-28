@@ -222,19 +222,16 @@ namespace UofM.HCI.tPad.App.InfCapture
           //Page depends on the target size - each page has only 1 target size, 3 pages have the same target size
           if (capture % MAX_CAPTURES_PER_TRIAL == 0) //new page
           {
-            do
-            {
-              task.Page = (int)conditions[condition].TargetSize * 3 + (generator.Next() % 3);
-            } while (conditions[condition].Captures.Exists(existingTask => existingTask.Page == task.Page));
+              task.Page = (int)conditions[condition].TargetSize;
           }
           else
             task.Page = conditions[condition].Captures[capture - 1].Page;
-          task.Figure = capture % MAX_CAPTURES_PER_TRIAL + 1;
+          task.Figure = generator.Next(MAX_CAPTURES_PER_TRIAL) + 1;
           conditions[condition].Captures.Add(task);
         }
       }
 
-      currentConditionIndex++;
+      currentConditionIndex = 0; ;
       OnPropertyChanged("CurrentCondition");
       OnPropertyChanged("CurrentCapture");
 
