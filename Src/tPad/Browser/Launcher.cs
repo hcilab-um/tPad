@@ -29,7 +29,7 @@ namespace UofM.HCI.tPad.App.Browser
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
       BrowserApp browser = new BrowserApp(core, container, controller, descriptor.AppUUID);
-      browser.LoadInitContext(settings.Context);
+      browser.Activate(settings.Context);
       return browser;
     }
 

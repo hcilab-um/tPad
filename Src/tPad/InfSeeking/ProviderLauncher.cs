@@ -40,7 +40,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
       InfProviderApp provider = new InfProviderApp(core, container, controller, descriptor);
-
+      provider.Activate(settings.Context);
       return provider;
     }
 

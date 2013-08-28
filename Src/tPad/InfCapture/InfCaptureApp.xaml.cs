@@ -202,7 +202,7 @@ namespace UofM.HCI.tPad.App.InfCapture
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> context) { }
+    public void Activate(Dictionary<string, Object> context) { }
 
     private void bStart_Click(object sender, RoutedEventArgs e)
     {
@@ -284,7 +284,7 @@ namespace UofM.HCI.tPad.App.InfCapture
       context.Add("sender", null);
       context.Add("currentApp", null);
 
-      notification.LoadInitContext(context);
+      notification.Activate(context);
       Container.LoadTPadApp(notification, true);
     }
 

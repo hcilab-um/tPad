@@ -54,7 +54,7 @@ namespace UofM.HCI.tPad.App.Browser
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init)
+    public void Activate(Dictionary<string, Object> init)
     {
       if (init == null)
         return;

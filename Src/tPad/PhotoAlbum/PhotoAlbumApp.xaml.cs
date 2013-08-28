@@ -143,7 +143,7 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
         LocalPhotos.Add(photo);
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init) { }
+    public void Activate(Dictionary<string, Object> init) { }
 
     private void Image_MouseUp(object sender, MouseButtonEventArgs e)
     {

@@ -77,7 +77,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init)
+    public void Activate(Dictionary<string, Object> init)
     {
       LoadExperimentPair();
     }
@@ -94,7 +94,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
       context.Add("sender", sender);
       context.Add("currentApp", Descriptor);
 
-      notification.LoadInitContext(context);
+      notification.Activate(context);
       Container.LoadTPadApp(notification, true);
     }
 
@@ -146,13 +146,11 @@ namespace UofM.HCI.tPad.App.InfSeeking
       }
     }
 
-    private void UserControl_Loaded(object sender, RoutedEventArgs ev)
-    {
-      LoadExperimentPair();
-    }
-
     private void LoadExperimentPair()
     {
+      if (GetTarget == null)
+        return;
+
       Exp1Target tmp = GetTarget(this, null);
       if (tmp == null)
         return;
@@ -162,6 +160,11 @@ namespace UofM.HCI.tPad.App.InfSeeking
         CurrentTarget = tmp;
       else
         CurrentTarget = null;
+    }
+
+    private void ipApp_Loaded(object sender, RoutedEventArgs e)
+    {
+      LoadExperimentPair();
     }
 
   }

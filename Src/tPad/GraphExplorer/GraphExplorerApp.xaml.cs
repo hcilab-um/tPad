@@ -86,7 +86,7 @@ namespace UofM.HCI.tPad.App.GraphExplorer
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
 
-    public void LoadInitContext(Dictionary<string, Object> init) { }
+    public void Activate(Dictionary<string, Object> init) { }
 
     private void btnEdit_Click(object sender, RoutedEventArgs e)
     {

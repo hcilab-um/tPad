@@ -41,7 +41,7 @@ namespace UofM.HCI.tPad.App.InfSeeking
 
     public Exp1Target()
     {
-      ReChecks = -2;
+      ReChecks = -3; //it takes three queries to enter the result (seek, provider, seek)
     }
   }
 

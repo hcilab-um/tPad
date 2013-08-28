@@ -90,7 +90,7 @@ namespace UofM.HCI.tPad.App.Shell
       shell.Applications.Add(arL.GetApplicationDescriptor());
 
       //Experiment 1 - Information Seeking
-      //SetUpExperiment1(shell);
+      SetUpExperiment1(shell);
 
       //Experiment 2 - Information Capture
       SetUpExperiment2(shell);
