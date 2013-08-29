@@ -477,6 +477,12 @@ namespace UofM.HCI.tPad.App.InfCapture
       ResizeMarkers(sender, e);
     }
 
+    private void Rectangle_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+      isMoving = false;
+      isRotatingScaling = false;
+    }
+
     private void ResizeMarkers(object sender, MouseEventArgs e)
     {
       var rect = sender as System.Windows.Shapes.Rectangle;
@@ -489,12 +495,6 @@ namespace UofM.HCI.tPad.App.InfCapture
         Angle = 90;
       else
         Angle = -1 * (int)(Math.Atan(axis.X / axis.Y) * 180 / Math.PI);
-    }
-
-    private void Rectangle_MouseUp(object sender, MouseButtonEventArgs e)
-    {
-      isMoving = false;
-      isRotatingScaling = false;
     }
 
     private void Rectangle_MouseLeave(object sender, MouseEventArgs e)

@@ -62,6 +62,27 @@ namespace UofM.HCI.tPad.App.Shell
     {
       ShellApp shell = new ShellApp(core, container, controller, descriptor);
 
+      //Demo Mode - This is all the smaller apps that showcase the possibilities with a tPad
+      SetDemoMode(shell);
+
+      //Experiment 1 - Information Seeking
+      //SetUpExperiment1(shell);
+
+      //Experiment 2 - Information Capture
+      //SetUpExperiment2(shell);
+
+      //Prepares applications for runtime
+      foreach (TPadApplicationDescriptor appDesc in shell.Applications)
+        appDesc.Launcher.Prepare();
+
+      //Registers the dashboard as the pre-delivery listeners with the TransportComponent
+      TransportComponent.Instance.PreDeliveryListener = shell;
+
+      return shell;
+    }
+
+    private static void SetDemoMode(ShellApp shell)
+    {
       Browser.Launcher browserL = new Browser.Launcher();
       shell.Applications.Add(browserL.GetApplicationDescriptor());
       shell.DefaultFlippingAppDescriptor = shell.Applications[0];
@@ -84,25 +105,11 @@ namespace UofM.HCI.tPad.App.Shell
       WhatUp.Launcher whatUpL = new WhatUp.Launcher();
       shell.Applications.Add(whatUpL.GetApplicationDescriptor());
 
-      //Journal - Simple surface capture
+      SurfaceCapture.Launcher sCaptureL = new SurfaceCapture.Launcher();
+      shell.Applications.Add(sCaptureL.GetApplicationDescriptor());
 
       ActiveReader.Launcher arL = new ActiveReader.Launcher();
       shell.Applications.Add(arL.GetApplicationDescriptor());
-
-      //Experiment 1 - Information Seeking
-      SetUpExperiment1(shell);
-
-      //Experiment 2 - Information Capture
-      SetUpExperiment2(shell);
-
-      //Prepares applications for runtime
-      foreach (TPadApplicationDescriptor appDesc in shell.Applications)
-        appDesc.Launcher.Prepare();
-
-      //Registers the dashboard as the pre-delivery listeners with the TransportComponent
-      TransportComponent.Instance.PreDeliveryListener = shell;
-
-      return shell;
     }
 
     private void SetUpExperiment1(ShellApp shell)

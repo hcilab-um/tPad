@@ -166,6 +166,10 @@
       <Project>{C33F4C7D-C57B-49BD-A493-CF6C8EEBF957}</Project>
       <Name>Ruler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SurfaceCapture\SurfaceCapture.csproj">
+      <Project>{280D4297-9085-4628-9385-E0D6DA166F52}</Project>
+      <Name>SurfaceCapture</Name>
+    </ProjectReference>
     <ProjectReference Include="..\tPadLib\tPadLib.csproj">
       <Project>{947CBE92-467E-4E57-8877-CE5AF530D5D7}</Project>
       <Name>tPadLib</Name>
@@ -243,7 +247,9 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy $(SolutionDir)\$(ConfigurationName)\*.dll $(TargetDir)
+    <PreBuildEvent>del /S /F /Q $(TargetDir)\Device1
+del /S /F /Q $(TargetDir)\Device1
+copy $(SolutionDir)\$(ConfigurationName)\*.dll $(TargetDir)
 copy $(SolutionDir)\Lib\opencv_*.dll $(TargetDir)</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

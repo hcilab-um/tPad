@@ -2,25 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ubicomp.Utils.NET.MTF;
-using UofM.HCI.tPad.App.PhotoAlbum.Network;
 
-namespace UofM.HCI.tPad.App.PhotoAlbum
+namespace UofM.HCI.tPad.App.SurfaceCapture
 {
   public class Launcher : ITPadAppLauncher
   {
     public TPadLauncherSettings GetSettings(TPadLauncherSettings settings)
     {
-      return settings;
+      throw new NotImplementedException();
     }
 
     public TPadApplicationDescriptor GetApplicationDescriptor()
     {
       TPadApplicationDescriptor descriptor = new TPadApplicationDescriptor()
       {
-        Name = "Photo Album",
-        Icon = UofM.HCI.tPad.App.PhotoAlbum.Properties.Resources.PhotoAlbumIcon,
-        AppType = typeof(PhotoAlbumApp),
+        Name = "Capture",
+        Icon = UofM.HCI.tPad.App.SurfaceCapture.Properties.Resources.SurfaceCaptureIcon,
+        AppType = typeof(SurfaceCaptureApp),
         AppUUID = Guid.NewGuid(),
         Launcher = this
       };
@@ -30,11 +28,12 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
 
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
-      PhotoAlbumApp photoAlbum = new PhotoAlbumApp(core, container, controller, descriptor.AppUUID);
-      photoAlbum.Activate(settings.Context);
-      return photoAlbum;
+      SurfaceCaptureApp capture = new SurfaceCaptureApp(core, container, controller, descriptor.AppUUID);
+      capture.Activate(settings.Context);
+      return capture;
     }
 
     public void Prepare() { }
+
   }
 }

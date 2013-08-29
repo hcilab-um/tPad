@@ -432,6 +432,7 @@ namespace UofM.HCI.tPad.App.Shell
     private void imgRunningApp_MouseUp(object sender, MouseButtonEventArgs e)
     {
       TPadApplicationDescriptor descriptor = (sender as Ellipse).DataContext as TPadApplicationDescriptor;
+      descriptor.Instance.DeActivate();
       descriptor.Instance.Close();
       BringToFront(ShellDescriptor, null);
     }

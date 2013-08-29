@@ -102,7 +102,6 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
       if (!TransportMessageImporter.Importers.ContainsKey(PhotoMessage.MessageID))
         TransportMessageImporter.Importers.Add(PhotoMessage.MessageID, new PhotoMessageImporter());
 
-      LoadPhotos();
       imageSender.WorkerReportsProgress = true;
       imageSender.WorkerSupportsCancellation = true;
       imageSender.DoWork += new DoWorkEventHandler(imageSender_DoWork);
@@ -143,7 +142,10 @@ namespace UofM.HCI.tPad.App.PhotoAlbum
         LocalPhotos.Add(photo);
     }
 
-    public void Activate(Dictionary<string, Object> init) { }
+    public void Activate(Dictionary<string, Object> init) 
+    {
+      LoadPhotos();
+    }
 
     private void Image_MouseUp(object sender, MouseButtonEventArgs e)
     {
