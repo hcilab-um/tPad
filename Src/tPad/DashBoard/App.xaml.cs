@@ -108,6 +108,9 @@ namespace UofM.HCI.tPad.App.Shell
       SurfaceCapture.Launcher sCaptureL = new SurfaceCapture.Launcher();
       shell.Applications.Add(sCaptureL.GetApplicationDescriptor());
 
+      SurfaceViewer.Launcher sViewerL = new SurfaceViewer.Launcher();
+      shell.Applications.Add(sViewerL.GetApplicationDescriptor());
+
       ActiveReader.Launcher arL = new ActiveReader.Launcher();
       shell.Applications.Add(arL.GetApplicationDescriptor());
     }

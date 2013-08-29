@@ -170,6 +170,10 @@
       <Project>{280D4297-9085-4628-9385-E0D6DA166F52}</Project>
       <Name>SurfaceCapture</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SurfaceViewer\SurfaceViewer.csproj">
+      <Project>{FDFA7496-6699-434A-844F-F529F3D0B4E4}</Project>
+      <Name>SurfaceViewer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\tPadLib\tPadLib.csproj">
       <Project>{947CBE92-467E-4E57-8877-CE5AF530D5D7}</Project>
       <Name>tPadLib</Name>
