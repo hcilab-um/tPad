@@ -23,11 +23,13 @@ namespace UofM.HCI.tPad
 
     public List<Glyph> Triggers { get; set; }
     public List<TPadEvent> Events { get; set; }
+    public List<ActionRequest> Actions { get; set; }
 
     public TPadApplicationDescriptor()
     {
       Triggers = new List<Glyph>();
       Events = new List<TPadEvent>();
+      Actions = new List<ActionRequest>();
     }
   }
 

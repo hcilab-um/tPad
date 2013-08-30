@@ -24,6 +24,7 @@ namespace UofM.HCI.tPad.App.Calculator
     public event BoolEventHandler IsTopApp;
     public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
+    public event RequestAction RequestAction;
 
     private TPadCore core;
     public TPadCore Core

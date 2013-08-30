@@ -22,6 +22,7 @@ namespace UofM.HCI.tPad.App.Browser
         AppUUID = Guid.NewGuid(),
         Launcher = this
       };
+      descriptor.Actions.Add(ActionRequest.WebBrowser);
 
       return descriptor;
     }

@@ -15,11 +15,15 @@ namespace UofM.HCI.tPad
 
   public delegate void RequestUserFocus(object sender, String message, String buttonOK, String buttonCancel);
 
+  public enum ActionRequest { WebBrowser, Sleep };
+  public delegate void RequestAction(object sender, ActionRequest action, Dictionary<String, Object> context);
+
   public interface ITPadApp
   {
     event EventHandler Closed;
     event BoolEventHandler IsTopApp;
     event RequestUserFocus RequestFocus;
+    event RequestAction RequestAction;
 
     TPadCore Core { get; set; }
     ITPadAppContainer Container { get; set; }

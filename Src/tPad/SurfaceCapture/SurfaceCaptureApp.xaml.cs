@@ -28,6 +28,7 @@ namespace UofM.HCI.tPad.App.SurfaceCapture
     public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
+    public event RequestAction RequestAction;
 
     public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }
