@@ -94,12 +94,10 @@ namespace UofM.HCI.tPad.App.SurfaceCapture
 
     public void Activate(Dictionary<string, Object> context)
     {
-      Core.Registration.OnNotifyContextServiceListeners += Registration_OnNotifyContextServiceListeners;
     }
 
     public void DeActivate()
     {
-      Core.Registration.OnNotifyContextServiceListeners -= Registration_OnNotifyContextServiceListeners;
     }
 
     public void Close()
@@ -112,32 +110,6 @@ namespace UofM.HCI.tPad.App.SurfaceCapture
     {
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
-    }
-
-    [DllImport("gdi32.dll")]
-    private static extern bool DeleteObject(IntPtr hObject);
-
-    private IntPtr hBitmap = IntPtr.Zero;
-    void Registration_OnNotifyContextServiceListeners(object sender, Ubicomp.Utils.NET.CAF.ContextService.NotifyContextServiceListenersEventArgs e)
-    {
-      Dispatcher.Invoke(DispatcherPriority.Render,
-        (Action)delegate()
-        {
-          UofM.HCI.tPad.Services.RegistrationService registration = sender as UofM.HCI.tPad.Services.RegistrationService;
-          Bitmap capture = (Bitmap)registration.Tracker.GetCameraImg(true).Clone();
-
-          IntPtr tmpPointer = capture.GetHbitmap();
-          iDeviceCameraFeed.Source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-            tmpPointer,
-            IntPtr.Zero,
-            Int32Rect.Empty,
-            System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-
-          if (hBitmap != IntPtr.Zero)
-            DeleteObject(hBitmap);
-          hBitmap = tmpPointer;
-          GC.Collect(0, GCCollectionMode.Forced);
-        });
     }
 
     private void bCapture_Click(object sender, RoutedEventArgs e)

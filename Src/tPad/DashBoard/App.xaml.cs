@@ -66,7 +66,7 @@ namespace UofM.HCI.tPad.App.Shell
       ShellApp shell = new ShellApp(core, container, controller, descriptor);
 
       //Demo Mode - This is all the smaller apps that showcase the possibilities with a tPad
-      //SetDemoMode(shell);
+      SetDemoMode(shell);
 
       //Experiment 2 - Information Capture
       SetUpExperiment2(shell, false);
@@ -113,6 +113,9 @@ namespace UofM.HCI.tPad.App.Shell
 
       SurfaceViewer.Launcher sViewerL = new SurfaceViewer.Launcher();
       shell.Applications.Add(sViewerL.GetApplicationDescriptor());
+
+      QReader.Launcher qrReaderL = new QReader.Launcher();
+      shell.Applications.Add(qrReaderL.GetApplicationDescriptor());
 
       ActiveReader.Launcher arL = new ActiveReader.Launcher();
       shell.Applications.Add(arL.GetApplicationDescriptor());
