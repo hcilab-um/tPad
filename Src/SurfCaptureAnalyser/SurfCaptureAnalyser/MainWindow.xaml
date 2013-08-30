@@ -1,0 +1,15 @@
+﻿<Window x:Class="SurfCaptureAnalyser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="768" Width="1366">
+  <DockPanel>
+    <DockPanel DockPanel.Dock="Right">
+      <TextBlock DockPanel.Dock="Top">Output in CSV:</TextBlock>
+      <TextBox x:Name="tbOutput" Width="500" BorderThickness="1"/>
+    </DockPanel>
+    <Grid>
+      <Button x:Name="bLoadPicture" Content="Load" Click="bLoadPicture_Click" Width="50" Height="50" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20"/>
+      <Image x:Name="iPicture"/>
+    </Grid>
+  </DockPanel>
+</Window>
