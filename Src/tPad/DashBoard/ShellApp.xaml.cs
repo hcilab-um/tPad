@@ -520,7 +520,7 @@ namespace UofM.HCI.tPad.App.Shell
             return null;
         }
 
-        return conditions[experimentalOrder[currentConditionIndex]];
+        return conditions[experimentalOrder[currentConditionIndex] - 1];
       }
     }
 

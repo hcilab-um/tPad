@@ -137,7 +137,7 @@ namespace UofM.HCI.tPad.App.Shell
       shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 11).GetApplicationDescriptor());
       shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 12).GetApplicationDescriptor());
       shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 13).GetApplicationDescriptor());
-      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 14).GetApplicationDescriptor());
+      //shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 14).GetApplicationDescriptor());
       //shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 15).GetApplicationDescriptor());
 
       //GREEN INFORMATION PROVIDERS -InfSeeking
@@ -226,6 +226,9 @@ namespace UofM.HCI.tPad.App.Shell
 
     private void SetUpExperiment2(ShellApp shell, bool demo)
     {
+      SurfaceViewer.Launcher sViewerL = new SurfaceViewer.Launcher();
+      shell.Applications.Add(sViewerL.GetApplicationDescriptor());
+
       InfCapture.Launcher icL = new InfCapture.Launcher();
       shell.Applications.Add(icL.GetApplicationDescriptor());
 

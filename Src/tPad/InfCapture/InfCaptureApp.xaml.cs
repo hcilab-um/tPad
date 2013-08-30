@@ -57,7 +57,7 @@ namespace UofM.HCI.tPad.App.InfCapture
             return null;
         }
 
-        return Conditions[ExperimentalOrder[currentConditionIndex]];
+        return Conditions[ExperimentalOrder[currentConditionIndex] - 1];
       }
     }
 
