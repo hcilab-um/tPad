@@ -8,6 +8,7 @@ using UofM.HCI.tPad;
 using UofM.HCI.tPad.App.Shell.Properties;
 using Ubicomp.Utils.NET.MTF;
 using UofM.HCI.tPad.App.InfSeeking;
+using UofM.HCI.tPad.App.InfCapture;
 
 namespace UofM.HCI.tPad.App.Shell
 {
@@ -58,18 +59,20 @@ namespace UofM.HCI.tPad.App.Shell
       };
     }
 
+    private int[] experimentalOrder = { 1,	2,	12,	3,	11,	4,	10,	5,	9,	6,	8,	7 };
+
     public ITPadApp GetAppInstance(UofM.HCI.tPad.TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
       ShellApp shell = new ShellApp(core, container, controller, descriptor);
 
       //Demo Mode - This is all the smaller apps that showcase the possibilities with a tPad
-      SetDemoMode(shell);
-
-      //Experiment 1 - Information Seeking
-      //SetUpExperiment1(shell);
+      //SetDemoMode(shell);
 
       //Experiment 2 - Information Capture
-      //SetUpExperiment2(shell);
+      SetUpExperiment2(shell, false);
+
+      //Experiment 1 - Information Seeking
+      SetUpExperiment1(shell, false);
 
       //Prepares applications for runtime
       foreach (TPadApplicationDescriptor appDesc in shell.Applications)
@@ -115,7 +118,7 @@ namespace UofM.HCI.tPad.App.Shell
       shell.Applications.Add(arL.GetApplicationDescriptor());
     }
 
-    private void SetUpExperiment1(ShellApp shell)
+    private void SetUpExperiment1(ShellApp shell, bool demo)
     {
       InfSeeking.SeekLauncher ifL = new InfSeeking.SeekLauncher();
       shell.Applications.Add(ifL.GetApplicationDescriptor());
@@ -128,6 +131,14 @@ namespace UofM.HCI.tPad.App.Shell
       shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 5).GetApplicationDescriptor());
       shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 6).GetApplicationDescriptor());
       shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 7).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 8).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 9).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 10).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 11).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 12).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 13).GetApplicationDescriptor());
+      shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 14).GetApplicationDescriptor());
+      //shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Blue, 15).GetApplicationDescriptor());
 
       //GREEN INFORMATION PROVIDERS -InfSeeking
       shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Green, 1).GetApplicationDescriptor());
@@ -184,39 +195,69 @@ namespace UofM.HCI.tPad.App.Shell
       shell.Applications.Add(new InfSeeking.ProviderLauncher(InfSeeking.ProviderGroup.Red, 16).GetApplicationDescriptor());
 
       List<InfSeekingCondition> conditions = new List<InfSeekingCondition>();
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1)); // 1
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1)); // 4
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1)); // 7
-      conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1)); // 10
-      CalculateTargets(conditions, 3, 1);
 
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 2)); // 2
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 3)); // 3
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1)); // 1
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1)); // 4
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 3)); // 12
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 2)); // 5
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 2)); // 11
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 3)); // 6
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1)); // 10
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1)); // 7
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 3)); // 9
-      //conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 2)); // 8
-      //CalculateTargets(conditions, 3, 6);
+      if (demo)
+      {
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1)); // 1
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1)); // 4
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1)); // 7
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1)); // 10
+        CalculateExp1Targets(conditions, 3, 1);
+      }
+      else
+      {
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 1)); // 1
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 2)); // 2
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.Home, 3)); // 3
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 1)); // 4
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 2)); // 5
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.RuntimeBar, 3)); // 6
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 1)); // 7
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 2)); // 8
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.Flipping, 3)); // 9
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 1)); // 10
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 2)); // 11
+        conditions.Add(new InfSeekingCondition(SwitchingMethod.TapNFlip, 3)); // 12
+        CalculateExp1Targets(conditions, 3, 6);
+      }
 
-      shell.SetInfSeekingExperiment(conditions);
+      shell.SetInfSeekingExperiment(conditions, experimentalOrder);
     }
 
-    private void SetUpExperiment2(ShellApp shell)
+    private void SetUpExperiment2(ShellApp shell, bool demo)
     {
       InfCapture.Launcher icL = new InfCapture.Launcher();
       shell.Applications.Add(icL.GetApplicationDescriptor());
 
-      //Here go the experimental conditions and all the rest. 
+      List<Exp2Condition> conditions = new List<Exp2Condition>();
+      if (demo)
+      {
+        conditions.Add(new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Half });
+        conditions.Add(new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.Half });
+        conditions.Add(new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Half });
+        conditions.Add(new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.Half });
+      }
+      else
+      {
+        conditions.Add(new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Quarter });
+        conditions.Add(new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Half });
+        conditions.Add(new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Normal, TargetSize = TargetSize.ThreeQuarters });
+        conditions.Add(new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.Quarter });
+        conditions.Add(new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.Half });
+        conditions.Add(new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.ThreeQuarters });
+        conditions.Add(new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Quarter });
+        conditions.Add(new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Half });
+        conditions.Add(new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Normal, TargetSize = TargetSize.ThreeQuarters });
+        conditions.Add(new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.Quarter });
+        conditions.Add(new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.Half });
+        conditions.Add(new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.ThreeQuarters });
+      }
+
+      icL.SetInfCaptureExperiment(conditions, experimentalOrder);
     }
 
     private Random generator = new Random((int)(DateTime.Now.Ticks % 54695));
-    private void CalculateTargets(List<InfSeekingCondition> conditions, int maxDisplayDistance = 3, int trialsPerCondition = 8)
+    private void CalculateExp1Targets(List<InfSeekingCondition> conditions, int maxDisplayDistance = 3, int trialsPerCondition = 8)
     {
       foreach (InfSeekingCondition condition in conditions)
       {

@@ -7,6 +7,10 @@ namespace UofM.HCI.tPad.App.InfCapture
 {
   public class Launcher : ITPadAppLauncher
   {
+
+    private List<Exp2Condition> Conditions { get; set; }
+    private int[] ExperimentalOrder { get; set; }
+
     public TPadLauncherSettings GetSettings(TPadLauncherSettings settings)
     {
       throw new NotImplementedException();
@@ -28,9 +32,19 @@ namespace UofM.HCI.tPad.App.InfCapture
     public ITPadApp GetAppInstance(TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
       InfCaptureApp capture = new InfCaptureApp(core, container, controller, descriptor.AppUUID);
+      capture.Conditions = Conditions;
+      capture.ExperimentalOrder = ExperimentalOrder;
+      capture.Activate(settings.Context);
       return capture;
     }
 
     public void Prepare() { }
+
+
+    public void SetInfCaptureExperiment(List<Exp2Condition> conditions, int[] order)
+    {
+      Conditions = conditions;
+      ExperimentalOrder = order;
+    }
   }
 }

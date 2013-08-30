@@ -47,9 +47,17 @@ namespace UofM.HCI.tPad.App.InfCapture
     {
       get
       {
-        if (currentConditionIndex == -1 || currentConditionIndex >= experimentalOrder.Length)
+        if (currentConditionIndex == -1 || currentConditionIndex >= ExperimentalOrder.Length)
           return null;
-        return conditions[experimentalOrder[currentConditionIndex]];
+
+        while (ExperimentalOrder[currentConditionIndex] >= Conditions.Count)
+        {
+          currentConditionIndex++;
+          if (currentConditionIndex >= ExperimentalOrder.Length)
+            return null;
+        }
+
+        return Conditions[ExperimentalOrder[currentConditionIndex]];
       }
     }
 
@@ -75,22 +83,9 @@ namespace UofM.HCI.tPad.App.InfCapture
     private int currentTrial = 0;
 
     private int currentConditionIndex = -1;
-    private int[] experimentalOrder = { 3, 4, 5, 0, 1, 2, 6, 7, 8, 9, 10, 11 };
-    private Exp2Condition[] conditions = 
-    {
-      new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Quarter },
-      new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Half },
-      new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Normal, TargetSize = TargetSize.ThreeQuarters },
-      new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.Quarter },
-      new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.Half },
-      new Exp2Condition() { Device = Device.Normal, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.ThreeQuarters },
-      new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Quarter },
-      new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Normal, TargetSize = TargetSize.Half },
-      new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Normal, TargetSize = TargetSize.ThreeQuarters },
-      new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.Quarter },
-      new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.Half },
-      new Exp2Condition() { Device = Device.tPad, PictureMode = PictureMode.Clipped, TargetSize = TargetSize.ThreeQuarters }
-    };
+
+    public int[] ExperimentalOrder { get; set; }
+    public List<Exp2Condition> Conditions { get; set; }
 
     private int translateX = 0;
     public int TranslateX
@@ -214,7 +209,7 @@ namespace UofM.HCI.tPad.App.InfCapture
     private void StartExperiment()
     {
       Random generator = new Random((int)DateTime.Now.Ticks);
-      for (int condition = 0; condition < conditions.Length; condition++)
+      for (int condition = 0; condition < Conditions.Count; condition++)
       {
         for (int capture = 0; capture < MAX_TRIALS_PER_CONDITION * MAX_CAPTURES_PER_TRIAL; capture++)
         {
@@ -222,12 +217,12 @@ namespace UofM.HCI.tPad.App.InfCapture
           //Page depends on the target size - each page has only 1 target size, 3 pages have the same target size
           if (capture % MAX_CAPTURES_PER_TRIAL == 0) //new page
           {
-              task.Page = (int)conditions[condition].TargetSize;
+              task.Page = (int)Conditions[condition].TargetSize;
           }
           else
-            task.Page = conditions[condition].Captures[capture - 1].Page;
+            task.Page = Conditions[condition].Captures[capture - 1].Page;
           task.Figure = generator.Next(MAX_CAPTURES_PER_TRIAL) + 1;
-          conditions[condition].Captures.Add(task);
+          Conditions[condition].Captures.Add(task);
         }
       }
 
@@ -260,7 +255,7 @@ namespace UofM.HCI.tPad.App.InfCapture
       if (CurrentCondition != null && CurrentCondition.Device == Device.tPad && CurrentCondition.PictureMode == PictureMode.Clipped)
         CState = ClippingState.Clipping;
 
-      if (currentConditionIndex < conditions.Length)
+      if (CurrentCondition != null)
       {
         String message = String.Format("Next Capture\n\rDevice: {0}\nTechnique: {1}\n\rPage: {2} - Figure {3}", CurrentCondition.Device, CurrentCondition.PictureMode, CurrentCapture.Page, CurrentCapture.Figure);
         MessageBoxShow(message, "READY", "CANCEL");

@@ -504,13 +504,33 @@ namespace UofM.HCI.tPad.App.Shell
 
     #region Information Seeking Experiments
 
+    private int[] experimentalOrder;
+
+    private InfSeekingCondition CurrentCondition
+    {
+      get
+      {
+        if (currentConditionIndex == -1 || currentConditionIndex >= experimentalOrder.Length)
+          return null;
+
+        while (experimentalOrder[currentConditionIndex] >= conditions.Count)
+        {
+          currentConditionIndex++;
+          if (currentConditionIndex >= experimentalOrder.Length)
+            return null;
+        }
+
+        return conditions[experimentalOrder[currentConditionIndex]];
+      }
+    }
+
     public bool IsFlippingEnabled
     {
       get
       {
-        if (conditions == null || conditions.Count == 0 || currentCondition >= conditions.Count)
+        if (conditions == null || conditions.Count == 0 || CurrentCondition == null)
           return true;
-        return conditions[currentCondition].Method == SwitchingMethod.Flipping || conditions[currentCondition].Method == SwitchingMethod.TapNFlip ? true : false;
+        return CurrentCondition.Method == SwitchingMethod.Flipping || CurrentCondition.Method == SwitchingMethod.TapNFlip ? true : false;
       }
     }
 
@@ -518,9 +538,9 @@ namespace UofM.HCI.tPad.App.Shell
     {
       get
       {
-        if (conditions == null || conditions.Count == 0 || currentCondition >= conditions.Count)
+        if (conditions == null || conditions.Count == 0 || CurrentCondition == null)
           return true;
-        return conditions[currentCondition].Method == SwitchingMethod.Home ? true : false;
+        return CurrentCondition.Method == SwitchingMethod.Home ? true : false;
       }
     }
 
@@ -528,19 +548,20 @@ namespace UofM.HCI.tPad.App.Shell
     {
       get
       {
-        if (conditions == null || conditions.Count == 0 || currentCondition >= conditions.Count)
+        if (conditions == null || conditions.Count == 0 || CurrentCondition == null)
           return true;
-        return conditions[currentCondition].Method == SwitchingMethod.RuntimeBar ? true : false;
+        return CurrentCondition.Method == SwitchingMethod.RuntimeBar ? true : false;
       }
     }
 
     private List<InfSeeking.InfSeekingCondition> conditions;
-    internal void SetInfSeekingExperiment(List<InfSeeking.InfSeekingCondition> inputC)
+    internal void SetInfSeekingExperiment(List<InfSeeking.InfSeekingCondition> inputC, int[] order)
     {
       conditions = inputC;
+      experimentalOrder = order;
     }
 
-    private int currentCondition = 0;
+    private int currentConditionIndex = 0;
     private int currentTrial = 0;
     private int currentSelection = 0;
     private void StartInfSeeking()
@@ -548,29 +569,29 @@ namespace UofM.HCI.tPad.App.Shell
       if (conditions == null || conditions.Count == 0)
         return;
 
-      currentCondition = 0;
+      currentConditionIndex = 0;
       currentTrial = 0;
       currentSelection = 0;
 
-      MessageBox.Show(String.Format("In the following trials please use {0} for switching", conditions[currentCondition].Method));
+      MessageBox.Show(String.Format("In the following trials please use {0} for switching", CurrentCondition.Method));
     }
 
     InfSeeking.Exp1Target ShellApp_GetTarget(object sender, EventArgs e)
     {
-      if (currentCondition >= conditions.Count)
+      if (CurrentCondition == null)
       {
         MessageBox.Show("Experiment Finished");
         return null;
       }
 
-      if (currentTrial >= conditions[currentCondition].Targets.Count / 3)
+      if (currentTrial >= CurrentCondition.Targets.Count / 3)
       {
-        currentCondition++;
+        currentConditionIndex++;
         currentTrial = 0;
         currentSelection = 0;
 
-        if (currentCondition < conditions.Count)
-          MessageBox.Show(String.Format("In the following trials please use {0} for switching", conditions[currentCondition].Method));
+        if (CurrentCondition != null)
+          MessageBox.Show(String.Format("In the following trials please use {0} for switching", CurrentCondition.Method));
 
         return ShellApp_GetTarget(sender, e);
       }
@@ -585,7 +606,7 @@ namespace UofM.HCI.tPad.App.Shell
         return ShellApp_GetTarget(sender, e);
       }
 
-      Exp1Target target = conditions[currentCondition].Targets[currentTrial * 3 + currentSelection];
+      Exp1Target target = CurrentCondition.Targets[currentTrial * 3 + currentSelection];
       if (sender is InfSeekingApp && target.FirstSeen == DateTime.MinValue)
         target.FirstSeen = DateTime.Now;
       if (sender is InfProviderApp && target.DataFound == DateTime.MinValue)
@@ -603,16 +624,20 @@ namespace UofM.HCI.tPad.App.Shell
 
     void ShellApp_SearchStarted(object sender, EventArgs e)
     {
-      InfSeekingCondition condition = conditions[currentCondition];
-      Exp1Target currentTarget = condition.Targets[currentTrial * 3 + currentSelection];
+      if (CurrentCondition == null)
+        return;
+
+      Exp1Target currentTarget = CurrentCondition.Targets[currentTrial * 3 + currentSelection];
       if (currentTarget.SeekStarted == DateTime.MinValue)
         currentTarget.SeekStarted = DateTime.Now;
     }
 
     void ShellApp_SendErrorData(object sender, EventArgs e)
     {
-      InfSeekingCondition condition = conditions[currentCondition];
-      Exp1Target currentTarget = condition.Targets[currentTrial * 3 + currentSelection];
+      if (CurrentCondition == null)
+        return;
+
+      Exp1Target currentTarget = CurrentCondition.Targets[currentTrial * 3 + currentSelection];
       currentTarget.Errors++;
     }
 
@@ -620,13 +645,12 @@ namespace UofM.HCI.tPad.App.Shell
     {
       DateTime finalTime = DateTime.Now;
 
-      InfSeekingCondition condition = conditions[currentCondition];
-      Exp1Target currentTarget = condition.Targets[currentTrial * 3 + currentSelection];
+      Exp1Target currentTarget = CurrentCondition.Targets[currentTrial * 3 + currentSelection];
 
       String logLine = String.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10}",
         DateTime.Now,
-        condition.Method,
-        condition.AppsNumber,
+        CurrentCondition.Method,
+        CurrentCondition.AppsNumber,
         currentTrial + 1,
         currentSelection + 1,
         (int)currentTarget.SourceApp.SourceGroup,
