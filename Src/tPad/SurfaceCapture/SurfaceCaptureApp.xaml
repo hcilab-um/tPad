@@ -15,8 +15,6 @@
 
   <Grid>
 
-    <Image x:Name="iDeviceCameraFeed" Visibility="Collapsed" />
-
     <Button x:Name="bCapture" Content="Capture" Click="bCapture_Click"  VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="24" FontWeight="ExtraBold" Width="120" Height="120" Margin="20"/>
     <ToggleButton x:Name="bClipping" Content="Clip" Click="bClipping_Click" IsChecked="False" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="24" FontWeight="ExtraBold" Width="120" Height="120" Margin="20"/>
 

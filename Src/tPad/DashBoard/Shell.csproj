@@ -162,6 +162,10 @@
       <Project>{5E1DFF20-CE34-4757-8865-D614A5B2E814}</Project>
       <Name>PhotoAlbum</Name>
     </ProjectReference>
+    <ProjectReference Include="..\QReader\QReader.csproj">
+      <Project>{1C0FAE17-9F83-44C5-BEB9-CC793CD28C27}</Project>
+      <Name>QReader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ruler\Ruler.csproj">
       <Project>{C33F4C7D-C57B-49BD-A493-CF6C8EEBF957}</Project>
       <Name>Ruler</Name>
