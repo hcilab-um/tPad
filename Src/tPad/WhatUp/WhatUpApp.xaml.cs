@@ -29,6 +29,7 @@ namespace UofM.HCI.tPad.App.WhatUp
     public event PropertyChangedEventHandler PropertyChanged;
     public event BoolEventHandler IsTopApp;
     public event RequestUserFocus RequestFocus;
+    public event RequestAction RequestAction;
 
     public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }

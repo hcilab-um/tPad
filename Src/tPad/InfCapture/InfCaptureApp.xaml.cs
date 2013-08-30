@@ -32,6 +32,7 @@ namespace UofM.HCI.tPad.App.InfCapture
     public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
+    public event RequestAction RequestAction;
 
     public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }
@@ -57,7 +58,7 @@ namespace UofM.HCI.tPad.App.InfCapture
             return null;
         }
 
-        return Conditions[ExperimentalOrder[currentConditionIndex]];
+        return Conditions[ExperimentalOrder[currentConditionIndex] - 1];
       }
     }
 

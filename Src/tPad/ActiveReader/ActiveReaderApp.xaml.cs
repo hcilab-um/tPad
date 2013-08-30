@@ -37,6 +37,7 @@ namespace UofM.HCI.tPad.App.ActiveReader
     public event BoolEventHandler IsTopApp;
     public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
+    public event RequestAction RequestAction;
 
     public Dictionary<int, ActiveReaderDocument> DbDocuments { get; set; }
 

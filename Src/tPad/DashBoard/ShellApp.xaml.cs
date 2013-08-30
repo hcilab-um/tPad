@@ -33,6 +33,7 @@ namespace UofM.HCI.tPad.App.Shell
 
     public event BoolEventHandler IsTopApp;
     public event RequestUserFocus RequestFocus;
+    public event RequestAction RequestAction;
 
     public TPadCore Core { get; set; }
     public TPadProfile Profile { get; set; }
@@ -121,6 +122,7 @@ namespace UofM.HCI.tPad.App.Shell
       descriptor.Instance.Closed += application_Closed;
       descriptor.Instance.IsTopApp += application_IsTopApp;
       descriptor.Instance.RequestFocus += application_RequestFocus;
+      descriptor.Instance.RequestAction += application_RequestAction;
 
       if (descriptor.AppType == typeof(InfSeeking.InfSeekingApp))
       {
@@ -193,6 +195,21 @@ namespace UofM.HCI.tPad.App.Shell
       NotificationDialogDescriptor.Instance.Activate(context);
       NotificationDialogDescriptor.RunningSide = Core.Device.FlippingSide;
       Container.LoadTPadApp(NotificationDialogDescriptor.Instance, true);
+    }
+
+    void application_RequestAction(object sender, ActionRequest action, Dictionary<string, object> context)
+    {
+      if (action == ActionRequest.WebBrowser)
+      {
+        var browserD = Applications.FirstOrDefault(tmp => tmp.Actions.Contains(action));
+        if (browserD == null)
+          return;
+        ITPadApp browser = GetRunningInstance(browserD.AppUUID);
+        if (browser != null)
+          BringToFront(browserD, context);
+        else
+          LaunchApp(browserD, context);
+      }
     }
 
     private void BringToFront(TPadApplicationDescriptor descriptor, Dictionary<string, Object> context)
@@ -520,7 +537,7 @@ namespace UofM.HCI.tPad.App.Shell
             return null;
         }
 
-        return conditions[experimentalOrder[currentConditionIndex]];
+        return conditions[experimentalOrder[currentConditionIndex] - 1];
       }
     }
 

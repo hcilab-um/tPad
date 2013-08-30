@@ -28,6 +28,7 @@ namespace UofM.HCI.tPad.App.QReader
     public event RequestUserFocus RequestFocus;
     public event EventHandler Closed;
     public event PropertyChangedEventHandler PropertyChanged;
+    public event RequestAction RequestAction;
 
     public Guid AppUUID { get; private set; }
     public TPadCore Core { get; set; }
@@ -104,6 +105,7 @@ namespace UofM.HCI.tPad.App.QReader
     public void DeActivate()
     {
       Core.Registration.OnNotifyContextServiceListeners -= Registration_OnNotifyContextServiceListeners;
+      FoundCode = false;
     }
 
     public void Close()
@@ -129,6 +131,7 @@ namespace UofM.HCI.tPad.App.QReader
       }
     }
 
+    private DateTime lastTimeSeem = DateTime.MaxValue;
     void Registration_OnNotifyContextServiceListeners(object sender, Ubicomp.Utils.NET.CAF.ContextService.NotifyContextServiceListenersEventArgs e)
     {
       Dispatcher.Invoke(DispatcherPriority.Render,
@@ -155,6 +158,16 @@ namespace UofM.HCI.tPad.App.QReader
               float ratioY = (float)ActualHeight / capture.Height;
               TranslateX = (int)(result.ResultPoints.Average(point => point.X) * ratioX) - (int)(ActualWidth / 2);
               TranslateY = (int)(result.ResultPoints.Average(point => point.Y) * ratioY) - (int)(ActualHeight / 2);
+              lastTimeSeem = DateTime.Now;
+
+              if (cbAuto.IsChecked == true)
+                bLaunch_Click(null, null);
+            }
+            else 
+            {
+              var elapsed = DateTime.Now - lastTimeSeem;
+              if (elapsed.TotalMilliseconds >= 3000)
+                FoundCode = false;
             }
 
             GC.Collect(0, GCCollectionMode.Forced);
@@ -166,6 +179,12 @@ namespace UofM.HCI.tPad.App.QReader
     {
       if (!FoundCode)
         return;
+      if (RequestAction == null)
+        return;
+
+      Dictionary<String, Object> context = new Dictionary<String, Object>();
+      context.Add("main", CodeContent);
+      RequestAction(this, ActionRequest.WebBrowser, context);
     }
   }
 }

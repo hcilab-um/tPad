@@ -13,6 +13,8 @@
   
   <Grid>
 
+    <CheckBox x:Name="cbAuto" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20" FontSize="24" FontWeight="Bold" Padding="20,0" IsChecked="True">Auto Launch</CheckBox>
+    
     <Grid Visibility="{Binding ElementName=qrApp, Path=FoundCode, Converter={StaticResource ResourceKey=cBooleanVisibility}, ConverterParameter=true}">
       <Ellipse Width="100" Height="100" Fill="Pink"/>
       <Rectangle Height="100" Width="3" Fill="Red" />

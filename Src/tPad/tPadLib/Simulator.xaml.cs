@@ -236,12 +236,15 @@ namespace UofM.HCI.tPad
         return;
       }
 
-      foreach (ITPadApp appInstance in AppInstances)
+      if (cbSimCamera.IsSelected || cbComCamera.IsSelected)
       {
-        if (appInstance.Core.UseCamera)
+        foreach (ITPadApp appInstance in AppInstances)
         {
-          MessageBox.Show("You cannot use the camera in more than one device if a simulation is running.");
-          return;
+          if (appInstance.Core.UseCamera)
+          {
+            MessageBox.Show("You cannot use the camera in more than one device if a simulation is running.");
+            return;
+          }
         }
       }
 

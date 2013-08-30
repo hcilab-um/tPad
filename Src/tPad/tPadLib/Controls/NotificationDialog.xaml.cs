@@ -24,6 +24,7 @@ namespace UofM.HCI.tPad.Controls
     public event EventHandler Closed;
     public event BoolEventHandler IsTopApp;
     public event RequestUserFocus RequestFocus;
+    public event RequestAction RequestAction;
 
     public event EventHandler ClickedOK;
     public event EventHandler ClickedCancel;
