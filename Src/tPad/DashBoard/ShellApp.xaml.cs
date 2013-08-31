@@ -530,7 +530,7 @@ namespace UofM.HCI.tPad.App.Shell
         if (currentConditionIndex == -1 || currentConditionIndex >= experimentalOrder.Length)
           return null;
 
-        while (experimentalOrder[currentConditionIndex] >= conditions.Count)
+        while (experimentalOrder[currentConditionIndex] - 1 >= conditions.Count)
         {
           currentConditionIndex++;
           if (currentConditionIndex >= experimentalOrder.Length)

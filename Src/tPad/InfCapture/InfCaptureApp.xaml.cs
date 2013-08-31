@@ -51,7 +51,7 @@ namespace UofM.HCI.tPad.App.InfCapture
         if (currentConditionIndex == -1 || currentConditionIndex >= ExperimentalOrder.Length)
           return null;
 
-        while (ExperimentalOrder[currentConditionIndex] >= Conditions.Count)
+        while (ExperimentalOrder[currentConditionIndex] - 1 >= Conditions.Count)
         {
           currentConditionIndex++;
           if (currentConditionIndex >= ExperimentalOrder.Length)
