@@ -18,7 +18,14 @@
       <Button x:Name="bLoadPicture" Content="Load" Click="bLoadPicture_Click" Width="50" Height="50" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20"/>
       <Button x:Name="bGenerate" Content="CSV" Click="bGenerate_Click" Width="50" Height="50" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,80,20,0"/>
       <Button x:Name="bSave" Content="Save" Click="bSave_Click" Width="50" Height="50" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,140,20,0"/>
-      
+
+      <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem}">
+        <TextBlock>Offset: <TextBlock Text="{Binding Path=Offset, StringFormat=F4}"/></TextBlock>
+        <TextBlock>Angle: <TextBlock Text="{Binding Path=Angle, StringFormat=F4}"/></TextBlock>
+        <TextBlock>Capture Ratio: <TextBlock Text="{Binding Path=CaptureRatio, StringFormat=F4}"/></TextBlock>
+        <TextBlock>Miss Ratio: <TextBlock Text="{Binding Path=MissRatio, StringFormat=F4}"/></TextBlock>
+      </StackPanel>
+
       <Image x:Name="iCapture" Source="{Binding ElementName=lbCaptures, Path=SelectedItem.FullPath}" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp"/>
 
       <Ellipse x:Name="eTargetCenter" Width="8" Height="8" Fill="Black" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.TargetCenter}"
@@ -79,11 +86,11 @@
       <Ellipse x:Name="eCaptureBR" Width="8" Height="8" Fill="Red" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.CaptureRectangle.BottomRight}"
                MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
         <Ellipse.RenderTransform>
-          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" /> 
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" />
         </Ellipse.RenderTransform>
       </Ellipse>
-      
-      
+
+
     </Grid>
   </DockPanel>
 </Window>

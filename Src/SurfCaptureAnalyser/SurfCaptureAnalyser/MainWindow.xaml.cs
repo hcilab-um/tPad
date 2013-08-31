@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using System.ComponentModel;
 
 namespace SurfCaptureAnalyser
 {
@@ -152,7 +153,7 @@ namespace SurfCaptureAnalyser
       double anchorX = img.Width / 2;
       double anchorY = img.Height / 2;
 
-      System.Drawing.PointF[] vertices = boxList[0].GetVertices();
+      System.Drawing.PointF[] vertices = SortVertices(boxList[0].GetVertices());
       capture.TargetRectangle.BottomLeft.X = (vertices[0].X - anchorX) * ratio;
       capture.TargetRectangle.BottomLeft.Y = (vertices[0].Y - anchorY) * ratio;
       capture.TargetRectangle.TopLeft.X = (vertices[1].X - anchorX) * ratio;
@@ -167,7 +168,7 @@ namespace SurfCaptureAnalyser
       if (boxList.Count == 1)
         return;
 
-      vertices = boxList[1].GetVertices();
+      vertices = SortVertices(boxList[1].GetVertices());
       capture.CaptureRectangle.BottomLeft.X = (vertices[0].X - anchorX) * ratio;
       capture.CaptureRectangle.BottomLeft.Y = (vertices[0].Y - anchorY) * ratio;
       capture.CaptureRectangle.TopLeft.X = (vertices[1].X - anchorX) * ratio;
@@ -179,6 +180,34 @@ namespace SurfCaptureAnalyser
       capture.CaptureCenter.X = (boxList[0].center.X - anchorX) * ratio;
       capture.CaptureCenter.Y = (boxList[0].center.Y - anchorY) * ratio;
 
+    }
+
+    private System.Drawing.PointF[] SortVertices(System.Drawing.PointF[] vertices)
+    {
+      System.Drawing.PointF[] ordered = new System.Drawing.PointF[4];
+      var orderedByX = vertices.OrderBy(vertice => vertice.X);
+      if (orderedByX.ElementAt(0).Y > orderedByX.ElementAt(1).Y)
+      {
+        ordered[0] = orderedByX.ElementAt(0);
+        ordered[1] = orderedByX.ElementAt(1);
+      }
+      else
+      {
+        ordered[1] = orderedByX.ElementAt(0);
+        ordered[0] = orderedByX.ElementAt(1);
+      }
+
+      if (orderedByX.ElementAt(2).Y > orderedByX.ElementAt(3).Y)
+      {
+        ordered[3] = orderedByX.ElementAt(2);
+        ordered[2] = orderedByX.ElementAt(3);
+      }
+      else
+      {
+        ordered[2] = orderedByX.ElementAt(2);
+        ordered[3] = orderedByX.ElementAt(3);
+      }
+      return ordered;
     }
 
     private static Image<Gray, Byte> GetCannyEdges(Image<Gray, Byte> gray)
@@ -197,7 +226,105 @@ namespace SurfCaptureAnalyser
 
     private void bGenerate_Click(object sender, System.Windows.RoutedEventArgs e)
     {
+      tbOutput.Text = String.Empty;
+      foreach (Capture capture in Captures)
+      {
+        //0- calcute pixel-to-cms ratio
+        double pixelLenght = Distance(capture.TargetRectangle.TopRight, capture.TargetRectangle.BottomRight);
+        double pixelCmRatio = sizes[(int)capture.Size] / pixelLenght;
 
+        //1- calculate off-set
+        double offsetPx = 0;
+        if (capture.Method == Method.Normal)
+          offsetPx = Distance(capture.TargetCenter, new BindablePoint(0, 0));
+        else
+          offsetPx = Distance(capture.TargetCenter, capture.CaptureCenter);
+        double offsetCm = offsetPx * pixelCmRatio;
+        capture.Offset = offsetCm;
+
+        //2- calculates the angle
+        System.Windows.Vector targetVector = new System.Windows.Vector(
+          capture.TargetRectangle.BottomLeft.X - capture.TargetRectangle.BottomRight.X,
+          capture.TargetRectangle.BottomLeft.Y - capture.TargetRectangle.BottomRight.Y);
+        System.Windows.Vector baseVector;
+        if (capture.Method == Method.Normal)
+          baseVector = new System.Windows.Vector(1, 0);
+        else
+          baseVector = new System.Windows.Vector(
+            capture.CaptureRectangle.BottomLeft.X - capture.CaptureRectangle.BottomRight.X,
+            capture.CaptureRectangle.BottomLeft.Y - capture.CaptureRectangle.BottomRight.Y);
+        double angle = Math.Abs(System.Windows.Vector.AngleBetween(baseVector, targetVector));
+        if (angle > 90)
+          angle = 180 - angle;
+        capture.Angle = angle;
+
+        if (capture.Method == Method.Normal)
+          continue;
+
+        //3- calculates the ratio of capture = capture / target
+        double captureRatio = Area(capture.CaptureRectangle) / Area(capture.TargetRectangle);
+        capture.CaptureRatio = captureRatio;
+
+        //4- calculates how much is left out
+        double missRatio = AreaMiss(capture.CaptureRectangle, capture.TargetRectangle) / Area(capture.TargetRectangle);
+        capture.MissRatio = missRatio;
+
+        //5- prints out the log
+        String log = String.Format("{0:F4};{1:F4};{2:F4};{3:F4}\n", offsetCm, angle, captureRatio, missRatio);
+        tbOutput.Text += log;
+      }
+    }
+
+    private double AreaMiss(BindableRect rect1, BindableRect rect2)
+    {
+      System.Drawing.PointF[] vertices1 = new System.Drawing.PointF[] { 
+        rect1.BottomLeft.ToPointF(), 
+        rect1.TopLeft.ToPointF(), 
+        rect1.TopRight.ToPointF(), 
+        rect1.BottomRight.ToPointF()};
+      var rectangle1 = new System.Drawing.Drawing2D.GraphicsPath();
+      rectangle1.AddPolygon(vertices1);
+
+      System.Drawing.PointF[] vertices2 = new System.Drawing.PointF[] { 
+        rect2.BottomLeft.ToPointF(), 
+        rect2.TopLeft.ToPointF(), 
+        rect2.TopRight.ToPointF(), 
+        rect2.BottomRight.ToPointF()};
+      var rectangle2 = new System.Drawing.Drawing2D.GraphicsPath();
+      rectangle2.AddPolygon(vertices2);
+
+      var region = new System.Drawing.Region(rectangle1);
+      region.Complement(rectangle2);
+
+      var rects = region.GetRegionScans(new System.Drawing.Drawing2D.Matrix());
+      float area = 0;
+      foreach (var rc in rects)
+        area += rc.Width * rc.Height;
+      return area;
+    }
+
+    private double Area(BindableRect rect1)
+    {
+      System.Drawing.PointF[] vertices = new System.Drawing.PointF[] { 
+        rect1.BottomLeft.ToPointF(), 
+        rect1.TopLeft.ToPointF(), 
+        rect1.TopRight.ToPointF(), 
+        rect1.BottomRight.ToPointF()};
+
+      var rectangle = new System.Drawing.Drawing2D.GraphicsPath();
+      rectangle.AddPolygon(vertices);
+      var region = new System.Drawing.Region(rectangle);
+
+      var rects = region.GetRegionScans(new System.Drawing.Drawing2D.Matrix());
+      float area = 0;
+      foreach (var rc in rects)
+        area += rc.Width * rc.Height;
+      return area;
+    }
+
+    private double Distance(BindablePoint point1, BindablePoint point2)
+    {
+      return Math.Sqrt(Math.Pow(point1.X - point2.X, 2) + Math.Pow(point1.Y - point2.Y, 2));
     }
 
     private double[] sizes = { 1.85, 3.78, 5.68 };
@@ -260,7 +387,7 @@ namespace SurfCaptureAnalyser
   public enum Method { Normal, Clipped };
   public enum Size { Quarter, Half, ThreeQuarters };
 
-  public class Capture
+  public class Capture : INotifyPropertyChanged
   {
     public String Folder { get; set; }
     public String FileName { get; set; }
@@ -284,6 +411,11 @@ namespace SurfCaptureAnalyser
     public BindableRect TargetRectangle { get; set; }
     public BindablePoint CaptureCenter { get; set; }
     public BindableRect CaptureRectangle { get; set; }
+
+    public double Offset { get; set; }
+    public double Angle { get; set; }
+    public double CaptureRatio { get; set; }
+    public double MissRatio { get; set; }
 
     public Capture() { }
 
@@ -309,6 +441,8 @@ namespace SurfCaptureAnalyser
     {
       return FileName;
     }
+
+    public event PropertyChangedEventHandler PropertyChanged;
   }
 
 }

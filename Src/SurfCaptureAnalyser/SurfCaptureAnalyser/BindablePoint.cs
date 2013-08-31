@@ -49,5 +49,10 @@ namespace SurfCaptureAnalyser
       if (PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(name));
     }
+
+    internal System.Drawing.PointF ToPointF()
+    {
+      return new System.Drawing.PointF((float)X, (float)Y);
+    }
   }
 }
