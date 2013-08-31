@@ -1,0 +1,5 @@
+https://dl.dropboxusercontent.com/u/1922891/tPad%20Dependencies/cublas32_50_35.dll
+https://dl.dropboxusercontent.com/u/1922891/tPad%20Dependencies/cudart32_50_35.dll
+https://dl.dropboxusercontent.com/u/1922891/tPad%20Dependencies/cufft32_50_35.dll
+https://dl.dropboxusercontent.com/u/1922891/tPad%20Dependencies/npp32_50_35.dll
+https://dl.dropboxusercontent.com/u/1922891/tPad%20Dependencies/opencv_gpu249.dll
