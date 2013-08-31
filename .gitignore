@@ -18,6 +18,11 @@ Release
 *.csproj.user
 
 Thumbs.db
+cublas32_50_35.dll
+cudart32_50_35.dll
+cufft32_50_35.dll
+npp32_50_35.dll
+opencv_gpu249.dll
 
 
 ##Taken from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
