@@ -1,0 +1,1947 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCapture xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Capture Ticks="635134639606800791" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134639606800791-Normal-Normal-Half-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-4.4177289009094238" Y="1.274083137512207" />
+    <TargetRectangle>
+      <TopLeft X="-135.44481539726257" Y="-116.07683372497559" />
+      <TopRight X="116.63329219818115" Y="-126.34245872497559" />
+      <BottomLeft X="-125.46876740455627" Y="128.890625" />
+      <BottomRight X="126.609375" Y="118.625" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134639885706744" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134639885706744-Normal-Normal-Half-trial0-capture1.jpg</FileName>
+    <TargetCenter X="5.153367280960083" Y="-9.1357560157775879" />
+    <TargetRectangle>
+      <TopLeft X="-90.068282842636108" Y="-101.5371196269989" />
+      <TopRight X="96.953125" Y="-104.9375" />
+      <BottomLeft X="-86.646407842636108" Y="86.665987968444824" />
+      <BottomRight X="100.375" Y="83.265625" />
+    </TargetRectangle>
+    <CaptureCenter X="5.153367280960083" Y="-9.1357560157775879" />
+    <CaptureRectangle>
+      <TopLeft X="-92.370644569396973" Y="-106.0849301815033" />
+      <TopRight X="101.515625" Y="-107.21878480911255" />
+      <BottomLeft X="-91.230019569396973" Y="88.961962223052979" />
+      <BottomRight X="102.65625" Y="87.828125" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134640244507266" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134640244507266-Normal-Normal-Half-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-3.8618273735046387" Y="1.2229137420654297" />
+    <TargetRectangle>
+      <TopLeft X="-120.64549493789673" Y="-104.77292251586914" />
+      <TopRight X="107.47947025299072" Y="-110.47604751586914" />
+      <BottomLeft X="-115.203125" Y="112.921875" />
+      <BottomRight X="112.92184019088745" Y="107.21875" />
+    </TargetRectangle>
+    <CaptureCenter X="-3.8618273735046387" Y="1.2229137420654297" />
+    <CaptureRectangle>
+      <TopLeft X="-125.14981150627136" Y="-108.09893321990967" />
+      <TopRight X="109.81899070739746" Y="-116.08330821990967" />
+      <BottomLeft X="-117.48435759544373" Y="117.484375" />
+      <BottomRight X="117.4844446182251" Y="109.5" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134640464509849" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134640464509849-Normal-Normal-Half-trial1-capture0.jpg</FileName>
+    <TargetCenter X="2.8978064060211182" Y="7.350675106048584" />
+    <TargetRectangle>
+      <TopLeft X="-123.09506440162659" Y="-111.90805959701538" />
+      <TopRight X="125.56120300292969" Y="-115.32993459701538" />
+      <BottomLeft X="-119.76560759544373" Y="130.03128480911255" />
+      <BottomRight X="128.8906946182251" Y="126.60940980911255" />
+    </TargetRectangle>
+    <CaptureCenter X="2.8978064060211182" Y="7.350675106048584" />
+    <CaptureRectangle>
+      <TopLeft X="-126.49012768268585" Y="-114.22756481170654" />
+      <TopRight X="129.00984621047974" Y="-118.79006481170654" />
+      <BottomLeft X="-122.04688370227814" Y="134.59375" />
+      <BottomRight X="133.45309019088745" Y="130.03125" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134640773267509" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134640773267509-Normal-Normal-Half-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-11.882369041442871" Y="13.20421028137207" />
+    <TargetRectangle>
+      <TopLeft X="-116.15536308288574" Y="-80.810364246368408" />
+      <TopRight X="84.594636917114258" Y="-88.794739246368408" />
+      <BottomLeft X="-108.359375" Y="115.20315980911255" />
+      <BottomRight X="92.390625" Y="107.21878480911255" />
+    </TargetRectangle>
+    <CaptureCenter X="-11.882369041442871" Y="13.20421028137207" />
+    <CaptureRectangle>
+      <TopLeft X="-119.5488338470459" Y="-84.637748003005981" />
+      <TopRight X="89.1855411529541" Y="-91.4814805984497" />
+      <BottomLeft X="-112.921875" Y="117.484375" />
+      <BottomRight X="95.8125" Y="110.640625" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134641013501250" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134641013501250-Normal-Normal-Half-trial1-capture2.jpg</FileName>
+    <TargetCenter X="2.8714385032653809" Y="4.5424847602844238" />
+    <TargetRectangle>
+      <TopLeft X="-111.74151539802551" Y="-104.9775652885437" />
+      <TopRight X="116.38350200653076" Y="-106.1181902885437" />
+      <BottomLeft X="-110.64060759544373" Y="115.20315980911255" />
+      <BottomRight X="117.484375" Y="114.06253480911255" />
+    </TargetRectangle>
+    <CaptureCenter X="2.8714385032653809" Y="4.5424847602844238" />
+    <CaptureRectangle>
+      <TopLeft X="-114.0625" Y="-109.5" />
+      <TopRight X="120.90625" Y="-109.5" />
+      <BottomLeft X="-114.0625" Y="118.625" />
+      <BottomRight X="120.90625" Y="118.625" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134641306858029" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134641306858029-Normal-Normal-Half-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-2.120344877243042" Y="4.07475471496582" />
+    <TargetRectangle>
+      <TopLeft X="-94.350056052207947" Y="-77.397365570068359" />
+      <TopRight X="85.868685245513916" Y="-81.959865570068359" />
+      <BottomLeft X="-90.109366297721863" Y="90.109375" />
+      <BottomRight X="90.109375" Y="85.546875" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134641533661001" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134641533661001-Normal-Normal-Half-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-0.86556339263916016" Y="7.0704965591430664" />
+    <TargetRectangle>
+      <TopLeft X="-160.2780191898346" Y="-134.14025688171387" />
+      <TopRight X="149.97199821472168" Y="-143.26525688171387" />
+      <BottomLeft X="-151.70310759544373" Y="157.40625" />
+      <BottomRight X="158.546875" Y="148.28125" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134641813296995" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134641813296995-Normal-Normal-Half-trial2-capture2.jpg</FileName>
+    <TargetCenter X="3.0026340484619141" Y="2.707974910736084" />
+    <TargetRectangle>
+      <TopLeft X="-104.63535690307617" Y="-93.818425178527832" />
+      <TopRight X="105.23964309692383" Y="-99.521550178527832" />
+      <BottomLeft X="-99.234375" Y="104.9375" />
+      <BottomRight X="110.640625" Y="99.234375" />
+    </TargetRectangle>
+    <CaptureCenter X="3.0026340484619141" Y="2.707974910736084" />
+    <CaptureRectangle>
+      <TopLeft X="-108.035719871521" Y="-96.061158895492554" />
+      <TopRight X="108.683030128479" Y="-101.76430130004883" />
+      <BottomLeft X="-102.65625" Y="108.359375" />
+      <BottomRight X="114.0625" Y="102.65625" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134642157136662" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134642157136662-Normal-Normal-ThreeQuarters-trial0-capture0.jpg</FileName>
+    <TargetCenter X="6.2734375" Y="4.5625" />
+    <TargetRectangle>
+      <TopLeft X="-136.875" Y="-131.171875" />
+      <TopRight X="149.421875" Y="-131.171875" />
+      <BottomLeft X="-136.875" Y="140.296875" />
+      <BottomRight X="149.421875" Y="140.296875" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134642459573960" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134642459573960-Normal-Normal-ThreeQuarters-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-2.7985482215881348" Y="3.4730095863342285" />
+    <TargetRectangle>
+      <TopLeft X="-129.92521274089813" Y="-116.24149823188782" />
+      <TopRight X="119.87165355682373" Y="-120.80398082733154" />
+      <BottomLeft X="-125.46874129772186" Y="127.75" />
+      <BottomRight X="124.328125" Y="123.1875" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134642653635060" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134642653635060-Normal-Normal-ThreeQuarters-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-2.07511043548584" Y="11.022688388824463" />
+    <TargetRectangle>
+      <TopLeft X="-135.32209587097168" Y="-105.70462322235107" />
+      <TopRight X="119.03727912902832" Y="-118.25149822235107" />
+      <BottomLeft X="-123.1875" Y="140.296875" />
+      <BottomRight X="131.171875" Y="127.75" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134642891688676" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134642891688676-Normal-Normal-ThreeQuarters-trial1-capture0.jpg</FileName>
+    <TargetCenter X="2.1096062660217285" Y="5.4762043952941895" />
+    <TargetRectangle>
+      <TopLeft X="-166.87453746795654" Y="-140.7506639957428" />
+      <TopRight X="158.20358753204346" Y="-154.43814659118652" />
+      <BottomLeft X="-153.984375" Y="165.3905553817749" />
+      <BottomRight X="171.09375" Y="151.7030553817749" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134643105010877" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134643105010877-Normal-Normal-ThreeQuarters-trial1-capture1.jpg</FileName>
+    <TargetCenter X="2.93933367729187" Y="6.1706461906433105" />
+    <TargetRectangle>
+      <TopLeft X="-144.68380653858185" Y="-131.37742280960083" />
+      <TopRight X="145.03491735458374" Y="-137.08054780960083" />
+      <BottomLeft X="-139.15625870227814" Y="149.42184019088745" />
+      <BottomRight X="150.56246519088745" Y="143.71871519088745" />
+    </TargetRectangle>
+    <CaptureCenter X="2.93933367729187" Y="6.1706461906433105" />
+    <CaptureRectangle>
+      <TopLeft X="-149.20762491226196" Y="-134.81638908386231" />
+      <TopRight X="148.49550008773804" Y="-140.51951408386231" />
+      <BottomLeft X="-143.71875" Y="151.703125" />
+      <BottomRight X="153.984375" Y="146" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134643423009066" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134643423009066-Normal-Normal-ThreeQuarters-trial1-capture2.jpg</FileName>
+    <TargetCenter X="9.2359018325805664" Y="6.9823946952819824" />
+    <TargetRectangle>
+      <TopLeft X="-174.29380393028259" Y="-163.97267580032349" />
+      <TopRight X="186.14367866516113" Y="-170.81642580032349" />
+      <BottomLeft X="-167.67189240455627" Y="184.78121519088745" />
+      <BottomRight X="192.765625" Y="177.93746519088745" />
+    </TargetRectangle>
+    <CaptureCenter X="9.2359018325805664" Y="6.9823946952819824" />
+    <CaptureRectangle>
+      <TopLeft X="-178.8396303653717" Y="-167.37963509559631" />
+      <TopRight X="189.58226203918457" Y="-174.22336769104004" />
+      <BottomLeft X="-172.23439240455627" Y="188.203125" />
+      <BottomRight X="196.1875" Y="181.359375" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134643676883586" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134643676883586-Normal-Normal-ThreeQuarters-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-4.3620343208312988" Y="5.4174814224243164" />
+    <TargetRectangle>
+      <TopLeft X="-157.00530123710632" Y="-129.46189475059509" />
+      <TopRight X="134.9946813583374" Y="-143.14941215515137" />
+      <BottomLeft X="-143.71876740455627" Y="153.984375" />
+      <BottomRight X="148.28125" Y="140.296875" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134643917717361" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134643917717361-Normal-Normal-ThreeQuarters-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-6.6549801826477051" Y="3.2594208717346191" />
+    <TargetRectangle>
+      <TopLeft X="-186.68494296073914" Y="-157.73112344741821" />
+      <TopRight X="158.92441463470459" Y="-172.55924844741821" />
+      <BottomLeft X="-172.23439240455627" Y="179.07809019088745" />
+      <BottomRight X="173.375" Y="164.24996519088745" />
+    </TargetRectangle>
+    <CaptureCenter X="-6.6549801826477051" Y="3.2594208717346191" />
+    <CaptureRectangle>
+      <TopLeft X="-190.01835060119629" Y="-160.19914174079895" />
+      <TopRight X="164.71605920791626" Y="-172.74599933624268" />
+      <BottomLeft X="-177.9375" Y="181.3593053817749" />
+      <BottomRight X="176.79690980911255" Y="168.8124303817749" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134644165761549" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134644165761549-Normal-Normal-ThreeQuarters-trial2-capture2.jpg</FileName>
+    <TargetCenter X="1.9052767753601074" Y="11.036089897155762" />
+    <TargetRectangle>
+      <TopLeft X="-141.04881274700165" Y="-117.08407020568848" />
+      <TopRight X="136.12305355072022" Y="-126.20907020568848" />
+      <BottomLeft X="-132.31249129772186" Y="148.28125" />
+      <BottomRight X="144.859375" Y="139.15625" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134645057672563" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134645057672563-Normal-Clipped-Quarter-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134645722190571" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134645722190571-Normal-Clipped-Quarter-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-6.2320146560668945" Y="-2.8326611518859863" />
+    <TargetRectangle>
+      <TopLeft X="-55.807779312133789" Y="-47.868447303771973" />
+      <TopRight X="40.004685878753662" Y="-51.290322303771973" />
+      <BottomLeft X="-52.468715190887451" Y="45.625" />
+      <BottomRight X="43.34375" Y="42.203125" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134646181616849" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134646181616849-Normal-Clipped-Quarter-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-5.1328299045562744" Y="2.2812151908874512" />
+    <TargetRectangle>
+      <TopLeft X="-79.843767404556274" Y="-66.156284809112549" />
+      <TopRight X="63.920164823532104" Y="-71.861219882965088" />
+      <BottomLeft X="-74.185824632644653" Y="76.42365026473999" />
+      <BottomRight X="69.578107595443726" Y="70.718715190887451" />
+    </TargetRectangle>
+    <CaptureCenter X="-5.1328299045562744" Y="2.2812151908874512" />
+    <CaptureRectangle>
+      <TopLeft X="-85.546866297721863" Y="-83.265590190887451" />
+      <TopRight X="80.984375" Y="-84.406215190887451" />
+      <BottomLeft X="-84.406241297721863" Y="83.265659809112549" />
+      <BottomRight X="82.125" Y="82.125034809112549" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134646553778135" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134646553778135-Normal-Clipped-Quarter-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-9.1240253448486328" Y="0.023705005645751953" />
+    <TargetRectangle>
+      <TopLeft X="-94.669899582862854" Y="-78.655697584152222" />
+      <TopRight X="69.580074310302734" Y="-85.4994649887085" />
+      <BottomLeft X="-87.828133702278137" Y="85.546875" />
+      <BottomRight X="76.421840190887451" Y="78.703125" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134646984062746" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134646984062746-Normal-Clipped-Quarter-trial1-capture1.jpg</FileName>
+    <TargetCenter X="6.9240024089813232" Y="0.69169187545776367" />
+    <TargetRectangle>
+      <TopLeft X="-71.859366297721863" Y="-74.140625" />
+      <TopRight X="78.863629817962646" Y="-80.741616249084473" />
+      <BottomLeft X="-65.015616297721863" Y="82.125" />
+      <BottomRight X="85.707379817962646" Y="75.524008750915527" />
+    </TargetRectangle>
+    <CaptureCenter X="6.9240024089813232" Y="0.69169187545776367" />
+    <CaptureRectangle>
+      <TopLeft X="-79.843741297721863" Y="-80.984375" />
+      <TopRight X="87.829969882965088" Y="-87.781968116760254" />
+      <BottomLeft X="-72.999991297721863" Y="87.828125" />
+      <BottomRight X="94.673719882965088" Y="81.030531883239746" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134647400296554" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134647400296554-Normal-Clipped-Quarter-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-1.1620674133300781" Y="-0.59022331237792969" />
+    <TargetRectangle>
+      <TopLeft X="-99.234366297721863" Y="-91.249947786331177" />
+      <TopRight X="90.066490173339844" Y="-98.133606433868408" />
+      <BottomLeft X="-92.390616297721863" Y="96.953159809112549" />
+      <BottomRight X="96.910240173339844" Y="90.069483757019043" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134647755336861" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134647755336861-Normal-Clipped-Quarter-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-7.3668961524963379" Y="6.2721495628356934" />
+    <TargetRectangle>
+      <TopLeft X="-92.296301007270813" Y="-74.143218278884888" />
+      <TopRight X="73" Y="-78.703125" />
+      <BottomLeft X="-87.733801007270813" Y="91.247424125671387" />
+      <BottomRight X="77.5625" Y="86.6875" />
+    </TargetRectangle>
+    <CaptureCenter X="-7.3668961524963379" Y="6.2721495628356934" />
+    <CaptureRectangle>
+      <TopLeft X="-95.768518686294556" Y="-79.866863250732422" />
+      <TopRight X="79.887731313705444" Y="-83.288738250732422" />
+      <BottomLeft X="-92.390642404556274" Y="93.53125" />
+      <BottomRight X="83.265607595443726" Y="90.109375" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134648113327337" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134648113327337-Normal-Clipped-Quarter-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-1.1406075954437256" Y="-0.57034730911254883" />
+    <TargetRectangle>
+      <TopLeft X="-103.84978485107422" Y="93.528743743896484" />
+      <TopRight X="-94.671875" Y="-103.796875" />
+      <BottomLeft X="92.390659809112549" Y="102.6561803817749" />
+      <BottomRight X="101.56856966018677" Y="-94.669438362121582" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134648399573709" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134648399573709-Normal-Clipped-Quarter-trial2-capture2.jpg</FileName>
+    <TargetCenter X="2.9015657901763916" Y="2.7967033386230469" />
+    <TargetRectangle>
+      <TopLeft X="-86.587502121925354" Y="-79.953433513641357" />
+      <TopRight X="84.40625" Y="-87.828159809112549" />
+      <BottomLeft X="-78.603127121925354" Y="93.421566486358643" />
+      <BottomRight X="92.390625" Y="85.546840190887451" />
+    </TargetRectangle>
+    <CaptureCenter X="2.9015657901763916" Y="2.7967033386230469" />
+    <CaptureRectangle>
+      <TopLeft X="-87.772909045219421" Y="-79.7934160232544" />
+      <TopRight X="85.546875" Y="-87.828125" />
+      <BottomLeft X="-79.788534045219421" Y="92.4409589767456" />
+      <BottomRight X="93.53125" Y="84.40625" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134649611323017" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134649611323017-tPad-Clipped-ThreeQuarters-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134649956042734" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134649956042734-tPad-Clipped-ThreeQuarters-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134650244439229" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134650244439229-tPad-Clipped-ThreeQuarters-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134650534065795" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134650534065795-tPad-Clipped-ThreeQuarters-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134650795470746" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134650795470746-tPad-Clipped-ThreeQuarters-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134650936308802" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134650936308802-tPad-Clipped-ThreeQuarters-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134651163271783" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134651163271783-tPad-Clipped-ThreeQuarters-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134651398305227" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134651398305227-tPad-Clipped-ThreeQuarters-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134651612317467" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134651612317467-tPad-Clipped-ThreeQuarters-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134652488817600" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134652488817600-Normal-Clipped-Half-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-6.775489330291748" Y="1.3653526306152344" />
+    <TargetRectangle>
+      <TopLeft X="-126.4728536605835" Y="-105.62868714332581" />
+      <TopRight X="101.6521463394165" Y="-117.03491973876953" />
+      <BottomLeft X="-115.203125" Y="119.765625" />
+      <BottomRight X="112.921875" Y="108.359375" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134652832857278" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134652832857278-Normal-Clipped-Half-trial0-capture1.jpg</FileName>
+    <TargetCenter X="2.3041543960571289" Y="9.6696233749389648" />
+    <TargetRectangle>
+      <TopLeft X="-125.42295861244202" Y="-111.83262825012207" />
+      <TopRight X="128.93643379211426" Y="-112.97325325012207" />
+      <BottomLeft X="-124.32814240455627" Y="132.3125" />
+      <BottomRight X="130.03125" Y="131.171875" />
+    </TargetRectangle>
+    <CaptureCenter X="2.3041543960571289" Y="9.6696233749389648" />
+    <CaptureRectangle>
+      <TopLeft X="-133.46286284923554" Y="-123.18744778633118" />
+      <TopRight X="133.44337844848633" Y="-125.4686803817749" />
+      <BottomLeft X="-131.17186629772186" Y="144.8593053817749" />
+      <BottomRight X="135.734375" Y="142.5780553817749" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134653202218404" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134653202218404-Normal-Clipped-Half-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134653571289514" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134653571289514-Normal-Clipped-Half-trial1-capture0.jpg</FileName>
+    <TargetCenter X="4.6446843147277832" Y="5.2568373680114746" />
+    <TargetRectangle>
+      <TopLeft X="-115.03879117965698" Y="-102.4082350730896" />
+      <TopRight X="114.22686862945557" Y="-112.6738600730896" />
+      <BottomLeft X="-104.9375" Y="123.18753480911255" />
+      <BottomRight X="124.32815980911255" Y="112.92190980911255" />
+    </TargetRectangle>
+    <CaptureCenter X="4.6446843147277832" Y="5.2568373680114746" />
+    <CaptureRectangle>
+      <TopLeft X="-119.58570539951325" Y="-106.89836692810059" />
+      <TopRight X="117.66426849365234" Y="-118.30461692810059" />
+      <BottomLeft X="-108.35938370227814" Y="126.609375" />
+      <BottomRight X="128.89059019088745" Y="115.203125" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134653844615147" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134653844615147-Normal-Clipped-Half-trial1-capture1.jpg</FileName>
+    <TargetCenter X="5.18300724029541" Y="1.7590436935424805" />
+    <TargetRectangle>
+      <TopLeft X="-129.93085181713104" Y="-125.37255501747131" />
+      <TopRight X="134.69413948059082" Y="-131.07566261291504" />
+      <BottomLeft X="-124.32811629772186" Y="134.59375" />
+      <BottomRight X="140.296875" Y="128.890625" />
+    </TargetRectangle>
+    <CaptureCenter X="5.18300724029541" Y="1.7590436935424805" />
+    <CaptureRectangle>
+      <TopLeft X="-136.85653376579285" Y="142.58759307861328" />
+      <TopRight X="-134.57530117034912" Y="-138.00622653961182" />
+      <BottomLeft X="142.57815980911255" Y="144.859375" />
+      <BottomRight X="144.859375" Y="-135.7344446182251" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134654263049081" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134654263049081-Normal-Clipped-Half-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-3.9921875" Y="-0.57034730911254883" />
+    <TargetRectangle>
+      <TopLeft X="-120.78339993953705" Y="-107.18263554573059" />
+      <TopRight X="104.93753480911255" Y="-115.20315980911255" />
+      <BottomLeft X="-112.92190110683441" Y="114.06246519088745" />
+      <BottomRight X="112.79903364181519" Y="106.04192352294922" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134654626249854" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134654626249854-Normal-Clipped-Half-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-139.03627169132233" Y="341.61405467987061" />
+    <TargetRectangle>
+      <TopLeft X="-160.828125" Y="337.625" />
+      <TopRight X="-117.48438370227814" Y="336.484375" />
+      <BottomLeft X="-160.58815968036652" Y="346.74373435974121" />
+      <BottomRight X="-117.24441838264465" Y="345.60310935974121" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134654995120953" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134654995120953-Normal-Clipped-Half-trial2-capture1.jpg</FileName>
+    <TargetCenter X="4.8016211986541748" Y="7.2407827377319336" />
+    <TargetRectangle>
+      <TopLeft X="-163.10938805341721" Y="153.98434019088745" />
+      <TopRight X="-150.0842924118042" Y="-153.19034433364868" />
+      <BottomLeft X="159.68753480911255" Y="167.67190980911255" />
+      <BottomRight X="172.71261739730835" Y="-139.50277471542358" />
+    </TargetRectangle>
+    <CaptureCenter X="4.8016211986541748" Y="7.2407827377319336" />
+    <CaptureRectangle>
+      <TopLeft X="-172.23438805341721" Y="164.24996519088745" />
+      <TopRight X="-153.92227554321289" Y="-171.09037351608276" />
+      <BottomLeft X="161.90665054321289" Y="182.49662351608276" />
+      <BottomRight X="180.21875" Y="-152.84371519088745" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134655272316807" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134655272316807-Normal-Clipped-Half-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-1.01527738571167" Y="-2.2267389297485352" />
+    <TargetRectangle>
+      <TopLeft X="-124.07745587825775" Y="-110.53163766860962" />
+      <TopRight X="109.75069522857666" Y="-123.07851266860962" />
+      <BottomLeft X="-111.78124129772186" Y="118.62503480911255" />
+      <BottomRight X="122.04690980911255" Y="106.07815980911255" />
+    </TargetRectangle>
+    <CaptureCenter X="-1.01527738571167" Y="-2.2267389297485352" />
+    <CaptureRectangle>
+      <TopLeft X="-128.91135382652283" Y="-124.32772469520569" />
+      <TopRight X="122.046875" Y="-128.89059019088745" />
+      <BottomLeft X="-124.34885382652283" Y="126.60975790023804" />
+      <BottomRight X="126.609375" Y="122.046875" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134656399471277" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134656399471277-tPad-Clipped-Half-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134656553870108" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134656553870108-tPad-Clipped-Half-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134656794873893" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134656794873893-tPad-Clipped-Half-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134656931951733" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134656931951733-tPad-Clipped-Half-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134657163864998" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134657163864998-tPad-Clipped-Half-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134657358466128" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134657358466128-tPad-Clipped-Half-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134657581308874" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134657581308874-tPad-Clipped-Half-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134657752918690" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134657752918690-tPad-Clipped-Half-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134658159501945" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134658159501945-tPad-Clipped-Half-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134658952297290" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134658952297290-Normal-Clipped-ThreeQuarters-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-6.6815047264099121" Y="7.27712345123291" />
+    <TargetRectangle>
+      <TopLeft X="-158.22241926193237" Y="-124.60200309753418" />
+      <TopRight X="128.07449054718018" Y="-141.71137809753418" />
+      <BottomLeft X="-141.4375" Y="156.265625" />
+      <BottomRight X="144.85940980911255" Y="139.15625" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134659367331029" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134659367331029-Normal-Clipped-ThreeQuarters-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134659791325280" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134659791325280-Normal-Clipped-ThreeQuarters-trial0-capture2.jpg</FileName>
+    <TargetCenter X="1.8538289070129395" Y="10.115876197814941" />
+    <TargetRectangle>
+      <TopLeft X="-173.08921718597412" Y="-150.86196279525757" />
+      <TopRight X="169.09828281402588" Y="-158.84633779525757" />
+      <BottomLeft X="-165.390625" Y="179.07809019088745" />
+      <BottomRight X="176.796875" Y="171.09371519088745" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134660181967623" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134660181967623-Normal-Clipped-ThreeQuarters-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134660674125773" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134660674125773-Normal-Clipped-ThreeQuarters-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-8.8195326328277588" Y="15.152371883392334" />
+    <TargetRectangle>
+      <TopLeft X="-169.34217286109924" Y="-125.96088123321533" />
+      <TopRight X="140.90777492523193" Y="-137.36713123321533" />
+      <BottomLeft X="-158.54685759544373" Y="167.671875" />
+      <BottomRight X="151.703125" Y="156.265625" />
+    </TargetRectangle>
+    <CaptureCenter X="-8.8195326328277588" Y="15.152371883392334" />
+    <CaptureRectangle>
+      <TopLeft X="-169.44623470306397" Y="-128.34328651428223" />
+      <TopRight X="141.94439029693604" Y="-138.60891151428223" />
+      <BottomLeft X="-159.6875" Y="167.671875" />
+      <BottomRight X="151.703125" Y="157.40625" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134661074048647" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134661074048647-Normal-Clipped-ThreeQuarters-trial1-capture2.jpg</FileName>
+    <TargetCenter X="6.8534095287323" Y="1.657470703125" />
+    <TargetRectangle>
+      <TopLeft X="-117.4650559425354" Y="-117.59132599830627" />
+      <TopRight X="126.6286940574646" Y="-122.15380859375" />
+      <BottomLeft X="-112.921875" Y="125.46875" />
+      <BottomRight X="131.171875" Y="120.90625" />
+    </TargetRectangle>
+    <CaptureCenter X="6.8534095287323" Y="1.657470703125" />
+    <CaptureRectangle>
+      <TopLeft X="-120.88702666759491" Y="-120.98953080177307" />
+      <TopRight X="130.05046463012695" Y="-125.5520133972168" />
+      <BottomLeft X="-116.34374129772186" Y="128.890625" />
+      <BottomRight X="134.59375" Y="124.328125" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134661456640530" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134661456640530-Normal-Clipped-ThreeQuarters-trial2-capture0.jpg</FileName>
+    <TargetCenter X="2.3866171836853027" Y="5.9155302047729492" />
+    <TargetRectangle>
+      <TopLeft X="-166.3205156326294" Y="-146.71577978134155" />
+      <TopRight X="157.61698436737061" Y="-160.40327978134155" />
+      <BottomLeft X="-152.84375" Y="172.23434019088745" />
+      <BottomRight X="171.09375" Y="158.54684019088745" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134661889235273" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134661889235273-Normal-Clipped-ThreeQuarters-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-2.518404483795166" Y="7.6518435478210449" />
+    <TargetRectangle>
+      <TopLeft X="-195.52121877670288" Y="-155.79011511802673" />
+      <TopRight X="166.05694103240967" Y="-180.883882522583" />
+      <BottomLeft X="-171.09375" Y="196.1875696182251" />
+      <BottomRight X="190.48440980911255" Y="171.0938196182251" />
+    </TargetRectangle>
+    <CaptureCenter X="-2.518404483795166" Y="7.6518435478210449" />
+    <CaptureRectangle>
+      <TopLeft X="-201.91991686820984" Y="-157.99727392196655" />
+      <TopRight X="171.06444072723389" Y="-183.09102392196655" />
+      <BottomLeft X="-177.93748259544373" Y="198.46871519088745" />
+      <BottomRight X="195.046875" Y="173.37496519088745" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134662247555768" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134662247555768-Normal-Clipped-ThreeQuarters-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-6.7322390079498291" Y="10.436746597290039" />
+    <TargetRectangle>
+      <TopLeft X="-190.26131820678711" Y="-160.48584699630737" />
+      <TopRight X="170.17618179321289" Y="-167.32959699630737" />
+      <BottomLeft X="-183.64065980911255" Y="188.20309019088745" />
+      <BottomRight X="176.79684019088745" Y="181.35934019088745" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134663006909201" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134663006909201-tPad-Clipped-Quarter-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134663388861047" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134663388861047-tPad-Clipped-Quarter-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134663895300014" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134663895300014-tPad-Clipped-Quarter-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134664152254711" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134664152254711-tPad-Clipped-Quarter-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134664480013457" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134664480013457-tPad-Clipped-Quarter-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134664796131538" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134664796131538-tPad-Clipped-Quarter-trial1-capture2.jpg</FileName>
+    <TargetCenter X="8.0890599576619788" Y="8.8303626383336589" />
+    <TargetRectangle>
+      <TopLeft X="-51.248049921996881" Y="71.747269890795636" />
+      <TopRight X="-43.041848883427996" Y="-60.919617937061233" />
+      <BottomLeft X="59.21996879875195" Y="78.580343213728554" />
+      <BottomRight X="67.426169837320842" Y="-54.086544614128314" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134664993732841" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134664993732841-tPad-Clipped-Quarter-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134665238206824" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134665238206824-tPad-Clipped-Quarter-trial2-capture1.jpg</FileName>
+    <TargetCenter X="1.7377404080538222E-05" Y="19.929831946695838" />
+    <TargetRectangle>
+      <TopLeft X="-59.219934043943788" Y="-40.998370427981186" />
+      <TopRight X="53.33723095017551" Y="-46.209367344420343" />
+      <BottomLeft X="-53.337196195367348" Y="86.069031237812013" />
+      <BottomRight X="59.21996879875195" Y="80.858034321372855" />
+    </TargetRectangle>
+    <CaptureCenter X="1.7377404080538222E-05" Y="19.929831946695838" />
+    <CaptureRectangle>
+      <TopLeft X="-54.664551828655178" Y="80.858138585797334" />
+      <TopRight X="-51.902517714478108" Y="-55.862550065967483" />
+      <BottomLeft X="58.081157999737961" Y="83.13582969344165" />
+      <BottomRight X="60.843192113915023" Y="-53.584858958323181" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134665626529034" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134665626529034-tPad-Clipped-Quarter-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134665921125884" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134665921125884-tPad-Normal-Quarter-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134666128887768" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134666128887768-tPad-Normal-Quarter-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134666332439410" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134666332439410-tPad-Normal-Quarter-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134666608165181" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134666608165181-tPad-Normal-Quarter-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134666793115759" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134666793115759-tPad-Normal-Quarter-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134666964875583" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134666964875583-tPad-Normal-Quarter-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134667146996000" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134667146996000-tPad-Normal-Quarter-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134667316775711" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134667316775711-tPad-Normal-Quarter-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134667466194257" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134667466194257-tPad-Normal-Quarter-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134667952472071" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134667952472071-tPad-Normal-ThreeQuarters-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134668093830156" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134668093830156-tPad-Normal-ThreeQuarters-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134668494073049" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134668494073049-tPad-Normal-ThreeQuarters-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134668689904249" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134668689904249-tPad-Normal-ThreeQuarters-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134668823421886" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134668823421886-tPad-Normal-ThreeQuarters-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134668952789286" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134668952789286-tPad-Normal-ThreeQuarters-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134669079386527" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134669079386527-tPad-Normal-ThreeQuarters-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134669209983996" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134669209983996-tPad-Normal-ThreeQuarters-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134669337341281" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134669337341281-tPad-Normal-ThreeQuarters-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134669649179117" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134669649179117-tPad-Normal-Half-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134669863851395" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134669863851395-tPad-Normal-Half-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134670002619332" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134670002619332-tPad-Normal-Half-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134670123506247" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134670123506247-tPad-Normal-Half-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134670253253668" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134670253253668-tPad-Normal-Half-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134670392811650" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134670392811650-tPad-Normal-Half-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134670507658219" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134670507658219-tPad-Normal-Half-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134670628975158" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134670628975158-tPad-Normal-Half-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134670737971392" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134670737971392-tPad-Normal-Half-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134738668541327" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134738668541327-Normal-Normal-Quarter-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-5.6639647483825684" Y="2.8241329193115234" />
+    <TargetRectangle>
+      <TopLeft X="-80.906071901321411" Y="-67.351734161376953" />
+      <TopRight X="66.234553098678589" Y="-70.773609161376953" />
+      <BottomLeft X="-77.562482595443726" Y="76.421875" />
+      <BottomRight X="69.578142404556274" Y="73" />
+    </TargetRectangle>
+    <CaptureCenter X="-5.6639647483825684" Y="2.8241329193115234" />
+    <CaptureRectangle>
+      <TopLeft X="-85.449270248413086" Y="-70.822272300720215" />
+      <TopRight X="69.675729751586914" Y="-75.384772300720215" />
+      <BottomLeft X="-80.984375" Y="80.984375" />
+      <BottomRight X="74.140625" Y="76.421875" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134738840411158" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134738840411158-Normal-Normal-Quarter-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-6.8170340061187744" Y="3.9645838737487793" />
+    <TargetRectangle>
+      <TopLeft X="-79.790318012237549" Y="-65.070797443389893" />
+      <TopRight X="63.928431987762451" Y="-67.352047443389893" />
+      <BottomLeft X="-77.5625" Y="75.281215190887451" />
+      <BottomRight X="66.15625" Y="72.999965190887451" />
+    </TargetRectangle>
+    <CaptureCenter X="-6.8170340061187744" Y="3.9645838737487793" />
+    <CaptureRectangle>
+      <TopLeft X="-84.304546475410461" Y="-67.350620269775391" />
+      <TopRight X="67.398587226867676" Y="-70.772495269775391" />
+      <BottomLeft X="-80.984383702278137" Y="79.84375" />
+      <BottomRight X="70.71875" Y="76.421875" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134738971888678" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134738971888678-Normal-Normal-Quarter-trial0-capture2.jpg</FileName>
+    <TargetCenter X="7.3716998100280762" Y="5.7435731887817383" />
+    <TargetRectangle>
+      <TopLeft X="-65.015616297721863" Y="73.0000696182251" />
+      <TopRight X="-61.678475379943848" Y="-64.934798240661621" />
+      <BottomLeft X="76.421875" Y="76.4219446182251" />
+      <BottomRight X="79.759024620056152" Y="-61.512923240661621" />
+    </TargetRectangle>
+    <CaptureCenter X="7.3716998100280762" Y="5.7435731887817383" />
+    <CaptureRectangle>
+      <TopLeft X="-69.578125" Y="76.4219446182251" />
+      <TopRight X="-66.308783531188965" Y="-68.518117904663086" />
+      <BottomLeft X="82.125" Y="79.8438196182251" />
+      <BottomRight X="85.394341468811035" Y="-65.096242904663086" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134739196411520" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134739196411520-Normal-Normal-Quarter-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-2.8515625" Y="10.265625" />
+    <TargetRectangle>
+      <TopLeft X="-54.75" Y="-38.78125" />
+      <TopRight X="49.046875" Y="-38.78125" />
+      <BottomLeft X="-54.75" Y="59.3125" />
+      <BottomRight X="49.046875" Y="59.3125" />
+    </TargetRectangle>
+    <CaptureCenter X="-2.8515625" Y="10.265625" />
+    <CaptureRectangle>
+      <TopLeft X="-58.112838745117188" Y="-41.09873628616333" />
+      <TopRight X="51.387161254882812" Y="-42.23936128616333" />
+      <BottomLeft X="-57.03125" Y="62.734409809112549" />
+      <BottomRight X="52.46875" Y="61.593784809112549" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134739948874558" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134739948874558-Normal-Normal-Quarter-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="-10" />
+    <TargetRectangle>
+      <TopLeft X="-50" Y="-50" />
+      <TopRight X="50" Y="-50" />
+      <BottomLeft X="-50" Y="50" />
+      <BottomRight X="50" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134740141685586" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134740141685586-Normal-Normal-Quarter-trial1-capture2.jpg</FileName>
+    <TargetCenter X="0.60573077201843262" Y="4.5367064476013184" />
+    <TargetRectangle>
+      <TopLeft X="-63.804154753685" Y="-54.801552295684814" />
+      <TopRight X="63.945836544036865" Y="-55.942177295684814" />
+      <BottomLeft X="-62.734366297721863" Y="65.015590190887451" />
+      <BottomRight X="65.015625" Y="63.874965190887451" />
+    </TargetRectangle>
+    <CaptureCenter X="0.60573077201843262" Y="4.5367064476013184" />
+    <CaptureRectangle>
+      <TopLeft X="-69.35185706615448" Y="-57.180755138397217" />
+      <TopRight X="66.382544040679932" Y="-60.602630138397217" />
+      <BottomLeft X="-66.156241297721863" Y="69.578090190887451" />
+      <BottomRight X="69.578159809112549" Y="66.156215190887451" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134740289814059" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134740289814059-Normal-Normal-Quarter-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-5.6570029258728027" Y="-0.60846328735351562" />
+    <TargetRectangle>
+      <TopLeft X="-76.3296308517456" Y="-66.232551574707031" />
+      <TopRight X="62.826619148254395" Y="-68.513801574707031" />
+      <BottomLeft X="-74.140625" Y="67.296875" />
+      <BottomRight X="65.015625" Y="65.015625" />
+    </TargetRectangle>
+    <CaptureCenter X="-5.6570029258728027" Y="-0.60846328735351562" />
+    <CaptureRectangle>
+      <TopLeft X="-81.942669868469238" Y="-68.52065896987915" />
+      <TopRight X="66.338580131530762" Y="-71.94253396987915" />
+      <BottomLeft X="-78.703125" Y="71.859409809112549" />
+      <BottomRight X="69.578125" Y="68.437534809112549" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134740468964305" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134740468964305-Normal-Normal-Quarter-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-5.0198917388916016" Y="5.0871777534484863" />
+    <TargetRectangle>
+      <TopLeft X="-75.0554084777832" Y="-57.122484683990479" />
+      <TopRight X="61.8195915222168" Y="-60.544359683990479" />
+      <BottomLeft X="-71.859375" Y="70.718715190887451" />
+      <BottomRight X="65.015625" Y="67.296840190887451" />
+    </TargetRectangle>
+    <CaptureCenter X="-5.0198917388916016" Y="5.0871777534484863" />
+    <CaptureRectangle>
+      <TopLeft X="-79.5600209236145" Y="-60.569839954376221" />
+      <TopRight X="65.2993540763855" Y="-65.132339954376221" />
+      <BottomLeft X="-75.28125" Y="75.281284809112549" />
+      <BottomRight X="69.578125" Y="70.718784809112549" />
+    </CaptureRectangle>
+  </Capture>
+  <Capture Ticks="635134740633083693" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 1</Folder>
+    <FileName>635134740633083693-Normal-Normal-Quarter-trial2-capture2.jpg</FileName>
+    <TargetCenter X="4.1202502250671387" Y="8.4620604515075684" />
+    <TargetRectangle>
+      <TopLeft X="-72.743891954422" Y="-59.497788906097412" />
+      <TopRight X="75.537358045578" Y="-65.200913906097412" />
+      <BottomLeft X="-67.296857595443726" Y="82.125034809112549" />
+      <BottomRight X="80.984392404556274" Y="76.421909809112549" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+  </Capture>
+</ArrayOfCapture>

@@ -1,15 +1,89 @@
-﻿<Window x:Class="SurfCaptureAnalyser.MainWindow"
+﻿<Window x:Class="SurfCaptureAnalyser.MainWindow" x:Name="wAnalyser"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="768" Width="1366">
   <DockPanel>
     <DockPanel DockPanel.Dock="Right">
-      <TextBlock DockPanel.Dock="Top">Output in CSV:</TextBlock>
-      <TextBox x:Name="tbOutput" Width="500" BorderThickness="1"/>
+      <DockPanel DockPanel.Dock="Top">
+        <TextBlock DockPanel.Dock="Top">Input Files:</TextBlock>
+        <ListBox x:Name="lbCaptures" ItemsSource="{Binding ElementName=wAnalyser, Path=Captures}" Height="345"/>
+      </DockPanel>
+      <DockPanel DockPanel.Dock="Bottom">
+        <TextBlock DockPanel.Dock="Top">Output in CSV:</TextBlock>
+        <TextBox x:Name="tbOutput" Width="500" BorderThickness="1" Height="345"/>
+      </DockPanel>
+      <Label />
     </DockPanel>
-    <Grid>
+    <Grid x:Name="gWorkArea">
       <Button x:Name="bLoadPicture" Content="Load" Click="bLoadPicture_Click" Width="50" Height="50" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="20"/>
-      <Image x:Name="iPicture"/>
+      <Button x:Name="bGenerate" Content="CSV" Click="bGenerate_Click" Width="50" Height="50" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,80,20,0"/>
+      <Button x:Name="bSave" Content="Save" Click="bSave_Click" Width="50" Height="50" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,140,20,0"/>
+      
+      <Image x:Name="iCapture" Source="{Binding ElementName=lbCaptures, Path=SelectedItem.FullPath}" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp"/>
+
+      <Ellipse x:Name="eTargetCenter" Width="8" Height="8" Fill="Black" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.TargetCenter}"
+               MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
+        <Ellipse.RenderTransform>
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" />
+        </Ellipse.RenderTransform>
+      </Ellipse>
+      <Ellipse x:Name="eTargetTL" Width="8" Height="8" Fill="Black" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.TargetRectangle.TopLeft}"
+               MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
+        <Ellipse.RenderTransform>
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" />
+        </Ellipse.RenderTransform>
+      </Ellipse>
+      <Ellipse x:Name="eTargetTR" Width="8" Height="8" Fill="Black" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.TargetRectangle.TopRight}"
+               MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
+        <Ellipse.RenderTransform>
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" />
+        </Ellipse.RenderTransform>
+      </Ellipse>
+      <Ellipse x:Name="eTargetBL" Width="8" Height="8" Fill="Black" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.TargetRectangle.BottomLeft}"
+               MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
+        <Ellipse.RenderTransform>
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" />
+        </Ellipse.RenderTransform>
+      </Ellipse>
+      <Ellipse x:Name="eTargetBR" Width="8" Height="8" Fill="Black" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.TargetRectangle.BottomRight}"
+               MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
+        <Ellipse.RenderTransform>
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" />
+        </Ellipse.RenderTransform>
+      </Ellipse>
+
+      <Ellipse x:Name="eCaptureCenter" Width="8" Height="8" Fill="Red" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.CaptureCenter}"
+               MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
+        <Ellipse.RenderTransform>
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" />
+        </Ellipse.RenderTransform>
+      </Ellipse>
+      <Ellipse x:Name="eCaptureTL" Width="8" Height="8" Fill="Red" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.CaptureRectangle.TopLeft}"
+               MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
+        <Ellipse.RenderTransform>
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" />
+        </Ellipse.RenderTransform>
+      </Ellipse>
+      <Ellipse x:Name="eCaptureTR" Width="8" Height="8" Fill="Red" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.CaptureRectangle.TopRight}"
+               MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
+        <Ellipse.RenderTransform>
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" />
+        </Ellipse.RenderTransform>
+      </Ellipse>
+      <Ellipse x:Name="eCaptureBL" Width="8" Height="8" Fill="Red" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.CaptureRectangle.BottomLeft}"
+               MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
+        <Ellipse.RenderTransform>
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" />
+        </Ellipse.RenderTransform>
+      </Ellipse>
+      <Ellipse x:Name="eCaptureBR" Width="8" Height="8" Fill="Red" StrokeThickness="0" DataContext="{Binding ElementName=lbCaptures, Path=SelectedItem.CaptureRectangle.BottomRight}"
+               MouseDown="eTargetCenter_MouseDown" MouseMove="eTargetCenter_MouseMove" MouseUp="eTargetCenter_MouseUp">
+        <Ellipse.RenderTransform>
+          <TranslateTransform X="{Binding Path=X, FallbackValue=0}" Y="{Binding Path=Y, FallbackValue=0}" /> 
+        </Ellipse.RenderTransform>
+      </Ellipse>
+      
+      
     </Grid>
   </DockPanel>
 </Window>
