@@ -54,5 +54,16 @@ namespace SurfCaptureAnalyser
     {
       return new System.Drawing.PointF((float)X, (float)Y);
     }
+
+    internal void Translate(int offsetX, int offsetY)
+    {
+      X += offsetX;
+      Y += offsetY;
+    }
+
+    internal BindablePoint Clone()
+    {
+      return new BindablePoint(X, Y);
+    }
   }
 }

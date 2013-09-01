@@ -22,5 +22,24 @@ namespace SurfCaptureAnalyser
       BottomLeft = new BindablePoint(x, y + height);
       BottomRight = new BindablePoint(x + width, y + height);
     }
+
+    internal void Translate(int offsetX, int offsetY)
+    {
+      TopLeft.Translate(offsetX, offsetY);
+      TopRight.Translate(offsetX, offsetY);
+      BottomLeft.Translate(offsetX, offsetY);
+      BottomRight.Translate(offsetX, offsetY);
+    }
+
+    internal BindableRect Clone()
+    {
+      BindableRect clone = new BindableRect();
+      clone.TopLeft = TopLeft.Clone();
+      clone.TopRight = TopRight.Clone();
+      clone.BottomLeft = BottomLeft.Clone();
+      clone.BottomRight = BottomRight.Clone();
+
+      return clone;
+    }
   }
 }
