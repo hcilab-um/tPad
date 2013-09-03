@@ -4,6 +4,8 @@
 //Simple code for the ADXL335, prints calculated orientation via serial
 //////////////////////////////////////////////////////////////////
 
+const int ORIENTATION_CHANGE_THRESHOLD = 10;
+
 //Analog read pins
 const int xPin = A0;
 const int yPin = A1;
@@ -90,6 +92,7 @@ void loop(){
   Serial.flush();
 }
 
+int countOrientationChange = 0;
 int calculateOrientation()
 {
     //read the analog values from the accelerometer
@@ -112,6 +115,12 @@ int calculateOrientation()
   int orientation = -1;
   if(zAng >= 0)
     orientation = 1;
+
+  if(orientation != prevOrientation)
+    countOrientationChange = 0;
+
+  if(countOrientationChange < ORIENTATION_CHANGE_THRESHOLD)
+    orientation = prevOrientation;
   
   return orientation;
 }
