@@ -27,6 +27,8 @@ namespace SurfCaptureAnalyser
   public partial class MainWindow : System.Windows.Window
   {
 
+    public const int TPAD_Y_OFFSET = -12;
+
     public ObservableCollection<Capture> Captures { get; set; }
 
     public MainWindow()
@@ -234,11 +236,12 @@ namespace SurfCaptureAnalyser
         double pixelCmRatio = sizes[(int)capture.Size] / pixelLenght;
 
         //1- calculate off-set
-        double offsetPx = 0;
-        if (capture.Method == Method.Normal)
-          offsetPx = Distance(capture.TargetCenter, new BindablePoint(0, 0));
-        else
-          offsetPx = Distance(capture.TargetCenter, capture.CaptureCenter);
+        BindablePoint capturePoint = capture.CaptureCenter.Clone();
+        if (capture.Device == Device.Normal && capture.Method == Method.Normal)
+          capturePoint = new BindablePoint(0, 0);
+        if (capture.Device == Device.tPad)
+          capturePoint.Translate(0, TPAD_Y_OFFSET); //due to the angle from where the picture is taken, there is a 12px shift in the capture elements
+        double offsetPx = Distance(capture.TargetCenter, capturePoint);
         double offsetCm = offsetPx * pixelCmRatio;
         capture.Offset = offsetCm;
 
@@ -247,7 +250,7 @@ namespace SurfCaptureAnalyser
           capture.TargetRectangle.BottomLeft.X - capture.TargetRectangle.BottomRight.X,
           capture.TargetRectangle.BottomLeft.Y - capture.TargetRectangle.BottomRight.Y);
         System.Windows.Vector baseVector;
-        if (capture.Method == Method.Normal)
+        if (capture.Device == Device.Normal && capture.Method == Method.Normal)
           baseVector = new System.Windows.Vector(1, 0);
         else
           baseVector = new System.Windows.Vector(
@@ -258,16 +261,22 @@ namespace SurfCaptureAnalyser
           angle = 180 - angle;
         capture.Angle = angle;
 
-        if (capture.Method == Method.Normal)
-          continue;
+        double captureRatio = 0;
+        double missRatio = 0;
 
-        //3- calculates the ratio of capture = capture / target
-        double captureRatio = Area(capture.CaptureRectangle) / Area(capture.TargetRectangle);
-        capture.CaptureRatio = captureRatio;
+        if (capture.Method == Method.Clipped)
+        {
+          //3- calculates the ratio of capture = capture / target
+          captureRatio = Area(capture.CaptureRectangle) / Area(capture.TargetRectangle);
+          capture.CaptureRatio = captureRatio;
 
-        //4- calculates how much is left out
-        double missRatio = AreaMiss(capture.CaptureRectangle, capture.TargetRectangle) / Area(capture.TargetRectangle);
-        capture.MissRatio = missRatio;
+          //4- calculates how much is left out
+          BindableRect captureRectangle = capture.CaptureRectangle.Clone();
+          if (capture.Device == Device.tPad)
+            captureRectangle.Translate(0, TPAD_Y_OFFSET);
+          missRatio = AreaMiss(captureRectangle, capture.TargetRectangle) / Area(capture.TargetRectangle);
+          capture.MissRatio = missRatio;
+        }
 
         //5- prints out the log
         String log = String.Format("{0:F4};{1:F4};{2:F4};{3:F4}\n", offsetCm, angle, captureRatio, missRatio);
