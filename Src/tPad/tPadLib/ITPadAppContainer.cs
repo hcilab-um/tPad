@@ -9,7 +9,7 @@ namespace UofM.HCI.tPad
 
   public interface ITPadAppContainer
   {
-    void LoadTPadApp(ITPadApp tPadApp, bool foreground = true);
+    bool LoadTPadApp(ITPadApp tPadApp, bool foreground = true);
     void Hide(ITPadApp tPadApp);
     void Show(ITPadApp tPadApp);
   }

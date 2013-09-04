@@ -104,12 +104,16 @@ namespace UofM.HCI.tPad.App.InfSeeking
         SearchStarted(this, EventArgs.Empty);
     }
 
+    DateTime lastDoubleClick = DateTime.MinValue;
     private void tbSecond_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
+      if ((DateTime.Now - lastDoubleClick).TotalMilliseconds < 500)
+        return;
       if (CurrentTarget.Condition.Method == SwitchingMethod.TapNFlip)
         return;
 
       MessabeBoxShow("Paste from clipboard?", "Yes", "No", NotificationType.PasteRequest);
+      lastDoubleClick = DateTime.Now;
     }
 
     private void MessabeBoxShow(String message, String yesButton, String noButton, NotificationType type)

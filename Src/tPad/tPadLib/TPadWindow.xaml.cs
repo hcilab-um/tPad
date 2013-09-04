@@ -48,24 +48,27 @@ namespace UofM.HCI.tPad
       InitializeComponent();
     }
 
-    public void LoadTPadApp(ITPadApp tPadApp, bool foreground = true)
+    public bool LoadTPadApp(ITPadApp tPadApp, bool foreground = true)
     {
       if (tPadApp == null)
-        return;
-
-      tPadApp.Closed += tPadApp_Closed;
+        return false;
 
       UserControl TPadApp = tPadApp as UserControl;
       TPadApp.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       TPadApp.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
 
       if (!gTPadApp.Children.Contains(TPadApp))
+      {
         gTPadApp.Children.Add(TPadApp);
+        tPadApp.Closed += tPadApp_Closed;
+      }
 
       if (foreground)
         Show(tPadApp);
       else
         Hide(tPadApp);
+
+      return true;
     }
 
     public void Hide(ITPadApp tPadApp)
