@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:tpadcontrols="clr-namespace:UofM.HCI.tPad;assembly=tPadLib"
-             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480" Background="White" Loaded="UserControl_Loaded">
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480" Background="White" Loaded="UserControl_Loaded" MouseDoubleClick="tbSecond_MouseDoubleClick">
   <DockPanel>
 
     <tpadcontrols:TPadKeyboard x:Name="tpKeyboard" Width="{Binding ElementName=whatUpApp, Path=ActualWidth}" Height="200" DockPanel.Dock="Bottom"

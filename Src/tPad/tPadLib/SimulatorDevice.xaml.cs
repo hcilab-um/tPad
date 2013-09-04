@@ -195,21 +195,25 @@ namespace UofM.HCI.tPad
       OnPropertyChanged("HeightMultiplier");
     }
 
-    public void LoadTPadApp(ITPadApp tPadApp, bool foreground = true)
+    public bool LoadTPadApp(ITPadApp tPadApp, bool foreground = true)
     {
       if (tPadApp == null)
-        return;
-
-      tPadApp.Closed += tPadApp_Closed;
+        return false;
 
       (tPadApp as UserControl).VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
       (tPadApp as UserControl).HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-      gTPadApp.Children.Add(tPadApp as UserControl);
+      if (!gTPadApp.Children.Contains(tPadApp as UserControl))
+      {
+        gTPadApp.Children.Add(tPadApp as UserControl);
+        tPadApp.Closed += tPadApp_Closed;
+      }
 
       if (foreground)
         Show(tPadApp);
       else
         Hide(tPadApp);
+
+      return true;
     }
 
     public void Hide(ITPadApp tPadApp)
