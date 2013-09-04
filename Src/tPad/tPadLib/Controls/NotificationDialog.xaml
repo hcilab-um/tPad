@@ -17,9 +17,9 @@
           </Grid.ColumnDefinitions>
           
           <Button x:Name="btnOK" Grid.Column="0" Content="{Binding ElementName=nDialog, Path=ButtonOK, FallbackValue=OK}" Margin="10,0" Click="btnOK_Click"
-                  FontSize="20" FontWeight="Bold" Width="100" Height="100"/>
+                  FontSize="20" FontWeight="Bold" Width="150" Height="80"/>
           <Button x:Name="btnCancel" Grid.Column="1" Content="{Binding ElementName=nDialog, Path=ButtonCancel, FallbackValue=Cancel}" Margin="10,0" Click="btnCancel_Click"
-                  FontSize="20" FontWeight="Bold" Width="100" Height="100"/>
+                  FontSize="20" FontWeight="Bold" Width="150" Height="80"/>
         </Grid>
         
         <TextBlock Text="{Binding ElementName=nDialog, Path=Message}" FontSize="20" FontWeight="Bold" Margin="20" />
