@@ -59,7 +59,7 @@ namespace UofM.HCI.tPad.App.Shell
       };
     }
 
-    private int[] experimentalOrder = { 4,	5,	3,	6,	2,	7,	1,	8,	12,	9,	11,	10 };
+    private int[] experimentalOrder = { 5,	6,	4,	7,	3,	8,	2,	9,	1,	10,	12,	11 };
 
     public ITPadApp GetAppInstance(UofM.HCI.tPad.TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
@@ -72,7 +72,7 @@ namespace UofM.HCI.tPad.App.Shell
       SetUpExperiment2(shell, false);
 
       //Experiment 1 - Information Seeking
-      SetUpExperiment1(shell, true);
+      SetUpExperiment1(shell, false);
 
       //Prepares applications for runtime
       foreach (TPadApplicationDescriptor appDesc in shell.Applications)
