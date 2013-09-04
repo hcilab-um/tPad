@@ -150,16 +150,18 @@ namespace UofM.HCI.tPad.App.InfCapture
     private IntPtr hBitmap;
     void Registration_OnNotifyContextServiceListeners(object sender, Ubicomp.Utils.NET.CAF.ContextService.NotifyContextServiceListenersEventArgs e)
     {
+      UofM.HCI.tPad.Services.RegistrationService registration = sender as UofM.HCI.tPad.Services.RegistrationService;
+      if (registration.Tracker == null)
+        return;
+
+      if (CurrentCondition != null && CurrentCondition.Device == Device.Normal && CurrentCondition.PictureMode == PictureMode.Clipped && CState == ClippingState.Clipping)
+        return;
+
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
-          if (CurrentCondition != null && CurrentCondition.Device == Device.Normal && CurrentCondition.PictureMode == PictureMode.Clipped && CState == ClippingState.Clipping)
-            return;
-
           lock (captureLock)
           {
-            UofM.HCI.tPad.Services.RegistrationService registration = sender as UofM.HCI.tPad.Services.RegistrationService;
-
             bool warped = false;
             if (CurrentCondition != null && CurrentCondition.Device == Device.tPad)
               warped = true;
