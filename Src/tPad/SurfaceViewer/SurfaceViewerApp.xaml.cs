@@ -77,14 +77,16 @@ namespace UofM.HCI.tPad.App.SurfaceViewer
     private IntPtr hBitmap;
     void Registration_OnNotifyContextServiceListeners(object sender, Ubicomp.Utils.NET.CAF.ContextService.NotifyContextServiceListenersEventArgs e)
     {
+      UofM.HCI.tPad.Services.RegistrationService registration = sender as UofM.HCI.tPad.Services.RegistrationService;
+      if (registration.Tracker == null)
+        return;
+
       Dispatcher.Invoke(DispatcherPriority.Render,
         (Action)delegate()
         {
           lock (captureLock)
           {
-            UofM.HCI.tPad.Services.RegistrationService registration = sender as UofM.HCI.tPad.Services.RegistrationService;
             capture = (Bitmap)registration.Tracker.GetCameraImg(true).Clone();
-
             IntPtr tmpPointer = capture.GetHbitmap();
             iDeviceCameraFeed.Source = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
               tmpPointer,
