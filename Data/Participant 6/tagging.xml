@@ -17,9 +17,9 @@
       <BottomLeft X="-175" Y="174" />
       <BottomRight X="175" Y="175" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.29493716995398533</Offset>
+    <Angle>0.61844457232247951</Angle>
+    <CaptureRatio>1.519330612043557</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139027224554828" Device="Normal" Method="Clipped" Size="ThreeQuarters">
@@ -39,9 +39,9 @@
       <BottomLeft X="-160" Y="156" />
       <BottomRight X="155" Y="162" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.1843863170363802</Offset>
+    <Angle>0.28143580835170517</Angle>
+    <CaptureRatio>1.2740491313997091</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139027416555810" Device="Normal" Method="Clipped" Size="ThreeQuarters">
@@ -61,9 +61,9 @@
       <BottomLeft X="-140" Y="151" />
       <BottomRight X="153" Y="140" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.1623408080340166</Offset>
+    <Angle>0.42736427941580268</Angle>
+    <CaptureRatio>1.259961020500872</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139027650739205" Device="Normal" Method="Clipped" Size="ThreeQuarters">
@@ -83,9 +83,9 @@
       <BottomLeft X="-177" Y="176" />
       <BottomRight X="178" Y="176" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.30438536736427324</Offset>
+    <Angle>0.39109139705703089</Angle>
+    <CaptureRatio>1.5155672568295451</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139027807918195" Device="Normal" Method="Clipped" Size="ThreeQuarters">
@@ -105,9 +105,9 @@
       <BottomLeft X="-145" Y="142" />
       <BottomRight X="141" Y="146" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.070498298491654829</Offset>
+    <Angle>0.28373028939039646</Angle>
+    <CaptureRatio>1.2075123607113867</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139027959096842" Device="Normal" Method="Clipped" Size="ThreeQuarters">
@@ -127,9 +127,9 @@
       <BottomLeft X="-161" Y="174" />
       <BottomRight X="174" Y="160" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.14349347088323636</Offset>
+    <Angle>1.2199295322976722</Angle>
+    <CaptureRatio>1.3569281290369315</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139028142307321" Device="Normal" Method="Clipped" Size="ThreeQuarters">
@@ -149,9 +149,9 @@
       <BottomLeft X="-158" Y="156" />
       <BottomRight X="157" Y="155" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.11159060860405615</Offset>
+    <Angle>0.74589493600653078</Angle>
+    <CaptureRatio>1.3232336810409722</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139028279905191" Device="Normal" Method="Clipped" Size="ThreeQuarters">
@@ -171,9 +171,9 @@
       <BottomLeft X="-152" Y="157" />
       <BottomRight X="157" Y="151" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.14524177284237091</Offset>
+    <Angle>0.62589871982564649</Angle>
+    <CaptureRatio>1.2450525604542679</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139028457065324" Device="Normal" Method="Clipped" Size="ThreeQuarters">
@@ -193,9 +193,9 @@
       <BottomLeft X="-150" Y="153" />
       <BottomRight X="157" Y="149" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.0947768095226828</Offset>
+    <Angle>0.053376856271682961</Angle>
+    <CaptureRatio>1.2012829869780664</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139029003776594" Device="tPad" Method="Normal" Size="Quarter">
@@ -208,15 +208,15 @@
       <BottomLeft X="-50" Y="50" />
       <BottomRight X="50" Y="50" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-149" Y="141" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-217" Y="-311" />
+      <TopRight X="0" Y="-332" />
+      <BottomLeft X="-260" Y="282" />
+      <BottomRight X="2" Y="91" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>3.6366501756424143</Offset>
+    <Angle>36.092334558530347</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -230,15 +230,15 @@
       <BottomLeft X="-50" Y="50" />
       <BottomRight X="50" Y="50" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-69" Y="130" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-255" Y="-320" />
+      <TopRight X="-1" Y="-336" />
+      <BottomLeft X="-272" Y="303" />
+      <BottomRight X="-3" Y="69" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>2.6074501433392743</Offset>
+    <Angle>41.019631813480807</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -259,8 +259,8 @@
       <BottomLeft X="-80" Y="-239" />
       <BottomRight X="-5" Y="-233" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.056582596894111992</Offset>
+    <Angle>0.38900513478244569</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -274,15 +274,15 @@
       <BottomLeft X="-50" Y="50" />
       <BottomRight X="50" Y="50" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-75" Y="135" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-271" Y="-326" />
+      <TopRight X="15" Y="-322" />
+      <BottomLeft X="-258" Y="265" />
+      <BottomRight X="-18" Y="79" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>2.7386249286822757</Offset>
+    <Angle>37.775684305954663</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -303,8 +303,8 @@
       <BottomLeft X="-75" Y="-239" />
       <BottomRight X="4" Y="-233" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.077754431603522953</Offset>
+    <Angle>0.784951090163451</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -318,15 +318,15 @@
       <BottomLeft X="-50" Y="50" />
       <BottomRight X="50" Y="50" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-95" Y="129" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-273" Y="-317" />
+      <TopRight X="17" Y="-331" />
+      <BottomLeft X="-298" Y="255" />
+      <BottomRight X="-2" Y="67" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>2.8271728811659189</Offset>
+    <Angle>32.421064762506944</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -347,8 +347,8 @@
       <BottomLeft X="-74" Y="-236" />
       <BottomRight X="2" Y="-230" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.098448135575185433</Offset>
+    <Angle>1.1966046794983805</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -362,15 +362,15 @@
       <BottomLeft X="-50" Y="50" />
       <BottomRight X="50" Y="50" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-115" Y="140" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-298" Y="-271" />
+      <TopRight X="-13" Y="-315" />
+      <BottomLeft X="-290" Y="256" />
+      <BottomRight X="-1" Y="67" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>3.2079768156892907</Offset>
+    <Angle>33.183852927160729</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -384,15 +384,15 @@
       <BottomLeft X="-50" Y="50" />
       <BottomRight X="50" Y="50" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-127" Y="146" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-282" Y="-276" />
+      <TopRight X="-17" Y="-262" />
+      <BottomLeft X="-300" Y="240" />
+      <BottomRight X="-1" Y="68" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>3.4324854333267032</Offset>
+    <Angle>29.909701495343871</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -413,9 +413,9 @@
       <BottomLeft X="-104" Y="103" />
       <BottomRight X="104" Y="105" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.10531365403856874</Offset>
+    <Angle>0.28142030267193885</Angle>
+    <CaptureRatio>1.1877948519877508</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139030425447909" Device="Normal" Method="Clipped" Size="Half">
@@ -435,9 +435,9 @@
       <BottomLeft X="-126" Y="123" />
       <BottomRight X="124" Y="127" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.11319042006044797</Offset>
+    <Angle>1.4398888385694719</Angle>
+    <CaptureRatio>1.3253138974888201</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139030788048648" Device="Normal" Method="Clipped" Size="Half">
@@ -457,9 +457,9 @@
       <BottomLeft X="-149" Y="150" />
       <BottomRight X="99" Y="141" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.10609177247508118</Offset>
+    <Angle>0.086276672395520865</Angle>
+    <CaptureRatio>1.1936701789532487</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139030998240671" Device="Normal" Method="Clipped" Size="Half">
@@ -479,9 +479,9 @@
       <BottomLeft X="-105" Y="105" />
       <BottomRight X="105" Y="104" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.086963573467245411</Offset>
+    <Angle>1.1497427244987373</Angle>
+    <CaptureRatio>1.1547940849101606</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139031122967805" Device="Normal" Method="Clipped" Size="Half">
@@ -501,9 +501,9 @@
       <BottomLeft X="-106" Y="104" />
       <BottomRight X="103" Y="104" />
     </CaptureRectangle>
-    <Offset>0</Offset>
+    <Offset>0.11664916164735036</Offset>
     <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <CaptureRatio>1.2295945984444887</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139031224443609" Device="Normal" Method="Clipped" Size="Half">
@@ -523,9 +523,9 @@
       <BottomLeft X="-104" Y="103" />
       <BottomRight X="103" Y="105" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.10860697067229</Offset>
+    <Angle>0.55356518588238535</Angle>
+    <CaptureRatio>1.2994520382971035</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139031336560021" Device="Normal" Method="Clipped" Size="Half">
@@ -545,9 +545,9 @@
       <BottomLeft X="-106" Y="104" />
       <BottomRight X="104" Y="104" />
     </CaptureRectangle>
-    <Offset>0</Offset>
+    <Offset>0.10955354751222365</Offset>
     <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <CaptureRatio>1.4939767377457769</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139031470717695" Device="Normal" Method="Clipped" Size="Half">
@@ -567,9 +567,9 @@
       <BottomLeft X="-104" Y="104" />
       <BottomRight X="104" Y="104" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.077329854789976865</Offset>
+    <Angle>0.30639162227070987</Angle>
+    <CaptureRatio>1.2472253452102973</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139031593324708" Device="Normal" Method="Clipped" Size="Half">
@@ -590,8 +590,8 @@
       <BottomRight X="103" Y="104" />
     </CaptureRectangle>
     <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Angle>0.042848255316126016</Angle>
+    <CaptureRatio>1.3288888888888888</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139031948355014" Device="tPad" Method="Normal" Size="Half">
@@ -611,8 +611,8 @@
       <BottomLeft X="-53" Y="7" />
       <BottomRight X="37.000000000000028" Y="12" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.025817239039052389</Offset>
+    <Angle>1.7029294439688227</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -633,8 +633,8 @@
       <BottomLeft X="-54" Y="10" />
       <BottomRight X="40.000000000000028" Y="16" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.077835724930004027</Offset>
+    <Angle>0.066771192851707573</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -655,8 +655,8 @@
       <BottomLeft X="-54" Y="16" />
       <BottomRight X="40.000000000000028" Y="22" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.0935369845105487</Offset>
+    <Angle>0.50412668074357658</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -677,8 +677,8 @@
       <BottomLeft X="-55" Y="15" />
       <BottomRight X="40.000000000000028" Y="21" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.09041406455226178</Offset>
+    <Angle>0.44999713312289891</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -699,8 +699,8 @@
       <BottomLeft X="-55" Y="18" />
       <BottomRight X="36.000000000000028" Y="23" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.093095150806568064</Offset>
+    <Angle>0.85434742205949177</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -721,8 +721,8 @@
       <BottomLeft X="-53" Y="17" />
       <BottomRight X="39.000000000000028" Y="24" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.057176987408196094</Offset>
+    <Angle>1.7353230761520142</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -743,8 +743,8 @@
       <BottomLeft X="-55" Y="19" />
       <BottomRight X="40.000000000000028" Y="25" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.074557347638077767</Offset>
+    <Angle>0.75147552589189615</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -765,8 +765,8 @@
       <BottomLeft X="-53" Y="16" />
       <BottomRight X="39.000000000000028" Y="23" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.056635331055324825</Offset>
+    <Angle>0.79168660631035792</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -787,8 +787,8 @@
       <BottomLeft X="-52" Y="19" />
       <BottomRight X="38.000000000000028" Y="23" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.040820639130211167</Offset>
+    <Angle>1.1741895933449478</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -809,9 +809,9 @@
       <BottomLeft X="-90" Y="87" />
       <BottomRight X="86" Y="90" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.0939221586473374</Offset>
+    <Angle>1.7722615885008379</Angle>
+    <CaptureRatio>1.4544983757826844</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139033087320159" Device="Normal" Method="Clipped" Size="Quarter">
@@ -831,9 +831,9 @@
       <BottomLeft X="-63" Y="61" />
       <BottomRight X="63" Y="62" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.059643402764487867</Offset>
+    <Angle>1.6735940968244407</Angle>
+    <CaptureRatio>1.3155248807089297</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139033249909459" Device="Normal" Method="Clipped" Size="Quarter">
@@ -853,9 +853,9 @@
       <BottomLeft X="-60" Y="59" />
       <BottomRight X="62" Y="59" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.088495408992008626</Offset>
+    <Angle>1.1017061152063747</Angle>
+    <CaptureRatio>1.3379061371841154</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139033379986899" Device="Normal" Method="Clipped" Size="Quarter">
@@ -875,9 +875,9 @@
       <BottomLeft X="-72" Y="70" />
       <BottomRight X="72" Y="70" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.025945940483981009</Offset>
+    <Angle>0.48969559312922417</Angle>
+    <CaptureRatio>1.5539934645489779</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139033520384929" Device="Normal" Method="Clipped" Size="Quarter">
@@ -897,9 +897,9 @@
       <BottomLeft X="-78" Y="82" />
       <BottomRight X="82" Y="77" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.070888525528353327</Offset>
+    <Angle>0.953535282823654</Angle>
+    <CaptureRatio>1.3847562617829248</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139033661062975" Device="Normal" Method="Clipped" Size="Quarter">
@@ -919,9 +919,9 @@
       <BottomLeft X="-79" Y="77" />
       <BottomRight X="80" Y="78" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.046729420070600519</Offset>
+    <Angle>0.36034606338723113</Angle>
+    <CaptureRatio>1.5131673449844385</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139033854504040" Device="Normal" Method="Clipped" Size="Quarter">
@@ -941,9 +941,9 @@
       <BottomLeft X="-96" Y="96" />
       <BottomRight X="67" Y="92" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.099843573803575586</Offset>
+    <Angle>0.0735294071766964</Angle>
+    <CaptureRatio>1.5820465060385749</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139033963780290" Device="Normal" Method="Clipped" Size="Quarter">
@@ -963,9 +963,9 @@
       <BottomLeft X="-88" Y="87" />
       <BottomRight X="87" Y="87" />
     </CaptureRectangle>
-    <Offset>0</Offset>
+    <Offset>0.12020986995845552</Offset>
     <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <CaptureRatio>1.443295126269686</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139034072716521" Device="Normal" Method="Clipped" Size="Quarter">
@@ -985,9 +985,9 @@
       <BottomLeft X="-77" Y="76" />
       <BottomRight X="74" Y="77" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.099253400996253766</Offset>
+    <Angle>0.49524006970233952</Angle>
+    <CaptureRatio>1.3749774652965567</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139034490020389" Device="tPad" Method="Normal" Size="ThreeQuarters">
@@ -1007,8 +1007,8 @@
       <BottomLeft X="-43" Y="21" />
       <BottomRight X="50.000000000000028" Y="26" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.10933080468720741</Offset>
+    <Angle>0.13379261868723072</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1029,8 +1029,8 @@
       <BottomLeft X="-43" Y="20" />
       <BottomRight X="46.000000000000028" Y="26" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.051163645216535984</Offset>
+    <Angle>0.63494206012394616</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1051,8 +1051,8 @@
       <BottomLeft X="-42" Y="21" />
       <BottomRight X="49.000000000000028" Y="24" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.10818993101709029</Offset>
+    <Angle>1.7236970024820559</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1073,8 +1073,8 @@
       <BottomLeft X="-40" Y="18" />
       <BottomRight X="49.000000000000028" Y="24" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.091069622226870942</Offset>
+    <Angle>0.092766120684123626</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1095,8 +1095,8 @@
       <BottomLeft X="-41" Y="21" />
       <BottomRight X="49.000000000000028" Y="25" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.054267515923566871</Offset>
+    <Angle>0.11819638625404882</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1117,8 +1117,8 @@
       <BottomLeft X="-44" Y="19" />
       <BottomRight X="48.000000000000028" Y="25" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.074337429337472907</Offset>
+    <Angle>1.4634424632546113</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1139,8 +1139,8 @@
       <BottomLeft X="-42" Y="19" />
       <BottomRight X="48.000000000000028" Y="22" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.036398293125422136</Offset>
+    <Angle>0.95111832432041032</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1161,8 +1161,8 @@
       <BottomLeft X="-44" Y="17" />
       <BottomRight X="50.000000000000028" Y="23" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.0360633103390301</Offset>
+    <Angle>2.5178011493293275</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1183,8 +1183,8 @@
       <BottomLeft X="-42" Y="17" />
       <BottomRight X="51.000000000000028" Y="22" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.090445401207088147</Offset>
+    <Angle>0.43200714242384353</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1205,8 +1205,8 @@
       <BottomLeft X="-175" Y="187" />
       <BottomRight X="192" Y="183" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.0829714459309773</Offset>
+    <Angle>0.16277166299312285</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1228,7 +1228,7 @@
       <BottomRight X="209" Y="189" />
     </CaptureRectangle>
     <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Angle>2.3137224978242159</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1249,8 +1249,8 @@
       <BottomLeft X="-173" Y="176" />
       <BottomRight X="170" Y="173" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.040182756516012733</Offset>
+    <Angle>0.69869438298346154</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1271,8 +1271,8 @@
       <BottomLeft X="-207" Y="212" />
       <BottomRight X="184" Y="211" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.094293772619590571</Offset>
+    <Angle>1.6226759227192815</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1293,8 +1293,8 @@
       <BottomLeft X="-179" Y="183" />
       <BottomRight X="174" Y="167" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.0889094440449083</Offset>
+    <Angle>2.3579059707168994</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1315,8 +1315,8 @@
       <BottomLeft X="-171" Y="195" />
       <BottomRight X="178" Y="185" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.090976926373353223</Offset>
+    <Angle>0.50405543731804414</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1337,7 +1337,7 @@
       <BottomLeft X="-145" Y="150" />
       <BottomRight X="146" Y="160" />
     </CaptureRectangle>
-    <Offset>0</Offset>
+    <Offset>0.15898262310888839</Offset>
     <Angle>0</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
@@ -1359,8 +1359,8 @@
       <BottomLeft X="-156" Y="160" />
       <BottomRight X="166" Y="172" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.10361982905941385</Offset>
+    <Angle>0.57678366493021826</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1381,8 +1381,8 @@
       <BottomLeft X="-164" Y="187" />
       <BottomRight X="183" Y="165" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.10704540781458008</Offset>
+    <Angle>3.1700660130206018</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1403,9 +1403,9 @@
       <BottomLeft X="-116" Y="91" />
       <BottomRight X="17" Y="100" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.057852060833604634</Offset>
+    <Angle>0.36772458720117224</Angle>
+    <CaptureRatio>1.9467225381622269</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139036237370332" Device="tPad" Method="Clipped" Size="Quarter">
@@ -1425,163 +1425,163 @@
       <BottomLeft X="-108" Y="86" />
       <BottomRight X="8" Y="93" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.018115502891421734</Offset>
+    <Angle>2.8626590358844215</Angle>
+    <CaptureRatio>1.45344050186238</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139036342306334" Device="tPad" Method="Clipped" Size="Quarter">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139036342306334-tPad-Clipped-Quarter-trial0-capture2.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-48" Y="10" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-97" Y="-43" />
+      <TopRight X="0" Y="-41" />
+      <BottomLeft X="-100" Y="58" />
+      <BottomRight X="-2" Y="65" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-48" Y="29" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-99" Y="-37" />
+      <TopRight X="12" Y="-30" />
+      <BottomLeft X="-106" Y="86" />
+      <BottomRight X="4" Y="93" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.12214807098579822</Offset>
+    <Angle>0.4444315220735347</Angle>
+    <CaptureRatio>1.350222662048491</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139036437331769" Device="tPad" Method="Clipped" Size="Quarter">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139036437331769-tPad-Clipped-Quarter-trial1-capture0.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-46" Y="11" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-95" Y="-45" />
+      <TopRight X="3" Y="-37" />
+      <BottomLeft X="-98" Y="59" />
+      <BottomRight X="-1" Y="66" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-47" Y="27" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-97" Y="-38" />
+      <TopRight X="11" Y="-28" />
+      <BottomLeft X="-106" Y="82" />
+      <BottomRight X="2" Y="91" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.074</Offset>
+    <Angle>0.63604998821445313</Angle>
+    <CaptureRatio>1.2845705248591479</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139036519766484" Device="tPad" Method="Clipped" Size="Quarter">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139036519766484-tPad-Clipped-Quarter-trial1-capture1.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-45" Y="14" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-94" Y="-43" />
+      <TopRight X="6" Y="-36" />
+      <BottomLeft X="-98" Y="61" />
+      <BottomRight X="1" Y="67" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-48" Y="28" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-104" Y="-44" />
+      <TopRight X="17" Y="-35" />
+      <BottomLeft X="-112" Y="91" />
+      <BottomRight X="13" Y="97" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.064683733117943565</Offset>
+    <Angle>0.72014107886339762</Angle>
+    <CaptureRatio>1.5938044530493707</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139036653284121" Device="tPad" Method="Clipped" Size="Quarter">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139036653284121-tPad-Clipped-Quarter-trial1-capture2.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-47" Y="12" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-94" Y="-40" />
+      <TopRight X="6" Y="-35" />
+      <BottomLeft X="-99" Y="57" />
+      <BottomRight X="1" Y="67" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-47" Y="28" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-105" Y="-38" />
+      <TopRight X="13" Y="-35" />
+      <BottomLeft X="-108" Y="91" />
+      <BottomRight X="10" Y="94" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.072462011565686935</Offset>
+    <Angle>4.2542345031599549</Angle>
+    <CaptureRatio>1.5246246246246247</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139036764680492" Device="tPad" Method="Clipped" Size="Quarter">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139036764680492-tPad-Clipped-Quarter-trial2-capture0.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-46" Y="8" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-95" Y="-43" />
+      <TopRight X="3" Y="-38" />
+      <BottomLeft X="-99" Y="60" />
+      <BottomRight X="1" Y="63" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-49" Y="28" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-107" Y="-43" />
+      <TopRight X="16" Y="-37" />
+      <BottomLeft X="-111" Y="94" />
+      <BottomRight X="9" Y="97" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.15646840443826712</Offset>
+    <Angle>0.28626181749081075</Angle>
+    <CaptureRatio>1.6308605341246292</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139036945440831" Device="tPad" Method="Clipped" Size="Quarter">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139036945440831-tPad-Clipped-Quarter-trial2-capture1.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-47" Y="13" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-94" Y="-41" />
+      <TopRight X="4" Y="-34" />
+      <BottomLeft X="-99" Y="61" />
+      <BottomRight X="-1" Y="68" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-47" Y="28" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-99" Y="-35" />
+      <TopRight X="8" Y="-31" />
+      <BottomLeft X="-105" Y="87" />
+      <BottomRight X="4" Y="93" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.0543465086742652</Offset>
+    <Angle>0.93490036670713572</Angle>
+    <CaptureRatio>1.3266872694646597</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139037070687995" Device="tPad" Method="Clipped" Size="Quarter">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139037070687995-tPad-Clipped-Quarter-trial2-capture2.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-46" Y="13" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-95" Y="-44" />
+      <TopRight X="3" Y="-35" />
+      <BottomLeft X="-97" Y="61" />
+      <BottomRight X="1" Y="68" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-47" Y="29" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-102" Y="-41" />
+      <TopRight X="15" Y="-33" />
+      <BottomLeft X="-110" Y="90" />
+      <BottomRight X="7" Y="96" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.074041823665735418</Offset>
+    <Angle>1.1499433335537039</Angle>
+    <CaptureRatio>1.4951522867495839</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139037512523266" Device="Normal" Method="Normal" Size="Half">
@@ -1589,42 +1589,42 @@
     <FileName>635139037512523266-Normal-Normal-Half-trial0-capture0.jpg</FileName>
     <TargetCenter X="-5.0467469692230225" Y="-0.66339206695556641" />
     <TargetRectangle>
-      <TopLeft X="-110.46851134300232" Y="-95.998693943023682" />
+      <TopLeft X="-107" Y="-98" />
       <TopRight X="92.5627212524414" Y="-103.98306894302368" />
-      <BottomLeft X="-102.65623259544373" Y="102.65628480911255" />
-      <BottomRight X="100.375" Y="94.671909809112549" />
+      <BottomLeft X="-105" Y="105" />
+      <BottomRight X="105" Y="98" />
     </TargetRectangle>
-    <CaptureCenter X="-5.0467469692230225" Y="-0.66339206695556641" />
+    <CaptureCenter X="1" Y="1" />
     <CaptureRectangle>
-      <TopLeft X="-112.75260698795319" Y="-98.231141567230225" />
-      <TopRight X="95.981776714324951" Y="-106.21551656723023" />
-      <BottomLeft X="-104.93750870227814" Y="106.07815980911255" />
-      <BottomRight X="103.796875" Y="98.093784809112549" />
+      <TopLeft X="-124" Y="-107" />
+      <TopRight X="109" Y="-113" />
+      <BottomLeft X="-110" Y="114" />
+      <BottomRight X="110" Y="109" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.095079440835060675</Offset>
+    <Angle>1.9091524329963647</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139037586677508" Device="Normal" Method="Normal" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139037586677508-Normal-Normal-Half-trial0-capture1.jpg</FileName>
-    <TargetCenter X="2.2810759544372559" Y="3.4081254005432129" />
+    <TargetCenter X="1" Y="2" />
     <TargetRectangle>
       <TopLeft X="-94.672214388847351" Y="-90.136891603469849" />
       <TopRight X="96.952463626861572" Y="-92.445623397827148" />
-      <BottomLeft X="-92.390303015708923" Y="99.261874198913574" />
-      <BottomRight X="99.234375" Y="96.953125" />
+      <BottomLeft X="-97" Y="102" />
+      <BottomRight X="102" Y="99" />
     </TargetRectangle>
-    <CaptureCenter X="2.2810759544372559" Y="3.4081254005432129" />
+    <CaptureCenter X="1" Y="0" />
     <CaptureRectangle>
-      <TopLeft X="-99.209843277931213" Y="-92.470303058624268" />
-      <TopRight X="98.118290424346924" Y="-97.032803058624268" />
-      <BottomLeft X="-94.671883702278137" Y="103.79690980911255" />
-      <BottomRight X="102.65625" Y="99.234409809112549" />
+      <TopLeft X="-108" Y="-102" />
+      <TopRight X="125" Y="-114" />
+      <BottomLeft X="-114" Y="107" />
+      <BottomRight X="116" Y="105" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.044134729150189872</Offset>
+    <Angle>0.86369004459959342</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1635,40 +1635,40 @@
     <TargetRectangle>
       <TopLeft X="-97.002379894256592" Y="-106.08031797409058" />
       <TopRight X="114.01327991485596" Y="-96.955317974090576" />
-      <BottomLeft X="-106.07811629772186" Y="103.79684019088745" />
-      <BottomRight X="104.93753480911255" Y="112.92184019088745" />
+      <BottomLeft X="-107" Y="107" />
+      <BottomRight X="110" Y="115" />
     </TargetRectangle>
-    <CaptureCenter X="3.9675774574279785" Y="3.4207611083984375" />
+    <CaptureCenter X="0" Y="1" />
     <CaptureRectangle>
       <TopLeft X="-99.309075355529785" Y="-111.48805284500122" />
       <TopRight X="119.69092464447022" Y="-100.08180284500122" />
-      <BottomLeft X="-110.640625" Y="106.07815980911255" />
-      <BottomRight X="108.359375" Y="117.48440980911255" />
+      <BottomLeft X="-130" Y="132" />
+      <BottomRight X="122" Y="129" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.093408765684935266</Offset>
+    <Angle>2.1113306255760165</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139037759437389" Device="Normal" Method="Normal" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139037759437389-Normal-Normal-Half-trial1-capture0.jpg</FileName>
-    <TargetCenter X="-3.3865089416503906" Y="4.6122770309448242" />
+    <TargetCenter X="-3" Y="4" />
     <TargetRectangle>
       <TopLeft X="-121.97616028785706" Y="-105.9786057472229" />
       <TopRight X="108.43010711669922" Y="-112.8223557472229" />
       <BottomLeft X="-115.20314240455627" Y="122.04690980911255" />
       <BottomRight X="115.203125" Y="115.20315980911255" />
     </TargetRectangle>
-    <CaptureCenter X="-3.3865089416503906" Y="4.6122770309448242" />
+    <CaptureCenter X="0" Y="1" />
     <CaptureRectangle>
       <TopLeft X="-125.42652654647827" Y="-109.38624382019043" />
       <TopRight X="111.82347345352173" Y="-117.37061882019043" />
-      <BottomLeft X="-117.484375" Y="126.609375" />
-      <BottomRight X="119.765625" Y="118.625" />
+      <BottomLeft X="-133" Y="142" />
+      <BottomRight X="142" Y="142" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.082848921933984923</Offset>
+    <Angle>1.7013544768837789</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1682,15 +1682,15 @@
       <BottomLeft X="-85.546875" Y="99.234375" />
       <BottomRight X="100.375" Y="98.09375" />
     </TargetRectangle>
-    <CaptureCenter X="6.850642204284668" Y="6.8262410163879395" />
+    <CaptureCenter X="1" Y="1" />
     <CaptureRectangle>
       <TopLeft X="-87.855833053588867" Y="-86.646425247192383" />
       <TopRight X="101.48791694641113" Y="-85.505800247192383" />
-      <BottomLeft X="-88.968758702278137" Y="98.09375" />
-      <BottomRight X="100.375" Y="99.234375" />
+      <BottomLeft X="-105" Y="109" />
+      <BottomRight X="117" Y="112" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.19902374333517856</Offset>
+    <Angle>0.35150343987334054</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1704,15 +1704,15 @@
       <BottomLeft X="-112.92078721523285" Y="117.51963663101196" />
       <BottomRight X="109.50003480911255" Y="110.64065980911255" />
     </TargetRectangle>
-    <CaptureCenter X="-5.1338915824890137" Y="3.3866481781005859" />
+    <CaptureCenter X="0" Y="-1" />
     <CaptureRectangle>
       <TopLeft X="-123.22736513614655" Y="-107.2173228263855" />
       <TopRight X="104.89764356613159" Y="-115.2016978263855" />
-      <BottomLeft X="-115.20309889316559" Y="122.04690980911255" />
-      <BottomRight X="112.92190980911255" Y="114.06253480911255" />
+      <BottomLeft X="-134" Y="130" />
+      <BottomRight X="124" Y="124" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.10496115410776652</Offset>
+    <Angle>1.7714651916259641</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1726,15 +1726,15 @@
       <BottomLeft X="-84.405840992927551" Y="93.552901268005371" />
       <BottomRight X="96.953090190887451" Y="90.109375" />
     </TargetRectangle>
-    <CaptureCenter X="4.540431022644043" Y="0.54907894134521484" />
+    <CaptureCenter X="0" Y="0" />
     <CaptureRectangle>
       <TopLeft X="-94.585470080375671" Y="-87.7477855682373" />
       <TopRight X="94.671875" Y="-94.671840190887451" />
-      <BottomLeft X="-87.741720080375671" Y="99.314679622650146" />
-      <BottomRight X="101.515625" Y="92.390625" />
+      <BottomLeft X="-96" Y="99" />
+      <BottomRight X="113" Y="96" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.094677726102018162</Offset>
+    <Angle>1.0877645535439058</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1748,15 +1748,15 @@
       <BottomLeft X="-114.06250870227814" Y="123.18753480911255" />
       <BottomRight X="110.640625" Y="115.20315980911255" />
     </TargetRectangle>
-    <CaptureCenter X="-5.6445586681365967" Y="8.4918222427368164" />
+    <CaptureCenter X="0" Y="0" />
     <CaptureRectangle>
       <TopLeft X="-126.43597340583801" Y="-101.65660190582275" />
       <TopRight X="106.25154399871826" Y="-110.78160190582275" />
-      <BottomLeft X="-117.48435759544373" Y="126.609375" />
-      <BottomRight X="115.203125" Y="117.484375" />
+      <BottomLeft X="-129" Y="131" />
+      <BottomRight X="122" Y="124" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.17397415714454134</Offset>
+    <Angle>2.0350343781135507</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -1770,215 +1770,215 @@
       <BottomLeft X="-95.838493704795837" Y="99.179167747497559" />
       <BottomRight X="96.953125" Y="103.7969446182251" />
     </TargetRectangle>
-    <CaptureCenter X="2.8782088756561279" Y="4.5905213356018066" />
+    <CaptureCenter X="0" Y="-1" />
     <CaptureRectangle>
       <TopLeft X="-93.501348972320557" Y="-97.994613647460938" />
       <TopRight X="104.96740102767944" Y="-92.291488647460938" />
-      <BottomLeft X="-99.234383702278137" Y="101.515625" />
-      <BottomRight X="99.234375" Y="107.21875" />
+      <BottomLeft X="-114" Y="111" />
+      <BottomRight X="121" Y="119" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.10565259449213015</Offset>
+    <Angle>1.3720956736205494</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139038450026889" Device="tPad" Method="Clipped" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139038450026889-tPad-Clipped-Half-trial0-capture0.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-4" Y="11" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-101" Y="-99" />
+      <TopRight X="98.000000000000028" Y="-85" />
+      <BottomLeft X="-105" Y="106" />
+      <BottomRight X="92.000000000000028" Y="126" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-7" Y="25" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-102" Y="-86" />
+      <TopRight X="89.000000000000028" Y="-74" />
+      <BottomLeft X="-106" Y="128" />
+      <BottomRight X="85.000000000000028" Y="138" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
-    <MissRatio>0</MissRatio>
+    <Offset>0.064566241297040708</Offset>
+    <Angle>2.7999260387863245</Angle>
+    <CaptureRatio>0.9868424240955681</CaptureRatio>
+    <MissRatio>0.042840873294724857</MissRatio>
   </Capture>
   <Capture Ticks="635139038553032780" Device="tPad" Method="Clipped" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139038553032780-tPad-Clipped-Half-trial0-capture1.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-11" Y="7" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-109" Y="-103" />
+      <TopRight X="90.000000000000028" Y="-95" />
+      <BottomLeft X="-113" Y="107" />
+      <BottomRight X="86.000000000000028" Y="118" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-8" Y="27" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-101" Y="-86" />
+      <TopRight X="87.000000000000028" Y="-74" />
+      <BottomLeft X="-106" Y="127" />
+      <BottomRight X="86.000000000000028" Y="136" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
-    <MissRatio>0</MissRatio>
+    <Offset>0.15159925253792045</Offset>
+    <Angle>0.4801084594117605</Angle>
+    <CaptureRatio>0.95463716856173</CaptureRatio>
+    <MissRatio>0.076459277897785269</MissRatio>
   </Capture>
   <Capture Ticks="635139038623586816" Device="tPad" Method="Clipped" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139038623586816-tPad-Clipped-Half-trial0-capture2.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-7" Y="8" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-106" Y="-97" />
+      <TopRight X="93.000000000000028" Y="-89" />
+      <BottomLeft X="-108" Y="108" />
+      <BottomRight X="91.000000000000028" Y="120" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-8" Y="23" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-103" Y="-85" />
+      <TopRight X="90.000000000000028" Y="-77" />
+      <BottomLeft X="-105" Y="126" />
+      <BottomRight X="87.000000000000028" Y="138" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
-    <MissRatio>0</MissRatio>
+    <Offset>0.057190728651985129</Offset>
+    <Angle>0.12549118124619221</Angle>
+    <CaptureRatio>0.99563244607284107</CaptureRatio>
+    <MissRatio>0.032756654453691796</MissRatio>
   </Capture>
   <Capture Ticks="635139038708631680" Device="tPad" Method="Clipped" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139038708631680-tPad-Clipped-Half-trial1-capture0.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-7" Y="8" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-105" Y="-100" />
+      <TopRight X="96.000000000000028" Y="-89" />
+      <BottomLeft X="-108" Y="104" />
+      <BottomRight X="93.000000000000028" Y="117" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-7" Y="24" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-101" Y="-86" />
+      <TopRight X="89.000000000000028" Y="-75" />
+      <BottomLeft X="-103" Y="124" />
+      <BottomRight X="85.000000000000028" Y="137" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
-    <MissRatio>0</MissRatio>
+    <Offset>0.073390276210427929</Offset>
+    <Angle>0.25510242520581577</Angle>
+    <CaptureRatio>0.96779981572183693</CaptureRatio>
+    <MissRatio>0.069128558265845491</MissRatio>
   </Capture>
   <Capture Ticks="635139038769115139" Device="tPad" Method="Clipped" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139038769115139-tPad-Clipped-Half-trial1-capture1.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-6" Y="9" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-103" Y="-103" />
+      <TopRight X="96.000000000000028" Y="-88" />
+      <BottomLeft X="-107" Y="104" />
+      <BottomRight X="91.000000000000028" Y="117" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-9" Y="23" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-103" Y="-85" />
+      <TopRight X="89.000000000000028" Y="-75" />
+      <BottomLeft X="-102" Y="125" />
+      <BottomRight X="88.000000000000028" Y="137" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
-    <MissRatio>0</MissRatio>
+    <Offset>0.0664630819357956</Offset>
+    <Angle>0.14257179580042498</Angle>
+    <CaptureRatio>0.98410334049619064</CaptureRatio>
+    <MissRatio>0.055259816370384844</MissRatio>
   </Capture>
   <Capture Ticks="635139038837909074" Device="tPad" Method="Clipped" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139038837909074-tPad-Clipped-Half-trial1-capture2.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-7" Y="7" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-105" Y="-99" />
+      <TopRight X="96.000000000000028" Y="-89" />
+      <BottomLeft X="-106" Y="106" />
+      <BottomRight X="91.000000000000028" Y="116" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-9" Y="24" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-102" Y="-85" />
+      <TopRight X="89.000000000000028" Y="-77" />
+      <BottomLeft X="-105" Y="124" />
+      <BottomRight X="86.000000000000028" Y="136" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
-    <MissRatio>0</MissRatio>
+    <Offset>0.09926766324195023</Offset>
+    <Angle>0.68908866135575708</Angle>
+    <CaptureRatio>0.98792347451191731</CaptureRatio>
+    <MissRatio>0.045317590573941163</MissRatio>
   </Capture>
   <Capture Ticks="635139038895072344" Device="tPad" Method="Clipped" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139038895072344-tPad-Clipped-Half-trial2-capture0.jpg</FileName>
-    <TargetCenter X="-8.5413416536661462" Y="23.346403362970456" />
+    <TargetCenter X="-8" Y="9" />
     <TargetRectangle>
-      <TopLeft X="-99.079563182527309" Y="-85.413347027045148" />
-      <TopRight X="86.7388954103086" Y="-81.28405875981133" />
-      <BottomLeft X="-103.82157002893885" Y="127.97686548575224" />
-      <BottomRight X="81.996879875195" Y="132.10615375298605" />
+      <TopLeft X="-108" Y="-103" />
+      <TopRight X="94.000000000000028" Y="-91" />
+      <BottomLeft X="-110" Y="103" />
+      <BottomRight X="88.000000000000028" Y="115" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-9" Y="24" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-103" Y="-88" />
+      <TopRight X="87.000000000000028" Y="-76" />
+      <BottomLeft X="-106" Y="124" />
+      <BottomRight X="86.000000000000028" Y="137" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
-    <MissRatio>0</MissRatio>
+    <Offset>0.058001662734917088</Offset>
+    <Angle>0.40526046542742894</Angle>
+    <CaptureRatio>0.98453333333333337</CaptureRatio>
+    <MissRatio>0.059393939393939395</MissRatio>
   </Capture>
   <Capture Ticks="635139038954225727" Device="tPad" Method="Clipped" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139038954225727-tPad-Clipped-Half-trial2-capture1.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-7" Y="9" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-103" Y="-103" />
+      <TopRight X="94.000000000000028" Y="-91" />
+      <BottomLeft X="-109" Y="105" />
+      <BottomRight X="89.000000000000028" Y="119" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-10" Y="21" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-102" Y="-90" />
+      <TopRight X="87.000000000000028" Y="-79" />
+      <BottomLeft X="-105" Y="122" />
+      <BottomRight X="84.000000000000028" Y="135" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
-    <MissRatio>0</MissRatio>
+    <Offset>0.053984700382183351</Offset>
+    <Angle>0.10970351781165734</Angle>
+    <CaptureRatio>0.97448486021089287</CaptureRatio>
+    <MissRatio>0.046241656186514463</MissRatio>
   </Capture>
   <Capture Ticks="635139039014549177" Device="tPad" Method="Clipped" Size="Half">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139039014549177-tPad-Clipped-Half-trial2-capture2.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-9" Y="7" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-106" Y="-102" />
+      <TopRight X="89.000000000000028" Y="-92" />
+      <BottomLeft X="-110" Y="107" />
+      <BottomRight X="86.000000000000028" Y="119" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-10" Y="22" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-102" Y="-86" />
+      <TopRight X="88.000000000000028" Y="-79" />
+      <BottomLeft X="-105" Y="123" />
+      <BottomRight X="85.000000000000028" Y="133" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
-    <MissRatio>0</MissRatio>
+    <Offset>0.056645504914670436</Offset>
+    <Angle>0.490744140601118</Angle>
+    <CaptureRatio>0.97401017204876739</CaptureRatio>
+    <MissRatio>0.039398437690117541</MissRatio>
   </Capture>
   <Capture Ticks="635139039210110363" Device="Normal" Method="Normal" Size="Quarter">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
@@ -1990,15 +1990,15 @@
       <BottomLeft X="-57.031232595443726" Y="55.890659809112549" />
       <BottomRight X="50.187517404556274" Y="57.031284809112549" />
     </TargetRectangle>
-    <CaptureCenter X="-2.8455405235290527" Y="2.2874112129211426" />
+    <CaptureCenter X="1" Y="-1" />
     <CaptureRectangle>
       <TopLeft X="-58.148361444473267" Y="-55.913181304931641" />
       <TopRight X="54.773496150970459" Y="-53.631931304931641" />
       <BottomLeft X="-60.453098893165588" Y="58.171875" />
       <BottomRight X="52.468767404556274" Y="60.453125" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.062335331695218231</Offset>
+    <Angle>0.60950657667518726</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -2012,15 +2012,15 @@
       <BottomLeft X="-47.869491577148438" Y="61.592531681060791" />
       <BottomRight X="58.208633422851562" Y="58.170656681060791" />
     </TargetRectangle>
-    <CaptureCenter X="3.4402542114257812" Y="6.2728109359741211" />
+    <CaptureCenter X="0" Y="0" />
     <CaptureRectangle>
       <TopLeft X="-54.750017404556274" Y="-47.90625" />
       <TopRight X="58.169977903366089" Y="-52.515254974365234" />
       <BottomLeft X="-50.185602903366089" Y="63.921504974365234" />
       <BottomRight X="62.734392404556274" Y="59.3125" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.12338005399800556</Offset>
+    <Angle>1.8476102659946037</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -2041,8 +2041,8 @@
       <BottomLeft X="-60" Y="60" />
       <BottomRight X="60" Y="60" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.00043821932264961449</Offset>
+    <Angle>1.8279553342589736</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -2053,8 +2053,8 @@
     <TargetRectangle>
       <TopLeft X="-62.665418148040771" Y="-67.130452632904053" />
       <TopRight X="66.225206851959229" Y="-58.005452632904053" />
-      <BottomLeft X="-71.859375" Y="62.734409809112549" />
-      <BottomRight X="57.03125" Y="71.859409809112549" />
+      <BottomLeft X="-69" Y="65" />
+      <BottomRight X="57" Y="70" />
     </TargetRectangle>
     <CaptureCenter X="0" Y="0" />
     <CaptureRectangle>
@@ -2063,8 +2063,8 @@
       <BottomLeft X="-60" Y="60" />
       <BottomRight X="60" Y="60" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.053016934069540396</Offset>
+    <Angle>2.272449732782917</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -2075,18 +2075,18 @@
     <TargetRectangle>
       <TopLeft X="-55.982625484466553" Y="-60.449400424957275" />
       <TopRight X="58.032011985778809" Y="-65.056038379669189" />
-      <BottomLeft X="-51.280227661132812" Y="55.934797763824463" />
+      <BottomLeft X="-50" Y="54" />
       <BottomRight X="62.734409809112549" Y="51.328159809112549" />
     </TargetRectangle>
-    <CaptureCenter X="3.375892162322998" Y="-4.5606203079223633" />
+    <CaptureCenter X="-1" Y="0" />
     <CaptureRectangle>
       <TopLeft X="-55.890625" Y="-61.59375" />
       <TopRight X="60.453125" Y="-65.015625" />
-      <BottomLeft X="-52.46875" Y="54.75" />
+      <BottomLeft X="-71" Y="56" />
       <BottomRight X="63.875" Y="51.328125" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.090120549178249951</Offset>
+    <Angle>1.3576734335758829</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -2097,17 +2097,17 @@
     <TargetRectangle>
       <TopLeft X="-52.46875" Y="-57.03125" />
       <TopRight X="49.046875" Y="-57.03125" />
-      <BottomLeft X="-52.46875" Y="44.484375" />
-      <BottomRight X="49.046875" Y="44.484375" />
+      <BottomLeft X="-54" Y="47" />
+      <BottomRight X="53" Y="47" />
     </TargetRectangle>
     <CaptureCenter X="-1.7109375" Y="-6.2734375" />
     <CaptureRectangle>
       <TopLeft X="-53.573016881942749" Y="-61.592531681060791" />
       <TopRight X="53.609357595443726" Y="-58.171840190887451" />
-      <BottomLeft X="-56.994891881942749" Y="45.626218318939209" />
-      <BottomRight X="50.187482595443726" Y="49.046909809112549" />
+      <BottomLeft X="-67" Y="54" />
+      <BottomRight X="62" Y="58" />
     </CaptureRectangle>
-    <Offset>0</Offset>
+    <Offset>0.1155524488323284</Offset>
     <Angle>0</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
@@ -2119,18 +2119,18 @@
     <TargetRectangle>
       <TopLeft X="-54.723179578781128" Y="-49.021255493164062" />
       <TopRight X="44.511195421218872" Y="-51.302505493164062" />
-      <BottomLeft X="-52.468732595443726" Y="49.046875" />
-      <BottomRight X="46.765642404556274" Y="46.765625" />
+      <BottomLeft X="-54" Y="52" />
+      <BottomRight X="50" Y="51" />
     </TargetRectangle>
-    <CaptureCenter X="-3.9787685871124268" Y="-1.1278152465820313" />
+    <CaptureCenter X="0" Y="1" />
     <CaptureRectangle>
       <TopLeft X="-58.171857595443726" Y="-50.1875" />
       <TopRight X="46.8019483089447" Y="-53.648152351379395" />
-      <BottomLeft X="-54.7863233089447" Y="52.507527351379395" />
-      <BottomRight X="50.187482595443726" Y="49.046875" />
+      <BottomLeft X="-71" Y="63" />
+      <BottomRight X="61" Y="62" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.074677869636473423</Offset>
+    <Angle>0.55090397921856038</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -2141,18 +2141,18 @@
     <TargetRectangle>
       <TopLeft X="-52.443687438964844" Y="-53.58532190322876" />
       <TopRight X="54.75" Y="-55.890590190887451" />
-      <BottomLeft X="-50.162437438964844" Y="52.49280309677124" />
+      <BottomLeft X="-52" Y="54" />
       <BottomRight X="57.03125" Y="50.187534809112549" />
     </TargetRectangle>
-    <CaptureCenter X="2.2937812805175781" Y="-1.6988935470581055" />
+    <CaptureCenter X="-1" Y="1" />
     <CaptureRectangle>
       <TopLeft X="-55.938487529754639" Y="-55.934728145599365" />
       <TopRight X="55.890659809112549" Y="-60.453090190887451" />
-      <BottomLeft X="-51.375987529754639" Y="56.987146854400635" />
-      <BottomRight X="60.453159809112549" Y="52.468784809112549" />
+      <BottomLeft X="-81" Y="89" />
+      <BottomRight X="71" Y="60" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
+    <Offset>0.049769382799314643</Offset>
+    <Angle>2.0026295597910178</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
@@ -2166,14 +2166,14 @@
       <BottomLeft X="-50.1875" Y="50.1875" />
       <BottomRight X="45.625" Y="50.1875" />
     </TargetRectangle>
-    <CaptureCenter X="-2.28125" Y="1.7109375" />
+    <CaptureCenter X="0" Y="0" />
     <CaptureRectangle>
       <TopLeft X="-51.328090190887451" Y="-50.187534809112549" />
       <TopRight X="50.162750720977783" Y="-47.932182788848877" />
       <BottomLeft X="-53.609340190887451" Y="52.468715190887451" />
       <BottomRight X="47.881500720977783" Y="54.724067211151123" />
     </CaptureRectangle>
-    <Offset>0</Offset>
+    <Offset>0.054411764705882354</Offset>
     <Angle>0</Angle>
     <CaptureRatio>0</CaptureRatio>
     <MissRatio>0</MissRatio>
@@ -2181,199 +2181,199 @@
   <Capture Ticks="635139040076259904" Device="tPad" Method="Clipped" Size="ThreeQuarters">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139040076259904-tPad-Clipped-ThreeQuarters-trial0-capture0.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="2" Y="0" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-147" Y="-162" />
+      <TopRight X="154.00000000000003" Y="-147" />
+      <BottomLeft X="-146" Y="150" />
+      <BottomRight X="154.00000000000003" Y="169" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="1" Y="23" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-153" Y="-155" />
+      <TopRight X="160.00000000000003" Y="-141" />
+      <BottomLeft X="-155" Y="188" />
+      <BottomRight X="157.00000000000003" Y="208" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.19853686891653052</Offset>
+    <Angle>0.043895459862109229</Angle>
+    <CaptureRatio>1.1484005902899428</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139040118502320" Device="tPad" Method="Clipped" Size="ThreeQuarters">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139040118502320-tPad-Clipped-ThreeQuarters-trial0-capture1.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="2" Y="-5" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-145" Y="-170" />
+      <TopRight X="152.00000000000003" Y="-153" />
+      <BottomLeft X="-150" Y="142" />
+      <BottomRight X="149.00000000000003" Y="162" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-1" Y="16" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-165" Y="-167" />
+      <TopRight X="163.00000000000003" Y="-158" />
+      <BottomLeft X="-160" Y="191" />
+      <BottomRight X="165.00000000000003" Y="204" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.17105640546585177</Offset>
+    <Angle>1.5361830554857947</Angle>
+    <CaptureRatio>1.2568131256952169</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139040165745022" Device="tPad" Method="Clipped" Size="ThreeQuarters">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139040165745022-tPad-Clipped-ThreeQuarters-trial0-capture2.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="0" Y="-6" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-146" Y="-168" />
+      <TopRight X="150.00000000000003" Y="-155" />
+      <BottomLeft X="-148" Y="139" />
+      <BottomRight X="152.00000000000003" Y="161" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-2" Y="14" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-161" Y="-178" />
+      <TopRight X="170.00000000000003" Y="-154" />
+      <BottomLeft X="-170" Y="184" />
+      <BottomRight X="162.00000000000003" Y="211" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.14822006903388682</Offset>
+    <Angle>0.45518175740920125</Angle>
+    <CaptureRatio>1.3004513772932445</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139040193936634" Device="tPad" Method="Clipped" Size="ThreeQuarters">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139040193936634-tPad-Clipped-ThreeQuarters-trial1-capture0.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-1" Y="-7" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-146" Y="-169" />
+      <TopRight X="152.00000000000003" Y="-154" />
+      <BottomLeft X="-147" Y="139" />
+      <BottomRight X="151.00000000000003" Y="159" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-2" Y="13" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-159" Y="-176" />
+      <TopRight X="167.00000000000003" Y="-154" />
+      <BottomLeft X="-168" Y="182" />
+      <BottomRight X="158.00000000000003" Y="208" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.14630476133308595</Offset>
+    <Angle>0.72035374945836472</Angle>
+    <CaptureRatio>1.2704463677915006</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139040221618218" Device="tPad" Method="Clipped" Size="ThreeQuarters">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139040221618218-tPad-Clipped-ThreeQuarters-trial1-capture1.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="0" Y="-8" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-146" Y="-171" />
+      <TopRight X="152.00000000000003" Y="-154" />
+      <BottomLeft X="-148" Y="138" />
+      <BottomRight X="150.00000000000003" Y="161" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-2" Y="14" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-96" Y="-96" />
+      <TopRight X="93.000000000000028" Y="-86" />
+      <BottomLeft X="-95" Y="110" />
+      <BottomRight X="91.000000000000028" Y="123" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
-    <MissRatio>0</MissRatio>
+    <Offset>0.18388474337777785</Offset>
+    <Angle>0.41536579062805118</Angle>
+    <CaptureRatio>0.41833663025716006</CaptureRatio>
+    <MissRatio>0.58166336974283994</MissRatio>
   </Capture>
   <Capture Ticks="635139040259660394" Device="tPad" Method="Clipped" Size="ThreeQuarters">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139040259660394-tPad-Clipped-ThreeQuarters-trial1-capture2.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-1" Y="-9" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-146" Y="-170" />
+      <TopRight X="153.00000000000003" Y="-155" />
+      <BottomLeft X="-147" Y="134" />
+      <BottomRight X="149.00000000000003" Y="159" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-2" Y="12" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-164" Y="-176" />
+      <TopRight X="167.00000000000003" Y="-160" />
+      <BottomLeft X="-167" Y="185" />
+      <BottomRight X="163.00000000000003" Y="207" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.16379112971812554</Offset>
+    <Angle>1.0136381515215345</Angle>
+    <CaptureRatio>1.3087945899518358</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139040346465359" Device="tPad" Method="Clipped" Size="ThreeQuarters">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139040346465359-tPad-Clipped-ThreeQuarters-trial2-capture0.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-3" Y="-2" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-149" Y="-167" />
+      <TopRight X="149.00000000000003" Y="-148" />
+      <BottomLeft X="-154" Y="145" />
+      <BottomRight X="145.00000000000003" Y="165" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-2" Y="12" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-160" Y="-178" />
+      <TopRight X="168.00000000000003" Y="-156" />
+      <BottomLeft X="-168" Y="178" />
+      <BottomRight X="158.00000000000003" Y="206" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.040574533884178567</Offset>
+    <Angle>1.0822690405311679</Angle>
+    <CaptureRatio>1.2597221775964185</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139040427820012" Device="tPad" Method="Clipped" Size="ThreeQuarters">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139040427820012-tPad-Clipped-ThreeQuarters-trial2-capture1.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-2" Y="-4" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-146" Y="-170" />
+      <TopRight X="151.00000000000003" Y="-147" />
+      <BottomLeft X="-155" Y="139" />
+      <BottomRight X="143.00000000000003" Y="166" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-3" Y="12" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-165" Y="-185" />
+      <TopRight X="172.00000000000003" Y="-161" />
+      <BottomLeft X="-174" Y="183" />
+      <BottomRight X="163.00000000000003" Y="212" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.0747974254979287</Offset>
+    <Angle>0.25871210350892354</Angle>
+    <CaptureRatio>1.3489583333333333</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
   <Capture Ticks="635139040466342215" Device="tPad" Method="Clipped" Size="ThreeQuarters">
     <Folder>C:\Users\jhincapie\Desktop\Projects\tPad\Data\Participant 6</Folder>
     <FileName>635139040466342215-tPad-Clipped-ThreeQuarters-trial2-capture2.jpg</FileName>
-    <TargetCenter X="-10" Y="-10" />
+    <TargetCenter X="-1" Y="-5" />
     <TargetRectangle>
-      <TopLeft X="-50" Y="-50" />
-      <TopRight X="50" Y="-50" />
-      <BottomLeft X="-50" Y="50" />
-      <BottomRight X="50" Y="50" />
+      <TopLeft X="-143" Y="-171" />
+      <TopRight X="151.00000000000003" Y="-144" />
+      <BottomLeft X="-151" Y="138" />
+      <BottomRight X="145.00000000000003" Y="165" />
     </TargetRectangle>
-    <CaptureCenter X="0" Y="0" />
+    <CaptureCenter X="-3" Y="9" />
     <CaptureRectangle>
-      <TopLeft X="-60" Y="-60" />
-      <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <TopLeft X="-156" Y="-167" />
+      <TopRight X="157.00000000000003" Y="-152" />
+      <BottomLeft X="-159" Y="173" />
+      <BottomRight X="152.00000000000003" Y="194" />
     </CaptureRectangle>
-    <Offset>0</Offset>
-    <Angle>0</Angle>
-    <CaptureRatio>0</CaptureRatio>
+    <Offset>0.051982000893876883</Offset>
+    <Angle>1.3488982987156255</Angle>
+    <CaptureRatio>1.1723851021435923</CaptureRatio>
     <MissRatio>0</MissRatio>
   </Capture>
 </ArrayOfCapture>
