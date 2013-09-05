@@ -59,26 +59,26 @@ namespace UofM.HCI.tPad.App.Shell
       };
     }
 
-    private int[] experimentalOrder = { 6,	7,	5,	8,	4,	9,	3,	10,	2,	11,	1,	12 };
+    private int[] experimentalOrder = { 4,	5,	3,	6,	2,	7,	1,	8,	12,	9,	11,	10 };
 
     public ITPadApp GetAppInstance(UofM.HCI.tPad.TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
       ShellApp shell = new ShellApp(core, container, controller, descriptor);
 
       //Demo Mode - This is all the smaller apps that showcase the possibilities with a tPad
-      //SetDemoMode(shell);
+      SetDemoMode(shell);
 
       //Experiment 2 - Information Capture
-      SetUpExperiment2(shell, false);
+      //SetUpExperiment2(shell, false);
 
       //Experiment 1 - Information Seeking
-      SetUpExperiment1(shell, false);
+      //SetUpExperiment1(shell, false);
 
       //Prepares applications for runtime
       foreach (TPadApplicationDescriptor appDesc in shell.Applications)
-        appDesc.Launcher.Prepare();
+            appDesc.Launcher.Prepare();
 
-      //Registers the dashboard as the pre-delivery listeners with the TransportComponent
+          //Registers the dashboard as the pre-delivery listeners with the TransportComponent
       TransportComponent.Instance.PreDeliveryListener = shell;
 
       return shell;
