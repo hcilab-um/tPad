@@ -1,0 +1,2379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCapture xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Capture Ticks="635140003701679225" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140003701679225-tPad-Clipped-Quarter-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-20" Y="63" />
+    <TargetRectangle>
+      <TopLeft X="-69" Y="4" />
+      <TopRight X="31" Y="9" />
+      <BottomLeft X="-70" Y="119" />
+      <BottomRight X="34.000000000000028" Y="121" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140003878199322" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140003878199322-tPad-Clipped-Quarter-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-16" Y="22" />
+    <TargetRectangle>
+      <TopLeft X="-64" Y="-30" />
+      <TopRight X="35.000000000000028" Y="-26" />
+      <BottomLeft X="-67" Y="76" />
+      <BottomRight X="33.000000000000028" Y="83" />
+    </TargetRectangle>
+    <CaptureCenter X="-17" Y="42" />
+    <CaptureRectangle>
+      <TopLeft X="-81" Y="-37" />
+      <TopRight X="49.000000000000028" Y="-27" />
+      <BottomLeft X="-85" Y="112" />
+      <BottomRight X="49.000000000000028" Y="121" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140003996876110" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140003996876110-tPad-Clipped-Quarter-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-13" Y="37" />
+    <TargetRectangle>
+      <TopLeft X="-63" Y="-16" />
+      <TopRight X="38.000000000000028" Y="-16" />
+      <BottomLeft X="-62" Y="90" />
+      <BottomRight X="39.000000000000028" Y="95" />
+    </TargetRectangle>
+    <CaptureCenter X="-16" Y="54" />
+    <CaptureRectangle>
+      <TopLeft X="-88" Y="-36" />
+      <TopRight X="59.000000000000028" Y="-26" />
+      <BottomLeft X="-91" Y="132" />
+      <BottomRight X="58.000000000000028" Y="144" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140004072710447" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140004072710447-tPad-Clipped-Quarter-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-14" Y="41" />
+    <TargetRectangle>
+      <TopLeft X="-65" Y="-13" />
+      <TopRight X="36.000000000000028" Y="-15" />
+      <BottomLeft X="-65" Y="93" />
+      <BottomRight X="37.000000000000028" Y="96" />
+    </TargetRectangle>
+    <CaptureCenter X="-17" Y="54" />
+    <CaptureRectangle>
+      <TopLeft X="-80" Y="-24" />
+      <TopRight X="51.000000000000028" Y="-18" />
+      <BottomLeft X="-84" Y="127" />
+      <BottomRight X="48.000000000000028" Y="133" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140004208638222" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140004208638222-tPad-Clipped-Quarter-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-18" Y="61" />
+    <TargetRectangle>
+      <TopLeft X="-70" Y="2" />
+      <TopRight X="33.000000000000028" Y="8" />
+      <BottomLeft X="-72" Y="113" />
+      <BottomRight X="33.000000000000028" Y="120" />
+    </TargetRectangle>
+    <CaptureCenter X="-20" Y="77" />
+    <CaptureRectangle>
+      <TopLeft X="-87" Y="-5" />
+      <TopRight X="46.000000000000028" Y="3" />
+      <BottomLeft X="-90" Y="150" />
+      <BottomRight X="46.000000000000028" Y="159" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140004326104941" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140004326104941-tPad-Clipped-Quarter-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-19" Y="59" />
+    <TargetRectangle>
+      <TopLeft X="-68" Y="0" />
+      <TopRight X="33.000000000000028" Y="9" />
+      <BottomLeft X="-72" Y="112" />
+      <BottomRight X="32.000000000000028" Y="120" />
+    </TargetRectangle>
+    <CaptureCenter X="-21" Y="77" />
+    <CaptureRectangle>
+      <TopLeft X="-86" Y="-5" />
+      <TopRight X="46.000000000000028" Y="3" />
+      <BottomLeft X="-90" Y="153" />
+      <BottomRight X="46.000000000000028" Y="157" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140004429950880" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140004429950880-tPad-Clipped-Quarter-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-14" Y="44" />
+    <TargetRectangle>
+      <TopLeft X="-63" Y="-12" />
+      <TopRight X="38.000000000000028" Y="-9" />
+      <BottomLeft X="-63" Y="98" />
+      <BottomRight X="38.000000000000028" Y="102" />
+    </TargetRectangle>
+    <CaptureCenter X="-16" Y="60" />
+    <CaptureRectangle>
+      <TopLeft X="-89.968816129354167" Y="-29.609984399375975" />
+      <TopRight X="58.000000000000028" Y="-21" />
+      <BottomLeft X="-95" Y="141" />
+      <BottomRight X="57.000000000000028" Y="151" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140004541617267" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140004541617267-tPad-Clipped-Quarter-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-17" Y="48" />
+    <TargetRectangle>
+      <TopLeft X="-68" Y="-6" />
+      <TopRight X="33.000000000000028" Y="-5" />
+      <BottomLeft X="-69" Y="101" />
+      <BottomRight X="34.000000000000028" Y="108" />
+    </TargetRectangle>
+    <CaptureCenter X="-21" Y="66" />
+    <CaptureRectangle>
+      <TopLeft X="-84" Y="-15" />
+      <TopRight X="49.000000000000028" Y="-5" />
+      <BottomLeft X="-88" Y="138" />
+      <BottomRight X="46.000000000000028" Y="148" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140004617431603" Device="tPad" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140004617431603-tPad-Clipped-Quarter-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-18" Y="48" />
+    <TargetRectangle>
+      <TopLeft X="-68" Y="-8" />
+      <TopRight X="34.000000000000028" Y="-4" />
+      <BottomLeft X="-69" Y="101" />
+      <BottomRight X="34.000000000000028" Y="105" />
+    </TargetRectangle>
+    <CaptureCenter X="-19" Y="65" />
+    <CaptureRectangle>
+      <TopLeft X="-93.385318036012464" Y="-25.054497919662882" />
+      <TopRight X="54.000000000000028" Y="-19" />
+      <BottomLeft X="-96" Y="151" />
+      <BottomRight X="56.000000000000028" Y="156" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140004789551448" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140004789551448-tPad-Clipped-Half-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-17" Y="53" />
+    <TargetRectangle>
+      <TopLeft X="-118" Y="-61" />
+      <TopRight X="89.000000000000028" Y="-53" />
+      <BottomLeft X="-123" Y="161" />
+      <BottomRight X="86.000000000000028" Y="176" />
+    </TargetRectangle>
+    <CaptureCenter X="-20" Y="70" />
+    <CaptureRectangle>
+      <TopLeft X="-139" Y="-76" />
+      <TopRight X="106.00000000000003" Y="-63" />
+      <BottomLeft X="-148" Y="207" />
+      <BottomRight X="105.00000000000003" Y="221" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140004907748209" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140004907748209-tPad-Clipped-Half-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-18" Y="49" />
+    <TargetRectangle>
+      <TopLeft X="-117" Y="-67" />
+      <TopRight X="86.000000000000028" Y="-55" />
+      <BottomLeft X="-123" Y="152" />
+      <BottomRight X="85.000000000000028" Y="168" />
+    </TargetRectangle>
+    <CaptureCenter X="-21" Y="61" />
+    <CaptureRectangle>
+      <TopLeft X="-141" Y="-88" />
+      <TopRight X="107.00000000000003" Y="-72" />
+      <BottomLeft X="-152" Y="200" />
+      <BottomRight X="104.00000000000003" Y="216" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140004998043373" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140004998043373-tPad-Clipped-Half-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-17" Y="54" />
+    <TargetRectangle>
+      <TopLeft X="-118" Y="-65" />
+      <TopRight X="90.000000000000028" Y="-50" />
+      <BottomLeft X="-125" Y="159" />
+      <BottomRight X="85.000000000000028" Y="174" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="71" />
+    <CaptureRectangle>
+      <TopLeft X="-142" Y="-78" />
+      <TopRight X="107.00000000000003" Y="-64" />
+      <BottomLeft X="-153" Y="210" />
+      <BottomRight X="104.00000000000003" Y="226" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140005066627296" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140005066627296-tPad-Clipped-Half-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-16" Y="55" />
+    <TargetRectangle>
+      <TopLeft X="-117" Y="-64" />
+      <TopRight X="90.000000000000028" Y="-50" />
+      <BottomLeft X="-125" Y="160" />
+      <BottomRight X="85.000000000000028" Y="176" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="71" />
+    <CaptureRectangle>
+      <TopLeft X="-138" Y="-74" />
+      <TopRight X="102.00000000000003" Y="-61" />
+      <BottomLeft X="-148" Y="207" />
+      <BottomRight X="100.00000000000003" Y="224" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140005133791138" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140005133791138-tPad-Clipped-Half-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-18" Y="54" />
+    <TargetRectangle>
+      <TopLeft X="-117" Y="-61" />
+      <TopRight X="89.000000000000028" Y="-51" />
+      <BottomLeft X="-124" Y="163" />
+      <BottomRight X="85.000000000000028" Y="179" />
+    </TargetRectangle>
+    <CaptureCenter X="-21" Y="72" />
+    <CaptureRectangle>
+      <TopLeft X="-142" Y="-80" />
+      <TopRight X="109.00000000000003" Y="-66" />
+      <BottomLeft X="-153" Y="211" />
+      <BottomRight X="105.00000000000003" Y="229" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140005231066701" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140005231066701-tPad-Clipped-Half-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-14" Y="40" />
+    <TargetRectangle>
+      <TopLeft X="-115" Y="-72" />
+      <TopRight X="89.000000000000028" Y="-64" />
+      <BottomLeft X="-120" Y="145" />
+      <BottomRight X="88.000000000000028" Y="158" />
+    </TargetRectangle>
+    <CaptureCenter X="-17" Y="56" />
+    <CaptureRectangle>
+      <TopLeft X="-138" Y="-88" />
+      <TopRight X="108.00000000000003" Y="-76" />
+      <BottomLeft X="-145" Y="194" />
+      <BottomRight X="105.00000000000003" Y="207" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140005354383755" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140005354383755-tPad-Clipped-Half-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-18" Y="49" />
+    <TargetRectangle>
+      <TopLeft X="-118" Y="-68" />
+      <TopRight X="88.000000000000028" Y="-56" />
+      <BottomLeft X="-126" Y="154" />
+      <BottomRight X="82.000000000000028" Y="169" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="64" />
+    <CaptureRectangle>
+      <TopLeft X="-140" Y="-81" />
+      <TopRight X="104.00000000000003" Y="-67" />
+      <BottomLeft X="-149" Y="199" />
+      <BottomRight X="100.00000000000003" Y="216" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140005459629774" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140005459629774-tPad-Clipped-Half-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-18" Y="49" />
+    <TargetRectangle>
+      <TopLeft X="-118" Y="-65" />
+      <TopRight X="87.000000000000028" Y="-54" />
+      <BottomLeft X="-123" Y="156" />
+      <BottomRight X="84.000000000000028" Y="169" />
+    </TargetRectangle>
+    <CaptureCenter X="-20" Y="65" />
+    <CaptureRectangle>
+      <TopLeft X="-137" Y="-76" />
+      <TopRight X="103.00000000000003" Y="-64" />
+      <BottomLeft X="-145" Y="199" />
+      <BottomRight X="97.000000000000028" Y="213" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140005576626466" Device="tPad" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140005576626466-tPad-Clipped-Half-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-23" Y="48" />
+    <TargetRectangle>
+      <TopLeft X="-122" Y="-70" />
+      <TopRight X="83.000000000000028" Y="-55" />
+      <BottomLeft X="-131" Y="151" />
+      <BottomRight X="77.000000000000028" Y="172" />
+    </TargetRectangle>
+    <CaptureCenter X="-23" Y="64" />
+    <CaptureRectangle>
+      <TopLeft X="-149" Y="-88" />
+      <TopRight X="106.00000000000003" Y="-74" />
+      <BottomLeft X="-154" Y="207" />
+      <BottomRight X="107.00000000000003" Y="221" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140005748756312" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140005748756312-tPad-Normal-ThreeQuarters-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-22" Y="54" />
+    <TargetRectangle>
+      <TopLeft X="-174" Y="-119" />
+      <TopRight X="138.00000000000003" Y="-109" />
+      <BottomLeft X="-181" Y="224" />
+      <BottomRight X="141.00000000000003" Y="238" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="70" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-72" Y="66" />
+      <BottomRight X="29" Y="74" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140005850742145" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140005850742145-tPad-Normal-ThreeQuarters-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-19" Y="53" />
+    <TargetRectangle>
+      <TopLeft X="-169" Y="-125" />
+      <TopRight X="143.00000000000003" Y="-106" />
+      <BottomLeft X="-182" Y="217" />
+      <BottomRight X="137.00000000000003" Y="237" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="68" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-72" Y="65" />
+      <BottomRight X="28" Y="71" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140005938987192" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140005938987192-tPad-Normal-ThreeQuarters-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-19" Y="52" />
+    <TargetRectangle>
+      <TopLeft X="-171" Y="-124" />
+      <TopRight X="142.00000000000003" Y="-107" />
+      <BottomLeft X="-182" Y="215" />
+      <BottomRight X="136.00000000000003" Y="234" />
+    </TargetRectangle>
+    <CaptureCenter X="-21" Y="68" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-71" Y="63" />
+      <BottomRight X="28" Y="71" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006011061314" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006011061314-tPad-Normal-ThreeQuarters-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-24" Y="51" />
+    <TargetRectangle>
+      <TopLeft X="-172" Y="-128" />
+      <TopRight X="140.00000000000003" Y="-103" />
+      <BottomLeft X="-189" Y="213" />
+      <BottomRight X="131.00000000000003" Y="239" />
+    </TargetRectangle>
+    <CaptureCenter X="-24" Y="66" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-72" Y="63" />
+      <BottomRight X="27" Y="70" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006044903250" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006044903250-tPad-Normal-ThreeQuarters-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-23" Y="49" />
+    <TargetRectangle>
+      <TopLeft X="-171" Y="-129" />
+      <TopRight X="141.00000000000003" Y="-104" />
+      <BottomLeft X="-188" Y="212" />
+      <BottomRight X="131.00000000000003" Y="238" />
+    </TargetRectangle>
+    <CaptureCenter X="-24" Y="65" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-73" Y="63" />
+      <BottomRight X="24" Y="70" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006135098409" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006135098409-tPad-Normal-ThreeQuarters-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-17" Y="44" />
+    <TargetRectangle>
+      <TopLeft X="-171" Y="-128" />
+      <TopRight X="142.00000000000003" Y="-115" />
+      <BottomLeft X="-181" Y="208" />
+      <BottomRight X="137.00000000000003" Y="228" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="62" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-72" Y="59" />
+      <BottomRight X="29" Y="66" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006215943033" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006215943033-tPad-Normal-ThreeQuarters-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-22" Y="52" />
+    <TargetRectangle>
+      <TopLeft X="-173" Y="-122" />
+      <TopRight X="140.00000000000003" Y="-106" />
+      <BottomLeft X="-184" Y="214" />
+      <BottomRight X="135.00000000000003" Y="237" />
+    </TargetRectangle>
+    <CaptureCenter X="-23" Y="67" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-74" Y="63" />
+      <BottomRight X="28" Y="70" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006236394203" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006236394203-tPad-Normal-ThreeQuarters-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-21" Y="53" />
+    <TargetRectangle>
+      <TopLeft X="-173" Y="-125" />
+      <TopRight X="140.00000000000003" Y="-103" />
+      <BottomLeft X="-186" Y="213" />
+      <BottomRight X="134.00000000000003" Y="235" />
+    </TargetRectangle>
+    <CaptureCenter X="-23" Y="66" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-71" Y="62" />
+      <BottomRight X="25" Y="70" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006359761259" Device="tPad" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006359761259-tPad-Normal-ThreeQuarters-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-22" Y="41" />
+    <TargetRectangle>
+      <TopLeft X="-172" Y="-133" />
+      <TopRight X="137.00000000000003" Y="-115" />
+      <BottomLeft X="-183" Y="202" />
+      <BottomRight X="133.00000000000003" Y="222" />
+    </TargetRectangle>
+    <CaptureCenter X="-24" Y="57" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-72" Y="53" />
+      <BottomRight X="25" Y="61" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006410014133" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006410014133-tPad-Clipped-ThreeQuarters-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-22" Y="41" />
+    <TargetRectangle>
+      <TopLeft X="-175" Y="-132" />
+      <TopRight X="137.00000000000003" Y="-115" />
+      <BottomLeft X="-183" Y="201" />
+      <BottomRight X="133.00000000000003" Y="224" />
+    </TargetRectangle>
+    <CaptureCenter X="-24" Y="57" />
+    <CaptureRectangle>
+      <TopLeft X="-206" Y="-167" />
+      <TopRight X="171.00000000000003" Y="-144" />
+      <BottomLeft X="-221" Y="263" />
+      <BottomRight X="163.00000000000003" Y="291" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006456256778" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006456256778-tPad-Clipped-ThreeQuarters-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-22" Y="41" />
+    <TargetRectangle>
+      <TopLeft X="-174" Y="-133" />
+      <TopRight X="136.00000000000003" Y="-116" />
+      <BottomLeft X="-183" Y="201" />
+      <BottomRight X="133.00000000000003" Y="223" />
+    </TargetRectangle>
+    <CaptureCenter X="-24" Y="57" />
+    <CaptureRectangle>
+      <TopLeft X="-208" Y="-169" />
+      <TopRight X="172.00000000000003" Y="-146" />
+      <BottomLeft X="-224" Y="265" />
+      <BottomRight X="164.00000000000003" Y="292" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006508469765" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006508469765-tPad-Clipped-ThreeQuarters-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-22" Y="40" />
+    <TargetRectangle>
+      <TopLeft X="-172" Y="-134" />
+      <TopRight X="137.00000000000003" Y="-116" />
+      <BottomLeft X="-183" Y="201" />
+      <BottomRight X="132.00000000000003" Y="223" />
+    </TargetRectangle>
+    <CaptureCenter X="-24" Y="57" />
+    <CaptureRectangle>
+      <TopLeft X="-197" Y="-156" />
+      <TopRight X="162.00000000000003" Y="-135" />
+      <BottomLeft X="-211" Y="252" />
+      <BottomRight X="155.00000000000003" Y="281" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006613895795" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006613895795-tPad-Clipped-ThreeQuarters-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-20" Y="48" />
+    <TargetRectangle>
+      <TopLeft X="-171" Y="-127" />
+      <TopRight X="143.00000000000003" Y="-109" />
+      <BottomLeft X="-184" Y="209" />
+      <BottomRight X="136.00000000000003" Y="232" />
+    </TargetRectangle>
+    <CaptureCenter X="-23" Y="64" />
+    <CaptureRectangle>
+      <TopLeft X="-190" Y="-149" />
+      <TopRight X="162.00000000000003" Y="-124" />
+      <BottomLeft X="-210" Y="258" />
+      <BottomRight X="153.00000000000003" Y="286" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006714291537" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006714291537-tPad-Clipped-ThreeQuarters-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-20" Y="46" />
+    <TargetRectangle>
+      <TopLeft X="-172" Y="-130" />
+      <TopRight X="140.00000000000003" Y="-113" />
+      <BottomLeft X="-182" Y="207" />
+      <BottomRight X="136.00000000000003" Y="226" />
+    </TargetRectangle>
+    <CaptureCenter X="-24" Y="62" />
+    <CaptureRectangle>
+      <TopLeft X="-197" Y="-152" />
+      <TopRight X="164.00000000000003" Y="-133" />
+      <BottomLeft X="-212" Y="260" />
+      <BottomRight X="158.00000000000003" Y="284" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006802056557" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006802056557-tPad-Clipped-ThreeQuarters-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-23" Y="44" />
+    <TargetRectangle>
+      <TopLeft X="-173" Y="-131" />
+      <TopRight X="137.00000000000003" Y="-112" />
+      <BottomLeft X="-185" Y="203" />
+      <BottomRight X="132.00000000000003" Y="226" />
+    </TargetRectangle>
+    <CaptureCenter X="-25" Y="60" />
+    <CaptureRectangle>
+      <TopLeft X="-199" Y="-149" />
+      <TopRight X="157.00000000000003" Y="-134" />
+      <BottomLeft X="-208" Y="260" />
+      <BottomRight X="156.00000000000003" Y="278" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140006903252345" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140006903252345-tPad-Clipped-ThreeQuarters-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-20" Y="47" />
+    <TargetRectangle>
+      <TopLeft X="-170" Y="-127" />
+      <TopRight X="140.00000000000003" Y="-108" />
+      <BottomLeft X="-183" Y="207" />
+      <BottomRight X="133.00000000000003" Y="228" />
+    </TargetRectangle>
+    <CaptureCenter X="-23" Y="63" />
+    <CaptureRectangle>
+      <TopLeft X="-192" Y="-145" />
+      <TopRight X="156.00000000000003" Y="-124" />
+      <BottomLeft X="-206" Y="257" />
+      <BottomRight X="151.00000000000003" Y="279" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007013938676" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007013938676-tPad-Clipped-ThreeQuarters-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-22" Y="46" />
+    <TargetRectangle>
+      <TopLeft X="-170" Y="-130" />
+      <TopRight X="140.00000000000003" Y="-112" />
+      <BottomLeft X="-182" Y="207" />
+      <BottomRight X="135.00000000000003" Y="227" />
+    </TargetRectangle>
+    <CaptureCenter X="-23" Y="62" />
+    <CaptureRectangle>
+      <TopLeft X="-195" Y="-150" />
+      <TopRight X="162.00000000000003" Y="-132" />
+      <BottomLeft X="-206" Y="260" />
+      <BottomRight X="156.00000000000003" Y="283" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007060931364" Device="tPad" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007060931364-tPad-Clipped-ThreeQuarters-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-22" Y="44" />
+    <TargetRectangle>
+      <TopLeft X="-171" Y="-128" />
+      <TopRight X="139.00000000000003" Y="-111" />
+      <BottomLeft X="-183" Y="207" />
+      <BottomRight X="134.00000000000003" Y="227" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="61" />
+    <CaptureRectangle>
+      <TopLeft X="-192" Y="-145" />
+      <TopRight X="158.00000000000003" Y="-128" />
+      <BottomLeft X="-201" Y="253" />
+      <BottomRight X="151.00000000000003" Y="275" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007237411458" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007237411458-tPad-Normal-Half-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-19" Y="40" />
+    <TargetRectangle>
+      <TopLeft X="-119" Y="-75" />
+      <TopRight X="86.000000000000028" Y="-62" />
+      <BottomLeft X="-125" Y="148" />
+      <BottomRight X="82.000000000000028" Y="162" />
+    </TargetRectangle>
+    <CaptureCenter X="-21" Y="57" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-71" Y="54" />
+      <BottomRight X="27" Y="61" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007265293052" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007265293052-tPad-Normal-Half-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-19" Y="42" />
+    <TargetRectangle>
+      <TopLeft X="-119" Y="-76" />
+      <TopRight X="87.000000000000028" Y="-63" />
+      <BottomLeft X="-126" Y="146" />
+      <BottomRight X="81.000000000000028" Y="160" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="56" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-70" Y="54" />
+      <BottomRight X="28" Y="62" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007356008241" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007356008241-tPad-Normal-Half-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-28" Y="30" />
+    <TargetRectangle>
+      <TopLeft X="-125" Y="-85" />
+      <TopRight X="80.000000000000028" Y="-67" />
+      <BottomLeft X="-136" Y="130" />
+      <BottomRight X="69.000000000000028" Y="151" />
+    </TargetRectangle>
+    <CaptureCenter X="-28" Y="47" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-74" Y="44" />
+      <BottomRight X="19" Y="50" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007448853552" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007448853552-tPad-Normal-Half-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-24" Y="46" />
+    <TargetRectangle>
+      <TopLeft X="-123" Y="-69" />
+      <TopRight X="82.000000000000028" Y="-63" />
+      <BottomLeft X="-128" Y="153" />
+      <BottomRight X="79.000000000000028" Y="162" />
+    </TargetRectangle>
+    <CaptureCenter X="-24" Y="60" />
+    <CaptureRectangle>
+      <TopLeft X="-82" Y="-49" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-73" Y="57" />
+      <BottomRight X="24" Y="63" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007513687260" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007513687260-tPad-Normal-Half-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-21" Y="46" />
+    <TargetRectangle>
+      <TopLeft X="-121" Y="-70" />
+      <TopRight X="83.000000000000028" Y="-58" />
+      <BottomLeft X="-129" Y="152" />
+      <BottomRight X="80.000000000000028" Y="166" />
+    </TargetRectangle>
+    <CaptureCenter X="-24" Y="61" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-72" Y="59" />
+      <BottomRight X="26" Y="66" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007532168317" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007532168317-tPad-Normal-Half-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-22" Y="46" />
+    <TargetRectangle>
+      <TopLeft X="-122" Y="-69" />
+      <TopRight X="83.000000000000028" Y="-59" />
+      <BottomLeft X="-130" Y="151" />
+      <BottomRight X="81.000000000000028" Y="167" />
+    </TargetRectangle>
+    <CaptureCenter X="-24" Y="62" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-73" Y="58" />
+      <BottomRight X="25" Y="64" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007601292271" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007601292271-tPad-Normal-Half-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-21" Y="41" />
+    <TargetRectangle>
+      <TopLeft X="-121" Y="-75" />
+      <TopRight X="85.000000000000028" Y="-64" />
+      <BottomLeft X="-127" Y="144" />
+      <BottomRight X="80.000000000000028" Y="160" />
+    </TargetRectangle>
+    <CaptureCenter X="-23" Y="58" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-68" Y="56" />
+      <BottomRight X="25" Y="62" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007668286102" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007668286102-tPad-Normal-Half-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-23" Y="37" />
+    <TargetRectangle>
+      <TopLeft X="-123" Y="-77" />
+      <TopRight X="82.000000000000028" Y="-66" />
+      <BottomLeft X="-129" Y="145" />
+      <BottomRight X="78.000000000000028" Y="157" />
+    </TargetRectangle>
+    <CaptureCenter X="-26" Y="56" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-75" Y="52" />
+      <BottomRight X="24" Y="61" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140007743210388" Device="tPad" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140007743210388-tPad-Normal-Half-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-18" Y="31" />
+    <TargetRectangle>
+      <TopLeft X="-116" Y="-81" />
+      <TopRight X="88.000000000000028" Y="-72" />
+      <BottomLeft X="-123" Y="135" />
+      <BottomRight X="82.000000000000028" Y="149" />
+    </TargetRectangle>
+    <CaptureCenter X="-19" Y="48" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-67" Y="46" />
+      <BottomRight X="29" Y="51" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140008366086014" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140008366086014-Normal-Normal-Quarter-trial0-capture0.jpg</FileName>
+    <TargetCenter X="14.202466011047363" Y="-1.0715289115905762" />
+    <TargetRectangle>
+      <TopLeft X="-92" Y="-90" />
+      <TopRight X="96.842432022094727" Y="-104.79930782318115" />
+      <BottomLeft X="-74" Y="105" />
+      <BottomRight X="123" Y="86" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="-1" />
+    <CaptureRectangle>
+      <TopLeft X="-97.0378851890564" Y="-89.706302881240845" />
+      <TopRight X="101.43089962005615" Y="-112.51878547668457" />
+      <BottomLeft X="-74.140625" Y="109.5" />
+      <BottomRight X="124.32815980911255" Y="86.6875" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140008586398615" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140008586398615-Normal-Normal-Quarter-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-10" Y="3" />
+    <TargetRectangle>
+      <TopLeft X="-76.338733434677124" Y="-53.466901302337646" />
+      <TopRight X="50" Y="-62" />
+      <BottomLeft X="-72" Y="71" />
+      <BottomRight X="57" Y="63" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-79.671897411346436" Y="-56.018583297729492" />
+      <TopRight X="51.499977588653564" Y="-62.862333297729492" />
+      <BottomLeft X="-73" Y="71.859375" />
+      <BottomRight X="58.171875" Y="65.015625" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140008710645722" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140008710645722-Normal-Normal-Quarter-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-1.0682568550109863" Y="-0.12740135192871094" />
+    <TargetRectangle>
+      <TopLeft X="-66" Y="-58" />
+      <TopRight X="56" Y="-65" />
+      <BottomLeft X="-60" Y="67" />
+      <BottomRight X="64" Y="60" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-58" Y="-56" />
+      <TopRight X="72" Y="-50" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140008836442917" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140008836442917-Normal-Normal-Quarter-trial1-capture0.jpg</FileName>
+    <TargetCenter X="8.0121874809265137" Y="-0.5449366569519043" />
+    <TargetRectangle>
+      <TopLeft X="-55" Y="-59" />
+      <TopRight X="66.2118923664093" Y="-63.824283123016357" />
+      <BottomLeft X="-52" Y="65" />
+      <BottomRight X="75" Y="60" />
+    </TargetRectangle>
+    <CaptureCenter X="-1" Y="-1" />
+    <CaptureRectangle>
+      <TopLeft X="-58.171857595443726" Y="-61.593715190887451" />
+      <TopRight X="69.641738653182983" Y="-68.380308628082275" />
+      <BottomLeft X="-51.328107595443726" Y="67.296909809112549" />
+      <BottomRight X="76.485488653182983" Y="60.510316371917725" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140008956359776" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140008956359776-Normal-Normal-Quarter-trial1-capture1.jpg</FileName>
+    <TargetCenter X="3" Y="2" />
+    <TargetRectangle>
+      <TopLeft X="-74.140616297721863" Y="-68.437534809112549" />
+      <TopRight X="71.914791107177734" Y="-75.230811595916748" />
+      <BottomLeft X="-67.296866297721863" Y="78.703090190887451" />
+      <BottomRight X="78.758541107177734" Y="71.909813404083252" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140009070596310" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140009070596310-Normal-Normal-Quarter-trial1-capture2.jpg</FileName>
+    <TargetCenter X="4" Y="5" />
+    <TargetRectangle>
+      <TopLeft X="-98" Y="-93" />
+      <TopRight X="101" Y="-98" />
+      <BottomLeft X="-96" Y="107" />
+      <BottomRight X="108" Y="104" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140009198883648" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140009198883648-Normal-Normal-Quarter-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-7" Y="-6" />
+    <TargetRectangle>
+      <TopLeft X="-113" Y="-107" />
+      <TopRight X="92" Y="-113" />
+      <BottomLeft X="-108" Y="104" />
+      <BottomRight X="104" Y="97" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-65" Y="63" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140009281488372" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140009281488372-Normal-Normal-Quarter-trial2-capture1.jpg</FileName>
+    <TargetCenter X="0" Y="0" />
+    <TargetRectangle>
+      <TopLeft X="-97" Y="-90" />
+      <TopRight X="91" Y="-97" />
+      <BottomLeft X="-91" Y="102" />
+      <BottomRight X="103" Y="96" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140009350002291" Device="Normal" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140009350002291-Normal-Normal-Quarter-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-3.3688781261444092" Y="0.04845428466796875" />
+    <TargetRectangle>
+      <TopLeft X="-97" Y="-89" />
+      <TopRight X="82.230993747711182" Y="-92.293646812438965" />
+      <BottomLeft X="-92" Y="95" />
+      <BottomRight X="94" Y="87" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="1" />
+    <CaptureRectangle>
+      <TopLeft X="-104.74041080474854" Y="-88.7334578037262" />
+      <TopRight X="85.743964195251465" Y="-98.999065399169922" />
+      <BottomLeft X="-94.671875" Y="98.09375" />
+      <BottomRight X="95.8125" Y="87.828125" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140009724233696" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140009724233696-tPad-Normal-Quarter-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-22" Y="-6" />
+    <TargetRectangle>
+      <TopLeft X="-68" Y="-60" />
+      <TopRight X="30" Y="-53" />
+      <BottomLeft X="-71" Y="42" />
+      <BottomRight X="27" Y="48" />
+    </TargetRectangle>
+    <CaptureCenter X="-23" Y="9" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-68" Y="7" />
+      <BottomRight X="25" Y="10" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140009789437425" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140009789437425-tPad-Normal-Quarter-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-19" Y="-4" />
+    <TargetRectangle>
+      <TopLeft X="-65" Y="-58" />
+      <TopRight X="32.000000000000028" Y="-53" />
+      <BottomLeft X="-69" Y="42" />
+      <BottomRight X="27" Y="49" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="11" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-70" Y="7" />
+      <BottomRight X="23" Y="12" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140009834229987" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140009834229987-tPad-Normal-Quarter-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-17" Y="-6" />
+    <TargetRectangle>
+      <TopLeft X="-65" Y="-58" />
+      <TopRight X="32.000000000000028" Y="-51" />
+      <BottomLeft X="-69" Y="43" />
+      <BottomRight X="28" Y="46" />
+    </TargetRectangle>
+    <CaptureCenter X="-21" Y="10" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-67" Y="7" />
+      <BottomRight X="22" Y="13" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140009859231417" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140009859231417-tPad-Normal-Quarter-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-19" Y="-5" />
+    <TargetRectangle>
+      <TopLeft X="-65" Y="-58" />
+      <TopRight X="32.000000000000028" Y="-54" />
+      <BottomLeft X="-68" Y="42" />
+      <BottomRight X="27" Y="48" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="10" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-68" Y="7" />
+      <BottomRight X="25" Y="14" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140009928435375" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140009928435375-tPad-Normal-Quarter-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-20" Y="-7" />
+    <TargetRectangle>
+      <TopLeft X="-66" Y="-60" />
+      <TopRight X="32.000000000000028" Y="-54" />
+      <BottomLeft X="-70" Y="42" />
+      <BottomRight X="28" Y="47" />
+    </TargetRectangle>
+    <CaptureCenter X="-21" Y="8" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-67" Y="6" />
+      <BottomRight X="24" Y="13" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140010000389491" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140010000389491-tPad-Normal-Quarter-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-19" Y="-4" />
+    <TargetRectangle>
+      <TopLeft X="-67" Y="-56" />
+      <TopRight X="28" Y="-54" />
+      <BottomLeft X="-68" Y="45" />
+      <BottomRight X="31" Y="48" />
+    </TargetRectangle>
+    <CaptureCenter X="-21" Y="11" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-68" Y="7" />
+      <BottomRight X="26" Y="14" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140010068193369" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140010068193369-tPad-Normal-Quarter-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-18" Y="-4" />
+    <TargetRectangle>
+      <TopLeft X="-66" Y="-56" />
+      <TopRight X="30" Y="-54" />
+      <BottomLeft X="-66" Y="45" />
+      <BottomRight X="32.000000000000028" Y="48" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="9" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-66" Y="7" />
+      <BottomRight X="24" Y="12" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140010147347897" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140010147347897-tPad-Normal-Quarter-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-20" Y="-5" />
+    <TargetRectangle>
+      <TopLeft X="-69" Y="-59" />
+      <TopRight X="30" Y="-53" />
+      <BottomLeft X="-70" Y="44" />
+      <BottomRight X="29" Y="50" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="7" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-69" Y="4" />
+      <BottomRight X="24" Y="10" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140010396512148" Device="tPad" Method="Normal" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140010396512148-tPad-Normal-Quarter-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-19" Y="-5" />
+    <TargetRectangle>
+      <TopLeft X="-67" Y="-57" />
+      <TopRight X="30" Y="-56" />
+      <BottomLeft X="-69" Y="42" />
+      <BottomRight X="31" Y="47" />
+    </TargetRectangle>
+    <CaptureCenter X="-22" Y="8" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-67" Y="7" />
+      <BottomRight X="23" Y="12" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140010870669268" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140010870669268-Normal-Normal-Half-trial0-capture0.jpg</FileName>
+    <TargetCenter X="1" Y="4" />
+    <TargetRectangle>
+      <TopLeft X="-167" Y="-160" />
+      <TopRight X="162" Y="-160" />
+      <BottomLeft X="-174" Y="181" />
+      <BottomRight X="176" Y="176" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="-1" />
+    <CaptureRectangle>
+      <TopLeft X="-182.33865976333618" Y="-159.43191409111023" />
+      <TopRight X="168.97387504577637" Y="-167.4163064956665" />
+      <BottomLeft X="-174.515625" Y="184.7813196182251" />
+      <BottomRight X="176.79690980911255" Y="176.7969446182251" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140010976665331" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140010976665331-Normal-Normal-Half-trial0-capture1.jpg</FileName>
+    <TargetCenter X="0" Y="0" />
+    <TargetRectangle>
+      <TopLeft X="-155" Y="-157" />
+      <TopRight X="157" Y="-153" />
+      <BottomLeft X="-167" Y="163" />
+      <BottomRight X="161" Y="168" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140011117303375" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140011117303375-Normal-Normal-Half-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-5" Y="8" />
+    <TargetRectangle>
+      <TopLeft X="-167" Y="-147" />
+      <TopRight X="147.24331188201904" Y="-157.0542950630188" />
+      <BottomLeft X="-165" Y="177" />
+      <BottomRight X="159.6875" Y="161.96878480911255" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140011217699117" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140011217699117-Normal-Normal-Half-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-8" Y="4" />
+    <TargetRectangle>
+      <TopLeft X="-172" Y="-159" />
+      <TopRight X="154" Y="-158" />
+      <BottomLeft X="-177" Y="178" />
+      <BottomRight X="166" Y="175" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="-1" />
+    <CaptureRectangle>
+      <TopLeft X="-183.59201407432556" Y="-159.52932739257813" />
+      <TopRight X="159.73609352111816" Y="-166.37307739257813" />
+      <BottomLeft X="-176.79689240455627" Y="181.359375" />
+      <BottomRight X="166.53125" Y="174.515625" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140011363307445" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140011363307445-Normal-Normal-Half-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-4" Y="-1" />
+    <TargetRectangle>
+      <TopLeft X="-188" Y="-171" />
+      <TopRight X="163" Y="-178" />
+      <BottomLeft X="-182" Y="185" />
+      <BottomRight X="181" Y="176" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140011484624384" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140011484624384-Normal-Normal-Half-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-3" Y="2" />
+    <TargetRectangle>
+      <TopLeft X="-175" Y="-167" />
+      <TopRight X="162" Y="-164" />
+      <BottomLeft X="-178" Y="184" />
+      <BottomRight X="174.5156946182251" Y="176.7969446182251" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140011607861433" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140011607861433-Normal-Normal-Half-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-9" Y="3" />
+    <TargetRectangle>
+      <TopLeft X="-183" Y="-165" />
+      <TopRight X="157" Y="-170" />
+      <BottomLeft X="-185" Y="179" />
+      <BottomRight X="169" Y="176" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="1" />
+    <CaptureRectangle>
+      <TopLeft X="-191.52410578727722" Y="-167.76062083244324" />
+      <TopRight X="165.4915018081665" Y="-172.32313823699951" />
+      <BottomLeft X="-187.06251740455627" Y="181.359375" />
+      <BottomRight X="169.9530553817749" Y="176.796875" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140011663224600" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140011663224600-Normal-Normal-Half-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-3" Y="5" />
+    <TargetRectangle>
+      <TopLeft X="-187" Y="-166" />
+      <TopRight X="169" Y="-177" />
+      <BottomLeft X="-183" Y="194" />
+      <BottomRight X="186" Y="183" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-197.19308304786682" Y="-169.70615434646606" />
+      <TopRight X="174.65068435668945" Y="-183.39365434646606" />
+      <BottomLeft X="-183.64064240455627" Y="198.46878480911255" />
+      <BottomRight X="188.203125" Y="184.78128480911255" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140011792501994" Device="Normal" Method="Normal" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140011792501994-Normal-Normal-Half-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-4" Y="1" />
+    <TargetRectangle>
+      <TopLeft X="-166" Y="-153" />
+      <TopRight X="146" Y="-153" />
+      <BottomLeft X="-169.95310759544373" Y="176.796875" />
+      <BottomRight X="167" Y="165" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140012273229490" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140012273229490-Normal-Clipped-ThreeQuarters-trial0-capture0.jpg</FileName>
+    <TargetCenter X="2" Y="6" />
+    <TargetRectangle>
+      <TopLeft X="-155" Y="-160" />
+      <TopRight X="165" Y="-146" />
+      <BottomLeft X="-181.35938587784767" Y="174.515625" />
+      <BottomRight X="171" Y="185" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="1" />
+    <CaptureRectangle>
+      <TopLeft X="-190" Y="-202" />
+      <TopRight X="199" Y="-187" />
+      <BottomLeft X="-202" Y="188" />
+      <BottomRight X="187" Y="203" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140012509493004" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140012509493004-Normal-Clipped-ThreeQuarters-trial0-capture1.jpg</FileName>
+    <TargetCenter X="6" Y="-1" />
+    <TargetRectangle>
+      <TopLeft X="-182" Y="-177" />
+      <TopRight X="181" Y="-187" />
+      <BottomLeft X="-174.515625" Y="192.765625" />
+      <BottomRight X="192.80046892166138" Y="176.4404296875" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="1" />
+    <CaptureRectangle>
+      <TopLeft X="-215" Y="-206" />
+      <TopRight X="205" Y="-206" />
+      <BottomLeft X="-208" Y="206" />
+      <BottomRight X="207" Y="206" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140012705254200" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140012705254200-Normal-Clipped-ThreeQuarters-trial0-capture2.jpg</FileName>
+    <TargetCenter X="0.03508758544921875" Y="-3.3995275497436523" />
+    <TargetRectangle>
+      <TopLeft X="-142.57813370227814" Y="-141.43753480911255" />
+      <TopRight X="136.94517517089844" Y="-147.09589529037476" />
+      <BottomLeft X="-136.87500870227814" Y="140.29684019088745" />
+      <BottomRight X="142.64830017089844" Y="134.63847970962524" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="1" />
+    <CaptureRectangle>
+      <TopLeft X="-179" Y="-178" />
+      <TopRight X="175" Y="-177" />
+      <BottomLeft X="-178" Y="177" />
+      <BottomRight X="175" Y="177" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140012906535713" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140012906535713-Normal-Clipped-ThreeQuarters-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-9.6359281539917" Y="4.5460004806518555" />
+    <TargetRectangle>
+      <TopLeft X="-166" Y="-147" />
+      <TopRight X="142" Y="-153" />
+      <BottomLeft X="-157.28749871253967" Y="160.79512596130371" />
+      <BottomRight X="148" Y="154" />
+    </TargetRectangle>
+    <CaptureCenter X="-7" Y="3" />
+    <CaptureRectangle>
+      <TopLeft X="-186" Y="-177" />
+      <TopRight X="170" Y="-175" />
+      <BottomLeft X="-186" Y="179" />
+      <BottomRight X="170" Y="182" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140013119897917" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140013119897917-Normal-Clipped-ThreeQuarters-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-2.8544690608978271" Y="5.2236294746398926" />
+    <TargetRectangle>
+      <TopLeft X="-141" Y="-139" />
+      <TopRight X="141" Y="-134" />
+      <BottomLeft X="-151" Y="146" />
+      <BottomRight X="140" Y="154" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="-1" />
+    <CaptureRectangle>
+      <TopLeft X="-181" Y="-181" />
+      <TopRight X="179" Y="-181" />
+      <BottomLeft X="-181" Y="181" />
+      <BottomRight X="180" Y="182" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140013316529163" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140013316529163-Normal-Clipped-ThreeQuarters-trial1-capture2.jpg</FileName>
+    <TargetCenter X="2.8396925926208496" Y="-1.7340507507324219" />
+    <TargetRectangle>
+      <TopLeft X="-164.27375721931458" Y="-167.71817111968994" />
+      <TopRight X="166.53125" Y="-171.09371519088745" />
+      <BottomLeft X="-163" Y="166" />
+      <BottomRight X="169.953125" Y="164.2500696182251" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-195" Y="-187" />
+      <TopRight X="186" Y="-194" />
+      <BottomLeft X="-187" Y="194" />
+      <BottomRight X="193" Y="187" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140013423845301" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140013423845301-Normal-Clipped-ThreeQuarters-trial2-capture0.jpg</FileName>
+    <TargetCenter X="3" Y="-2" />
+    <TargetRectangle>
+      <TopLeft X="-146" Y="-145" />
+      <TopRight X="145" Y="-148" />
+      <BottomLeft X="-143" Y="150" />
+      <BottomRight X="150" Y="140" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-103" Y="-103" />
+      <TopRight X="104" Y="-102" />
+      <BottomLeft X="-104" Y="103" />
+      <BottomRight X="103" Y="104" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140013545652268" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140013545652268-Normal-Clipped-ThreeQuarters-trial2-capture1.jpg</FileName>
+    <TargetCenter X="2" Y="3" />
+    <TargetRectangle>
+      <TopLeft X="-150" Y="-136" />
+      <TopRight X="138" Y="-148" />
+      <BottomLeft X="-142" Y="154" />
+      <BottomRight X="152" Y="144" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-188" Y="-169" />
+      <TopRight X="169" Y="-188" />
+      <BottomLeft X="-171" Y="187" />
+      <BottomRight X="188" Y="170" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140013703701308" Device="Normal" Method="Clipped" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140013703701308-Normal-Clipped-ThreeQuarters-trial2-capture2.jpg</FileName>
+    <TargetCenter X="3" Y="2" />
+    <TargetRectangle>
+      <TopLeft X="-143" Y="-148" />
+      <TopRight X="152" Y="-147" />
+      <BottomLeft X="-149" Y="153" />
+      <BottomRight X="155" Y="157" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-184" Y="-183" />
+      <TopRight X="181" Y="-183" />
+      <BottomLeft X="-183" Y="183" />
+      <BottomRight X="181" Y="183" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140013814967672" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140013814967672-Normal-Normal-ThreeQuarters-trial0-capture0.jpg</FileName>
+    <TargetCenter X="3" Y="-3" />
+    <TargetRectangle>
+      <TopLeft X="-143" Y="-139" />
+      <TopRight X="139" Y="-148" />
+      <BottomLeft X="-140" Y="148" />
+      <BottomRight X="153" Y="137" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="-1" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140013915923447" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140013915923447-Normal-Normal-ThreeQuarters-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-9" Y="4" />
+    <TargetRectangle>
+      <TopLeft X="-157" Y="-132" />
+      <TopRight X="125" Y="-140" />
+      <BottomLeft X="-152" Y="159" />
+      <BottomRight X="141" Y="142" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="-2" />
+    <CaptureRectangle>
+      <TopLeft X="-168" Y="-145" />
+      <TopRight X="131" Y="-146" />
+      <BottomLeft X="-159" Y="157" />
+      <BottomRight X="152" Y="142" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140014013249013" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140014013249013-Normal-Normal-ThreeQuarters-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-1" Y="5" />
+    <TargetRectangle>
+      <TopLeft X="-171" Y="-156" />
+      <TopRight X="159.64207410812378" Y="-157.65158462524414" />
+      <BottomLeft X="-166" Y="185" />
+      <BottomRight X="169" Y="165" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-172" Y="-157" />
+      <TopRight X="149" Y="-159" />
+      <BottomLeft X="-167.671875" Y="188.20309019088745" />
+      <BottomRight X="170.27354288101196" Y="181.46662187576294" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140014134165930" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140014134165930-Normal-Normal-ThreeQuarters-trial1-capture0.jpg</FileName>
+    <TargetCenter X="2" Y="6" />
+    <TargetRectangle>
+      <TopLeft X="-140" Y="-138" />
+      <TopRight X="149" Y="-138" />
+      <BottomLeft X="-150" Y="156" />
+      <BottomRight X="157" Y="160" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="-2" />
+    <CaptureRectangle>
+      <TopLeft X="-153" Y="-142" />
+      <TopRight X="157.31494569778442" Y="-136.76023435592651" />
+      <BottomLeft X="-149.42186629772186" Y="155.12496519088745" />
+      <BottomRight X="143" Y="160" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140014215840601" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140014215840601-Normal-Normal-ThreeQuarters-trial1-capture1.jpg</FileName>
+    <TargetCenter X="-5" Y="4" />
+    <TargetRectangle>
+      <TopLeft X="-165" Y="-150" />
+      <TopRight X="154" Y="-154" />
+      <BottomLeft X="-181" Y="179" />
+      <BottomRight X="174" Y="174" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-188.84888625144959" Y="-150.89893007278442" />
+      <TopRight X="169.30734634399414" Y="-157.74268007278442" />
+      <BottomLeft X="-182.50001740455627" Y="181.35940980911255" />
+      <BottomRight X="175.65625" Y="174.51565980911255" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140014340777747" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140014340777747-Normal-Normal-ThreeQuarters-trial1-capture2.jpg</FileName>
+    <TargetCenter X="2" Y="3" />
+    <TargetRectangle>
+      <TopLeft X="-151" Y="-147" />
+      <TopRight X="153" Y="-145" />
+      <BottomLeft X="-169.953125" Y="169.953125" />
+      <BottomRight X="172.23440980911255" Y="168.8125" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="-1" />
+    <CaptureRectangle>
+      <TopLeft X="-174" Y="-150" />
+      <TopRight X="160" Y="-147" />
+      <BottomLeft X="-172.23435759544373" Y="173.375" />
+      <BottomRight X="176.796875" Y="172.234375" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140014471085200" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140014471085200-Normal-Normal-ThreeQuarters-trial2-capture0.jpg</FileName>
+    <TargetCenter X="2" Y="2" />
+    <TargetRectangle>
+      <TopLeft X="-147" Y="-138" />
+      <TopRight X="149" Y="-147" />
+      <BottomLeft X="-158" Y="169" />
+      <BottomRight X="174" Y="161" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="1" />
+    <CaptureRectangle>
+      <TopLeft X="-60" Y="-60" />
+      <TopRight X="60" Y="-60" />
+      <BottomLeft X="-60" Y="60" />
+      <BottomRight X="60" Y="60" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140014562160409" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140014562160409-Normal-Normal-ThreeQuarters-trial2-capture1.jpg</FileName>
+    <TargetCenter X="3" Y="1" />
+    <TargetRectangle>
+      <TopLeft X="-137" Y="-128" />
+      <TopRight X="135" Y="-131" />
+      <BottomLeft X="-151" Y="156" />
+      <BottomRight X="162" Y="148" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-158.98118829727173" Y="-128.41673374176025" />
+      <TopRight X="155.83127689361572" Y="-136.40110874176025" />
+      <BottomLeft X="-151.703125" Y="158.546875" />
+      <BottomRight X="163.10934019088745" Y="150.5625" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140014678877085" Device="Normal" Method="Normal" Size="ThreeQuarters">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140014678877085-Normal-Normal-ThreeQuarters-trial2-capture2.jpg</FileName>
+    <TargetCenter X="-4" Y="0" />
+    <TargetRectangle>
+      <TopLeft X="-146" Y="-154" />
+      <TopRight X="153" Y="-142" />
+      <BottomLeft X="-170" Y="148" />
+      <BottomRight X="148" Y="163" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="-3" />
+    <CaptureRectangle>
+      <TopLeft X="-134" Y="-153" />
+      <TopRight X="154" Y="-140" />
+      <BottomLeft X="-157" Y="141" />
+      <BottomRight X="128" Y="170" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140014890719202" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140014890719202-Normal-Clipped-Half-trial0-capture0.jpg</FileName>
+    <TargetCenter X="-15" Y="7" />
+    <TargetRectangle>
+      <TopLeft X="-128.88970255851746" Y="-100.32847762107849" />
+      <TopRight X="94.67278003692627" Y="-104.89099502563477" />
+      <BottomLeft X="-124.32814240455627" Y="123.1875" />
+      <BottomRight X="99.234375" Y="118.625" />
+    </TargetRectangle>
+    <CaptureCenter X="-6" Y="10" />
+    <CaptureRectangle>
+      <TopLeft X="-160" Y="-136" />
+      <TopRight X="138" Y="-143" />
+      <BottomLeft X="-154" Y="163" />
+      <BottomRight X="144" Y="155" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140015041797843" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140015041797843-Normal-Clipped-Half-trial0-capture1.jpg</FileName>
+    <TargetCenter X="-2.2428555488586426" Y="0.53010797500610352" />
+    <TargetRectangle>
+      <TopLeft X="-100" Y="-93" />
+      <TopRight X="91" Y="-100" />
+      <BottomLeft X="-99.234401106834412" Y="100.375" />
+      <BottomRight X="99.234375" Y="95.8125" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-127.73990535736084" Y="-130.020911693573" />
+      <TopRight X="126.6093053817749" Y="-127.74989557266235" />
+      <BottomLeft X="-130.03133702278137" Y="126.61957406997681" />
+      <BottomRight X="124.31789112091065" Y="128.89059019088745" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140015204397143" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140015204397143-Normal-Clipped-Half-trial0-capture2.jpg</FileName>
+    <TargetCenter X="0.032790184020996094" Y="0.046365737915039062" />
+    <TargetRectangle>
+      <TopLeft X="-106.01253592967987" Y="-99.141643524169922" />
+      <TopRight X="100.44058036804199" Y="-104.84476852416992" />
+      <BottomLeft X="-100.37499129772186" Y="104.9375" />
+      <BottomRight X="106.078125" Y="99.234375" />
+    </TargetRectangle>
+    <CaptureCenter X="0.032790184020996094" Y="0.046365737915039062" />
+    <CaptureRectangle>
+      <TopLeft X="-136" Y="-126" />
+      <TopRight X="126" Y="-134" />
+      <BottomLeft X="-125" Y="133" />
+      <BottomRight X="134" Y="124" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140015358435954" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140015358435954-Normal-Clipped-Half-trial1-capture0.jpg</FileName>
+    <TargetCenter X="-3.4278795719146729" Y="-0.58200836181640625" />
+    <TargetRectangle>
+      <TopLeft X="-115.21512544155121" Y="-110.66401672363281" />
+      <TopRight X="106.06611585617065" Y="-112.94526672363281" />
+      <BottomLeft X="-112.92186629772186" Y="111.78125" />
+      <BottomRight X="108.359375" Y="109.5" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-135" Y="-135" />
+      <TopRight X="133" Y="-135" />
+      <BottomLeft X="-135" Y="133" />
+      <BottomRight X="133" Y="135" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140015503854271" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140015503854271-Normal-Clipped-Half-trial1-capture1.jpg</FileName>
+    <TargetCenter X="7.9858369827270508" Y="1.1900539398193359" />
+    <TargetRectangle>
+      <TopLeft X="-90" Y="-94" />
+      <TopRight X="100" Y="-98" />
+      <BottomLeft X="-86" Y="99" />
+      <BottomRight X="108" Y="95" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-125.46875" Y="-123.1875" />
+      <TopRight X="122.0468053817749" Y="-124.33341598510742" />
+      <BottomLeft X="-124.32809019088745" Y="123.19279098510742" />
+      <BottomRight X="123.18746519088745" Y="122.046875" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140015698595410" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140015698595410-Normal-Clipped-Half-trial1-capture2.jpg</FileName>
+    <TargetCenter X="1.1268231868743897" Y="-2.3025531768798828" />
+    <TargetRectangle>
+      <TopLeft X="-90.13701343536377" Y="-94.714481353759766" />
+      <TopRight X="94.64423656463623" Y="-92.433231353759766" />
+      <BottomLeft X="-92.390598893165588" Y="87.828125" />
+      <BottomRight X="92.390659809112549" Y="90.109375" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-127" Y="-128" />
+      <TopRight X="125" Y="-126" />
+      <BottomLeft X="-127" Y="124" />
+      <BottomRight X="126" Y="126" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140015845033786" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140015845033786-Normal-Clipped-Half-trial2-capture0.jpg</FileName>
+    <TargetCenter X="-2" Y="2" />
+    <TargetRectangle>
+      <TopLeft X="-93" Y="-86" />
+      <TopRight X="86.74660587310791" Y="-88.884651184082031" />
+      <BottomLeft X="-94" Y="98" />
+      <BottomRight X="94" Y="95" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-126" Y="-126" />
+      <TopRight X="125" Y="-126" />
+      <BottomLeft X="-126" Y="125" />
+      <BottomRight X="125" Y="125" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140016012553367" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140016012553367-Normal-Clipped-Half-trial2-capture1.jpg</FileName>
+    <TargetCenter X="0" Y="5" />
+    <TargetRectangle>
+      <TopLeft X="-120" Y="-110" />
+      <TopRight X="119" Y="-116" />
+      <BottomLeft X="-123" Y="131" />
+      <BottomRight X="129" Y="131" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="1" />
+    <CaptureRectangle>
+      <TopLeft X="-150.553936958313" Y="-152.83501291275024" />
+      <TopRight X="149.43050765991211" Y="-150.56239557266235" />
+      <BottomLeft X="-152" Y="150" />
+      <BottomRight X="147.140625" Y="151.70315980911255" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140016176592750" Device="Normal" Method="Clipped" Size="Half">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140016176592750-Normal-Clipped-Half-trial2-capture2.jpg</FileName>
+    <TargetCenter X="0" Y="3" />
+    <TargetRectangle>
+      <TopLeft X="-119" Y="-113" />
+      <TopRight X="119" Y="-123" />
+      <BottomLeft X="-122" Y="129" />
+      <BottomRight X="131" Y="127" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="1" />
+    <CaptureRectangle>
+      <TopLeft X="-154" Y="-149" />
+      <TopRight X="149" Y="-155" />
+      <BottomLeft X="-149" Y="152" />
+      <BottomRight X="153" Y="148" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140016399865520" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140016399865520-Normal-Clipped-Quarter-trial0-capture0.jpg</FileName>
+    <TargetCenter X="6.2384195327758789" Y="-2.2412891387939453" />
+    <TargetRectangle>
+      <TopLeft X="-58.241910934448242" Y="-59.232543468475342" />
+      <TopRight X="62.664339065551758" Y="-67.216918468475342" />
+      <BottomLeft X="-53" Y="65" />
+      <BottomRight X="74" Y="57" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-89" Y="-82" />
+      <TopRight X="82" Y="-87" />
+      <BottomLeft X="-83" Y="88" />
+      <BottomRight X="87" Y="83" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140016578465735" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140016578465735-Normal-Clipped-Quarter-trial0-capture1.jpg</FileName>
+    <TargetCenter X="3.9922049045562744" Y="0" />
+    <TargetRectangle>
+      <TopLeft X="-61.593741297721863" Y="-61.59375" />
+      <TopRight X="66.155449390411377" Y="-65.046396255493164" />
+      <BottomLeft X="-62" Y="66" />
+      <BottomRight X="72" Y="65" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-86" Y="-80" />
+      <TopRight X="81" Y="-85" />
+      <BottomLeft X="-82" Y="85" />
+      <BottomRight X="85" Y="83" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140016894743826" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140016894743826-Normal-Clipped-Quarter-trial0-capture2.jpg</FileName>
+    <TargetCenter X="-14.123640775680542" Y="6.8772363662719727" />
+    <TargetRectangle>
+      <TopLeft X="-117.48438370227814" Y="-82.1250696182251" />
+      <TopRight X="74.408968448638916" Y="-96.886082649230957" />
+      <BottomLeft X="-107" Y="114" />
+      <BottomRight X="89.237093448638916" Y="95.879542350769043" />
+    </TargetRectangle>
+    <CaptureCenter X="-12" Y="7" />
+    <CaptureRectangle>
+      <TopLeft X="-157" Y="-109" />
+      <TopRight X="103" Y="-135" />
+      <BottomLeft X="-128.89063370227814" Y="150.5625" />
+      <BottomRight X="132.16943454742432" Y="120.79249382019043" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140017058103169" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140017058103169-Normal-Clipped-Quarter-trial1-capture0.jpg</FileName>
+    <TargetCenter X="0" Y="-1.1406598091125488" />
+    <TargetRectangle>
+      <TopLeft X="-52.46875" Y="-50.187534809112549" />
+      <TopRight X="49.046875" Y="-53.609409809112549" />
+      <BottomLeft X="-49.046875" Y="51.328090190887451" />
+      <BottomRight X="52.46875" Y="47.906215190887451" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="-1.1406598091125488" />
+    <CaptureRectangle>
+      <TopLeft X="-83" Y="-79" />
+      <TopRight X="76" Y="-84" />
+      <BottomLeft X="-79" Y="83" />
+      <BottomRight X="82" Y="78" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140017210381879" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140017210381879-Normal-Clipped-Quarter-trial1-capture1.jpg</FileName>
+    <TargetCenter X="2.3584740161895752" Y="-0.50988388061523438" />
+    <TargetRectangle>
+      <TopLeft X="-57" Y="-48" />
+      <TopRight X="50" Y="-61" />
+      <BottomLeft X="-46.765625" Y="61.5938196182251" />
+      <BottomRight X="65.015625" Y="47.9063196182251" />
+    </TargetRectangle>
+    <CaptureCenter X="-1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-88" Y="-63" />
+      <TopRight X="65.132444381713867" Y="-88.186032295227051" />
+      <BottomLeft X="-67.296883702278137" Y="87.828125" />
+      <BottomRight X="87.944944381713867" Y="64.657717704772949" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140017343619500" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140017343619500-Normal-Clipped-Quarter-trial1-capture2.jpg</FileName>
+    <TargetCenter X="-6" Y="1" />
+    <TargetRectangle>
+      <TopLeft X="-66.079461097717285" Y="-50.378045082092285" />
+      <TopRight X="46.842413902282715" Y="-59.503045082092285" />
+      <BottomLeft X="-57.03125" Y="61.59375" />
+      <BottomRight X="55.890625" Y="52.46875" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-89" Y="-84" />
+      <TopRight X="81" Y="-87" />
+      <BottomLeft X="-84" Y="88" />
+      <BottomRight X="87" Y="84" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140017424064101" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140017424064101-Normal-Clipped-Quarter-trial2-capture0.jpg</FileName>
+    <TargetCenter X="0" Y="6.2734723091125488" />
+    <TargetRectangle>
+      <TopLeft X="-55.890625" Y="-39.921840190887451" />
+      <TopRight X="46.756470203399658" Y="-49.148552417755127" />
+      <BottomLeft X="-46.756470203399658" Y="61.695497035980225" />
+      <BottomRight X="55.890625" Y="52.468784809112549" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="-1" />
+    <CaptureRectangle>
+      <TopLeft X="-104" Y="-104" />
+      <TopRight X="104" Y="-104" />
+      <BottomLeft X="-105" Y="102" />
+      <BottomRight X="104" Y="105" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140017533620367" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140017533620367-Normal-Clipped-Quarter-trial2-capture1.jpg</FileName>
+    <TargetCenter X="-5.0786843299865723" Y="2.3266410827636719" />
+    <TargetRectangle>
+      <TopLeft X="-61.485493659973145" Y="-44.393592834472656" />
+      <TopRight X="42.311381340026855" Y="-53.518592834472656" />
+      <BottomLeft X="-52.46875" Y="58.171875" />
+      <BottomRight X="51.328125" Y="49.046875" />
+    </TargetRectangle>
+    <CaptureCenter X="0" Y="0" />
+    <CaptureRectangle>
+      <TopLeft X="-79" Y="-79" />
+      <TopRight X="79" Y="-79" />
+      <BottomLeft X="-80" Y="79" />
+      <BottomRight X="78" Y="78" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+  <Capture Ticks="635140017687859189" Device="Normal" Method="Clipped" Size="Quarter">
+    <Folder>C:\Users\xiang\Documents\GitHub\tPad\Data\Participant 10</Folder>
+    <FileName>635140017687859189-Normal-Clipped-Quarter-trial2-capture2.jpg</FileName>
+    <TargetCenter X="0.5703125" Y="3.421875" />
+    <TargetRectangle>
+      <TopLeft X="-44" Y="-40" />
+      <TopRight X="44" Y="-42" />
+      <BottomLeft X="-44" Y="49" />
+      <BottomRight X="47" Y="47" />
+    </TargetRectangle>
+    <CaptureCenter X="1" Y="-1" />
+    <CaptureRectangle>
+      <TopLeft X="-65.073477745056152" Y="-70.72170877456665" />
+      <TopRight X="69.520272254943848" Y="-63.87795877456665" />
+      <BottomLeft X="-72" Y="66" />
+      <BottomRight X="68" Y="71" />
+    </CaptureRectangle>
+    <Offset>0</Offset>
+    <Angle>0</Angle>
+    <CaptureRatio>0</CaptureRatio>
+    <MissRatio>0</MissRatio>
+  </Capture>
+</ArrayOfCapture>
