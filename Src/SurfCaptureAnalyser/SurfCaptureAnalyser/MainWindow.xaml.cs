@@ -84,7 +84,7 @@ namespace SurfCaptureAnalyser
     }
 
     /// <summary>
-    /// COde mainly taken from:http://www.emgu.com/wiki/index.php/Shape_(Triangle,_Rectangle,_Circle,_Line)_Detection_in_CSharp
+    /// Code mainly taken from: http://www.emgu.com/wiki/index.php/Shape_(Triangle,_Rectangle,_Circle,_Line)_Detection_in_CSharp
     /// </summary>
     /// <param name="capture"></param>
     private void DetectSquares(Capture capture)
@@ -232,7 +232,7 @@ namespace SurfCaptureAnalyser
       foreach (Capture capture in Captures)
       {
         //0- calcute pixel-to-cms ratio
-        double pixelLenght = Distance(capture.TargetRectangle.TopRight, capture.TargetRectangle.BottomRight);
+        double pixelLenght = Distance(capture.TargetRectangle.BottomLeft, capture.TargetRectangle.BottomRight);
         double pixelCmRatio = sizes[(int)capture.Size] / pixelLenght;
 
         //1- calculate off-set
