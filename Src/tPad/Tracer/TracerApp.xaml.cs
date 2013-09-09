@@ -107,5 +107,17 @@ namespace UofM.HCI.tPad.App.Tracer
     }
 
     public void Activate(Dictionary<string, Object> init) { }
+
+    private void bPen_Click(object sender, RoutedEventArgs e)
+    {
+      if (sender == bBluePen)
+        inkCanvas.DefaultDrawingAttributes.Color = Colors.Blue;
+      if (sender == bRedPen)
+        inkCanvas.DefaultDrawingAttributes.Color = Colors.Red;
+      if (sender == bYellowPen)
+        inkCanvas.DefaultDrawingAttributes.Color = Colors.Yellow;
+      if (sender == bEraser)
+        inkCanvas.DefaultDrawingAttributes.Color = Colors.White;
+    }
   }
 }

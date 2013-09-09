@@ -16,7 +16,7 @@
   <Grid x:Name="gMeasurements"  Background="White" MouseDown="gMeasurements_MouseDown" MouseMove="gMeasurements_MouseMove" MouseUp="gMeasurements_MouseUp"
         Width="{Binding ElementName=rulerApp, Path=ActualWidth}" Height="{Binding ElementName=rulerApp, Path=ActualHeight}">
 
-    <Line x:Name="headLine" X1="0" Y1="0" X2="0" Y2="50" StrokeThickness="2" Stroke="Black">
+    <Line x:Name="headLine" X1="0" Y1="0" X2="0" Y2="50" StrokeThickness="5" Stroke="Red">
       <Line.RenderTransform>
         <TransformGroup>
           <RotateTransform CenterX="0" CenterY="25">
@@ -35,9 +35,9 @@
       </Line.RenderTransform>
     </Line>
 
-    <Line x:Name="measureLine" X1="100" Y1="50" X2="200" Y2="50" StrokeThickness="2" Stroke="Black"/>
+    <Line x:Name="measureLine" X1="100" Y1="50" X2="200" Y2="50" StrokeThickness="5" Stroke="Black" StrokeDashArray="1,0.5"/>
 
-    <Line x:Name="tailLine" X1="0" Y1="0" X2="0" Y2="50" StrokeThickness="2" Stroke="Black">
+    <Line x:Name="tailLine" X1="0" Y1="0" X2="0" Y2="50" StrokeThickness="5" Stroke="Red">
       <Line.RenderTransform>
         <TransformGroup>
           <RotateTransform CenterX="0" CenterY="25">
