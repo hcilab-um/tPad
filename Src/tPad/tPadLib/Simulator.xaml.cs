@@ -258,7 +258,7 @@ namespace UofM.HCI.tPab
         TPadLauncherSettings settings = new TPadLauncherSettings() { DeviceID = deviceCount++, BoardPort = null, UseCamera = false };
         if (cbSimCamera.IsSelected)
         {
-          chbUseFeatureTracking.IsChecked = true;
+          UseFeatureTracking = true;
           chbUseFeatureTracking.IsEnabled = false;
           settings.UseCamera = true;
         }

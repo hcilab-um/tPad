@@ -13,6 +13,8 @@ namespace UofM.HCI.tPab.App.ActiveReader.Converters
     {
       if (values == null || values.Length < 2)
         return System.Windows.Visibility.Visible;
+      if (values[0] == System.Windows.DependencyProperty.UnsetValue || values[1] == System.Windows.DependencyProperty.UnsetValue)
+        return System.Windows.Visibility.Visible;
 
       String[] parameters = (parameter as String).Split(',');
 

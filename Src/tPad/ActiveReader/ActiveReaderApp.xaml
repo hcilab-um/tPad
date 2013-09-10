@@ -454,9 +454,8 @@
 
       <Grid x:Name="gStartup" Canvas.Top="0" Canvas.Left="0"
             Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
-            Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
             Visibility="{Binding ElementName=arApp, Path=Core.Device.Location.Status, Converter={StaticResource ResourceKey=cStatusVisibility}, ConverterParameter=NotLocated}">
-        <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" FontWeight="Bold">Reading Helper</Label>
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" FontWeight="Bold">Active Reader</Label>
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="0,70,0,0">Not Located</Label>
       </Grid>
 
