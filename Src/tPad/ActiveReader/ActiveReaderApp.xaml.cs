@@ -245,6 +245,9 @@ namespace UofM.HCI.tPad.App.ActiveReader
 
     void Device_RegistrationChanged(object sender, RegistrationEventArgs e)
     {
+      if (e.NewLocation == null)
+        return;
+
       DateTime start = DateTime.Now;
       if (e.NewLocation.Status != LocationStatus.Located)
       {

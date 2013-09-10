@@ -278,7 +278,7 @@ namespace UofM.HCI.tPad
         }
 
         Rect ttPadBounds = cWrapper.TransformToAncestor(sWindow).TransformBounds(TPadAppBounds);
-        if(ttPadBounds.Width == 0 || ttPadBounds.Height == 0)
+        if (ttPadBounds.Width == 0 || ttPadBounds.Height == 0)
           return null;
 
         System.Drawing.Bitmap capture = ImageHelper.ScreenCapture(zeroX + ttPadBounds.Left, zeroY + ttPadBounds.Top, ttPadBounds);
