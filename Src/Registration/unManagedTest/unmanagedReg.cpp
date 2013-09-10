@@ -41,7 +41,7 @@ paperRegistration::paperRegistration(bool camInUse, float imageRatio, FeatureMat
 	else 
 	{
 		//surfDetectorPageImg = new cv::SurfFeatureDetector(2000, 4, 1, false);
-		surfDetectorCamImg = new cv::SurfFeatureDetector(600,4, 1, false);
+		surfDetectorCamImg = new cv::SurfFeatureDetector(600, 4, 1, false);
 		//matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 25, 0));
 		extractor = new cv::FREAK(true, false, 10.0F, 3);		
 	}
@@ -293,7 +293,8 @@ cv::Mat paperRegistration::computeLocalFeatures(cv::Mat &deviceImage)
 
 	if (isCameraInUse_)
 		fastDetectorCamImg->detect(deviceImage, deviceKeypoints);
-	else surfDetectorCamImg->detect(deviceImage, deviceKeypoints);
+	else 
+		surfDetectorCamImg->detect(deviceImage, deviceKeypoints);
 	extractor->compute(deviceImage, deviceKeypoints, deviceImageDescriptors);
 	
 	if (deviceImageDescriptors.rows > 4)

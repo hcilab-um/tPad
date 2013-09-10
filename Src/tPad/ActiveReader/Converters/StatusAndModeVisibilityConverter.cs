@@ -13,6 +13,10 @@ namespace UofM.HCI.tPad.App.ActiveReader.Converters
     {
       if (values == null || values.Length < 2)
         return System.Windows.Visibility.Visible;
+      if (values[0] == DependencyProperty.UnsetValue)
+        return System.Windows.Visibility.Visible;
+      if (values[1] == DependencyProperty.UnsetValue)
+        return System.Windows.Visibility.Visible;
 
       String[] parameters = (parameter as String).Split(',');
 
@@ -23,8 +27,8 @@ namespace UofM.HCI.tPad.App.ActiveReader.Converters
       for (int index = 1; index < values.Length; index++)
         isButtonChecked = isButtonChecked && (bool)values[index];
 
-        if (status == targetStatus && isButtonChecked)
-          return System.Windows.Visibility.Visible;
+      if (status == targetStatus && isButtonChecked)
+        return System.Windows.Visibility.Visible;
       return System.Windows.Visibility.Collapsed;
     }
 
