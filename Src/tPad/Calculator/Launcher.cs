@@ -22,7 +22,7 @@ namespace UofM.HCI.tPad.App.Calculator
         AppUUID = Guid.NewGuid(),
         Launcher = this
       };
-      descriptor.Triggers.Add(Glyph.Square);
+      descriptor.Triggers.Add(Glyph.Triangle);
 
       return descriptor;
     }
