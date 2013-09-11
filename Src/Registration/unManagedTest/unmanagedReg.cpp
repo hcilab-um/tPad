@@ -34,7 +34,7 @@ paperRegistration::paperRegistration(bool camInUse, float imageRatio, FeatureMat
 	if (isCameraInUse_)
 	{
 		//fastDetectorPageImg = new cv::FastFeatureDetector(145, true);
-		fastDetectorCamImg = new cv::FastFeatureDetector(30, true);
+		fastDetectorCamImg = new cv::FastFeatureDetector(10, true);
 		//matcher = new cv::FlannBasedMatcher(new cv::flann::LshIndexParams(4, 21, 0));
 		extractor = new cv::FREAK(true, false, 13.0F, 2);
 	}	
@@ -101,19 +101,20 @@ void paperRegistration::warpImage(cv::Mat &rawImage, cv::Mat &image, bool camInU
 	if (camInUse)
 	{
 		std::vector<cv::Point2f> point(2);
-		point[0] = cvPoint(172,0);
-		point[1] = cvPoint(490, 352);
+		point[0] = cvPoint(205,0);
+		point[1] = cvPoint(520, 310);
 
 		if (!warpMat.empty())
 		{
 			cv::warpPerspective(rawImage, image, warpMat, cv::Size(1000,2000));			
 			cv::perspectiveTransform(point, point, warpMat);				
 		}
+
 		image = cv::Mat(image, cv::Rect(point[0], point[1]));
 		
 		cv::Mat blurrImg;
 		cv::GaussianBlur(image, blurrImg, cv::Size(5,5), 3);		
-		cv::addWeighted(image, 1.6, blurrImg, -0.5, 0, image);		
+		cv::addWeighted(image, 1.7, blurrImg, -0.5, 0, image);		
 		//imwrite("cam1.png", image);
 	}
 	else
@@ -129,11 +130,12 @@ void paperRegistration::setCameraImg()
 {
 	cv::Mat rawImage;
 	loadCameraImage(rawImage);
-	//imwrite("rawImage.png", rawImage);
+	
 	//warp image
 	if (status == -1 || compareImages(rawImage, lastDeviceImage) > 1.6)
 	{		
-		warpImage(rawImage, currentDeviceImg, true);		
+		warpImage(rawImage, currentDeviceImg, true);
+		//imwrite("rawImage.png", currentDeviceImg);
 		computeLocation = true;
 	}
 	else computeLocation = false;
@@ -570,7 +572,7 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 			device_point[1] = cvPoint(currentDeviceImg.cols,0);
 			device_point[2] = cvPoint(currentDeviceImg.cols,currentDeviceImg.rows);
 			device_point[3] = cvPoint(0,currentDeviceImg.rows);
-			device_point[4] = cvPoint(currentDeviceImg.cols/2 + 4,currentDeviceImg.rows/2 + 23);
+			device_point[4] = cvPoint(currentDeviceImg.cols/2 + 4,currentDeviceImg.rows/2 + 53);
 
 			float areaCamImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
 			
@@ -581,7 +583,7 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 			for( int j = 3; j < 6; j++ )
 			{
 				float angleCorner = computeAngle(device_point[j%4], device_point[j-3], device_point[j-2]);
-				if (fabs(90-angleCorner) > 7)
+				if (fabs(90-angleCorner) > 9)
 				{
 					status = -1;
 					return status;
@@ -590,7 +592,7 @@ int paperRegistration::detectLocation(bool cameraInUse, int previousStatus)
 			
 			float areaDetectedImg = computeArea(device_point[0], device_point[1], device_point[3]) * computeArea(device_point[1], device_point[2], device_point[3]);
 			//proof size of detected area
-			if (fabs(areaDetectedImg-areaCamImg) >= areaCamImg * 0.1)
+			if (fabs(areaDetectedImg-areaCamImg) >= areaCamImg * 0.2)
 			{
 				status = -1;
 				return status;
