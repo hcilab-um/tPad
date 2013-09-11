@@ -95,22 +95,6 @@
             <Binding ElementName="arApp" Path="ActualDocument"/>
           </MultiBinding>
         </Image.Source>
-        <!--<Image.RenderTransform>
-          <ScaleTransform ScaleX="{Binding ElementName=arApp, Path=ZoomLevel}" ScaleY="{Binding ElementName=arApp, Path=ZoomLevel}">
-            <ScaleTransform.CenterX>
-              <MultiBinding Converter="{StaticResource ResourceKey=cMultiplierMulti}" ConverterParameter="-1">
-                <Binding ElementName="ttCanvas" Path="X"/>
-                <Binding ElementName="arApp" Path="ZoomLevel"/>
-              </MultiBinding>
-            </ScaleTransform.CenterX>
-            <ScaleTransform.CenterY>
-              <MultiBinding Converter="{StaticResource ResourceKey=cMultiplierMulti}" ConverterParameter="-1">
-                <Binding ElementName="ttCanvas" Path="Y"/>
-                <Binding ElementName="arApp" Path="ZoomLevel"/>
-              </MultiBinding>
-            </ScaleTransform.CenterY>
-          </ScaleTransform>
-        </Image.RenderTransform>-->
       </Image>
 
       <!-- The first layer is for the highlights -->
@@ -161,7 +145,8 @@
       <!-- This is the context menu for handling annotations -->
       <TreeView x:Name="tvwFolder" Background="Transparent">
         <TreeView.ContextMenu >
-          <ContextMenu Name="contextMenu" Visibility="Collapsed">
+          <ContextMenu Name="contextMenu" Visibility="Collapsed" FontSize="24" FontWeight="ExtraBold" Foreground="Red"
+                       BorderThickness="3" BorderBrush="Red">
             <ContextMenu.LayoutTransform>
               <RotateTransform>
                 <RotateTransform.Angle>

@@ -53,7 +53,7 @@ namespace UofM.HCI.tPab.Applications
       Applications = new ObservableCollection<TPadApplicationDescriptor>();
       InitializeComponent();
 
-      core.GlyphsChanged += core_GlyphsChanged;
+      //core.GlyphsChanged += core_GlyphsChanged;
     }
 
 
