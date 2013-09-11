@@ -113,9 +113,9 @@ void paperRegistration::warpImage(cv::Mat &rawImage, cv::Mat &image, bool camInU
 		image = cv::Mat(image, cv::Rect(point[0], point[1]));
 		
 		cv::Mat blurrImg;
-		cv::GaussianBlur(image, blurrImg, cv::Size(5,5), 3);		
-		cv::addWeighted(image, 1.7, blurrImg, -0.5, 0, image);		
-		//imwrite("cam1.png", image);
+		cv::GaussianBlur(image, blurrImg, cv::Size(5,5), 2);		
+		cv::addWeighted(image, 3.3, blurrImg, -0.5, 0, image);	
+		imwrite("cam1.png", image);
 	}
 	else
 	{			
