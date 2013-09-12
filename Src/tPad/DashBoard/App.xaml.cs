@@ -59,20 +59,20 @@ namespace UofM.HCI.tPad.App.Shell
       };
     }
 
-    private int[] experimentalOrder = { 10,	11,	9,	12,	8,	1,	7,	2,	6,	3,	5,	4 };
+    private int[] experimentalOrder = { 11,	12,	10,	1,	9,	2,	8,	3,	7,	4,	6,	5 };
 
     public ITPadApp GetAppInstance(UofM.HCI.tPad.TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
       ShellApp shell = new ShellApp(core, container, controller, descriptor);
 
       //Demo Mode - This is all the smaller apps that showcase the possibilities with a tPad
-      SetDemoMode(shell);
+      //SetDemoMode(shell);
 
       //Experiment 2 - Information Capture
-      //SetUpExperiment2(shell, true);
+      SetUpExperiment2(shell, false);
 
       //Experiment 1 - Information Seeking
-      //SetUpExperiment1(shell, true);
+      SetUpExperiment1(shell, false);
 
       //Prepares applications for runtime
       foreach (TPadApplicationDescriptor appDesc in shell.Applications)
