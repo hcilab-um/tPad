@@ -69,10 +69,10 @@ namespace UofM.HCI.tPad.App.Shell
       SetDemoMode(shell);
 
       //Experiment 2 - Information Capture
-      //SetUpExperiment2(shell, false);
+      //SetUpExperiment2(shell, true);
 
       //Experiment 1 - Information Seeking
-      //SetUpExperiment1(shell, false);
+      //SetUpExperiment1(shell, true);
 
       //Prepares applications for runtime
       foreach (TPadApplicationDescriptor appDesc in shell.Applications)

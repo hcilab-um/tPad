@@ -496,10 +496,10 @@ namespace UofM.HCI.tPad
           MessageSource = new Ubicomp.Utils.NET.MTF.EventSource()
           {
             ResourceId = Guid.NewGuid(),
-            FriendlyName = "Simulator",
-            ResourceName = "Simulator"
+            FriendlyName = "R.Sharkey",
+            ResourceName = "R.Sharkey"
           },
-          MessageData = new FakeWhatUpMessage()
+          MessageData = new FakeWhatUpMessage() { From = "R.Sharkey", Message = "Hi! What's going on?" }
         });
     }
 

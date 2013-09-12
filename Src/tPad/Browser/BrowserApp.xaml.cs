@@ -105,5 +105,10 @@ namespace UofM.HCI.tPad.App.Browser
       }
     }
 
+    private void btnGo_Click(object sender, RoutedEventArgs e)
+    {
+      webControl1.Source = new Uri(tbAddress.Text);
+    }
+
   }
 }

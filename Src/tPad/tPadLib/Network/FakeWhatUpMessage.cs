@@ -10,14 +10,17 @@ namespace UofM.HCI.tPad.Network
   public class FakeWhatUpMessage : ITransportMessageContent, IJsonExportable
   {
 
+    public String From { get; set; }
+    public String Message { get; set; }
+
     public void Export(ExportContext context, Jayrock.Json.JsonWriter writer)
     {
       //"from":"Device-1","message":"JUAN"
       writer.WriteStartObject();
       writer.WriteMember("from");
-      context.Export("Simulator", writer);
+      context.Export(From, writer);
       writer.WriteMember("message");
-      context.Export("Hello World!", writer);
+      context.Export(Message, writer);
       writer.WriteEndObject();
     }
 

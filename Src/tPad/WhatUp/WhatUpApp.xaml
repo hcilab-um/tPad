@@ -21,7 +21,7 @@
       </StackPanel>
       
       <Grid Background="Black" DockPanel.Dock="Top">
-        <Label Content="Message from Simulator" FontSize="24" FontWeight="ExtraBold" Foreground="White"/> 
+        <Label Content="Message from R. Sharkey" FontSize="24" FontWeight="ExtraBold" Foreground="White"/> 
         <Button x:Name="bAttach" Click="bAttach_Click" HorizontalAlignment="Right" FontSize="24" Width="100">Attach</Button>
       </Grid>
 
