@@ -965,13 +965,21 @@ namespace UofM.HCI.tPab.App.ActiveReader
 
       List<ContentLocation> pageSearch = PdfHelper.ContentToPixel(word, page, Core.Profile.DocumentSize.Width, Core.Profile.DocumentSize.Height);
 
+      Thickness padding = new Thickness(
+        3 / Core.Profile.PixelsPerCm.Width, 
+        5 / Core.Profile.PixelsPerCm.Height, 
+        3 / Core.Profile.PixelsPerCm.Width, 
+        5 / Core.Profile.PixelsPerCm.Height);
       foreach (ContentLocation content in pageSearch)
       {
         Highlight resultHL = new Highlight();
-        resultHL.Line = new Line() { Stroke = Brushes.Blue, Opacity = 0.5, StrokeThickness = content.ContentBounds.Height };
-        resultHL.Line.X1 = content.ContentBounds.Left;
+        resultHL.Line = new Line() { Stroke = Brushes.Blue, Opacity = 0.5 };
+        resultHL.Line.StrokeThickness = content.ContentBounds.Height + padding.Top + padding.Bottom;
+        resultHL.Line.StrokeStartLineCap = PenLineCap.Round;
+        resultHL.Line.StrokeEndLineCap = PenLineCap.Round;
+        resultHL.Line.X1 = content.ContentBounds.Left - padding.Left;
         resultHL.Line.Y1 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
-        resultHL.Line.X2 = content.ContentBounds.Right;
+        resultHL.Line.X2 = content.ContentBounds.Right + padding.Right;
         resultHL.Line.Y2 = content.ContentBounds.Top + content.ContentBounds.Height / 2;
         resultHL.Line.Tag = content.Content;
         if (content.PageIndex == ActualPage)

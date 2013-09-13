@@ -430,7 +430,7 @@
         <MediaElement x:Name="meVideo" Visibility="Collapsed" LoadedBehavior="Manual" UnloadedBehavior="Manual"
                       Width="{Binding ElementName=gFixedLayers, Path=ActualWidth}" 
                       Height="{Binding ElementName=gFixedLayers, Path=ActualHeight}"
-                      Source="C:\Users\jhincapie\Desktop\Dropbox\tPad\UIST 2013\video\TabletopClips\cAR_TT_Flipping.mp4"
+                      Source="C:\Users\sophie\Desktop\TPAD - RAW.mov"
                       MediaEnded="meVideo_MediaEnded"
                       MediaFailed="meVideo_MediaFailed"
                       MediaOpened="meVideo_MediaOpened"
