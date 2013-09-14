@@ -60,6 +60,7 @@
           <ComboBoxItem IsSelected="True" Tag="COM5">COM5</ComboBoxItem>
           <ComboBoxItem Tag="COM7">COM7</ComboBoxItem>
           <ComboBoxItem Tag="COM8">COM8</ComboBoxItem>
+          <ComboBoxItem Tag="COM9">COM9</ComboBoxItem>
         </ComboBox>
         <CheckBox x:Name="ckbSeparateWindow" IsChecked="True" Content="Run in Separate Window?" />
         <Button x:Name="tbRunCore" Click="tbRunCore_Click" Content="New@Port"/>
