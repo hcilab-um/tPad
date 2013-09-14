@@ -59,7 +59,7 @@ namespace UofM.HCI.tPad.App.Shell
       };
     }
 
-    private int[] experimentalOrder = { 11,	12,	10,	1,	9,	2,	8,	3,	7,	4,	6,	5 };
+    private int[] experimentalOrder = { 12,	1,	11,	2,	10,	3,	9,	4,	8,	5,	7,	6 };
 
     public ITPadApp GetAppInstance(UofM.HCI.tPad.TPadApplicationDescriptor descriptor, ITPadAppContainer container, ITPadAppController controller, TPadCore core, TPadLauncherSettings settings)
     {
