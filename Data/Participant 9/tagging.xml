@@ -168,8 +168,8 @@
     <CaptureRectangle>
       <TopLeft X="-60" Y="-60" />
       <TopRight X="60" Y="-60" />
-      <BottomLeft X="-60" Y="60" />
-      <BottomRight X="60" Y="60" />
+      <BottomLeft X="-37" Y="-3" />
+      <BottomRight X="54.000000000000028" Y="3" />
     </CaptureRectangle>
     <Offset>0.5792486167441403</Offset>
     <Angle>0</Angle>
