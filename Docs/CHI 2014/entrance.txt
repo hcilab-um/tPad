@@ -1,0 +1,14 @@
+
+entrance.MOV
+
+Advances in display technology have led to the creation of transparent-display mobile devices.
+However, aside from showcased augmented reality scenarios, little is known about their advantage for everyday mobile tasks.
+
+=== this text replaces the existing one ===
+
+
+
+We built two transparent display tablets, tPads, and explore the potentially rich set of interaction techniques possible with such technology.
+
+=== rest as it is starting at "for instance..." ===
+

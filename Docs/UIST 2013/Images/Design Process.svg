@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.48.2 r9819"
    sodipodi:docname="Design Process.svg"
-   inkscape:export-filename="C:\Users\jhincapie\Desktop\Dropbox\tPad\UIST 2013\Images\DesignProcess.png"
+   inkscape:export-filename="C:\Users\jhincapie\Desktop\Dropbox\CHI 2014 tPad\Images\DesignProcess.png"
    inkscape:export-xdpi="180"
    inkscape:export-ydpi="180">
   <defs
@@ -49,6 +49,32 @@
          transform="matrix(-0.8,0,0,-0.8,-10,0)"
          inkscape:connector-curvature="0" />
     </marker>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3814">
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:5;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect3816"
+         width="549"
+         height="319"
+         x="-570.07141"
+         y="7.64785"
+         rx="20"
+         ry="19.999998" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3836">
+      <rect
+         style="fill:none;stroke:#000000;stroke-width:5;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect3838"
+         width="571"
+         height="319"
+         x="-16.071411"
+         y="7.64785"
+         rx="20"
+         ry="19.999998" />
+    </clipPath>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -58,7 +84,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="586.27088"
+     inkscape:cx="363.41374"
      inkscape:cy="265.45561"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -89,68 +115,49 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(572.57141,-5.14785)">
-    <image
-       y="5.14785"
-       x="-572.57141"
-       id="image3026"
-       xlink:href="file:///C:/Users/jhincapie/Desktop/Dropbox/tPad/UIST%202013/Images/DesignProcess1.JPG"
-       height="324"
-       width="554" />
     <g
-       id="g3037">
-      <path
-         transform="matrix(0.5987598,0,0,0.70043595,-256.20044,148.8718)"
-         d="m -369.71582,-124.52808 c 0,29.568265 -28.04016,53.538082 -62.62946,53.538082 -34.58929,0 -62.62945,-23.969817 -62.62945,-53.538082 0,-29.56827 28.04016,-53.53809 62.62945,-53.53809 34.5893,0 62.62946,23.96982 62.62946,53.53809 z"
-         sodipodi:ry="53.538086"
-         sodipodi:rx="62.629456"
-         sodipodi:cy="-124.52808"
-         sodipodi:cx="-432.34528"
-         id="path2995-7"
-         style="fill:#ffffff;fill-opacity:1;stroke:none"
-         sodipodi:type="arc" />
-      <text
-         sodipodi:linespacing="125%"
-         id="text3044"
-         y="81.690819"
-         x="-533.74719"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         xml:space="preserve"><tspan
-           y="81.690819"
-           x="-533.74719"
-           id="tspan3046"
-           sodipodi:role="line">A</tspan></text>
+       id="g3840"
+       transform="matrix(0.99652778,0,0,1,1.9268353,0)">
+      <image
+         sodipodi:absref="C:\Users\jhincapie\Desktop\Projects\tPad\Docs\UIST 2013\Images\DesignProcess2.JPG"
+         xlink:href="DesignProcess2.JPG"
+         y="5.14785"
+         x="-18.571411"
+         id="image3015"
+         height="324"
+         width="576"
+         clip-path="url(#clipPath3836)" />
+      <rect
+         ry="19.999998"
+         rx="20.069687"
+         y="7.64785"
+         x="-16.071411"
+         height="319"
+         width="571"
+         id="rect2996-4"
+         style="fill:none;stroke:#000000;stroke-width:5.00870323;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     </g>
-    <image
-       y="5.14785"
-       x="-18.571411"
-       id="image3015"
-       xlink:href="file:///C:/Users/jhincapie/Desktop/Dropbox/tPad/UIST%202013/Images/DesignProcess2.JPG"
-       height="324"
-       width="576" />
     <g
-       transform="translate(554,0)"
-       id="g3037-3">
-      <path
-         transform="matrix(0.5987598,0,0,0.70043595,-256.20044,148.8718)"
-         d="m -369.71582,-124.52808 c 0,29.568265 -28.04016,53.538082 -62.62946,53.538082 -34.58929,0 -62.62945,-23.969817 -62.62945,-53.538082 0,-29.56827 28.04016,-53.53809 62.62945,-53.53809 34.5893,0 62.62946,23.96982 62.62946,53.53809 z"
-         sodipodi:ry="53.538086"
-         sodipodi:rx="62.629456"
-         sodipodi:cy="-124.52808"
-         sodipodi:cx="-432.34528"
-         id="path2995-7-2"
-         style="fill:#ffffff;fill-opacity:1;stroke:none"
-         sodipodi:type="arc" />
-      <text
-         sodipodi:linespacing="125%"
-         id="text3044-2"
-         y="81.690819"
-         x="-533.74719"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         xml:space="preserve"><tspan
-           y="81.690819"
-           x="-533.74719"
-           id="tspan3046-1"
-           sodipodi:role="line">B</tspan></text>
+       id="g3844"
+       transform="matrix(0.99638989,0,0,1,-2.0670448,0)">
+      <image
+         sodipodi:absref="C:\Users\jhincapie\Desktop\Projects\tPad\Docs\UIST 2013\Images\DesignProcess1.JPG"
+         xlink:href="DesignProcess1.JPG"
+         y="5.14785"
+         x="-572.57141"
+         id="image3026"
+         height="324"
+         width="554"
+         clip-path="url(#clipPath3814)" />
+      <rect
+         ry="19.999998"
+         rx="20.072464"
+         y="7.64785"
+         x="-570.07141"
+         height="319"
+         width="549"
+         id="rect2996-8"
+         style="fill:none;stroke:#000000;stroke-width:5.00904989;stroke-linecap:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     </g>
   </g>
 </svg>
