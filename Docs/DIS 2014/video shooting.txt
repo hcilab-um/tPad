@@ -1,0 +1,37 @@
+tPad Video Shooting
+===================
+
+Overlay
++ Tracing a Spongebob Squarepants
++ Tracing a House Plan
++ Using the Ruler [change lines to red]
++ Using the GraphExplorer on a lne graph
+
+Dual-side Display and Input
++ Flipping for Apps
++ Flipping for Notifications
++ Tap'N Flip for Adding Image to SMS from PhotoAlbum
++ Tap'N Flip for Adding Image to SMS from WebBrowser
+
+Capture
++ Surface Capture a Molecule from a Scientific Paper
++ Markers to Move Between Websites
+V Scribbles to Launch Calculator [square] or Browser [triangle]
+
+Experiment 1 - Information Seeking
++ Home
++ Runtime Bar
++ Flipping
++ Tap'N Flip
+
+Experiment 2 - Information Capture
++ Hover
++ Surface
++ Clipping [side-by-side]
+
+*********** NOT TODAY ****************
+
+Model-based
+- Extraction - Word Search
+- Annotation - Highlights, lines, notes
+- Area triggers - Launch video
